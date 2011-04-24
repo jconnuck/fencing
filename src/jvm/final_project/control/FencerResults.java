@@ -3,6 +3,10 @@ public class FencerResults implements Comparable{
 	public int touchesScored, touchesReceived;
 	public int wins, losses;
 
+	public FencerResults(int theFencer){
+		this.fencer = theFencer;
+	}
+
 	//If a.compareTo(b) returns a negative number if a should be seeded higher
 	//than b (a has better results)
 	//If the the two FencerResults objects are equals, return 1 or -1 randomly
