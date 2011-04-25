@@ -3,6 +3,24 @@ public class FencerResults implements Comparable{
 	public int touchesScored, touchesReceived;
 	public int wins, losses;
 
+	public void addWin(){
+		wins++;
+	}
+	
+	public int getFencer(){
+		return fencer;
+	}
+	
+	public void addLoss(){
+		losses++;
+	}
+	public void addTouchesScored(int toAdd){
+		touchesScored += toAdd;
+	}
+	public void addTouchesReceived(int toAdd){
+		touchesReceived += toAdd;
+	}
+
 	public FencerResults(int theFencer){
 		this.fencer = theFencer;
 	}

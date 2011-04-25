@@ -18,7 +18,20 @@ public class Pool {
 		HashMap<Integer, FencerResults> map = new HashMap<Integer, FencerResults>();
 		for(Integer i : _fencer)
 			map.put(i, new FencerResults(i));
+		for(Bout b : _results){
+			FencerResults winner = map.get(b.getWinner());
+			FencerResults loser = map.get(b.getLoser());
+			winner.addWin();
+			loser.addLoss();
+			
+			winner.addTouchesScored(b.getWinnerScore());
+			loser.addTouchesScores(b.getLoserScore());
+			
+			winner.addTouchesReceived(b.getLoserScore());
+			loser.addTouchesReceived(b.getWinnerScore());
+		}
 		
+		return map.values();
 		
 	}
 
