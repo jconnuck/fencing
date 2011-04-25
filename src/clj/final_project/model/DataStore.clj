@@ -1,43 +1,128 @@
 (ns final_project.model.DataStore
   (:import [final_project.model IPerson IPlayer IDataStore IObservable DataStore])
-  (:use [clojure.set])
+  (:require [clojure.set :as set]
+            [clojure.string :as str])
+  (:use [clojure test])
   (:gen-class :main false
-              :state store
+              :state 
               :implements [final_project.model.IDataStore]
               :init init))
 
-(defrecord Spectator [id phoneNumber watched]
-  IPerson
-  (getID [this] id)
-  (getPhoneNumber [this] phoneNumber)
-  (setPhoneNumber [this new] (assoc this :phoneNumber new))
-  (getWatched [this] watched)
-  (addWatched [this id]
-              (assoc this :watched (conj watched id)))
-  (removeWatched [this id]
-                 (assoc this :watched (disj watched id)))
-  (clearWatched [this]
+(defn capitalize-sym [id]
+  (symbol (apply str
+                 (Character/toUpperCase (first (str id)))
+                 (rest (str id)))))
+
+(deftest test-capitalize
+  (are [x y] (= (capitalize-sym x) y)
+       'asdf 'Asdf
+       'fast 'Fast
+       'asdfAsdf 'AsdfAsdf))
+
+(defn make-reader
+  ([id]
+     (make-reader id (capitalize-sym id)))
+  ([id get-name]
+     (let [name (symbol (str "get" get-name))]
+       `(~name [this#] ~id))))
+
+(defn make-writer
+  ([id]
+     (make-writer id (capitalize-sym id)))
+  ([id write-name]
+     (let [name (symbol (str "set" write-name))]
+       `(~name [this# new#]
+               (assoc this# ~(keyword id) new#)))))
+
+(defn symbol-concat [& syms]
+  (symbol (str/join (map str syms))))
+
+(deftest test-symbol-concat
+  (are [x y] (= (apply symbol-concat x) y)
+       ['asdf 'dfsa] 'asdfdfsa
+       ['foo 'BaR 'bAz 'baSH] 'fooBaRbAzbaSH))
+
+(defn make-group-writers
+  ([id]
+     (make-group-writers id (capitalize-sym id)))
+  ([id method-name]
+     (let [key (keyword id)
+           add (symbol-concat 'add method-name)
+           remove (symbol-concat 'remove method-name)
+           clear (symbol-concat 'clear method-name)]
+       `((~add [this# id#]
+               (assoc this# ~key (conj ~id id#)))
+         (~remove [this# id#]
+                  (assoc this# ~key (disj ~id id#)))
+         (~clear [this#]
+                 (assoc this# ~key #{}))))))
+
+(defn make-interface [{:keys [name read-only has-one has-many]}]
+  `(~name ~@(map #(apply make-reader %) read-only)
+          ~@(map #(apply make-reader %) has-one)
+          ~@(map #(apply make-writer %) has-one)
+          ~@(map #(apply make-reader %) has-many)
+          ~@(apply concat
+                   (map #(apply make-group-writers %) has-many))))
+
+(defn make-record [name & interfaces]
+  `(defrecord ~name
+     ~(vec (apply concat
+                  (for [interface interfaces]
+                    (apply concat
+                           (list
+                            (map first (:read-only interface))
+                            (map first (:has-one interface))
+                            (map first (:has-many interface)))))))
+     ~@(apply concat (map make-interface interfaces))))
+
+(defmacro define-record [& args]
+  (apply make-record args))
+
+(define-record Spectator
+  {:name IPerson
+   :read-only [[id ID]]
+   :has-one [[phoneNumber]]
+   :has-many [[watched]]})
+
+(define-record Player
+  {:name IPlayer
+   :read-only [[id ID] [observers]]
+   :has-one [[phoneNumber] [rating] [rank]]
+   :has-many [[watched]]})
+
+#_(defrecord Spectator [id phoneNumber watched]
+    IPerson
+    (getID [this] id)
+    (getPhoneNumber [this] phoneNumber)
+    (setPhoneNumber [this new] (assoc this :phoneNumber new))
+    (getWatched [this] watched)
+    (addWatched [this id]
+                (assoc this :watched (conj watched id)))
+    (removeWatched [this id]
+                   (assoc this :watched (disj watched id)))
+    (clearWatched [this]
                 (assoc this :watched #{})))
 
-(defrecord Player [id phoneNumber rating rank watched observers]
-  IPlayer
-  (getID [this] id)
-  (getPhoneNumber [this] phoneNumber)
-  (setPhoneNumber [this new] (assoc this :phoneNumber new))
-  (getWatched [this] watched)
-  (addWatched [this id]
-              (assoc this :watched (conj watched id)))
-  (removeWatched [this id]
-                 (assoc this :watched (disj watched id)))
-  (clearWatched [this]
-                (assoc this :watched #{}))
-  (getObservers [this] observers)
-  (getRating [this] rating)
-  (setRating [this new]
-             (assoc this :rating new))
-  (getRank [this] rank)
-  (setRank [this new]
-           (assoc this :rank new)))
+#_(defrecord Player [id phoneNumber rating rank watched observers]
+    IPlayer
+    (getID [this] id)
+    (getPhoneNumber [this] phoneNumber)
+    (setPhoneNumber [this new] (assoc this :phoneNumber new))
+    (getWatched [this] watched)
+    (addWatched [this id]
+                (assoc this :watched (conj watched id)))
+    (removeWatched [this id]
+                   (assoc this :watched (disj watched id)))
+    (clearWatched [this]
+                  (assoc this :watched #{}))
+    (getObservers [this] observers)
+    (getRating [this] rating)
+    (setRating [this new]
+               (assoc this :rating new))
+    (getRank [this] rank)
+    (setRank [this new]
+             (assoc this :rank new)))
 
 (defrecord DSStore [data observers current-id])
 
@@ -100,7 +185,7 @@
 (def get-people (partial get-type IPerson))
 (def get-players (partial get-type IPlayer))
 
-(defn run-java-tests []
+(deftest observers-test
   (let [s (DataStore.)]
     (dosync
      (doto s
@@ -108,53 +193,26 @@
        (.putData (.createSpectator s "11111"))
        (.putData (.createPlayer s "1111" "rating" 5))
        (.putData (.createPlayer s "1111" "rating" 5))))
-    (println (empty? (.getObservers (.getData s 2))))
-    (println (empty? (.getObservers (.getData s 3))))
+    (is (empty? (.getObservers (.getData s 2))))
+    (is (empty? (.getObservers (.getData s 3))))
     (dosync (.putData s (.addWatched (.getData s 0) 2)))
-    (println (= (.getObservers (.getData s 2)) #{0}))
-    (println (empty? (.getObservers (.getData s 3))))
+    (is (= (.getObservers (.getData s 2)) #{0}))
+    (is (empty? (.getObservers (.getData s 3))))
     (dosync (.putData s (.addWatched (.addWatched (.getData s 1) 2) 3)))
-    (println (= (.getObservers (.getData s 2)) #{0 1}))
-    (println (= (.getObservers (.getData s 3)) #{1}))
+    (is (= (.getObservers (.getData s 2)) #{0 1}))
+    (is (= (.getObservers (.getData s 3)) #{1}))
     (dosync (.putData s (.clearWatched (.getData s 0))))
-    (println (= (.getObservers (.getData s 2)) #{1}))
-    (println (= (.getObservers (.getData s 3)) #{1}))
+    (is (= (.getObservers (.getData s 2)) #{1}))
+    (is (= (.getObservers (.getData s 3)) #{1}))
     (dosync (.putData s (.addWatched (.getData s 0) 3)))
-    (println (= (.getObservers (.getData s 2)) #{1}))
-    (println (= (.getObservers (.getData s 3)) #{0 1}))
+    (is (= (.getObservers (.getData s 2)) #{1}))
+    (is (= (.getObservers (.getData s 3)) #{0 1}))
     (dosync (.putData s (.removeWatched (.getData s 1) 3)))
-    (println (= (.getObservers (.getData s 2)) #{1}))
-    (println (= (.getObservers (.getData s 3)) #{0}))
+    (is (= (.getObservers (.getData s 2)) #{1}))
+    (is (= (.getObservers (.getData s 3)) #{0}))
     (dosync (.removeID s 0))
-    (println (= (.getObservers (.getData s 2)) #{1}))
-    (println (empty? (.getObservers (.getData s 3))))))
-
-(defn run-tests []
-  (let [s (make-store)]
-    (dosync (replace-person s (make-spectator s "1111"))
-            (replace-person s (make-spectator s "1111"))
-            (replace-person s (make-player s "1111" "rating" 5))
-            (replace-person s (make-player s "1111" "rating" 5)))
-    (println (empty? (:observers (get-datum s 2))))
-    (println (empty? (:observers (get-datum s 3))))
-    (dosync (replace-person s (.addWatched (get-datum s 0) 2)))
-    (println (= (:observers (get-datum s 2)) #{0}))
-    (println (empty? (:observers (get-datum s 3))))
-    (dosync (replace-person s (.addWatched (.addWatched (get-datum s 1) 2) 3)))
-    (println (= (:observers (get-datum s 2)) #{0 1}))
-    (println (= (:observers (get-datum s 3)) #{1}))
-    (dosync (replace-person s (.clearWatched (get-datum s 0))))
-    (println (= (:observers (get-datum s 2)) #{1}))
-    (println (= (:observers (get-datum s 3)) #{1}))
-    (dosync (replace-person s (.addWatched (get-datum s 0) 3)))
-    (println (= (:observers (get-datum s 2)) #{1}))
-    (println (= (:observers (get-datum s 3)) #{0 1}))
-    (dosync (replace-person s (.removeWatched (get-datum s 1) 3)))
-    (println (= (:observers (get-datum s 2)) #{1}))
-    (println (= (:observers (get-datum s 3)) #{0}))
-    (dosync (remove-person s 0))
-    (println (= (:observers (get-datum s 2)) #{1}))
-    (println (empty? (:observers (get-datum s 3))))))
+    (is (= (.getObservers (.getData s 2)) #{1}))
+    (is (empty? (.getObservers (.getData s 3))))))
 
 (defn -getData
   ([this]
