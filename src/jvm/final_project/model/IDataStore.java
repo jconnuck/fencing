@@ -8,7 +8,7 @@ public interface IDataStore {
     Collection<IPlayer> getPlayers();
     Collection<IObservable> getObservables();
     IData getData(int id);
-    void putData(int id);
+    void putData(IData person);
     void removeData(IData person);
     void removeID(int id);
     IPerson createSpectator(String phoneNumber);
