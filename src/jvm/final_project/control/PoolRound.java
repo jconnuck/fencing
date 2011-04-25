@@ -1,3 +1,5 @@
+package final_project.control;
+
 import java.util.Random;
 import java.util.*;
 

@@ -1,3 +1,5 @@
+package final_project.control;
+
 public class FencerResults implements Comparable{
 	public int fencer;
 	public int touchesScored, touchesReceived;

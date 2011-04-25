@@ -1,3 +1,5 @@
+package final_project.control;
+
 /*
  * The Bout class represents a completed bout
  *
@@ -6,7 +8,7 @@
 public class Bout {
 	private int _pointsToWin;  // This number of points a fencer needs to score to win the bout
 	private int _winner;
-	private int_loser;
+	private int _loser;
 	private int _ref;
 	private int _winnerScore;
 	private int _loserScore;

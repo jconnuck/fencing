@@ -1,6 +1,7 @@
+package final_project.control;
+
 import java.util.Collection;
 import java.util.List;
-
 
 public class Pool {
 	private Collection<Integer> _fencers;
@@ -58,7 +59,7 @@ public class Pool {
 
 		public FutureBout(int f1, int f2) {
 			_fencer1 = f1;
-			_fencer2 = f2
+			_fencer2 = f2;
 		}
 
 		public int[] getFencers(){
