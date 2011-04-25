@@ -6,6 +6,12 @@ public class PoolRound implements IRound{
 	private Collection<Pool> _pools;
 	private List<Integer> _results;
 
+	public List<Integer> getResults(){
+		if(_results == null)
+			seedFromResults();
+		return _results;
+	}
+
 	public List<Integer> getTopFencer(int num) {
 		if(_results == null) {
 			seedFromResults();
@@ -22,6 +28,4 @@ public class PoolRound implements IRound{
 		for(FencerResults fr : fencerResults)
 			_results.add(fr.getFencer());
 	}
-
-
 }

@@ -15,7 +15,7 @@ public class TournamentControl {
 	 * @param toRegister The fencer to register
 	 * @param event The event for which the fencer is registering
 	 */
-	public void registerFencer(IPlayer toRegister, Tevent event) {
+	public void registerFencer(int toRegister, Tevent event) {
 		event.registerFencer(toRegister);
 	}
 	
@@ -28,16 +28,6 @@ public class TournamentControl {
 		Tevent temp;
 				
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	// Represents the phase of the tournament that the TournamentControl is ready to carry out
 	public enum State {
