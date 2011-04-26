@@ -91,38 +91,7 @@
    :has-one [[phoneNumber] [rating] [rank]]
    :has-many [[watched]]})
 
-#_(defrecord Spectator [id phoneNumber watched]
-    IPerson
-    (getID [this] id)
-    (getPhoneNumber [this] phoneNumber)
-    (setPhoneNumber [this new] (assoc this :phoneNumber new))
-    (getWatched [this] watched)
-    (addWatched [this id]
-                (assoc this :watched (conj watched id)))
-    (removeWatched [this id]
-                   (assoc this :watched (disj watched id)))
-    (clearWatched [this]
-                (assoc this :watched #{})))
-
-#_(defrecord Player [id phoneNumber rating rank watched observers]
-    IPlayer
-    (getID [this] id)
-    (getPhoneNumber [this] phoneNumber)
-    (setPhoneNumber [this new] (assoc this :phoneNumber new))
-    (getWatched [this] watched)
-    (addWatched [this id]
-                (assoc this :watched (conj watched id)))
-    (removeWatched [this id]
-                   (assoc this :watched (disj watched id)))
-    (clearWatched [this]
-                  (assoc this :watched #{}))
-    (getObservers [this] observers)
-    (getRating [this] rating)
-    (setRating [this new]
-               (assoc this :rating new))
-    (getRank [this] rank)
-    (setRank [this new]
-             (assoc this :rank new)))
+(def many-many {:watched :observers})
 
 (defrecord DSStore [data observers current-id])
 
@@ -140,40 +109,54 @@
 (defn make-store []
   (DSStore. (ref {}) (ref {}) (ref 0)))
 
-(defn add-person [{:keys [data observers current-id]} {:keys [watched id] :as raw-person}]
+(defn add-store [store obj [forward-id reverse-id]]
+  (assert (not (@(:data store) (:id obj))))
+  (alter (reverse-id store)
+         #(reduce (fn [rev-map other-id]
+                    (assoc rev-map other-id
+                           (conj (rev-map other-id #{}) (:id obj))))
+                  %
+                  (forward-id obj))))
+
+(defn add-person [{:keys [data observers current-id] :as store}
+                  {:keys [watched id] :as raw-person}]
   (assert (not (@data id)))
   (let [person (assoc raw-person :observers #{})]
+    (doseq [id-pair many-many]
+      (add-store store person id-pair))
     (alter data assoc id person)
-    (alter observers
-           #(reduce (fn [obs watched-id]
-                      (assoc obs watched-id
-                             (conj (obs watched-id #{}) id)))
-                    %
-                    watched)))
-  (if (>= id (ensure current-id))
-    (ref-set current-id (inc id))))
+    (if (>= id (ensure current-id))
+      (ref-set current-id (inc id)))))
 
-(defn remove-person [{:keys [data observers]} id]
-  (alter observers
-         #(reduce (fn [obs watched-id]
-                    (assoc obs watched-id
-                           (disj (obs watched-id) id)))
+(defn remove-store [store id [forward-id reverse-id]]
+  (alter (reverse-id store)
+         #(reduce (fn [rev-map other-id]
+                    (assoc rev-map other-id
+                           (disj (rev-map other-id) id)))
                   %
-                  (:watched (@data id))))
+                  (forward-id ((ensure (:data store)) id)))))
+
+(defn remove-person [{:keys [data observers] :as store} id]
+  (doseq [id-pair many-many]
+    (remove-store store id id-pair))
   (alter data dissoc id))
 
 (defn replace-person [store person]
   (remove-person store (:id person))
   (add-person store person))
 
-(defn get-datum [{data-ref :data observers-ref :observers} id]
-  (let [[data observers] (dosync [(ensure data-ref)
-                                  (ensure observers-ref)])
-        person (data id)
-        watchers (observers id)]
-    (if watchers
-      (assoc person :observers watchers)
-      person)))
+(defn get-datum [store id]
+  (let [data (dosync (into {}
+                           (map #(vector % (ensure (get store %)))
+                                (cons :data (vals many-many)))))
+        original-obj ((:data data) id)]
+    (reduce (fn [obj [forward-id reverse-id]]
+              (let [reverse-data ((reverse-id data) (:id obj))]
+                (if (seq reverse-data)
+                  (assoc obj reverse-id reverse-data)
+                  obj)))
+            original-obj
+            many-many)))
 
 (defn get-data [{:keys [data] :as store}]
   (dosync (map #(get-datum store %)
