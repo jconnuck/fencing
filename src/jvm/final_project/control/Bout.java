@@ -1,4 +1,4 @@
-package final_project.control;
+package jvm.final_project.control;
 
 /*
  * The Bout class represents a completed bout
@@ -13,7 +13,7 @@ public class Bout {
 	private int _winnerScore;
 	private int _loserScore;
 
-	public Bout(IPlayer win, int winScore, IPlayer lose, int loseScore, IReferee ref) {
+	public Bout(int win, int winScore, int lose, int loseScore, int ref) {
 		_winner = win;
 		_winnerScore = winScore;
 		_loser = lose;
@@ -23,6 +23,10 @@ public class Bout {
 
 	public void setPointsToWin(int toWin) {
 		_pointsToWin = toWin;
+	}
+	
+	public int getPointsToWin() {
+		return _pointsToWin;
 	}
 
 	public int getWinner() {

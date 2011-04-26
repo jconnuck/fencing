@@ -1,9 +1,12 @@
-import java.util.Collection;
+package jvm.final_project.control;
 
+import java.util.*;
+
+import jvm.final_project.model.*;;
 
 public class Tournament {
 	Collection<IEvent> _events;
-	IPersonStore _people;
+	IDataStore _people;
 	
 	//public  
 }

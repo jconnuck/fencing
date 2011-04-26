@@ -1,4 +1,4 @@
-package final_project.model;
+package jvm.final_project.model;
 
 import clojure.lang.IPersistentMap;
 import java.util.*;

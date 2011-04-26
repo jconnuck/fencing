@@ -1,11 +1,13 @@
-package final_project.control;
+package jvm.final_project.control;
+
+import jvm.final_project.model.*;
 
 public class TournamentControl {
 	public State _state;
 	private Tournament _tournament;
-	private IPersonStore _people;
+	private IDataStore _people;
 	
-	public TournamentControl(IPersonStore store) {
+	public TournamentControl(IDataStore store) {
 		_people = store;
 		_state = State.REGISTRATION;
 		_tournament = new Tournament();
