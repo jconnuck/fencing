@@ -1,6 +1,7 @@
 package src.jvm.final_project.control;
 
 import java.util.*;
+import java.awt.Point;
 
 //also serves as pool controller
 public class PoolRound implements IRound{
@@ -35,9 +36,8 @@ public class PoolRound implements IRound{
 		int curFencers = 0;
 		int numBigPools = 0;
 		int numSmallPools = 0;
-
+        
 		while (curFencers <= numFencers) {
-//			System.out.println(curFencers + ", " + numFencers);
 			if (curFencers == numFencers) {
 				return new java.awt.Point(numBigPools, numSmallPools);
 			}
@@ -45,11 +45,10 @@ public class PoolRound implements IRound{
 			numBigPools ++;
 			curFencers = numBigPools * poolSize;
 		}
-//		System.out.println("-----------------");
+
 		while (curFencers >= numFencers) {
-//			System.out.println(curFencers + ", " + numFencers);
 			if (curFencers == numFencers) {
-				if (numBigPools == 0)
+				if (numBigPools == 0)                    
 					return new java.awt.Point(-1, -1);
 				return new java.awt.Point(numBigPools, numSmallPools);
 			}
@@ -64,9 +63,10 @@ public class PoolRound implements IRound{
 	}
 	
 	public boolean createPools(int poolSize){
-		this._poolSize = poolSize;
-		int numPools = _numFencers / _poolSize;
-		int leftOvers = _numFencers % _poolSize;
+        Point p = calcPools(_numFencers, poolSize);
+        this._poolSize = poolSize;
+        int numPools = _numFencers / _poolSize;
+        int leftOvers = _numFencers % _poolSize;
 	}
 
 	public int getPoolSize(){
