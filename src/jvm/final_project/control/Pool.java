@@ -11,6 +11,16 @@ public class Pool {
 
 	//TODO constructor?
 
+	public void addFencer(int id){
+		_fencer.add(id);
+	}
+
+	public Pool(){
+		_fencers = new HashSet<Integer>();
+		_refs = new HashSet<Integer>();
+		_futureBouts = new LinkedList<Integer>();
+	}
+
 	public FutureBout getNextBout() {
 		return _futureBouts.get(0);
 	}
