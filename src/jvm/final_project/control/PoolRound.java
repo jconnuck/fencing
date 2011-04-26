@@ -1,6 +1,7 @@
 package final_project.control;
 
 import java.util.*;
+import java.awt.Point;
 
 //also serves as pool controller
 public class PoolRound implements IRound{
@@ -36,7 +37,6 @@ public class PoolRound implements IRound{
 		int numSmall = 0;
 
 		while(curFencers <= numFencers) {
-//			System.out.println(curFencers + ", " + numFencers);
 			if(curFencers == numFencers) {
 				return new java.awt.Point(numBig, numSmall);
 			}
@@ -44,9 +44,8 @@ public class PoolRound implements IRound{
 			numBig ++;
 			curFencers = numBig * poolSize;
 		}
-//		System.out.println("-----------------");
+
 		while(curFencers >= numFencers) {
-//			System.out.println(curFencers + ", " + numFencers);
 			if(curFencers == numFencers) {
 				if(numBig == 0)
 					return new java.awt.Point(-1, -1);
@@ -63,9 +62,10 @@ public class PoolRound implements IRound{
 	}
 	
 	public boolean createPools(int poolSize){
-		int this._poolSize = poolSize;
-		int numPools = _numFencers / _poolSize;
-		int leftOvers = _numFencers % _poolSize;
+            Point p = calcPools(_numFencers, poolSize);
+            this._poolSize = poolSize;
+            int numPools = _numFencers / _poolSize;
+            int leftOvers = _numFencers % _poolSize;
 	}
 
 	public int getPoolSize(){
