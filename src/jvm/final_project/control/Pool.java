@@ -1,7 +1,6 @@
 package final_project.control;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Pool {
 	private Collection<Integer> _fencers;
@@ -26,12 +25,12 @@ public class Pool {
 	}
 	
 	public Collection<FencerResults> getFencerResults(){
-		HashMap<Integer, FencerResults> map = new HashMap<Integer, FencerResults>();
+		HashMap<Integer, FencerResults> idToFencerResults = new HashMap<Integer, FencerResults>();
 		for(Integer i : _fencer)
-			map.put(i, new FencerResults(i));
+			idToFencerResults.put(i, new FencerResults(i));
 		for(Bout b : _results){
-			FencerResults winner = map.get(b.getWinner());
-			FencerResults loser = map.get(b.getLoser());
+			FencerResults winner = idToFencerResults.get(b.getWinner());
+			FencerResults loser = idToFencerResults.get(b.getLoser());
 			winner.addWin();
 			loser.addLoss();
 
@@ -41,7 +40,7 @@ public class Pool {
 			winner.addTouchesReceived(b.getLoserScore());
 			loser.addTouchesReceived(b.getWinnerScore());
 		}
-		return map.values();
+		return idToFencerResults.values();
 	}
 
 	public void addResult(Bout toAdd) throws IllegalArgumentException{
