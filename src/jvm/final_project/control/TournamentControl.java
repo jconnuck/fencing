@@ -1,4 +1,4 @@
-package jvm.final_project.control;
+package src.jvm.final_project.control;
 
 public class TournamentControl {
 	public State _state;
