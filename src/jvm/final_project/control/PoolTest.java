@@ -1,6 +1,5 @@
 import junit.framework.TestCase;
 
-
 public class PoolTest extends TestCase {
 
 	protected void setUp() throws Exception {
@@ -20,5 +19,4 @@ public class PoolTest extends TestCase {
 	public void testAddResult() {
 		fail("Not yet implemented");
 	}
-
 }
