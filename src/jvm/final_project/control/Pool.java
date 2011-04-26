@@ -1,4 +1,4 @@
-package src.jvm.final_project.control;
+package jvm.final_project.control;
 
 import java.util.*;
 
@@ -9,13 +9,13 @@ public class Pool {
 	private List<FutureBout> _futureBouts;
 
 	public void addFencer(int id){
-		_fencer.add(id);
+		_fencers.add(id);
 	}
 
 	public Pool(){
-		_fencers = new HashSet<Integer>();
-		_refs = new HashSet<Integer>();
-		_futureBouts = new LinkedList<Integer>();
+		setFencers(new HashSet<Integer>());
+		setRefs(new HashSet<Integer>());
+		_futureBouts = new LinkedList<FutureBout>();
 	}
 
 	public FutureBout getNextBout() {
@@ -24,7 +24,7 @@ public class Pool {
 	
 	public Collection<FencerResults> getFencerResults(){
 		HashMap<Integer, FencerResults> idToFencerResults = new HashMap<Integer, FencerResults>();
-		for(Integer i : _fencer)
+		for(Integer i : _fencers)
 			idToFencerResults.put(i, new FencerResults(i));
 		for(Bout b : _results){
 			FencerResults winner = idToFencerResults.get(b.getWinner());
@@ -42,10 +42,10 @@ public class Pool {
 	}
 
 	public void addResult(Bout toAdd) throws IllegalArgumentException{
-		if(!((toAdd.getWinner().equals(_futureBouts.get(0).getFencer1()) &&
-				toAdd.getLoser().equals(_futureBouts.get(0).getFencer2()))    ||
-	        (toAdd.getWinner().equals(_futureBouts.get(0).getFencer2()) &&
-	    		toAdd.getLoser().equals(_futureBouts.get(0).getFencer1())))) {
+		if(!((toAdd.getWinner() == _futureBouts.get(0).getFencer1() &&
+				toAdd.getLoser() == _futureBouts.get(0).getFencer2()))    ||
+	        (toAdd.getWinner() == _futureBouts.get(0).getFencer2() &&
+	    		toAdd.getLoser() == _futureBouts.get(0).getFencer1())) {
 				throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		}
 		_results.add(toAdd);
@@ -54,6 +54,26 @@ public class Pool {
 
 	public Collection<Bout> getResults() {
 		return _results;
+	}
+
+
+
+	public void setFencers(Collection<Integer> _fencers) {
+		this._fencers = _fencers;
+	}
+
+	public Collection<Integer> getFencers() {
+		return _fencers;
+	}
+
+
+
+	public void setRefs(Collection<Integer> _refs) {
+		this._refs = _refs;
+	}
+
+	public Collection<Integer> getRef() {
+		return _refs;
 	}
 
 

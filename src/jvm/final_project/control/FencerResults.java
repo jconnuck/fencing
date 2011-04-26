@@ -1,8 +1,8 @@
-package src.jvm.final_project.control;
+package jvm.final_project.control;
 
 import java.util.Random;
 
-public class FencerResults implements Comparable{
+public class FencerResults implements Comparable<FencerResults>{
 	public int fencer;
 	public int touchesScored, touchesReceived;
 	public int wins, losses;
@@ -32,25 +32,24 @@ public class FencerResults implements Comparable{
 	//If a.compareTo(b) returns a negative number if a should be seeded higher
 	//than b (a has better results)
 	//If the the two FencerResults objects are equals, return 1 or -1 randomly
-	public int compareTo(Object other){
-		FencerResults oth = (FencerResults)other;
-		if(wins / (wins + losses) > oth.wins / (oth.wins + oth.losses)){
+	public int compareTo(FencerResults other){
+		if(wins / (wins + losses) > other.wins / (other.wins + other.losses)){
 			return -1;
 		}
-		else if(wins / (wins + losses) < oth.wins / (oth.wins + oth.losses)){
+		else if(wins / (wins + losses) < other.wins / (other.wins + other.losses)){
 			return 1;
 		}
 
-		else if(touchesScored - touchesReceived > oth.touchesScored - oth.touchesReceived){
+		else if(touchesScored - touchesReceived > other.touchesScored - other.touchesReceived){
 			return -1;
 		}
-		else if(touchesScored - touchesReceived < oth.touchesScored - oth.touchesReceived){
+		else if(touchesScored - touchesReceived < other.touchesScored - other.touchesReceived){
 			return 1;
 		}
-		else if(touchesScored > oth.touchesScored){
+		else if(touchesScored > other.touchesScored){
 			return -1;
 		}
-		else if(touchesScored < oth.touchesScored){
+		else if(touchesScored < other.touchesScored){
 			return 1;
 		}else{
 			Random r = new Random();

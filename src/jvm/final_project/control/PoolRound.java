@@ -1,4 +1,4 @@
-package src.jvm.final_project.control;
+package jvm.final_project.control;
 
 import java.util.*;
 import java.awt.Point;
@@ -63,10 +63,13 @@ public class PoolRound implements IRound{
 	}
 	
 	public boolean createPools(int poolSize){
-        Point p = calcPools(_numFencers, poolSize);
-        this._poolSize = poolSize;
+        Point p = calcPoolSize(_numFencers, poolSize);
+        if (p.equals(Constants.INVALID_POOL_SIZE))
+        	return false;
+        _poolSize = poolSize;
         int numPools = _numFencers / _poolSize;
         int leftOvers = _numFencers % _poolSize;
+        return true;
 	}
 
 	public int getPoolSize(){

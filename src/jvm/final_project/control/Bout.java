@@ -1,4 +1,4 @@
-package src.jvm.final_project.control;
+package jvm.final_project.control;
 
 /*
  * The Bout class represents a completed bout
@@ -23,6 +23,10 @@ public class Bout {
 
 	public void setPointsToWin(int toWin) {
 		_pointsToWin = toWin;
+	}
+	
+	public int getPointsToWin() {
+		return _pointsToWin;
 	}
 
 	public int getWinner() {
