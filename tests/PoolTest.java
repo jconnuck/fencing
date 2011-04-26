@@ -1,13 +1,17 @@
-import junit.framework.TestCase;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-public class PoolTest extends TestCase {
+public class PoolTest{
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() {
+		Pool pool = new Pool():
+		
 	}
-
-	protected void tearDown() throws Exception {
-		super.tearDown();
+	
+	@After
+	public void tearDown() {
+		
 	}
 	
 	@Test
