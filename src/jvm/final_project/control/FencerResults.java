@@ -1,3 +1,4 @@
+import java.util.Random;
 package final_project.control;
 
 public class FencerResults implements Comparable{
