@@ -1,11 +1,14 @@
+package jvm.final_project.control;
+
 import org.junit.*;
 import static org.junit.Assert.*;
+
 
 public class PoolTest{
 
 	@Before
 	public void setUp() {
-		Pool pool = new Pool():
+		Pool pool = new Pool();
 		
 	}
 	
