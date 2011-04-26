@@ -44,8 +44,8 @@
 
 (defn make-group-writers
   ([id]
-     (make-group-writers id (capitalize-sym id)))
-  ([id method-name]
+     (make-group-writers id (capitalize-sym id) (symbol-concat id "s")))
+  ([id method-name plural-method-name]
      (let [key (keyword id)
            add (symbol-concat 'add method-name)
            remove (symbol-concat 'remove method-name)
@@ -82,12 +82,12 @@
 (define-record Spectator
   {:name IPerson
    :read-only [[id ID]]
-   :has-one [[phoneNumber]]
+   :has-one [[phoneNumber] [carrier] [group]]
    :has-many [[watched]]})
 
 (define-record Player
   {:name IPlayer
-   :read-only [[id ID] [observers]]
+   :read-only [[id ID] [observers] []]
    :has-one [[phoneNumber] [rating] [rank]]
    :has-many [[watched]]})
 
