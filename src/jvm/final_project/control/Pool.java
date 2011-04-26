@@ -1,4 +1,4 @@
-package final_project.control;
+package src.jvm.final_project.control;
 
 import java.util.*;
 
@@ -7,8 +7,6 @@ public class Pool {
 	private Collection<Integer> _refs;
 	private Collection<Bout> _results;
 	private List<FutureBout> _futureBouts;
-
-	//TODO constructor?
 
 	public void addFencer(int id){
 		_fencer.add(id);

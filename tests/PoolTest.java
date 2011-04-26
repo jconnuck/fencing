@@ -6,7 +6,9 @@ public class PoolTest{
 	@Before
 	public void setUp() {
 		Pool pool = new Pool():
-		
+		for(int i = 0; i < 10; i++)
+			pool.addFencer(i);
+			
 	}
 	
 	@After
