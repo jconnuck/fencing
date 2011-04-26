@@ -26,7 +26,7 @@ public class Pool {
 			loser.addLoss();
 
 			winner.addTouchesScored(b.getWinnerScore());
-			loser.addTouchesScores(b.getLoserScore());
+			loser.addTouchesScored(b.getLoserScore());
 
 			winner.addTouchesReceived(b.getLoserScore());
 			loser.addTouchesReceived(b.getWinnerScore());

@@ -1,4 +1,4 @@
-package final_project.control;
+package src.jvm.final_project.control;
 
 import java.util.*;
 
@@ -24,38 +24,39 @@ public class PoolRound implements IRound{
 	 * @param poolSize A non-negative integer representing the ideal number of fencers to be placed in each pool
 	 * @return A Java.awt.Point representing the proper number of pools of poolSize fencers(X) and the number of pools of poolsize - 1 fencers(Y)
 	 */
-	public static java.awt.Point calcPools(int numFencers, int poolSize) throws IllegalArgumentException{
-		if(poolSize <= 0 || numFencers <= 0 || numFencers < poolSize) {
+	public static java.awt.Point calcPoolSize(int numFencers, int poolSize) throws IllegalArgumentException{
+		if (poolSize <= 0 || numFencers <= 0 || numFencers < poolSize) {
 			throw new IllegalArgumentException("Invalid pool size or number of fencers");
 		}
-		if(numFencers == poolSize) {
+		if (numFencers == poolSize) {
 			return new java.awt.Point(1, 0);
 		}
+		
 		int curFencers = 0;
-		int numBig = 0;
-		int numSmall = 0;
+		int numBigPools = 0;
+		int numSmallPools = 0;
 
-		while(curFencers <= numFencers) {
+		while (curFencers <= numFencers) {
 //			System.out.println(curFencers + ", " + numFencers);
-			if(curFencers == numFencers) {
-				return new java.awt.Point(numBig, numSmall);
+			if (curFencers == numFencers) {
+				return new java.awt.Point(numBigPools, numSmallPools);
 			}
 
-			numBig ++;
-			curFencers = numBig * poolSize;
+			numBigPools ++;
+			curFencers = numBigPools * poolSize;
 		}
 //		System.out.println("-----------------");
-		while(curFencers >= numFencers) {
+		while (curFencers >= numFencers) {
 //			System.out.println(curFencers + ", " + numFencers);
-			if(curFencers == numFencers) {
-				if(numBig == 0)
+			if (curFencers == numFencers) {
+				if (numBigPools == 0)
 					return new java.awt.Point(-1, -1);
-				return new java.awt.Point(numBig, numSmall);
+				return new java.awt.Point(numBigPools, numSmallPools);
 			}
 
-			numSmall++;
-			numBig--;
-			curFencers = (numBig * poolSize) + (numSmall * (poolSize - 1));
+			numSmallPools++;
+			numBigPools--;
+			curFencers = (numBigPools * poolSize) + (numSmallPools * (poolSize - 1));
 		}
 		// invalidPoolSize is a global constant
 		//return invalidPoolSize;
@@ -63,7 +64,7 @@ public class PoolRound implements IRound{
 	}
 	
 	public boolean createPools(int poolSize){
-		int this._poolSize = poolSize;
+		this._poolSize = poolSize;
 		int numPools = _numFencers / _poolSize;
 		int leftOvers = _numFencers % _poolSize;
 	}
@@ -77,13 +78,13 @@ public class PoolRound implements IRound{
 	}
 
 	public List<Integer> getResults(){
-		if(_results == null)
+		if (_results == null)
 			seedFromResults();
 		return _results;
 	}
 
 	public List<Integer> getTopFencer(int num) {
-		if(_results == null) {
+		if (_results == null) {
 			seedFromResults();
 		}
 		return _results.subList(0, num);
@@ -92,10 +93,10 @@ public class PoolRound implements IRound{
 	public void seedFromResults() {
 		_results = new LinkedList<Integer>();
 		List<FencerResults> fencerResults = new LinkedList<FencerResults>();
-		for(Pool pool : _pools)
+		for (Pool pool : _pools)
 			fencerResults.addAll(pool.getFencerResults());
 		Collections.sort(fencerResults);
-		for(FencerResults fr : fencerResults)
+		for (FencerResults fr : fencerResults)
 			_results.add(fr.getFencer());
 	}
 }
