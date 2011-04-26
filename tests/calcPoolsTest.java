@@ -1,36 +1,105 @@
-public static java.awt.Point calcPools(int numFencers, int poolSize) throws IllegalArgumentException{
-		if(poolSize <= 0 || numFencers <= 0 || numFencers < poolSize) {
-			throw new IllegalArgumentException("Invalid pool size or number of fencers");
-		}
-		if(numFencers == poolSize) {
-			return new java.awt.Point(1, 0);
-		}
-		int curFencers = 0;
-		int numBig = 0;
-		int numSmall = 0;
+import jvm.final_project.control;
 
-		while(curFencers <= numFencers) {
-			if(curFencers == numFencers) {
-				return new java.awt.Point(numBig, numSmall);
-			}
+import static org.junit.Assert.*;
+import org.junit.*;
+import java.awt.Point;
 
-			numBig ++;
-			curFencers = numBig * poolSize;
+public class calcPoolsTest {
+	@Test
+	public void testCalcPools() {
+		Point p;
+		p = calcPools(26, 6);
+		AssertEquals(p.x, 1);
+		AssertEquals(p.y, 4);
+
+		p = calcPools(28, 5);
+		AssertEquals(p.x, 4);
+		AssertEquals(p.y, 2);
+
+		p = calcPools(12, 5);
+		AssertEquals(p.x, 0);
+		AssertEquals(p.y, 3);
+
+		p = calcPools(120, 5);
+		AssertEquals(p.x, 24);
+		AssertEquals(p.y, 0);
+
+		p = calcPools(124, 5);
+		AssertEquals(p.x, 24);
+		AssertEquals(p.y, 1);
+
+		p = calcPools(5, 4);
+		AssertEquals(p.x, -1);
+		AssertEquals(p.y, -1);
+
+		p = calcPools(6, 4);
+		AssertEquals(p.x, -1);
+		AssertEquals(p.y, -1);
+
+		p = calcPools(10, 6);
+		AssertEquals(p.x, -1);
+		AssertEquals(p.y, -1);
+
+		p = calcPools(36, 7);
+		AssertEquals(p.x, -1);
+		AssertEquals(p.y, -1);
+
+		p = calcPools(18, 7);
+		AssertEquals(p.x, -1);
+		AssertEquals(p.y, -1);
+
+		p = calcPools(11, 7);
+		AssertEquals(p.x, -1);
+		AssertEquals(p.y, -1);
+
+		try {
+			p = calcPools(0, 6);
+			fail();
 		}
+		catch(IllegalArgumentException ex) {}
 
-		while(curFencers >= numFencers) {
-			if(curFencers == numFencers) {
-				if(numBig == 0)
-					return new java.awt.Point(-1, -1);
-				return new java.awt.Point(numBig, numSmall);
-			}
-
-			numSmall++;
-			numBig--;
-			curFencers = (numBig * poolSize) + (numSmall * (poolSize - 1));
+		try {
+			p = calcPools(0, 0);
+			fail();
 		}
-		// invalidPoolSize is a global constant
-		//return invalidPoolSize;
-		return new java.awt.Point(-1, -1);
+		catch(IllegalArgumentException ex) {}
+
+		try {
+			p = calcPools(4, 0);
+			fail();
+		}
+		catch(IllegalArgumentException ex) {}
+
+		try {
+			p = calcPools(-1, 0);
+			fail();
+		}
+		catch(IllegalArgumentException ex) {}
+		
+		try {
+			p = calcPools(-5, -5);
+			fail();
+		}
+		catch(IllegalArgumentException ex) {}
+		
+		try {
+			p = calcPools(0, -4);
+			fail();
+		}
+		catch(IllegalArgumentException ex) {}
+		
+		try {
+			p = calcPools(6, 8);
+			fail();
+		}
+		catch(IllegalArgumentException ex) {}
+
+		try {
+			p = calcPools(4, 6);
+			fail();
+		}
+		catch(IllegalArgumentException ex) {}
+	}
+
+
 }
-
