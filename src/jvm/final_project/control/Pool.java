@@ -14,7 +14,7 @@ public class Pool {
 	public FutureBout getNextBout() {
 		return _futureBouts.get(0);
 	}
-
+	
 	public Collection<FencerResults> getFencerResults(){
 		HashMap<Integer, FencerResults> map = new HashMap<Integer, FencerResults>();
 		for(Integer i : _fencer)
@@ -31,9 +31,7 @@ public class Pool {
 			winner.addTouchesReceived(b.getLoserScore());
 			loser.addTouchesReceived(b.getWinnerScore());
 		}
-
 		return map.values();
-
 	}
 
 	public void addResult(Bout toAdd) throws IllegalArgumentException{
