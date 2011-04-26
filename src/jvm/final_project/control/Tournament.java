@@ -1,4 +1,4 @@
-package src.jvm.final_project.control;
+package jvm.final_project.control;
 
 import java.util.Collection;
 
