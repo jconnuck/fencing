@@ -13,7 +13,7 @@ public class Bout {
 	private int _winnerScore;
 	private int _loserScore;
 
-	public Bout(IPlayer win, int winScore, IPlayer lose, int loseScore, IReferee ref) {
+	public Bout(int win, int winScore, int lose, int loseScore, int ref) {
 		_winner = win;
 		_winnerScore = winScore;
 		_loser = lose;
