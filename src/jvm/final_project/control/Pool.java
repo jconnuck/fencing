@@ -8,8 +8,6 @@ public class Pool {
 	private Collection<Bout> _results;
 	private List<FutureBout> _futureBouts;
 
-	//TODO constructor?
-
 	public void addFencer(int id){
 		_fencer.add(id);
 	}
