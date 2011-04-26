@@ -19,6 +19,50 @@ public class PoolRound implements IRound{
 		_numFencers = newNumFencers;
 	}
 	
+	/**
+	 * Calculates the number of pools of either size required to put all fencers into pools.
+	 * @param numFencers A non-negative integer representing the number of fencers to be placed into pools
+	 * @param poolSize A non-negative integer representing the ideal number of fencers to be placed in each pool
+	 * @return A Java.awt.Point representing the proper number of pools of poolSize fencers(X) and the number of pools of poolsize - 1 fencers(Y)
+	 */
+	public static java.awt.Point calcPools(int numFencers, int poolSize) throws IllegalArgumentException{
+		if(poolSize <= 0 || numFencers <= 0 || numFencers < poolSize) {
+			throw new IllegalArgumentException("Invalid pool size or number of fencers");
+		}
+		if(numFencers == poolSize) {
+			return new java.awt.Point(1, 0);
+		}
+		int curFencers = 0;
+		int numBig = 0;
+		int numSmall = 0;
+
+		while(curFencers <= numFencers) {
+//			System.out.println(curFencers + ", " + numFencers);
+			if(curFencers == numFencers) {
+				return new java.awt.Point(numBig, numSmall);
+			}
+
+			numBig ++;
+			curFencers = numBig * poolSize;
+		}
+//		System.out.println("-----------------");
+		while(curFencers >= numFencers) {
+//			System.out.println(curFencers + ", " + numFencers);
+			if(curFencers == numFencers) {
+				if(numBig == 0)
+					return new java.awt.Point(-1, -1);
+				return new java.awt.Point(numBig, numSmall);
+			}
+
+			numSmall++;
+			numBig--;
+			curFencers = (numBig * poolSize) + (numSmall * (poolSize - 1));
+		}
+		// invalidPoolSize is a global constant
+		//return invalidPoolSize;
+		return new java.awt.Point(-1, -1);
+	}
+	
 	public boolean createPools(int poolSize){
 		int this._poolSize = poolSize;
 		int numPools = _numFencers / _poolSize;
