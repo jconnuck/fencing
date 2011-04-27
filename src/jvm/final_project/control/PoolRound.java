@@ -1,4 +1,4 @@
-package jvm.final_project.control;
+package final_project.control;
 
 import java.util.*;
 import java.awt.Point;

@@ -1,6 +1,6 @@
-package jvm.final_project.control;
+package final_project.control;
 
-import jvm.final_project.model.*;
+import final_project.model.*;
 
 public class TournamentControl {
 	public State _state;
