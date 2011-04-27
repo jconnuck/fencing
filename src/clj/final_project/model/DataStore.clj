@@ -178,20 +178,25 @@
   (remove-person store (:id person))
   (add-person store person))
 
-(defn get-datum [store id]
+(defn get-datum-pred [pred store id]
   (let [data (dosync (into {}
                            (map #(vector % (ensure (get store %)))
                                 (cons :data (vals many-many)))))
         original-obj ((:data data) id)]
-    (reduce (fn [obj [forward-id reverse-id]]
-              (let [reverse-data ((reverse-id data) (:id obj))]
-                (if (seq reverse-data)
-                  (assoc obj reverse-id reverse-data)
-                  obj)))
-            original-obj
-            many-many)))
+    (and original-obj
+         (pred original-obj)
+         (reduce (fn [obj [forward-id reverse-id]]
+                   (let [reverse-data ((reverse-id data) (:id obj))]
+                     (if (seq reverse-data)
+                       (assoc obj reverse-id reverse-data)
+                       obj)))
+                 original-obj
+                 many-many))))
 
-(defn process-data)
+(def get-datum (partial get-datum-pred (constantly true)))
+
+(defn get-datum-type [store id type]
+  (get-datum-pred #(isa? (class %) type) store id))
 
 (defn get-predicate [pred {:keys [data] :as store}]
   (dosync (for [[id person] @data :when (pred person)]
@@ -206,13 +211,16 @@
 (deftest observers-test
   (let [s (DataStore.)]
     (is (empty? (.getData s)))
-    (dosync
-     (doto s
-       (.putData (.createSpectator s "1111" "Verizon" "Spectators"))
-       (.putData (.createReferee s "1111" "Verizon" "Coaches"))
-       (.putData (.createClub s "My Club"))
-       (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))
-       (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))))
+    (.runTransaction
+     s
+     (proxy [Runnable] []
+       (run [this]
+            (doto s
+              (.putData (.createSpectator s "1111" "Verizon" "Spectators"))
+              (.putData (.createReferee s "1111" "Verizon" "Coaches"))
+              (.putData (.createClub s "My Club"))
+              (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))
+              (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))))))
 
     (is (= (.getPhoneNumber (.getData s 0)) "1111"))
     (is (= (.getCarrier (.getData s 0)) "Verizon"))
@@ -379,6 +387,18 @@
 (defn -getPeopleForGroup [this group]
   (get-predicate #(= group (.getGroup %)) (.store this)))
 
+(defn -getPerson [this id]
+  (get-datum-type (.store this) id IPerson))
+
+(defn -getPlayer [this id]
+  (get-datum-type (.store this) id IPlayer))
+
+(defn -getObservable [this id]
+  (get-datum-type (.store this) id IObservable))
+
+(defn -getClub [this id]
+  (get-datum-type (.store this) id IClub))
+
 (defn -putData [this person]
   (replace-person (.store this) person))
 
@@ -399,6 +419,9 @@
 
 (defn -createReferee [this & args]
   (apply make-referee (.store this) args))
+
+(defn -runTransaction [this transaction]
+  (dosync (.run transaction)))
 
 (defn -init []
   [[] (make-store)])
