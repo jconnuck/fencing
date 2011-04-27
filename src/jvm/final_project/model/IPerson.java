@@ -1,4 +1,4 @@
-package jvmfinal_project.model;
+package final_project.model;
 
 import java.util.*;
 

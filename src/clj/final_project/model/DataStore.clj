@@ -44,11 +44,13 @@
 
 (defn make-group-writers
   ([id]
-     (make-group-writers id (capitalize-sym id) (symbol-concat id "s")))
-  ([id method-name plural-method-name]
+     (make-group-writers id
+                         (capitalize-sym id)
+                         (capitalize-sym id)))
+  ([id method-name singular-method-name]
      (let [key (keyword id)
-           add (symbol-concat 'add method-name)
-           remove (symbol-concat 'remove method-name)
+           add (symbol-concat 'add singular-method-name)
+           remove (symbol-concat 'remove singular-method-name)
            clear (symbol-concat 'clear method-name)]
        `((~add [this# id#]
                (assoc this# ~key (conj ~id id#)))
@@ -88,10 +90,22 @@
 (define-record Player
   {:name IPlayer
    :read-only [[id ID] [observers] []]
-   :has-one [[phoneNumber] [rating] [rank]]
-   :has-many [[watched]]})
+   :has-one [[phoneNumber] [carrier] [group] [rating] [rank]]
+   :has-many [[watched] [clubs Clubs Club]]})
 
-(def many-many {:watched :observers})
+(define-record Referee
+  {:name IReferee
+   :read-only [[id ID]]
+   :has-one [[phoneNumber] [carrier] [group] [reffing]]
+   :has-many [[clubs Clubs Club]]})
+
+(define-record Cub
+  {:name IClub
+   :read-only [[id ID] [members]]
+   :has-one [[name]]})
+
+(def many-many {:watched :observers
+                :clubs :members})
 
 (defrecord DSStore [data observers current-id])
 
@@ -100,11 +114,17 @@
             (alter current-id inc)
             new-data)))
 
-(defn make-spectator [store phone-number]
-  (make-data #(Spectator. % phone-number #{}) store))
+(defn make-spectator [store phone-number carrier group]
+  (make-data #(Spectator. % phone-number carrier group #{}) store))
 
-(defn make-player [store phone-number rating rank]
-  (make-data #(Player. % phone-number rating rank #{} nil) store))
+(defn make-player [store phone-number carrier group rating rank]
+  (make-data #(Player. % nil phone-number carrier group rating rank #{} #{}) store))
+
+(defn make-club [store name]
+  (make-data #(Club. % nil name) store))
+
+(defn make-referee [store phone-number carrier group]
+  (make-data #(Referee. % phone-number carrier group false #{})))
 
 (defn make-store []
   (DSStore. (ref {}) (ref {}) (ref 0)))
@@ -158,15 +178,15 @@
             original-obj
             many-many)))
 
+(defn process-data)
+
 (defn get-data [{:keys [data] :as store}]
   (dosync (map #(get-datum store %)
                (keys (ensure data)))))
 
-(defn get-type [store interface]
-  (filter #(isa? (class %) interface)))
-
-(def get-people (partial get-type IPerson))
-(def get-players (partial get-type IPlayer))
+(defn get-type [{:keys [data] :as store} interface]
+  (dosync (for [[id person] @data :when (isa? (class person) interface)]
+            (get-datum store id))))
 
 (deftest observers-test
   (let [s (DataStore.)]
@@ -211,6 +231,12 @@
 
 (defn -getObservables [this]
   (get-type (.store this) IObservable))
+
+(defn -getClubs [this]
+  (get-type (.store this) IClub))
+
+(defn -getPeopleForGroup [group]
+  (for ))
 
 (defn -putData [this person]
   (replace-person (.store this) person))

@@ -1,4 +1,4 @@
-package jvm.final_project.model;
+package final_project.model;
 
 import java.util.*;
 
@@ -13,8 +13,9 @@ public interface IDataStore {
     void putData(IData person);
     void removeData(IData person);
     void removeID(int id);
-    IPerson createSpectator(String phoneNumber, String carrier);
-    IPlayer createPlayer(String phoneNumber, String carrier, String rating, int rank);
+    IPerson createSpectator(String phoneNumber, String carrier, String group);
+    IPlayer createPlayer(String phoneNumber, String carrier, String group,
+                         String rating, int rank);
     IClub createClub(String name);
-    IReferee createReferee(String phoneNumber, String carrier);
+    IReferee createReferee(String phoneNumber, String carrier, String group);
 }

@@ -1,10 +1,10 @@
-package jvm.final_project.model;
+package final_project.model;
 
 import java.util.*;
 
 public interface IPlayer extends IPerson, IObservable {
     IPlayer setPhoneNumber(String phoneNumber);
-    IPlayer setNetwork();
+    IPlayer setCarrier();
     IPlayer setGroup(String group);
     IPlayer addWatched(int watched);
     IPlayer removeWatched(int watched);
