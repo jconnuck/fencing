@@ -3,15 +3,35 @@ package final_project.model;
 import java.util.*;
 
 public class FencerPool extends Pool{	
-	HashMap<Integer, FencerRoundResults> _idToFencerResults = new HashMap<Integer, FencerRoundResults>();
+	HashMap<Integer, FencerRoundResults> _idToFencerResults;
+	
+	public FencerPool() {
+		super();
+		_idToFencerResults = new HashMap<Integer, FencerRoundResults>();
+	}
 	
 	@Override
 	public Collection<FencerSeed> getSeeds() {
 		Collection<FencerSeed> fencerSeeds = new LinkedList<FencerSeed>();
+		createIdToFencerResultsMap();
+		tallyResults();
+		populateSeedListFromResults(fencerSeeds);
 		
-		for(Integer i : _players)
+		return fencerSeeds;
+	}
+
+	private void populateSeedListFromResults(Collection<FencerSeed> fencerSeeds) {
+		for (FencerRoundResults result : _idToFencerResults.values())
+			fencerSeeds.add(new FencerSeed(result));
+	}
+
+	private void createIdToFencerResultsMap() {
+		for (Integer i : _players)
 			_idToFencerResults.put(i, new FencerRoundResults(i));
-		for(CompletedBout b : _completedBouts){
+	}
+
+	private void tallyResults() {
+		for (Result b : _results){
 			FencerRoundResults winner = _idToFencerResults.get(b.getWinner());
 			FencerRoundResults loser = _idToFencerResults.get(b.getLoser());
 			winner.addWin();
@@ -23,9 +43,5 @@ public class FencerPool extends Pool{
 			winner.addTouchesReceived(b.getLoserScore());
 			loser.addTouchesReceived(b.getWinnerScore());
 		}
-		for(FencerRoundResults result : _idToFencerResults.values())
-			fencerSeeds.add(new FencerSeed(result));
-		
-		return fencerSeeds;
 	}
 }
