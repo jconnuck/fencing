@@ -8,7 +8,7 @@ public class PoolRoundController {
 
 	public boolean createPools(int poolSize){
         Point p = calcPoolSize(pools.getNumPlayers(), poolSize);
-        if (p.equals(Constants.INVALID_POOL_SIZE))
+        if (p.equals(Constants.IMPOSSIBLE_POOL_CONSTRAINTS))
         	return false;
         pools.setPoolSize(poolSize);
         //What are these doing?
@@ -22,6 +22,7 @@ public class PoolRoundController {
 	//What happens if the poolSize is such that the function never terminates?
 	//I think we may need a new algorithm, possibly one that chooses the optimal poolSize, as opposed to letting
 	//the user choose
+	//i do not think there are any values that will inf loop
 	/**
 	 * Calculates the number of pools of either size required to put all fencers into pools.
 	 * @param numPlayers A non-negative integer representing the number of fencers to be placed into pools
@@ -62,7 +63,8 @@ public class PoolRoundController {
 			placedFencers = (numBigPools * poolSize) + (numSmallPools * (poolSize - 1));
 		}
 		//Does this ever return given the first if statement?
-		return Constants.INVALID_POOL_SIZE;
+		//yes, I have renaimed it.  see Constants class for more information
+		return Constants.IMPOSSIBLE_POOL_CONSTRAINTS;
 	}
 
 	private static boolean isInvalidPoolSizeForNumPlayers(int numPlayers,
