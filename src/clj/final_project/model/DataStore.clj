@@ -1,10 +1,11 @@
 (ns final_project.model.DataStore
-  (:import [final_project.model IPerson IPlayer IDataStore IObservable DataStore])
+  (:import [final_project.model IPerson IPlayer IDataStore
+            IObservable DataStore IHasClub IReferee IData IClub])
   (:require [clojure.set :as set]
             [clojure.string :as str])
   (:use [clojure test])
   (:gen-class :main false
-              :state 
+              :state store
               :implements [final_project.model.IDataStore]
               :init init))
 
@@ -22,14 +23,14 @@
 (defn make-reader
   ([id]
      (make-reader id (capitalize-sym id)))
-  ([id get-name]
+  ([id get-name & _]
      (let [name (symbol (str "get" get-name))]
        `(~name [this#] ~id))))
 
 (defn make-writer
   ([id]
      (make-writer id (capitalize-sym id)))
-  ([id write-name]
+  ([id write-name & _]
      (let [name (symbol (str "set" write-name))]
        `(~name [this# new#]
                (assoc this# ~(keyword id) new#)))))
@@ -47,7 +48,7 @@
      (make-group-writers id
                          (capitalize-sym id)
                          (capitalize-sym id)))
-  ([id method-name singular-method-name]
+  ([id method-name singular-method-name & _]
      (let [key (keyword id)
            add (symbol-concat 'add singular-method-name)
            remove (symbol-concat 'remove singular-method-name)
@@ -82,24 +83,36 @@
   (apply make-record args))
 
 (define-record Spectator
+  {:name IData
+   :read-only [[id ID]]}
   {:name IPerson
-   :read-only [[id ID]]
    :has-one [[phoneNumber] [carrier] [group]]
    :has-many [[watched]]})
 
 (define-record Player
+  {:name IData
+   :read-only [[id ID]]}
+  {:name IHasClub
+   :has-many [[clubs Clubs Club]]}
+  {:name IPerson
+   :has-one [[phoneNumber] [carrier] [group]]
+   :has-many [[watched]]}
   {:name IPlayer
-   :read-only [[id ID] [observers] []]
-   :has-one [[phoneNumber] [carrier] [group] [rating] [rank]]
-   :has-many [[watched] [clubs Clubs Club]]})
+   :read-only [[observers]]
+   :has-one [[rating] [rank]]})
 
 (define-record Referee
+  {:name IData
+   :read-only [[id ID]]}
+  {:name IHasClub
+   :has-many [[clubs Clubs Club]]}
+  {:name IPerson
+   :has-one [[phoneNumber] [carrier] [group]]
+   :has-many [[watched]]}
   {:name IReferee
-   :read-only [[id ID]]
-   :has-one [[phoneNumber] [carrier] [group] [reffing]]
-   :has-many [[clubs Clubs Club]]})
+   :has-one [[reffing]]})
 
-(define-record Cub
+(define-record Club
   {:name IClub
    :read-only [[id ID] [members]]
    :has-one [[name]]})
@@ -107,7 +120,7 @@
 (def many-many {:watched :observers
                 :clubs :members})
 
-(defrecord DSStore [data observers current-id])
+(defrecord DSStore [data observers members current-id])
 
 (defn make-data [fn {:keys [current-id]} & args]
   (dosync (let [new-data (apply fn (ensure current-id) args)]
@@ -118,16 +131,16 @@
   (make-data #(Spectator. % phone-number carrier group #{}) store))
 
 (defn make-player [store phone-number carrier group rating rank]
-  (make-data #(Player. % nil phone-number carrier group rating rank #{} #{}) store))
+  (make-data #(Player. % #{} phone-number carrier group #{} nil rating rank) store))
 
 (defn make-club [store name]
   (make-data #(Club. % nil name) store))
 
 (defn make-referee [store phone-number carrier group]
-  (make-data #(Referee. % phone-number carrier group false #{})))
+  (make-data #(Referee. % #{} phone-number carrier group #{} false) store))
 
 (defn make-store []
-  (DSStore. (ref {}) (ref {}) (ref 0)))
+  (DSStore. (ref {}) (ref {}) (ref {}) (ref 0)))
 
 (defn add-store [store obj [forward-id reverse-id]]
   (assert (not (@(:data store) (:id obj))))
@@ -180,42 +193,170 @@
 
 (defn process-data)
 
-(defn get-data [{:keys [data] :as store}]
-  (dosync (map #(get-datum store %)
-               (keys (ensure data)))))
-
-(defn get-type [{:keys [data] :as store} interface]
-  (dosync (for [[id person] @data :when (isa? (class person) interface)]
+(defn get-predicate [pred {:keys [data] :as store}]
+  (dosync (for [[id person] @data :when (pred person)]
             (get-datum store id))))
+
+(def get-data
+     (partial get-predicate (constantly true)))
+
+(defn get-type [store type]
+  (get-predicate #(isa? (class %) type) store))
 
 (deftest observers-test
   (let [s (DataStore.)]
+    (is (empty? (.getData s)))
     (dosync
      (doto s
-       (.putData (.createSpectator s "1111"))
-       (.putData (.createSpectator s "11111"))
-       (.putData (.createPlayer s "1111" "rating" 5))
-       (.putData (.createPlayer s "1111" "rating" 5))))
-    (is (empty? (.getObservers (.getData s 2))))
+       (.putData (.createSpectator s "1111" "Verizon" "Spectators"))
+       (.putData (.createReferee s "1111" "Verizon" "Coaches"))
+       (.putData (.createClub s "My Club"))
+       (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))
+       (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))))
+
+    (is (= (.getPhoneNumber (.getData s 0)) "1111"))
+    (is (= (.getCarrier (.getData s 0)) "Verizon"))
+    (is (= (.getGroup (.getData s 0)) "Spectators"))
+
+    (is (= (.getPhoneNumber (.getData s 1)) "1111"))
+    (is (= (.getCarrier (.getData s 1)) "Verizon"))
+    (is (= (.getGroup (.getData s 1)) "Coaches"))
+    (is (= (.getReffing (.getData s 1)) false))
+
+    (is (= (.getPhoneNumber (.getData s 3)) "1111"))
+    (is (= (.getCarrier (.getData s 3)) "Verizon"))
+    (is (= (.getGroup (.getData s 3)) "Players"))
+    (is (= (.getRating (.getData s 3)) "rating"))
+    (is (= (.getRank (.getData s 3)) 5))
+
+    (is (= (.getName (.getData s 2)) "My Club"))
+
+    (dosync
+     (.putData s
+               (-> (.getData s 0)
+                   (.setPhoneNumber "1234")
+                   (.setCarrier "Sprint")
+                   (.setGroup "Coaches"))))
+
+    (is (= (.getPhoneNumber (.getData s 0))) "1234")
+    (is (= (.getCarrier (.getData s 0))) "Sprint")
+    (is (= (.getGroup (.getData s 0)) "Coaches"))
+
+    (is (= (.getPhoneNumber (.getData s 1)) "1111"))
+    (is (= (.getCarrier (.getData s 1)) "Verizon"))
+    (is (= (.getGroup (.getData s 1)) "Coaches"))
+    (is (= (.getReffing (.getData s 1)) false))
+
+    (is (= (.getPhoneNumber (.getData s 3)) "1111"))
+    (is (= (.getCarrier (.getData s 3)) "Verizon"))
+    (is (= (.getGroup (.getData s 3)) "Players"))
+    (is (= (.getRating (.getData s 3)) "rating"))
+    (is (= (.getRank (.getData s 3)) 5))
+
+    (is (= (.getName (.getData s 2)) "My Club"))
+
+    (dosync
+     (.putData s
+               (-> (.getData s 3)
+                   (.setPhoneNumber "1234")
+                   (.setCarrier "Sprint")
+                   (.setGroup "SuperPlayers")
+                   (.setRating "better")
+                   (.setRank 6))))
+
+    (is (= (.getPhoneNumber (.getData s 0))) "1234")
+    (is (= (.getCarrier (.getData s 0))) "Sprint")
+    (is (= (.getGroup (.getData s 0)) "Coaches"))
+
+    (is (= (.getPhoneNumber (.getData s 1)) "1111"))
+    (is (= (.getCarrier (.getData s 1)) "Verizon"))
+    (is (= (.getGroup (.getData s 1)) "Coaches"))
+    (is (= (.getReffing (.getData s 1)) false))
+
+    (is (= (.getPhoneNumber (.getData s 3))) "1234")
+    (is (= (.getCarrier (.getData s 3))) "Sprint")
+    (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
+    (is (= (.getRating (.getData s 3)) "better"))
+    (is (= (.getRank (.getData s 3)) 6))
+    
+    (is (= (.getName (.getData s 2)) "My Club"))
+
+    (dosync
+     (.putData s (.setName (.getData s 2) "Your Club")))
+
+    (is (= (.getPhoneNumber (.getData s 0))) "1234")
+    (is (= (.getCarrier (.getData s 0))) "Sprint")
+    (is (= (.getGroup (.getData s 0)) "Coaches"))
+
+    (is (= (.getPhoneNumber (.getData s 1)) "1111"))
+    (is (= (.getCarrier (.getData s 1)) "Verizon"))
+    (is (= (.getGroup (.getData s 1)) "Coaches"))
+    (is (= (.getReffing (.getData s 1)) false))
+
+    (is (= (.getPhoneNumber (.getData s 3))) "1234")
+    (is (= (.getCarrier (.getData s 3))) "Sprint")
+    (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
+    (is (= (.getRating (.getData s 3)) "better"))
+    (is (= (.getRank (.getData s 3)) 6))
+    
+    (is (= (.getName (.getData s 2)) "Your Club"))
+
+    (dosync
+     (.putData s
+               (-> (.getData s 1)
+                   (.setPhoneNumber "1234")
+                   (.setCarrier "Sprint")
+                   (.setGroup "Referees")
+                   (.setReffing true))))
+
+    (is (= (.getPhoneNumber (.getData s 0))) "1234")
+    (is (= (.getCarrier (.getData s 0))) "Sprint")
+    (is (= (.getGroup (.getData s 0)) "Coaches"))
+
+    (is (= (.getPhoneNumber (.getData s 1)) "1234"))
+    (is (= (.getCarrier (.getData s 1)) "Sprint"))
+    (is (= (.getGroup (.getData s 1)) "Referees"))
+    (is (= (.getReffing (.getData s 1)) true))
+
+    (is (= (.getPhoneNumber (.getData s 3))) "1234")
+    (is (= (.getCarrier (.getData s 3))) "Sprint")
+    (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
+    (is (= (.getRating (.getData s 3)) "better"))
+    (is (= (.getRank (.getData s 3)) 6))
+    
+    (is (= (.getName (.getData s 2)) "Your Club"))
+
     (is (empty? (.getObservers (.getData s 3))))
-    (dosync (.putData s (.addWatched (.getData s 0) 2)))
-    (is (= (.getObservers (.getData s 2)) #{0}))
-    (is (empty? (.getObservers (.getData s 3))))
-    (dosync (.putData s (.addWatched (.addWatched (.getData s 1) 2) 3)))
-    (is (= (.getObservers (.getData s 2)) #{0 1}))
-    (is (= (.getObservers (.getData s 3)) #{1}))
-    (dosync (.putData s (.clearWatched (.getData s 0))))
-    (is (= (.getObservers (.getData s 2)) #{1}))
-    (is (= (.getObservers (.getData s 3)) #{1}))
+    (is (empty? (.getObservers (.getData s 4))))
     (dosync (.putData s (.addWatched (.getData s 0) 3)))
-    (is (= (.getObservers (.getData s 2)) #{1}))
-    (is (= (.getObservers (.getData s 3)) #{0 1}))
-    (dosync (.putData s (.removeWatched (.getData s 1) 3)))
-    (is (= (.getObservers (.getData s 2)) #{1}))
     (is (= (.getObservers (.getData s 3)) #{0}))
+    (is (empty? (.getObservers (.getData s 4))))
+    (dosync (.putData s (.addWatched (.addWatched (.getData s 1) 3) 4)))
+    (is (= (.getObservers (.getData s 3)) #{0 1}))
+    (is (= (.getObservers (.getData s 4)) #{1}))
+    (dosync (.putData s (.clearWatched (.getData s 0))))
+    (is (= (.getObservers (.getData s 3)) #{1}))
+    (is (= (.getObservers (.getData s 4)) #{1}))
+    (dosync (.putData s (.addWatched (.getData s 0) 4)))
+    (is (= (.getObservers (.getData s 3)) #{1}))
+    (is (= (.getObservers (.getData s 4)) #{0 1}))
+    (dosync (.putData s (.removeWatched (.getData s 1) 4)))
+    (is (= (.getObservers (.getData s 3)) #{1}))
+    (is (= (.getObservers (.getData s 4)) #{0}))
     (dosync (.removeID s 0))
-    (is (= (.getObservers (.getData s 2)) #{1}))
-    (is (empty? (.getObservers (.getData s 3))))))
+    (is (= (.getObservers (.getData s 3)) #{1}))
+    (is (empty? (.getObservers (.getData s 4))))
+
+    (is (empty? (.getMembers (.getData s 2))))
+    (dosync (.putData s (.addClub (.getData s 3) 2))
+            (.putData s (.addClub (.getData s 4) 2))
+            (.putData s (.addClub (.getData s 1) 2)))
+    (is (= (.getMembers (.getData s 2)) #{1 3 4}))
+    (dosync (.putData s (.removeClub (.getData s 3) 2)))
+    (is (= (.getMembers (.getData s 2)) #{1 4}))
+    (dosync (.putData s (.clearClubs (.getData s 4)))
+            (.putData s (.clearClubs (.getData s 1))))
+    (is (empty? (.getMembers (.getData s 2))))))
 
 (defn -getData
   ([this]
@@ -235,8 +376,8 @@
 (defn -getClubs [this]
   (get-type (.store this) IClub))
 
-(defn -getPeopleForGroup [group]
-  (for ))
+(defn -getPeopleForGroup [this group]
+  (get-predicate #(= group (.getGroup %)) (.store this)))
 
 (defn -putData [this person]
   (replace-person (.store this) person))
@@ -252,6 +393,12 @@
 
 (defn -createPlayer [this & args]
   (apply make-player (.store this) args))
+
+(defn -createClub [this & args]
+  (apply make-club (.store this) args))
+
+(defn -createReferee [this & args]
+  (apply make-referee (.store this) args))
 
 (defn -init []
   [[] (make-store)])

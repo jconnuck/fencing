@@ -6,7 +6,7 @@ public interface IReferee {
     boolean getReffing();
     IReferee setReffing(boolean isReffing);
     IReferee setPhoneNumber(String phoneNumber);
-    IReferee setNetwork(String network);
+    IReferee setCarrier(String carrier);
     IReferee setGroup(String group);
     IReferee addWatched(int watched);
     IReferee removeWatched(int watched);

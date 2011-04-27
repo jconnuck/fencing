@@ -6,9 +6,9 @@ public interface IPerson extends IData {
     String getPhoneNumber();
     IPerson setPhoneNumber(String phoneNumber);
     String getCarrier();
-    IPerson setCarrier();
+    IPerson setCarrier(String carrier);
     String getGroup();
-    IPerson setGroup();
+    IPerson setGroup(String group);
     Collection<Integer> getWatched();
     IPerson addWatched(int watched);
     IPerson removeWatched(int watched);
