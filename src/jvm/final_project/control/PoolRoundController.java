@@ -7,9 +7,17 @@ public class PoolRoundController {
 	PoolRound pools = new PoolRound(); 
 
 	public boolean createPools(int poolSize) {
-        Point p = PoolSizeCalculator.calcPoolSize(pools.getNumPlayers(), poolSize);
-        if (p.equals(Constants.IMPOSSIBLE_POOL_CONSTRAINTS))
-        	return false;
+		int numBigPools, numSmallPools;
+		PoolSizeCalculator poolSizeCalc;
+		
+		try {
+			 poolSizeCalc = new PoolSizeCalculator(pools.getNumPlayers(), poolSize);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		
+		numBigPools = poolSizeCalc.getNumBigPools();
+		numSmallPools = poolSizeCalc.getNumSmallPools();
         pools.setPoolSize(poolSize);
         //What are these doing?
         int numPools = pools.getNumPlayers() / pools.getPoolSize();
