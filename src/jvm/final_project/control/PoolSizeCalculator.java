@@ -19,8 +19,8 @@ public class PoolSizeCalculator {
 	 * @return A Java.awt.Point representing the proper number of pools of poolSize fencers(X) and the number of pools of poolsize - 1 fencers(Y)
 	 */
 	public static java.awt.Point calcPoolSize(int numPlayers, int poolSize) throws IllegalArgumentException{
-		_numBigPools = 0;
-		_numSmallPools = 0;
+		_numBigPools      = 0;
+		_numSmallPools    = 0;
 		int placedFencers = 0;
 		
 		if (isInvalidPoolSizeForNumPlayers(numPlayers, poolSize)) {
@@ -37,7 +37,7 @@ public class PoolSizeCalculator {
 			}
 
 			_numBigPools++;
-			placedFencers = _numBigPools * poolSize;
+			placedFencers    = _numBigPools * poolSize;
 		}
 
 		while (placedFencers >= numPlayers) {
@@ -49,7 +49,7 @@ public class PoolSizeCalculator {
 
 			_numSmallPools++;
 			_numBigPools--;
-			placedFencers = (_numBigPools * poolSize) + (_numSmallPools * (poolSize - 1));
+			placedFencers    = (_numBigPools * poolSize) + (_numSmallPools * (poolSize - 1));
 		}
 		//Does this ever return given the first if statement?
 		//yes, I have renamed it.  see Constants class for more information
