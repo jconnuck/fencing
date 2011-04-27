@@ -23,11 +23,11 @@ public class TournamentControl {
 	}
 	
 	/**
-	 * Takes a bout and adds it to appropriate event.
-	 * @param bout A finished bout to be added to results
+	 * Takes a completed bout and adds it to appropriate event.
+	 * @param bout A completed bout to be added to results
 	 * @param stripID The number of the strip the bout was fenced on
 	 */
-	public void addResult(Bout bout, int stripID) {
+	public void addResult(CompletedBout bout, int stripID) {
 		Tevent temp;	
 	}
 	

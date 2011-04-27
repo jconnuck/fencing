@@ -3,11 +3,13 @@ package jvm.final_project.control;
 import java.util.*;
 import java.awt.Point;
 
+import jvm.final_project.model.*;
+
 //also serves as pool controller
 public class PoolRound implements IRound{
 
 	private Collection<Pool> _pools;
-	private List<Integer> _results;
+	private List<Integer> _seedList;
 	private int _poolSize;
 	private int _numFencers;
 	
@@ -81,25 +83,31 @@ public class PoolRound implements IRound{
 	}
 
 	public List<Integer> getResults(){
-		if (_results == null)
+		if (_seedList == null)
 			seedFromResults();
-		return _results;
+		return _seedList;
 	}
 
-	public List<Integer> getTopFencer(int num) {
-		if (_results == null) {
+	public List<Integer> getTopNPlayers(int num) {
+		if (_seedList == null) {
 			seedFromResults();
 		}
-		return _results.subList(0, num);
+		return _seedList.subList(0, num);
 	}
 
 	public void seedFromResults() {
-		_results = new LinkedList<Integer>();
-		List<FencerResults> fencerResults = new LinkedList<FencerResults>();
+		_seedList = new LinkedList<Integer>();
+		List<PlayerSeed> playerSeeds = new LinkedList<PlayerSeed>();
 		for (Pool pool : _pools)
-			fencerResults.addAll(pool.getFencerResults());
-		Collections.sort(fencerResults);
-		for (FencerResults fr : fencerResults)
-			_results.add(fr.getFencer());
+			playerSeeds.addAll(pool.getSeeds());
+		Collections.sort(playerSeeds);
+		for (PlayerSeed playerSeed : playerSeeds)
+			_seedList.add(playerSeed.getPlayer());
+	}
+
+	@Override
+	public Collection<Integer> getTopNFencers(int num) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

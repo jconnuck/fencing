@@ -9,6 +9,8 @@ public interface IPlayer extends IPerson, IObservable {
     IPlayer clearWatched();
     String getRating();
     IPlayer setRating(String rating);
+    //Is there a difference between rank and seed?
     int getRank();
     IPlayer setRank(int rank);
+    public PlayerSeed getSeed();
 }
