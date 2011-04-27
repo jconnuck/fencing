@@ -1,7 +1,5 @@
 package final_project.model;
 
-import java.util.*;
-
 public interface IReferee {
     boolean getReffing();
     IReferee setReffing(boolean isReffing);
