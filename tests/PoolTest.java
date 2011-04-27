@@ -1,4 +1,4 @@
-package jvm.final_project.control;
+import jvm.final_project.control;
 
 import org.junit.*;
 import static org.junit.Assert.*;
