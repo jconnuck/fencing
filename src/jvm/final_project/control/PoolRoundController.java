@@ -3,7 +3,11 @@ package final_project.control;
 import final_project.model.*;
 
 public class PoolRoundController {
-	PoolRound pools      = new PoolRound(); 
+	PoolRound _pools;
+	
+	public PoolRoundController() {
+		_pools = new PoolRound();
+	}
 
 	public boolean createPools(int poolSize) {
 		
@@ -11,7 +15,7 @@ public class PoolRoundController {
 		PoolSizeCalculator poolSizeCalc;
 		
 		try {
-			 poolSizeCalc = new PoolSizeCalculator(pools.getNumPlayers(), poolSize);
+			 poolSizeCalc = new PoolSizeCalculator(_pools.getNumPlayers(), poolSize);
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
@@ -19,10 +23,10 @@ public class PoolRoundController {
 		numBigPools = poolSizeCalc.getNumBigPools();
 		numSmallPools = poolSizeCalc.getNumSmallPools();
 
-        pools.setPoolSize(poolSize);
+        _pools.setPoolSize(poolSize);
         //What are these doing?
-        int numPools  = pools.getNumPlayers() / pools.getPoolSize();
-        int leftOvers = pools.getNumPlayers() % pools.getPoolSize();
+        int numPools  = _pools.getNumPlayers() / _pools.getPoolSize();
+        int leftOvers = _pools.getNumPlayers() % _pools.getPoolSize();
         return true;
 	}
 }
