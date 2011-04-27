@@ -51,10 +51,10 @@ public class PoolRoundController {
 			placedFencers = numBigPools * poolSize;
 		}
 
-		while (placedFencers > numPlayers) {
+		while (placedFencers >= numPlayers) {
 			if (placedFencers == numPlayers) {
 				if (numBigPools == 0)                    
-					return new java.awt.Point(-1, -1);
+					return Constants.IMPOSSIBLE_POOL_CONSTRAINTS;
 				return new java.awt.Point(numBigPools, numSmallPools);
 			}
 
