@@ -9,7 +9,8 @@ public interface IDataStore {
     Collection<IPlayer> getPlayers();
     Collection<IObservable> getObservables();
     Collection<IClub> getClubs();
-    
+
+    //returns all the people with the correct group
     Collection<IPerson> getPeopleForGroup(String group);
 
     //returns the datum that corresponds to the id.  If the datum does
@@ -33,7 +34,7 @@ public interface IDataStore {
     //creates an object with an ID that is unique to the DataStore
     IPerson createSpectator(String phoneNumber, String carrier, String group);
     IPlayer createPlayer(String phoneNumber, String carrier, String group,
-                         String rating, int rank);
+                         String rating, int rank, PlayerSeed seed);
     IClub createClub(String name);
     IReferee createReferee(String phoneNumber, String carrier, String group);
 

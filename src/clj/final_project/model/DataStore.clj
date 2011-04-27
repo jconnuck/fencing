@@ -98,7 +98,7 @@
    :has-one [[phoneNumber] [carrier] [group]]
    :has-many [[watched]]}
   {:name IPlayer
-   :read-only [[observers]]
+   :read-only [[observers] [seed]]
    :has-one [[rating] [rank]]})
 
 (define-record Referee
@@ -130,11 +130,11 @@
 (defn make-spectator [store phone-number carrier group]
   (make-data #(Spectator. % phone-number carrier group #{}) store))
 
-(defn make-player [store phone-number carrier group rating rank]
-  (make-data #(Player. % #{} phone-number carrier group #{} nil rating rank) store))
+(defn make-player [store phone-number carrier group rating rank seed]
+  (make-data #(Player. % #{} phone-number carrier group #{} #{} seed rating rank) store))
 
 (defn make-club [store name]
-  (make-data #(Club. % nil name) store))
+  (make-data #(Club. % #{} name) store))
 
 (defn make-referee [store phone-number carrier group]
   (make-data #(Referee. % #{} phone-number carrier group #{} false) store))
@@ -213,14 +213,14 @@
     (is (empty? (.getData s)))
     (.runTransaction
      s
-     (proxy [Runnable] []
-       (run [this]
-            (doto s
-              (.putData (.createSpectator s "1111" "Verizon" "Spectators"))
-              (.putData (.createReferee s "1111" "Verizon" "Coaches"))
-              (.putData (.createClub s "My Club"))
-              (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))
-              (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5))))))
+     (reify Runnable
+            (run [this]
+                 (doto s
+                   (.putData (.createSpectator s "1111" "Verizon" "Spectators"))
+                   (.putData (.createReferee s "1111" "Verizon" "Coaches"))
+                   (.putData (.createClub s "My Club"))
+                   (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5 nil))
+                   (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5 nil))))))
 
     (is (= (.getPhoneNumber (.getData s 0)) "1111"))
     (is (= (.getCarrier (.getData s 0)) "Verizon"))
