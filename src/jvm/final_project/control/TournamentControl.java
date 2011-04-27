@@ -18,9 +18,11 @@ public class TournamentControl {
 	 * @param toRegister The fencer to register
 	 * @param event The event for which the fencer is registering
 	 */
+	/*
 	public void registerFencer(int toRegister, Tevent event) {
 		event.registerFencer(toRegister);
 	}
+	*/
 	
 	/**
 	 * Takes a bout and adds it to appropriate event.
@@ -28,7 +30,7 @@ public class TournamentControl {
 	 * @param stripID The number of the strip the bout was fenced on
 	 */
 	public void addResult(Bout bout, int stripID) {
-		Tevent temp;	
+		//Tevent temp;
 	}
 	
 	// Represents the phase of the tournament that the TournamentControl is ready to carry out
