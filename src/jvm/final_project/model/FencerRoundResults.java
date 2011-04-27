@@ -1,4 +1,4 @@
-package jvm.final_project.model;
+package final_project.model;
 
 public class FencerRoundResults extends PlayerRoundResults{
 	private int _touchesScored, _touchesReceived;
