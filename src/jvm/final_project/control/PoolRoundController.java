@@ -25,10 +25,7 @@ public class PoolRoundController {
 		numSmallPools = poolSizeCalc.getNumSmallPools();
 
         _poolRound.setPoolSize(poolSize);
-		// Gave a new arraylist as the fencers argument because I cant find where this class
-		// has access to the initial seeding for the event.  It will still compile this way,
-		// but will not work properly
-        populatePools(numBigPools + numSmallPools, new ArrayList());		
+        populatePools(numBigPools + numSmallPools);		
         return true;
 	}
 
@@ -38,14 +35,14 @@ public class PoolRoundController {
 	 * @param numPools  The number of pools to be filled
 	 * @param fencers  The ordered list of the fencers to be placed in pools
 	 */
-	private void populatePools(int numPools, List<Integer> fencers) {
+	private void populatePools(int numPools) {
 		FencerPool temp;
 		for(int i=0; i <= numPools; i++) {
 			temp = new FencerPool();
 			_poolRound._pools.add(temp);
 		}
 		int i = 0;
-		for(int fencer : fencers) {
+		for(int fencer : _poolRound._seedList) {
 			if(i >= _poolRound._pools.size())
 				i = 0;
 				
