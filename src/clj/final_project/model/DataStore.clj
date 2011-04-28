@@ -183,15 +183,15 @@
                            (map #(vector % (ensure (get store %)))
                                 (cons :data (vals many-many)))))
         original-obj ((:data data) id)]
-    (and original-obj
-         (pred original-obj)
-         (reduce (fn [obj [forward-id reverse-id]]
-                   (let [reverse-data ((reverse-id data) (:id obj))]
-                     (if (seq reverse-data)
-                       (assoc obj reverse-id reverse-data)
-                       obj)))
-                 original-obj
-                 many-many))))
+    (when (and original-obj
+               (pred original-obj))
+      (reduce (fn [obj [forward-id reverse-id]]
+                (let [reverse-data ((reverse-id data) (:id obj))]
+                  (if (seq reverse-data)
+                    (assoc obj reverse-id reverse-data)
+                    obj)))
+              original-obj
+              many-many))))
 
 (def get-datum (partial get-datum-pred (constantly true)))
 
@@ -221,6 +221,17 @@
                    (.putData (.createClub s "My Club"))
                    (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5 nil))
                    (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5 nil))))))
+
+    (is (= (.getPerson s 1) (.getData s 1)))
+    (is (= (.getPerson s 2) nil))
+    (is (= (.getClub s 2) (.getData s 2)))
+    (is (= (.getClub s 3) nil))
+    (is (= (.getPlayer s 3) (.getData s 3)))
+    (is (= (.getPlayer s 1) nil))
+    (is (= (.getReferee s 1) (.getData s 1)))
+    (is (= (.getReferee s 0) nil))
+    (is (= (.getObservable s 4) (.getData s 4)))
+    (is (= (.getObservable s 1) nil))
 
     (is (= (.getPhoneNumber (.getData s 0)) "1111"))
     (is (= (.getCarrier (.getData s 0)) "Verizon"))
@@ -384,6 +395,9 @@
 (defn -getClubs [this]
   (get-type (.store this) IClub))
 
+(defn -getReferees [this]
+  (get-type (.store this) IReferee))
+
 (defn -getPeopleForGroup [this group]
   (get-predicate #(= group (.getGroup %)) (.store this)))
 
@@ -398,6 +412,9 @@
 
 (defn -getClub [this id]
   (get-datum-type (.store this) id IClub))
+
+(defn -getReferee [this id]
+  (get-datum-type (.store this) id IReferee))
 
 (defn -putData [this person]
   (replace-person (.store this) person))

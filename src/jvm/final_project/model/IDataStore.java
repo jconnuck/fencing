@@ -8,6 +8,7 @@ public interface IDataStore {
     Collection<IPerson> getPeople();
     Collection<IPlayer> getPlayers();
     Collection<IObservable> getObservables();
+    Collection<IReferee> getReferees();
     Collection<IClub> getClubs();
 
     //returns all the people with the correct group
@@ -21,6 +22,7 @@ public interface IDataStore {
     IPlayer getPlayer(int id);
     IObservable getObservable(int id);
     IClub getClub(int id);
+    IReferee getReferee(int id);
 
     //mutator methods must be run in a transaction.  If these are
     //called outside of a transaction, an exception will be thrown
