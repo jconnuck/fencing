@@ -30,7 +30,7 @@ public class PoolSizeCalculator {
 	}
 
 	private boolean isInvalidPoolSizeForNumPlayers(int numPlayers, int poolSize) {
-		return poolSize <= 0 || numPlayers <= 0 || numPlayers < poolSize;
+		return poolSize <= 0 || numPlayers <= 0 || numPlayers < poolSize || poolSize > 8 || poolSize < 4;
 	}
 	
 	public int getNumBigPools() {
