@@ -5,8 +5,9 @@ import java.util.*;
 //also serves as pool controller
 public class PoolRound implements IRound{
 
-	private Collection<Pool> _pools;
+	private List<Pool> _pools;
 	private List<Integer> _seedList;
+	private List<Integer> _initialSeeding;
 	private int _poolSize;
 	private int _numPlayers;
 	
