@@ -1,7 +1,6 @@
 package final_project.control;
 
 import final_project.model.*;
-import java.util.*;
 
 public class PoolRoundController {
 	PoolRound _poolRound;
@@ -25,9 +24,8 @@ public class PoolRoundController {
 		numPools = numBigPools + numSmallPools;
 
 		_poolRound = new FencerPoolRound(numPools, poolSize);
-        _poolRound.setPoolSize(poolSize);
+        _poolRound.populatePools();		
         
-        populatePools(numBigPools + numSmallPools);		
         return true;
 	}
 
