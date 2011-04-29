@@ -3,13 +3,13 @@ package final_project.model;
 import java.util.*;
 
 //also serves as pool controller
-public class PoolRound implements IRound{
+public abstract class PoolRound implements IRound{
 
-	private List<Pool> _pools;
-	private List<Integer> _seedList;
-	private List<Integer> _initialSeeding;
-	private int _poolSize;
-	private int _numPlayers;
+	protected List<Pool> _pools;
+	protected List<Integer> _seedList;
+	protected List<Integer> _initialSeeding;
+	protected int _poolSize;
+	protected int _numPlayers;
 	
 	public int getNumPlayers(){
 		return _numPlayers;
@@ -48,5 +48,11 @@ public class PoolRound implements IRound{
 		Collections.sort(playerSeeds);
 		for (PlayerSeed playerSeed : playerSeeds)
 			_seedList.add(playerSeed.getPlayer());
+	}
+
+	public void populatePools() {
+		for(int playerId : _seedList)
+			for (int i = 0; i < _pools.size(); ++i)
+				_pools.get(i).addPlayer(playerId);
 	}
 }
