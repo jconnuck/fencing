@@ -51,8 +51,7 @@ public abstract class PoolRound implements IRound{
 	}
 
 	public void populatePools() {
-		for(int playerId : _seedList)
-			for (int i = 0; i < _pools.size(); ++i)
-				_pools.get(i).addPlayer(playerId);
+		for (int i = 0; i < _numPlayers; ++i)
+			_pools.get(i % _pools.size()).addPlayer(_seedList.get(i));
 	}
 }
