@@ -2,6 +2,7 @@ package final_project.control;
 
 import final_project.model.*;
 import java.net.*;
+import java.util.Collection;
 import java.io.*;
 
 /**
@@ -12,16 +13,19 @@ import java.io.*;
  * @author mksteele
  */
 
-public class SMSController implements Constants{
+public class SMSController implements Constants, Runnable{
 	
-	IDataStore _store;
+	IDataStore _store; /* Reference to IDataStore */
 	int _lastRetrievedID;
+	boolean _listening;
 	
 	public SMSController(IDataStore s) {
 		_store = s;
 		_lastRetrievedID = 0;
-		
+		_listening = true;
+
 	}
+
 	
 	/**
 	 * This is the main method that handles sending a certain message to 
@@ -77,12 +81,30 @@ public class SMSController implements Constants{
 	 * other classes can call so that they don't have to deal 
 	 * with following our SMS protocol. 
 	 */
+
+	//This method allows the admin to send a message to every member 
+	public void sendAllMessage(String message) {
+		for(IPerson i: _store.getPeople()) {
+			this.sendMessage(message, i.getPhoneNumber());
+		}
+	}
+	
+	public void sendGroupMessage(String group, String message) {
+		for(IPerson i: _store.getPeopleForGroup(group)) {
+			this.sendMessage(message, i.getPhoneNumber());
+		}
+	} 
+
 	public void sendFencerStripMessage(int id,  int strip) throws Exception {
 		String message = "Fencer id: " + id + " Strip assignment: " + strip;
 		
 		//Look up the fencer in the database to get their phone number
-		String number = _store.getPerson(id).getPhoneNumber();  //TODO Figure out what happens when this ID does not point to a person
+		IPerson i = _store.getPerson(id);
+		if(i==null) { //TODO how does will deal with null lookups?
+			throw new Exception("No fencer found for id " + id);
+		}
 
+		String number = i.getPhoneNumber();
 		if(number.equals(INVALID_PHONE_NUMBER)) {
 			throw new Exception("Message could not be sent: No phone number for id " + id);
 		}
@@ -90,21 +112,6 @@ public class SMSController implements Constants{
 		this.sendMessage(message, number);
 	}
 	
-	//This method allows the admin to send a message to every member 
-	public void sendAllMessage(String message) {
-		for(IPerson i: _store.getPeople()) {
-			this.sendMessage(message, _store.getPerson(id).getPhoneNumber()); //Something like this? TODO
-		}
-	}
-	
-	public void sendRefereesMessage(String message) {
-		for(IPerson i: _store.getPeopleForGroup("Referee")) { //TODO is this ok???
-			this.sendMessage(message, _store.getPerson(id).getPhoneNumber()); //Something like this? TODO
-		}
-	}  //Same idea as sendAll
-	public void sendFencersMessage(String message) {} 
-	public void sendCoachesMessage(String message) {} //etc. Any more we can think of?
-
 	/* RECEIVING MESSAGES */
 	
 	public void getInbox() {
@@ -131,7 +138,6 @@ public class SMSController implements Constants{
                 // TODO Parse output to get out reply messages
                 System.out.println(line);
             }
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -173,11 +179,44 @@ public class SMSController implements Constants{
 		//This method will eventually call subscribeUser on a certain name
 	}
 	
-	public void subscribeUser(String nameToSubscribeTo, String number) {
+	
+	
+	/**
+	 * This method subscribes a user to an IObeservable. 
+	 * 
+	 * @param nameToSubscribeTo
+	 * @param number
+	 * @return
+	 */
+	public boolean subscribeUser(String nameToSubscribeTo, String number) {
+		//Checking to see that the person is registered in the database -- linear search through all people.
+		// TODO: Look up subscriber in IDataStore by phone number
+		boolean found = false;
+		for (IPerson i: _store.getPeople()) {
+			if(i.getPhoneNumber().equals(number)) {
+				found = true;
+				break;
+			}
+		}
+		// Sending an error message 
+		if (!found) {
+			this.sendMessage("This phone number is not registered. Please enter a registration code.", number);
+			return false;
+		}
 		
 		//Checking to see that a name exists in the IPersonStore
-		if(_store.contains(nameToSubscribeTo)) //How does the IPersonStore tell me if it contains a name?
-			_store.lookup(nameToSubscribeTo).addSubscriber(number);
+		for (IPerson i: _store.getPeople()) {
+			//if(i.getName().equals(nameToSubscribeTo)) {} TODO
+		}
 
+		return false;
+	}
+
+
+	@Override
+	public void run() {
+		while(_listening) {
+			this.getInbox();
+		}
 	}
 }
