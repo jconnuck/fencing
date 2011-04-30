@@ -31,26 +31,26 @@ public abstract class Pool {
 		_players.add(id);
 	}
 
-	public IncompleteResult getNextBout() {
+	public IncompleteResult getNextResult() {
 		return _incompleteResults.get(0);
 	}
 	
 	public abstract Collection<? extends PlayerSeed> getSeeds();
 
-	public void addCompletedBout(Result bout) throws IllegalArgumentException{
-		if (isPrematureBout(bout)) {
+	public void addCompletedBout(Result result) throws IllegalArgumentException{
+		if (isPrematureResult(result)) {
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		}
 		else {
-			_results.add(bout);
+			_results.add(result);
 			_incompleteResults.remove(0);
 		}
 	}
 
-	private boolean isPrematureBout(Result bout) {
-		return !((bout.getWinner() == _incompleteResults.get(0).getPlayer1() && 
-				bout.getLoser() == _incompleteResults.get(0).getPlayer2())) ||
-				(bout.getWinner() == _incompleteResults.get(0).getPlayer2() &&
-	    		bout.getLoser() == _incompleteResults.get(0).getPlayer1());
+	private boolean isPrematureResult(Result result) {
+		return !((result.getWinner() == _incompleteResults.get(0).getPlayer1() && 
+				result.getLoser() == _incompleteResults.get(0).getPlayer2())) ||
+				(result.getWinner() == _incompleteResults.get(0).getPlayer2() &&
+	    		result.getLoser() == _incompleteResults.get(0).getPlayer1());
 	}
 }
