@@ -37,7 +37,7 @@ public abstract class Pool {
 	
 	public abstract Collection<? extends PlayerSeed> getSeeds();
 
-	public void addCompletedBout(Result result) throws IllegalArgumentException{
+	public void addCompletedResult(Result result) throws IllegalArgumentException{
 		if (isPrematureResult(result)) {
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		}
