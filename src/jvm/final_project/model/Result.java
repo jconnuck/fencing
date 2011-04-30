@@ -3,6 +3,7 @@ package final_project.model;
 public class Result {
 	protected int _player1;
 	protected int _player2;
+	protected int _pointsToWin;
 
 	public int[] getPlayers() {
 		return new int[] {_player1, _player2};

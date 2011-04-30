@@ -1,9 +1,11 @@
-package final_project.control;
+package final_project.model;
+
+import java.util.*;
 
 public class DERound implements IRound {
-	private List<int> _seeding;  /*!< The seeding of fencers based on pool results. */
+	private List<Integer> _seeding;  /*!< The seeding of fencers based on pool results. */
 	private double _cut;         /*!< The percentage of the fencers to be cut before the round starts */
-	private List<FutureBout> _bouts;  /*!< List of bouts to be fenced for this round. */
+	private List<Result> _bouts;  /*!< List of all bouts in this DE round. */
 	private int _bracketSize;    /*!< The bracket size (How many slots there are in the first round of DEs) (must be a power of 2) */
 	private int _currentBracket; /*!< The number of slots in the current stage of the DE round (must be a power of 2 and <= _bracketSize*/
 	
@@ -20,7 +22,7 @@ public class DERound implements IRound {
 	 * Cuts the bottom _cut percentage of fencers from _seeding
 	 */
 	public void makeCut() {
-		int newEnd = Math.ceil(_seeding.size() * (1 - cut));
+		int newEnd = (int) Math.ceil(_seeding.size() * (1 - _cut));
 		_seeding = _seeding.subList(0, newEnd);
 	}
 	
@@ -29,7 +31,7 @@ public class DERound implements IRound {
 	 */
 	private void calcBracketSize() throws IllegalArgumentException{
 		if(_seeding.size() < 2) 
-			throw IllegalArgumentException("Attempted to build a bracket for less than 2 fencers");
+			throw new IllegalArgumentException("Attempted to build a bracket for less than 2 fencers");
 		int curSize = 2;
 		while(curSize < _seeding.size()) {
 			curSize *= 2;
@@ -41,9 +43,9 @@ public class DERound implements IRound {
 	 * Populates the bracket
 	 */
 	public void populateBracket() {
-		FutureBout tempBout;
+		IncompleteResult tempBout;
 		for(int i = 0; i < _bracketSize /2; i++) {
-			tempBout = new tempBout();
+			tempBout = new IncompleteResult();
 			tempBout.setFencer1(_seeding.get(i));
 		}
 	}
@@ -52,16 +54,28 @@ public class DERound implements IRound {
 		_cut = newCut;
 	}
 	
-	public void getCut() {
+	public double getCut() {
 		return _cut;
 	}
 	
-	public void getCurrentBracketSize() {
+	public int getCurrentBracketSize() {
 		return _currentBracket;
 	}
 	
-	public FutureBout getNextBout() {
-		
+	public IncompleteResult getNextBout() {
+		for(Result result : _bouts) {
+			if(result instanceof ) {
+				
+			}
+		}
+		return _bouts.get(0);
+		_bouts.remove(0);
+	}
+
+	@Override
+	public List<Integer> getTopNPlayers(int num) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
