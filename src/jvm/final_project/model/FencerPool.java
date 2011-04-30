@@ -31,7 +31,7 @@ public class FencerPool extends Pool{
 	}
 
 	private void tallyResults() {
-		for (Result b : _results){
+		for (CompleteResult b : _results){
 			FencerRoundResults winner = _idToFencerResults.get(b.getWinner());
 			FencerRoundResults loser = _idToFencerResults.get(b.getLoser());
 			winner.addWin();
