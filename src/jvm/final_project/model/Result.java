@@ -10,7 +10,7 @@ public class Result {
 		_loserResult = loserResult;
 		_ref = ref;
 	}
-
+	
 	//Where is this used?
 	public void setPointsToWin(int toWin) {
 		_pointsToWin = toWin;
