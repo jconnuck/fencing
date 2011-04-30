@@ -179,7 +179,13 @@ public class SMSController implements Constants, Runnable{
 		//This method will eventually call subscribeUser on a certain name
 	}
 	
-	
+	/**
+	 * registration request (for a spectator) 
+	 * subscription request --> subscribeUser
+	 * cancellation request --> cancelSubscription
+	 * assistance request
+	 * score submission 
+	 */
 	
 	/**
 	 * This method subscribes a user to an IObeservable. 
@@ -205,13 +211,25 @@ public class SMSController implements Constants, Runnable{
 		}
 		
 		//Checking to see that a name exists in the IPersonStore
+		found = false;
 		for (IPerson i: _store.getPeople()) {
 			//if(i.getName().equals(nameToSubscribeTo)) {} TODO
+				found = true;
 		}
-
+		// Sending an error message 
+		if (!found) {
+			this.sendMessage("Subscription not successful: no fencer or group found with this name.", number);
+			return false;
+		}
+		
+		//Actually submitting the user
+		this.sendMessage("You were successfully subscribed to \'" + nameToSubscribeTo + "\'.", number);
+		return true;
+	}
+	
+	public boolean cancelSubscription(){
 		return false;
 	}
-
 
 	@Override
 	public void run() {
