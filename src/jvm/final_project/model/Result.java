@@ -12,6 +12,7 @@ public class Result {
 	//Where is this used?
 	public void setPointsToWin(int toWin) {
 		_pointsToWin = toWin;
+	}
 
 	public int getPlayer1(){
 		return _player1;
