@@ -62,15 +62,38 @@ public class DERound implements IRound {
 		return _currentBracket;
 	}
 	
-	public IncompleteResult getNextBout() {
+	public IncompleteResult getNextBout() throws NoSuchBoutException{
 		for(Result result : _bouts) {
-			if(result instanceof ) {
-				
+			if(result instanceof IncompleteResult) {
+				return (IncompleteResult) result;
 			}
 		}
-		return _bouts.get(0);
-		_bouts.remove(0);
+		throw new NoSuchBoutException("No such bout exists in this DERound");
 	}
+	
+	public void addCompleteResult(CompleteResult newResult) throws NoSuchBoutException {
+		Result tempResult;
+		for(int i = 0; i < _bracketSize /2; i++) {
+			tempResult = _bouts.get(i);
+			if(tempResult.getPlayer1() == newResult.getPlayer1() &&
+			   tempResult.getPlayer2() == newResult.getPlayer2()
+			   ||
+			   tempResult.getPlayer1() == newResult.getPlayer2() &&
+			   tempResult.getPlayer2() == newResult.getPlayer1()) {
+				if(tempResult instanceof IncompleteResult) {
+					throw new NoSuchBoutException("This bout has already been completed");
+				}
+			}
+			
+		}
+	}
+
+	public class NoSuchBoutException extends Exception {
+		public NoSuchBoutException(String message) {
+			super(message);
+		}
+	}
+
 
 	@Override
 	public List<Integer> getTopNPlayers(int num) {
