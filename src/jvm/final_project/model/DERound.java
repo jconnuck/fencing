@@ -5,9 +5,10 @@ import java.util.*;
 public class DERound implements IRound {
 	private List<Integer> _seeding;  /*!< The seeding of fencers based on pool results. */
 	private double _cut;         /*!< The percentage of the fencers to be cut before the round starts */
-	private List<Result> _bouts;  /*!< List of all bouts in this DE round. */
+	private Result[] _matches;  /*!< Array of all bouts in this DE round. */
 	private int _bracketSize;    /*!< The bracket size (How many slots there are in the first round of DEs) (must be a power of 2) */
 	private int _currentBracket; /*!< The number of slots in the current stage of the DE round (must be a power of 2 and <= _bracketSize*/
+	private static int POINTS_TO_WIN;
 	
 	/**
 	 * Sets up the DE round by cutting the bottom _cut percentage of the competitors and filling the bracket with the remaining competitors.
@@ -31,7 +32,7 @@ public class DERound implements IRound {
 	 */
 	private void calcBracketSize() throws IllegalArgumentException{
 		if(_seeding.size() < 2) 
-			throw new IllegalArgumentException("Attempted to build a bracket for less than 2 fencers");
+			throw new IllegalArgumentException("Attempted to build a bracket for less than 2 competitors");
 		int curSize = 2;
 		while(curSize < _seeding.size()) {
 			curSize *= 2;
@@ -41,13 +42,33 @@ public class DERound implements IRound {
 
 	/**
 	 * Populates the bracket
-	 */
+
 	public void populateBracket() {
 		IncompleteResult tempBout;
 		for(int i = 0; i < _bracketSize /2; i++) {
 			tempBout = new IncompleteResult();
 			tempBout.setFencer1(_seeding.get(i));
 		}
+	}*/
+	
+	public void populateBracket(){
+		populateBracketHelper(0, 2, 1);		
+	}
+	
+	private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
+		if(index < 0)
+			throw new IllegalArgumentException("Index cannot be negative.");
+		if(index >= _matches.length)
+			return;
+		_matches[index] = new IncompleteResult(	currentSeed,
+												currentBracketSize - currentSeed + 1,
+												POINTS_TO_WIN);
+		populateBracketHelper(	2 * index + 1, 
+								currentBracketSize * 2, 
+								currentSeed);
+		populateBracketHelper(	2 * index + 2, 
+								currentBracketSize * 2, 
+								currentBracketSize - currentSeed + 1);
 	}
 	
 	public void setCut(double newCut){
@@ -63,7 +84,7 @@ public class DERound implements IRound {
 	}
 	
 	public IncompleteResult getNextBout() throws NoSuchBoutException{
-		for(Result result : _bouts) {
+		for(Result result : _matches) {
 			if(result instanceof IncompleteResult) {
 				return (IncompleteResult) result;
 			}
@@ -74,7 +95,7 @@ public class DERound implements IRound {
 	public void addCompleteResult(CompleteResult newResult) throws NoSuchBoutException {
 		Result tempResult;
 		for(int i = 0; i < _bracketSize /2; i++) {
-			tempResult = _bouts.get(i);
+			tempResult = _matches.get(i);
 			if(tempResult.getPlayer1() == newResult.getPlayer1() &&
 			   tempResult.getPlayer2() == newResult.getPlayer2()
 			   ||
