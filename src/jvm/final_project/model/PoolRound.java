@@ -10,6 +10,7 @@ public abstract class PoolRound implements IRound{
 	protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
+
 	
 	public int getNumPlayers(){
 		return _numPlayers;
