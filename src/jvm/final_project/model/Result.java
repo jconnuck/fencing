@@ -9,6 +9,11 @@ public class Result {
 		return new int[] {_player1, _player2};
 	}
 
+	//Where is this used?
+	public void setPointsToWin(int toWin) {
+		_pointsToWin = toWin;
+	}
+
 	public int getPlayer1(){
 		return _player1;
 	}
