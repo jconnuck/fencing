@@ -80,5 +80,4 @@ public class IFencer implements IPlayer {
 	public PlayerSeed getSeed() {
 		
 	}
-
 }
