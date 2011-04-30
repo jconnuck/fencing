@@ -1,5 +1,7 @@
 package final_project.control;
 
+import final_project.control.Constants;
+
 public class PoolSizeCalculator {
 	private int _numBigPools;
 	private int _numSmallPools;
