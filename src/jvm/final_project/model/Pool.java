@@ -19,6 +19,10 @@ public abstract class Pool {
 		return _results;
 	}
 
+	public void createIncompleteResults(){
+		
+	}
+	
 	public Collection<Integer> getPlayers() {
 		return _players;
 	}
