@@ -34,22 +34,14 @@ public class DERound implements IRound {
 		if(_seeding.size() < 2) 
 			throw new IllegalArgumentException("Attempted to build a bracket for less than 2 competitors");
 		int curSize = 2;
+		int totalSize = 2;
 		while(curSize < _seeding.size()) {
 			curSize *= 2;
+			totalSize += curSize;
 		}
 		_bracketSize = curSize;
+		_matches = new Result[totalSize];
 	}
-
-	/**
-	 * Populates the bracket
-
-	public void populateBracket() {
-		IncompleteResult tempBout;
-		for(int i = 0; i < _bracketSize /2; i++) {
-			tempBout = new IncompleteResult();
-			tempBout.setFencer1(_seeding.get(i));
-		}
-	}*/
 	
 	public void populateBracket(){
 		populateBracketHelper(0, 2, 1);		
@@ -95,7 +87,7 @@ public class DERound implements IRound {
 	public void addCompleteResult(CompleteResult newResult) throws NoSuchBoutException {
 		Result tempResult;
 		for(int i = 0; i < _bracketSize /2; i++) {
-			tempResult = _matches.get(i);
+			tempResult = _matches[i];
 			if(tempResult.getPlayer1() == newResult.getPlayer1() &&
 			   tempResult.getPlayer2() == newResult.getPlayer2()
 			   ||
