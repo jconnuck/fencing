@@ -1,10 +1,10 @@
 package final_project.model;
 
-public class PlayerBoutResult {
+public class PlayerResult {
 	private int _playerId;
 	private int _playerScore;
 
-	public PlayerBoutResult(int playerId, int playerScore) {
+	public PlayerResult(int playerId, int playerScore) {
 		_playerId = playerId;
 		_playerScore = playerScore;
 	}

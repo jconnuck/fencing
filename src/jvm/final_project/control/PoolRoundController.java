@@ -1,32 +1,34 @@
 package final_project.control;
 
 import final_project.model.*;
+import java.awt.Point;
 
 public class PoolRoundController {
-	PoolRound _pools;
+	PoolRound _poolRound;
+	int _numPools, _numBigPools, _numSmallPools;
 	
 	public PoolRoundController() {
-		_pools = new PoolRound();
 	}
 
 	public boolean createPools(int poolSize) {
-		
-		int numBigPools, numSmallPools;
-		PoolSizeCalculator poolSizeCalc;
-		
+		//Try to calculate the pool size. If unable to do so, return false
 		try {
-			 poolSizeCalc = new PoolSizeCalculator(_pools.getNumPlayers(), poolSize);
+			calcPoolSize(poolSize);
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
-		
-		numBigPools = poolSizeCalc.getNumBigPools();
-		numSmallPools = poolSizeCalc.getNumSmallPools();
 
-        _pools.setPoolSize(poolSize);
-        //What are these doing?
-        int numPools  = _pools.getNumPlayers() / _pools.getPoolSize();
-        int leftOvers = _pools.getNumPlayers() % _pools.getPoolSize();
+		_poolRound = new FencerPoolRound(_numPools, poolSize);
+        _poolRound.populatePools();		
+        
         return true;
 	}
+
+	private void calcPoolSize(int poolSize) throws IllegalArgumentException{
+		PoolSizeCalculator poolSizeCalc = new PoolSizeCalculator(_poolRound.getNumPlayers(), poolSize);
+		_numBigPools = poolSizeCalc.getNumBigPools();
+		_numSmallPools = poolSizeCalc.getNumSmallPools();
+		_numPools = _numBigPools + _numSmallPools;
+	}
+
 }

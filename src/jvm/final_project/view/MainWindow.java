@@ -47,8 +47,8 @@ public class MainWindow {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
 		
-		JPanel panel = new SignInPanel();
-		tabbedPane.addTab("New tab", null, panel, null);
+		JPanel signInPanel = new SignInPanel();
+		tabbedPane.addTab("Sign In", null, signInPanel, null);
 	}
 
 }

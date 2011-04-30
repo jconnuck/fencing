@@ -8,4 +8,5 @@ public interface Constants {
 	public static final Point IMPOSSIBLE_POOL_CONSTRAINTS = new Point(-1,-1);
 	
 	public static final String INVALID_PHONE_NUMBER = "No number found";
+
 }

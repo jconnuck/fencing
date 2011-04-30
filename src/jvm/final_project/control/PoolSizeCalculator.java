@@ -1,5 +1,7 @@
 package final_project.control;
 
+import final_project.control.Constants;
+
 public class PoolSizeCalculator {
 	private int _numBigPools;
 	private int _numSmallPools;
@@ -30,7 +32,7 @@ public class PoolSizeCalculator {
 	}
 
 	private boolean isInvalidPoolSizeForNumPlayers(int numPlayers, int poolSize) {
-		return poolSize <= 0 || numPlayers <= 0 || numPlayers < poolSize;
+		return poolSize <= 0 || numPlayers <= 0 || numPlayers < poolSize || poolSize > 8 || poolSize < 4;
 	}
 	
 	public int getNumBigPools() {
