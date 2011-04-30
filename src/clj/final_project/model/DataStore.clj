@@ -86,7 +86,7 @@
   {:name IData
    :read-only [[id ID]]}
   {:name IPerson
-   :has-one [[phoneNumber] [carrier] [group]]
+   :has-one [[phoneNumber] [carrier] [group] [firstName] [lastName]]
    :has-many [[watched]]})
 
 (define-record Player
@@ -95,7 +95,7 @@
   {:name IHasClub
    :has-many [[clubs Clubs Club]]}
   {:name IPerson
-   :has-one [[phoneNumber] [carrier] [group]]
+   :has-one [[phoneNumber] [carrier] [group] [firstName] [lastName]]
    :has-many [[watched]]}
   {:name IPlayer
    :read-only [[observers] [seed]]
@@ -107,7 +107,7 @@
   {:name IHasClub
    :has-many [[clubs Clubs Club]]}
   {:name IPerson
-   :has-one [[phoneNumber] [carrier] [group]]
+   :has-one [[phoneNumber] [carrier] [group] [firstName] [lastName]]
    :has-many [[watched]]}
   {:name IReferee
    :has-one [[reffing]]})
@@ -127,17 +127,21 @@
             (alter current-id inc)
             new-data)))
 
-(defn make-spectator [store phone-number carrier group]
-  (make-data #(Spectator. % phone-number carrier group #{}) store))
+(defn make-spectator [store phone-number first-name last-name carrier group]
+  (make-data #(Spectator. % phone-number carrier group first-name last-name #{}) store))
 
-(defn make-player [store phone-number carrier group rating rank seed]
-  (make-data #(Player. % #{} phone-number carrier group #{} #{} seed rating rank) store))
+(defn make-player [store phone-number first-name last-name carrier group rating rank seed]
+  (make-data #(Player. % #{} phone-number carrier group first-name last-name
+                       #{} #{} seed rating rank)
+             store))
 
 (defn make-club [store name]
   (make-data #(Club. % #{} name) store))
 
-(defn make-referee [store phone-number carrier group]
-  (make-data #(Referee. % #{} phone-number carrier group #{} false) store))
+(defn make-referee [store phone-number first-name last-name carrier group]
+  (make-data #(Referee. % #{} phone-number carrier group first-name last-name
+                        #{} false)
+             store))
 
 (defn make-store []
   (DSStore. (ref {}) (ref {}) (ref {}) (ref 0)))
@@ -216,11 +220,13 @@
      (reify Runnable
             (run [this]
                  (doto s
-                   (.putData (.createSpectator s "1111" "Verizon" "Spectators"))
-                   (.putData (.createReferee s "1111" "Verizon" "Coaches"))
+                   (.putData (.createSpectator s "1111" "John" "Smith" "Verizon" "Spectators"))
+                   (.putData (.createReferee s "1111" "John" "Smith" "Verizon" "Coaches"))
                    (.putData (.createClub s "My Club"))
-                   (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5 nil))
-                   (.putData (.createPlayer s "1111" "Verizon" "Players" "rating" 5 nil))))))
+                   (.putData (.createPlayer s "1111" "John" "Smith" "Verizon"
+                                            "Players" "rating" 5 nil))
+                   (.putData (.createPlayer s "1111" "John" "Smith" "Verizon"
+                                            "Players" "rating" 5 nil))))))
 
     (is (= (.getPerson s 1) (.getData s 1)))
     (is (= (.getPerson s 2) nil))

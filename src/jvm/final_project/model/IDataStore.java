@@ -34,11 +34,14 @@ public interface IDataStore {
     void removeID(int id);
 
     //creates an object with an ID that is unique to the DataStore
-    IPerson createSpectator(String phoneNumber, String carrier, String group);
-    IPlayer createPlayer(String phoneNumber, String carrier, String group,
-                         String rating, int rank, PlayerSeed seed);
+    IPerson createSpectator(String phoneNumber, String firstName, String lastName,
+                            String carrier, String group);
+    IPlayer createPlayer(String phoneNumber, String firstName, String lastName,
+                         String carrier, String group, String rating, int rank,
+                         PlayerSeed seed);
     IClub createClub(String name);
-    IReferee createReferee(String phoneNumber, String carrier, String group);
+    IReferee createReferee(String phoneNumber, String firstName, String lastName,
+                           String carrier, String group);
 
     //Runs the runnable inside a transaction block.
     void runTransaction(Runnable transaction);

@@ -13,4 +13,8 @@ public interface IPerson extends IData {
     IPerson addWatched(int watched);
     IPerson removeWatched(int watched);
     IPerson clearWatched();
+    String getFirstName();
+    String getLastName();
+    IPerson setFirstName(String name);
+    IPerson setLastName(String name);
 }

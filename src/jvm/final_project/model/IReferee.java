@@ -9,7 +9,9 @@ public interface IReferee {
     IReferee addWatched(int watched);
     IReferee removeWatched(int watched);
     IReferee clearWatched();
-    IHasClub addClub(int club);
-    IHasClub removeClub(int club);
-    IHasClub clearClubs();
+    IReferee addClub(int club);
+    IReferee removeClub(int club);
+    IReferee clearClubs();
+    IReferee setFirstName(String name);
+    IReferee setLastName(String name);
 }

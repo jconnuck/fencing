@@ -1,6 +1,5 @@
 package final_project.control;
 
-<<<<<<< Updated upstream
 import java.awt.*;
 
 public interface Constants {
