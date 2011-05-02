@@ -101,14 +101,14 @@ public class DERound implements IRound {
 		while(curIndex < index) {
 			curIndex++;
 			boutsDown++;
-		}	
+		}
 		if(boutsDown %2 != 0) {  // If boutsDown is odd
 			boutsDown++;
 		}
 		return (boutsDown/2) + prevHeadIndex;
 	}
-	
-	
+
+
 	private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
 		if(index < 0)
 			throw new IllegalArgumentException("Index cannot be negative.");
