@@ -14,26 +14,15 @@ public abstract class Pool {
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 	}
-<<<<<<< HEAD
-
-=======
 	
 	/**
 	 * Returns the Collection of all completed matches.
 	 * @return Collection<CompletResult> All matches currently completed.
 	 */
->>>>>>> 4af27b904f7d17c47c607cdcab3d5979f8deb373
 	public Collection<CompleteResult> getResults() {
 		return _results;
 	}
 
-<<<<<<< HEAD
-	public void createIncompleteResults(){
-
-	}
-
-	public Collection<Integer> getPlayers() {
-=======
 	/**
 	 * Based on the number of fencers in the pool, sets up the list of IncompleteResults to be fenced.
 	 * @throws IllegalStateException
@@ -227,7 +216,6 @@ public abstract class Pool {
 	 * @return List<Integer> The list of player IDs in the pool.
 	 */
 	public List<Integer> getPlayers() {
->>>>>>> 4af27b904f7d17c47c607cdcab3d5979f8deb373
 		return _players;
 	}
 
