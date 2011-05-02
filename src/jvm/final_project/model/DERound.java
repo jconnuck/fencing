@@ -20,7 +20,7 @@ public class DERound implements IRound {
 	}
 
 	/**
-	 * Cuts the bottom _cut percentage of fencers from _seeding
+	 * Cuts the bottom _cut percentage of fencers from _seeding.
 	 */
 	public void makeCut() {
 		int newEnd = (int) Math.ceil(_seeding.size() * (1 - _cut));
@@ -28,7 +28,7 @@ public class DERound implements IRound {
 	}
 
 	/**
-	 * Calculates the proper bracket size using the number of fencers in the round
+	 * Calculates the proper bracket size using the number of fencers in the round.
 	 */
 	private void calcBracketSize() throws IllegalArgumentException{
 		if(_seeding.size() < 2)
@@ -43,6 +43,10 @@ public class DERound implements IRound {
 		_matches = new Result[totalSize];
 	}
 
+	/**
+	 * Populates the bracket with all of the seed number for the first round.
+	 * @throws IllegalStateException
+	 */
 	public void populateBracket() throws IllegalStateException{
 		if(_matches == null){
 			throw new IllegalStateException("_matches not yet instantiated.");
@@ -54,15 +58,57 @@ public class DERound implements IRound {
 	}
 
 	/**
-	 *Helper function for populateBracket() that takes the values that represent the seeding of the competitors
-	 *in the current IncompleteResults and replaces them with the int id of the actual competitor of that seed.
+	 * Helper function for populateBracket() that takes the values that represent the seeding of the competitors
+	 * in the current IncompleteResults and replaces them with the int id of the actual competitor of that seed.
 	 */
 	public void switchSeedsForCompetitors(){
 		for(int i = _matches.length - _bracketSize / 2; i < _matches.length; i++){
-
+			IncompleteResult temp;
+			temp = (IncompleteResult) _matches[i];
+			if(temp.getPlayer1() > _seeding.size()) { // If player2 got a bye
+				_matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer2(), 0),  // Sets player2 to the winner of the match
+												 new PlayerResult(-1, 0));
+				_matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer2(), -1, 15);
+			}
+			else if(temp.getPlayer2() > _seeding.size()) { // If player1 got a bye
+				_matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer1(), 0),  // Sets player1 to the winner of the match
+						                         new PlayerResult(-1, 0));
+				_matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer1(), -1, 15);
+			}
+			else {
+				_matches[i] = new IncompleteResult(_seeding.get(temp.getPlayer1() -1),
+												   _seeding.get(temp.getPlayer2() -1),
+												   15);
+			}
 		}
 	}
 
+	/**
+	 * @param index The index in _matches of the current match.
+	 * @return int the index of the match that the winner of the index match will continue on to.
+	 */
+	private int getNextMatchIndex(int index) {
+		int curRoundSize = 2;
+		int headIndex = 0;
+		int prevHeadIndex = 0;
+		while(headIndex + curRoundSize < index) {  // Sets headIndex to the head of the round that contains index
+			prevHeadIndex = headIndex;             // and prevHeadIndex to the head of the previous index
+			headIndex += curRoundSize;
+			curRoundSize *= 2;
+		}
+		int curIndex = headIndex;
+		int boutsDown = 0;
+		while(curIndex < index) {
+			curIndex++;
+			boutsDown++;
+		}	
+		if(boutsDown %2 != 0) {  // If boutsDown is odd
+			boutsDown++;
+		}
+		return (boutsDown/2) + prevHeadIndex;
+	}
+	
+	
 	private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
 		if(index < 0)
 			throw new IllegalArgumentException("Index cannot be negative.");
