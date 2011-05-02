@@ -37,3 +37,12 @@
   (dosync
    (doto (DataStore.)
      (parse-file file))))
+
+(defn -updateDataStore [this ^IDataStore store file]
+  (parse-file store file))
+
+(defn -createDataStore [this file]
+  (init-store file))
+
+(defn -getTournamentInfo [this file]
+  (TournamentInfo.))
