@@ -48,7 +48,6 @@ public class DERound implements IRound {
 			throw new IllegalStateException("_matches not yet instantiated.");
 		}
 		populateBracketHelper(0, 2, 1);
-		//for(int i = 0; )
 		for(int i = 0; i < _matches.length - _bracketSize / 2 - 1; i++){
 			_matches[i] = null;
 		}
@@ -59,7 +58,9 @@ public class DERound implements IRound {
 	 *in the current IncompleteResults and replaces them with the int id of the actual competitor of that seed.
 	 */
 	public void switchSeedsForCompetitors(){
+		for(int i = _matches.length - _bracketSize / 2; i < _matches.length; i++){
 
+		}
 	}
 
 	private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
