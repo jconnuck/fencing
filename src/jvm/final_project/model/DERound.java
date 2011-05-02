@@ -116,6 +116,7 @@ public class DERound implements IRound {
 		}
 	}
 
+	//TODO: why are we getting this warning?
 	public class NoSuchBoutException extends Exception {
 		public NoSuchBoutException(String message) {
 			super(message);

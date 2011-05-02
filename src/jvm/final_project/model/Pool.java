@@ -8,21 +8,21 @@ public abstract class Pool {
 	protected Collection<Integer> _refs;
 	protected Collection<CompleteResult> _results;
 	protected List<IncompleteResult> _incompleteResults;
-	
+
 	public Pool(){
 		_players = new HashSet<Integer>();
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 	}
-	
+
 	public Collection<CompleteResult> getResults() {
 		return _results;
 	}
 
 	public void createIncompleteResults(){
-		
+
 	}
-	
+
 	public Collection<Integer> getPlayers() {
 		return _players;
 	}
@@ -38,7 +38,7 @@ public abstract class Pool {
 	public IncompleteResult getNextResult() {
 		return _incompleteResults.get(0);
 	}
-	
+
 	public abstract Collection<? extends PlayerSeed> getSeeds();
 
 	public void addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
@@ -52,7 +52,7 @@ public abstract class Pool {
 	}
 
 	private boolean isPrematureResult(CompleteResult completeResult) {
-		return !((completeResult.getWinner() == _incompleteResults.get(0).getPlayer1() && 
+		return !((completeResult.getWinner() == _incompleteResults.get(0).getPlayer1() &&
 				completeResult.getLoser() == _incompleteResults.get(0).getPlayer2())) ||
 				(completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
 	    		completeResult.getLoser() == _incompleteResults.get(0).getPlayer1());
