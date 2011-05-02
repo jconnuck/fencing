@@ -12,7 +12,7 @@ public class PlayerResult {
 	public int getPlayerId() {
 		return _playerId;
 	}
-	
+
 	public int getPlayerScore() {
 		return _playerScore;
 	}

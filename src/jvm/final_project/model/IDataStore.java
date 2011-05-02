@@ -26,7 +26,7 @@ public interface IDataStore {
 
     //mutator methods must be run in a transaction.  If these are
     //called outside of a transaction, an exception will be thrown
-    
+
     //adds a datum to the datastore
     void putData(IData person);
     //removes the datum from the datastore
