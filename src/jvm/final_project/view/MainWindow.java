@@ -5,23 +5,26 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.UIManager;
 
 public class MainWindow {
 
-	private JFrame frame;
+	private JFrame frmFencingManager;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
+					window.frmFencingManager.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -40,15 +43,16 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 600, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmFencingManager = new JFrame();
+		frmFencingManager.setTitle("Fencing Manager");
+		frmFencingManager.setBounds(100, 100, 600, 300);
+		frmFencingManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
+		frmFencingManager.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
-		//JPanel signInPanel = new SignInPanel();
-		//tabbedPane.addTab("Sign In", null, signInPanel, null);
+		SignInPanel signInPanel = new SignInPanel();
+		tabbedPane.addTab("Sign In & Registration", null, signInPanel, null);
 	}
 
 }

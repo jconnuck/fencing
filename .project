@@ -20,4 +20,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.gdt.eclipse.designer.GWTNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>jvm</name>
+			<type>2</type>
+			<location>/Users/jconnuck/fencing/src/jvm</location>
+		</link>
+	</linkedResources>
 </projectDescription>
