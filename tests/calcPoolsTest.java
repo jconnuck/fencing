@@ -75,19 +75,19 @@ public class calcPoolsTest {
 			fail();
 		}
 		catch(IllegalArgumentException ex) {}
-		
+
 		try {
 			p = calcPools(-5, -5);
 			fail();
 		}
 		catch(IllegalArgumentException ex) {}
-		
+
 		try {
 			p = calcPools(0, -4);
 			fail();
 		}
 		catch(IllegalArgumentException ex) {}
-		
+
 		try {
 			p = calcPools(6, 8);
 			fail();

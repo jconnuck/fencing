@@ -8,8 +8,8 @@ public interface IDataInput {
     void updateDataStore(IDataStore dataStore, String fileName);
     void updateDataStore(IDataStore dataStore, File file);
 
-    IDataStore initializeDataStore(String fileName);
-    IDataStore initializeDataStore(File file);
+    IDataStore createDataStore(String fileName);
+    IDataStore createDataStore(File file);
 
     ITournamentInfo getTournamentInfo(String fileName);
     ITournamentInfo getTournamentInfo(File file);

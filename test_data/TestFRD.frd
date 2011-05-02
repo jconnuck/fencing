@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FencingData  Version="4.0" Context="PreReg" xmlns="http://www.askfred.net" xmlns:ft="http://www.fencingtime.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<FencerDatabase>
+		<Fencer FencerID="3315" FirstName="Steven" LastName="Uhlman" ClubID1="136"  DivisionID="64" BirthYear="1987"  Gender="M" >
+			<Rating Org="USFA" Weapon="Epee">E2008</Rating>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+		<Fencer FencerID="15074" FirstName="Frank" LastName="La" ClubID1="1"  DivisionID="69" BirthYear="1986"  Gender="M" >
+			<Membership Org='USFA'>100085706</Membership>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Epee">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+		<Fencer FencerID="16181" FirstName="Adrian" LastName="Pacia" ClubID1="1"  DivisionID="29" BirthYear="1985"  Gender="M" >
+			<Rating Org="USFA" Weapon="Foil">E2007</Rating>
+			<Rating Org="USFA" Weapon="Epee">B2007</Rating>
+			<Rating Org="USFA" Weapon="Saber">E2006</Rating>
+		</Fencer>
+		<Fencer FencerID="18641" FirstName="Ke" LastName="Ma" ClubID1="945"  DivisionID="62" BirthYear="1988"  Gender="M" >
+			<Rating Org="USFA" Weapon="Saber">D2007</Rating>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Epee">U</Rating>
+		</Fencer>
+		<Fencer FencerID="29029" FirstName="Bradley" LastName="L'Herrou" ClubID1="698"  DivisionID="55" BirthYear="1987"  Gender="M" >
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Epee">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+		<Fencer FencerID="34420" FirstName="Donald" LastName="Paccini" ClubID1="793"  DivisionID="48" BirthYear="1950"  Gender="M" >
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+		</Fencer>
+		<Fencer FencerID="42052" FirstName="Blaine" LastName="Pace" ClubID1="1527"  DivisionID="5" BirthYear="1990"  Gender="M" >
+			<Membership Org='USFA'>100098260</Membership>
+			<Rating Org="USFA" Weapon="Epee">E2009</Rating>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+		<Fencer FencerID="45980" FirstName="Dexter" LastName="Pabulayan" ClubID1="1723"  DivisionID="40" BirthYear="1990"  Gender="M" >
+			<Rating Org="USFA" Weapon="Epee">E2009</Rating>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+	</FencerDatabase>
+	<TeamDatabase>
+		<Team TeamID="66061" Name="Team1" ClubID="2180" DivisionID="90" >
+			<Fencer FencerID="18641" />
+			<Fencer FencerID="15074" />
+			<Fencer FencerID="16181" />
+			<Fencer FencerID="3315" />
+		</Team>
+		<Team TeamID="66062" Name="Team2" ClubID="2180" DivisionID="90" >
+			<Fencer FencerID="29029" />
+			<Fencer FencerID="45980" />
+			<Fencer FencerID="34420" />
+			<Fencer FencerID="42052" />
+		</Team>
+	</TeamDatabase>
+	<ClubDatabase>
+		<Club ClubID="2180" Name="Bladeworks Fencing Club" DivisionID="90" Abbreviation="BFC" City="Etobicoke" State="ON"  />
+		<Club ClubID="136" Name="Knights of Trapani" DivisionID="64" Abbreviation="KOT" City="Kingwood" State="TX"  />
+		<Club ClubID="1" Name="Unattached (or unknown)" DivisionID="69" Abbreviation="UNAT" City="" State=""  />
+		<Club ClubID="945" Name="University of Virginia Fencing Club" DivisionID="62" Abbreviation="VFC" City="" State=""  />
+		<Club ClubID="698" Name="University of South Florida" DivisionID="55" Abbreviation="USF" City="" State=""  />
+		<Club ClubID="793" Name="Grand Valley Sport Fencing" DivisionID="48" Abbreviation="GVSF" City="Grand Junction" State="colorado"  />
+		<Club ClubID="1527" Name="My Fencing Center" DivisionID="5" Abbreviation="MFC" City="orland" State="ca"  />
+		<Club ClubID="1723" Name="New Paltz Fencing Club" DivisionID="40" Abbreviation="NEW PALTZ" City="" State=""  />
+	</ClubDatabase>
+	<Tournament TournamentID="12240" Name="Bladeworks Fencing Club's Tournament" Location="Bladeworks Fencing Club" StartDate="2013-12-12" EndDate="2013-12-13" Fee="35.00" FeeCurrency="USD" >
+		<Event EventID="52173" EventDateTime="2013-12-12 10:00:00" Weapon="Saber" Gender="Men" EnforceGender="True" AgeLimitMin="Senior" AgeLimitMax="Senior" EnforceAge="True" RatingLimit="Open" EnforceRating="False" Description="" IsTeam="True" Fee="0.00" FeeCurrency="USD" >
+			<PreReg CompetitorID="66061" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="66062" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+		</Event>
+	</Tournament>
+</FencingData>   

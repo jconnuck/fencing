@@ -184,3 +184,9 @@
        'asdf 'Asdf
        'fast 'Fast
        'asdfAsdf 'AsdfAsdf))
+
+(deftest test-club
+  (let [store (DataStore.)
+        club (.createClub store "name")]
+    (dosync (.putData store club))
+    (is (= (:name (first (.getClubs store))) "name"))))

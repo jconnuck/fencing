@@ -7,7 +7,7 @@ public class CompleteResult extends Result{
 		_winnerResult = winnerResult;
 		_loserResult = loserResult;
 	}
-	
+
 	public int getPointsToWin() {
 		return _pointsToWin;
 	}
