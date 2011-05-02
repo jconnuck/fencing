@@ -20,7 +20,7 @@ public class PoolRoundController {
 		}
 
 		_poolRound = new FencerPoolRound(_numPools, poolSize);
-        _poolRound.populatePools();		
+        _poolRound.populatePools();
         
         return true;
 	}

@@ -10,10 +10,16 @@ import java.io.*;
  * This class handles sending out text messages to the instances of
  * the IMessagable interface stored in the IPersonStore class.
  * 
+ * TA Questions:
+ * - how to write tests for this class
+ * - sychronization & thread questions (getting Collections from the DataStore)
+ * - is it necessary to have a thread pool?
+ * 
  * @author mksteele
  */
 
-public class SMSController implements Constants, Runnable{
+
+public class SMSController implements Constants {
 	
 	IDataStore _store; /* Reference to IDataStore */
 	int _lastRetrievedID;
@@ -23,7 +29,6 @@ public class SMSController implements Constants, Runnable{
 		_store = s;
 		_lastRetrievedID = 0;
 		_listening = true;
-
 	}
 
 	
@@ -51,7 +56,7 @@ public class SMSController implements Constants, Runnable{
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
+            wr.write(data);	//Does this block? 
             wr.flush();
             
             // Get the response
@@ -61,7 +66,6 @@ public class SMSController implements Constants, Runnable{
                 // Print the response output...
                 System.out.println(line);
             }
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -89,18 +93,19 @@ public class SMSController implements Constants, Runnable{
 		}
 	}
 	
-	public void sendGroupMessage(String group, String message) {
+	public void sendGroupMessage(String group, String message) { 
 		for(IPerson i: _store.getPeopleForGroup(group)) {
+			//TODO make sure that i is never null; also TODO problem with collection & synchronization?
 			this.sendMessage(message, i.getPhoneNumber());
 		}
-	} 
+	}
 
 	public void sendFencerStripMessage(int id,  int strip) throws Exception {
 		String message = "Fencer id: " + id + " Strip assignment: " + strip;
 		
 		//Look up the fencer in the database to get their phone number
 		IPerson i = _store.getPerson(id);
-		if(i==null) { //TODO how does will deal with null lookups?
+		if(i==null) {
 			throw new Exception("No fencer found for id " + id);
 		}
 
@@ -108,7 +113,7 @@ public class SMSController implements Constants, Runnable{
 		if(number.equals(INVALID_PHONE_NUMBER)) {
 			throw new Exception("Message could not be sent: No phone number for id " + id);
 		}
-				
+
 		this.sendMessage(message, number);
 	}
 	
@@ -231,10 +236,4 @@ public class SMSController implements Constants, Runnable{
 		return false;
 	}
 
-	@Override
-	public void run() {
-		while(_listening) {
-			this.getInbox();
-		}
-	}
 }
