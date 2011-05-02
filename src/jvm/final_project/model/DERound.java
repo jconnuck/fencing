@@ -137,7 +137,7 @@ public class DERound implements IRound {
 		return _currentBracket;
 	}
 
-	public IncompleteResult getNextBout() throws NoSuchBoutException{
+	public IncompleteResult getNextMatch() throws NoSuchBoutException{
 		for(Result result : _matches) {
 			if(result instanceof IncompleteResult) {
 				return (IncompleteResult) result;
