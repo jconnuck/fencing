@@ -93,6 +93,7 @@ public class SMSController implements Constants {
 		}
 	}
 	
+	//TODO: This should
 	public void sendGroupMessage(String group, String message) { 
 		for(IPerson i: _store.getPeopleForGroup(group)) {
 			//TODO make sure that i is never null; also TODO problem with collection & synchronization?
