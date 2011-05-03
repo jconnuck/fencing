@@ -2,7 +2,6 @@ package final_project.model;
 
 import java.util.*;
 
-
 public abstract class Pool {
 	protected List<Integer> _players;
 	protected Collection<Integer> _refs;
@@ -14,7 +13,7 @@ public abstract class Pool {
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 	}
-	
+
 	/**
 	 * Returns the Collection of all completed matches.
 	 * @return Collection<CompletResult> All matches currently completed.
@@ -31,7 +30,7 @@ public abstract class Pool {
 		if(_players.size() > 8  || _players.size() < 4) {
 			throw new IllegalStateException("Illegal pool size (>8 or <4");
 		}
-		
+
 		else if(_players.size() == 4) {
 			IncompleteResult temp;
 			temp = new IncompleteResult(_players.get(0), _players.get(3), 5);
@@ -45,7 +44,7 @@ public abstract class Pool {
 			temp = new IncompleteResult(_players.get(2), _players.get(3), 5);
 			_incompleteResults.add(4, temp);
 			temp = new IncompleteResult(_players.get(0), _players.get(1), 5);
-			_incompleteResults.add(5, temp);			
+			_incompleteResults.add(5, temp);
 		}
 
 		else if(_players.size() == 5) {
@@ -71,7 +70,7 @@ public abstract class Pool {
 			temp = new IncompleteResult(_players.get(3), _players.get(1), 5);
 			_incompleteResults.add(9, temp);
 		}
-		
+
 		else if(_players.size() == 6) {
 			IncompleteResult temp;
 			temp = new IncompleteResult(_players.get(0), _players.get(1), 5);
@@ -105,7 +104,7 @@ public abstract class Pool {
 			temp = new IncompleteResult(_players.get(5), _players.get(1), 5);
 			_incompleteResults.add(14, temp);
 		}
-		
+
 		else if(_players.size() == 7) {
 			IncompleteResult temp;
 			temp = new IncompleteResult(_players.get(0), _players.get(3), 5);
@@ -210,7 +209,7 @@ public abstract class Pool {
 			_incompleteResults.add(20, temp);
 		}
 	}
-	
+
 	/**
 	 * Returns the List of player IDs in the pool.
 	 * @return List<Integer> The list of player IDs in the pool.
