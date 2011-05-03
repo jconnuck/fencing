@@ -18,7 +18,7 @@ public class MainWindow {
 	 */
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		//	UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -49,10 +49,10 @@ public class MainWindow {
 		frmFencingManager.setTitle("Fencing Manager");
 		frmFencingManager.setBounds(100, 100, 600, 300);
 		frmFencingManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frmFencingManager.getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
+
 		SignInPanel signInPanel = new SignInPanel();
 		tabbedPane.addTab("Sign In & Registration", null, signInPanel, null);
 		
