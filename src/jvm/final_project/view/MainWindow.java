@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
 import javax.swing.UIManager;
+import javax.swing.JPanel;
+import javax.swing.JDesktopPane;
 
 public class MainWindow {
 
@@ -53,6 +55,12 @@ public class MainWindow {
 		
 		SignInPanel signInPanel = new SignInPanel();
 		tabbedPane.addTab("Sign In & Registration", null, signInPanel, null);
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("Pool Round", null, panel, null);
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		frmFencingManager.getContentPane().add(desktopPane, BorderLayout.NORTH);
 	}
 
 }

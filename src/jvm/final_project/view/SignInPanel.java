@@ -66,6 +66,7 @@ public class SignInPanel extends JPanel {
                     }
                 });
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
 		gbc_txtSearch.gridx = 3;
 		gbc_txtSearch.gridy = 1;
@@ -116,7 +117,7 @@ public class SignInPanel extends JPanel {
 		RowFilter<SignInTableModel, Object> rf = null;
         //If current expression doesn't parse, don't update.
         try {
-            rf = RowFilter.regexFilter(searchField.getText());
+            rf = RowFilter.regexFilter("(?i)" + searchField.getText());
         } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }
