@@ -25,8 +25,7 @@ public class FencerPoolTest extends TestCase {
 	@Test
 	public void testGetSeeds() {
 		Collection<FencerSeed> seedings = p.getSeeds();
-		assertTrue(seedings.size() > 0);
-
+		assertEquals(6, seedings.size());
 	}
 
 	public void testGetNextResult() {
@@ -35,7 +34,7 @@ public class FencerPoolTest extends TestCase {
 		assertEquals(1, temp.getPlayer1());
 	}
 
-	//also does minor testing of createIncompleteResults() from FencerPool
+	//also does minor testing of createIncompleteResults()
 	@Test
 	public void testAddCompletedResult() {
 		try{
