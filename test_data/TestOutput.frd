@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FencingData Version="5.0" Context="Results" Source="FTv3.0" xmlns="http://www.askfred.net" xmlns:ft="http://www.fencingtime.com">
+  <Tournament TournamentID="0" Name="New Tournament" Location="" StartDate="2011-04-07" EndDate="2011-04-07">
+    <Event EventID="-1" Description="" Weapon="Foil" Gender="Mixed" AgeLimitMin="Senior" AgeLimitMax="Senior" RatingLimit="Open" Rating="NR" IsTeam="False" Entries="5">
+      <FinalResults>
+        <Result CompetitorID="-1" ClubID="-1" Excluded="False" Place="1" DNF="False" RatingThen="U" RatingEarned="" />
+        <Result CompetitorID="-2" ClubID="-1" Excluded="False" Place="2" DNF="False" RatingThen="U" RatingEarned="" />
+        <Result CompetitorID="-3" ClubID="-1" Excluded="False" Place="3" DNF="False" RatingThen="U" RatingEarned="" />
+        <Result CompetitorID="-4" ClubID="-1" Excluded="False" Place="3" DNF="False" RatingThen="U" RatingEarned="" />
+        <Result CompetitorID="-5" ClubID="-1" Excluded="False" Place="5" DNF="False" RatingThen="U" RatingEarned="" />
+      </FinalResults>
+      <RoundResults>
+        <Round Seq="1" Type="Pool" Desc="Round #1 - Pools">
+          <RoundSeeding>
+            <Competitor CompetitorID="-5" Seed="1" Status="P" />
+            <Competitor CompetitorID="-1" Seed="2" Status="P" />
+            <Competitor CompetitorID="-4" Seed="3" Status="P" />
+            <Competitor CompetitorID="-3" Seed="4" Status="P" />
+            <Competitor CompetitorID="-2" Seed="5" Status="P" />
+          </RoundSeeding>
+          <Pool Seq="1">
+            <Competitor CompetitorNum="2" Bouts="4" Victories="4" TS="20" TR="14" Ind="6" Rank="1" CompetitorID="-3" />
+            <Competitor CompetitorNum="4" Bouts="4" Victories="3" TS="19" TR="15" Ind="4" Rank="2" CompetitorID="-2" />
+            <Competitor CompetitorNum="5" Bouts="4" Victories="1" TS="16" TR="18" Ind="-2" Rank="3" CompetitorID="-4" />
+            <Competitor CompetitorNum="3" Bouts="4" Victories="1" TS="14" TR="17" Ind="-3" Rank="4" CompetitorID="-1" />
+            <Competitor CompetitorNum="1" Bouts="4" Victories="1" TS="12" TR="17" Ind="-5" Rank="5" CompetitorID="-5" />
+            <Bout>
+              <Competitor Score="4" Status="D" CompetitorID="-5" />
+              <Competitor Score="5" Status="V" CompetitorID="-3" />
+            </Bout>
+            <Bout>
+              <Competitor Score="3" Status="V" CompetitorID="-5" />
+              <Competitor Score="2" Status="D" CompetitorID="-1" />
+            </Bout>
+            <Bout>
+              <Competitor Score="5" Status="V" CompetitorID="-3" />
+              <Competitor Score="3" Status="D" CompetitorID="-1" />
+            </Bout>
+            <Bout>
+              <Competitor Score="2" Status="D" CompetitorID="-5" />
+              <Competitor Score="5" Status="V" CompetitorID="-2" />
+            </Bout>
+            <Bout>
+              <Competitor Score="5" Status="V" CompetitorID="-3" />
+              <Competitor Score="4" Status="D" CompetitorID="-2" />
+            </Bout>
+            <Bout>
+              <Competitor Score="4" Status="D" CompetitorID="-1" />
+              <Competitor Score="5" Status="V" CompetitorID="-2" />
+            </Bout>
+            <Bout>
+              <Competitor Score="3" Status="D" CompetitorID="-5" />
+              <Competitor Score="5" Status="V" CompetitorID="-4" />
+            </Bout>
+            <Bout>
+              <Competitor Score="5" Status="V" CompetitorID="-3" />
+              <Competitor Score="3" Status="D" CompetitorID="-4" />
+            </Bout>
+            <Bout>
+              <Competitor Score="5" Status="V" CompetitorID="-1" />
+              <Competitor Score="4" Status="D" CompetitorID="-4" />
+            </Bout>
+            <Bout>
+              <Competitor Score="5" Status="V" CompetitorID="-2" />
+              <Competitor Score="4" Status="D" CompetitorID="-4" />
+            </Bout>
+          </Pool>
+        </Round>
+        <Round Seq="2" Type="DE" Desc="Round #2 - Direct Elimination">
+          <RoundSeeding>
+            <Competitor CompetitorID="-3" Seed="1" Status="P" />
+            <Competitor CompetitorID="-2" Seed="2" Status="P" />
+            <Competitor CompetitorID="-4" Seed="3" Status="P" />
+            <Competitor CompetitorID="-1" Seed="4" Status="P" />
+            <Competitor CompetitorID="-5" Seed="5" Status="P" />
+          </RoundSeeding>
+          <Table Seq="1" Of="8">
+            <Bout Seq="1">
+              <Competitor Called="1" CompetitorID="-3" Score="0" Status="V" />
+              <Bye Called="2" />
+            </Bout>
+            <Bout Seq="2" RefereeID="-1">
+              <Competitor Called="1" CompetitorID="-5" Score="6" Status="D" />
+              <Competitor Called="2" CompetitorID="-1" Score="14" Status="V" />
+            </Bout>
+            <Bout Seq="3">
+              <Competitor Called="1" CompetitorID="-4" Score="0" Status="V" />
+              <Bye Called="2" />
+            </Bout>
+            <Bout Seq="4">
+              <Bye Called="1" />
+              <Competitor Called="2" CompetitorID="-2" Score="0" Status="V" />
+            </Bout>
+          </Table>
+          <Table Seq="2" Of="4">
+            <Bout Seq="1">
+              <Competitor Called="1" CompetitorID="-3" Score="4" Status="D" />
+              <Competitor Called="2" CompetitorID="-1" Score="15" Status="V" />
+            </Bout>
+            <Bout Seq="2">
+              <Competitor Called="1" CompetitorID="-4" Score="3" Status="D" />
+              <Competitor Called="2" CompetitorID="-2" Score="15" Status="V" />
+            </Bout>
+          </Table>
+          <Table Seq="3" Of="2">
+            <Bout Seq="1">
+              <Competitor Called="1" CompetitorID="-1" Score="15" Status="V" />
+              <Competitor Called="2" CompetitorID="-2" Score="2" Status="D" />
+            </Bout>
+          </Table>
+        </Round>
+      </RoundResults>
+    </Event>
+  </Tournament>
+  <PointListDatabase />
+  <ClubDatabase>
+    <Club ClubID="-1" DivisionID="69" Name="Unattached (or unknown)" Abbreviation="UNAT" City="" State="" />
+  </ClubDatabase>
+  <FencerDatabase>
+    <Fencer FencerID="-1" FirstName="2" LastName="Competitor" MiddleName="" NickName="" Suffix="" BirthYear="0" Gender="M" ClubID1="-1" DivisionID="69">
+      <Rating Org="USFA" Weapon="Foil">U</Rating>
+      <Rating Org="USFA" Weapon="Epee">U</Rating>
+      <Rating Org="USFA" Weapon="Saber">U</Rating>
+    </Fencer>
+    <Fencer FencerID="-2" FirstName="4" LastName="Comp" MiddleName="" NickName="" Suffix="" BirthYear="0" Gender="M" ClubID1="-1" DivisionID="69">
+      <Rating Org="USFA" Weapon="Foil">U</Rating>
+      <Rating Org="USFA" Weapon="Epee">U</Rating>
+      <Rating Org="USFA" Weapon="Saber">U</Rating>
+    </Fencer>
+    <Fencer FencerID="-3" FirstName="1" LastName="Competitor" MiddleName="" NickName="" Suffix="" BirthYear="0" Gender="M" ClubID1="-1" DivisionID="69">
+      <Rating Org="USFA" Weapon="Foil">U</Rating>
+      <Rating Org="USFA" Weapon="Epee">U</Rating>
+      <Rating Org="USFA" Weapon="Saber">U</Rating>
+    </Fencer>
+    <Fencer FencerID="-4" FirstName="Josh" LastName="Grill" MiddleName="" NickName="" Suffix="" BirthYear="0" Gender="M" ClubID1="-1" DivisionID="69">
+      <Rating Org="USFA" Weapon="Foil">U</Rating>
+      <Rating Org="USFA" Weapon="Epee">U</Rating>
+      <Rating Org="USFA" Weapon="Saber">U</Rating>
+    </Fencer>
+    <Fencer FencerID="-5" FirstName="3" LastName="Comp" MiddleName="" NickName="" Suffix="" BirthYear="0" Gender="M" ClubID1="-1" DivisionID="69">
+      <Rating Org="USFA" Weapon="Foil">U</Rating>
+      <Rating Org="USFA" Weapon="Epee">U</Rating>
+      <Rating Org="USFA" Weapon="Saber">U</Rating>
+    </Fencer>
+  </FencerDatabase>
+  <RefereeDatabase>
+    <Referee RefereeID="-1" FirstName="Miranda" LastName="Steele" MiddleName="" NickName="MK" Suffix="" BirthYear="0" Gender="M" ClubID1="-1" DivisionID="69" />
+  </RefereeDatabase>
+  <TeamDatabase />
+</FencingData>
