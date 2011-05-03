@@ -11,15 +11,20 @@
 (defrecord TournamentInfo []
   ITournamentInfo)
 
-(def test-file "test_data/TestFRD.frd")
+(def test-file "test_data/TestInput.frd")
 
-(defn parse-fencer [^IDataStore store clubs {:keys (attrs content) :as fencer}]
-  (reduce #(.addClub %1 (:id (clubs %2)))
-          (.createPlayer store
-                         "" (:FirstName attrs) (:LastName attrs)
-                         "" "Fencer" "" -1 nil)
-          (for [[key val] attrs :when (re-find #"^:ClubID" (str key))]
-            val)))
+(defn parse-fencer [^IDataStore store clubs fencer]
+  (let [{:keys (attrs content)} (zip/node fencer)]
+    (reduce #(.addRating %1 (first %2) (second %2))
+            (reduce #(.addClub %1 (:id (clubs %2)))
+                    (.createPlayer store
+                                   "" (:FirstName attrs) (:LastName attrs)
+                                   "" "Fencer" -1 nil)
+                    (for [[key val] attrs :when (re-find #"^:ClubID" (str key))]
+                      val))
+            (map list
+                 (xml-> fencer :Rating (attr :Weapon))
+                 (xml-> fencer :Rating text)))))
 
 (defn parse-club [^IDataStore store {:keys [attrs] :as club}]
   [(:ClubID attrs) (.createClub store (:Name attrs))])
@@ -28,7 +33,7 @@
   (let [xml (zip/xml-zip (parse file))
         clubs (into {} (map (partial parse-club store)
                             (xml-> xml :ClubDatabase :Club zip/node)))
-        fencers (xml-> xml :FencerDatabase :Fencer zip/node
+        fencers (xml-> xml :FencerDatabase :Fencer
                        (partial parse-fencer store clubs))]
     (doseq [datum (concat (vals clubs) fencers)]
       (.putData store datum))))

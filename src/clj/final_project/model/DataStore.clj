@@ -48,24 +48,45 @@
          (~clear [this#]
                  (assoc this# ~key #{}))))))
 
-(defn make-interface [{:keys [name read-only has-one has-many]}]
+(defn make-associative-methods
+  ([id]
+     (make-associative-methods id
+                               (capitalize-sym id)
+                               (capitalize-sym id)))
+  ([id method-name singular-method-name & _]
+     (let [key (keyword id)
+           add (symbol-concat 'add singular-method-name)
+           remove (symbol-concat 'remove singular-method-name)
+           clear (symbol-concat 'clear method-name)
+           get (symbol-concat 'get singular-method-name)]
+       `((~add [this# name# val#]
+               (assoc this# ~key (assoc ~id name# val#)))
+         (~remove [this# name#]
+                  (assoc this# ~key (dissoc ~id name#)))
+         (~clear [this#]
+                 (assoc this# ~key {}))
+         (~get [this# name#]
+               (~id name#))))))
+
+(defn make-interface [{:keys [name read-only has-one has-many has-map]}]
   `(~name ~@(map #(apply make-reader %) read-only)
           ~@(map #(apply make-reader %) has-one)
           ~@(map #(apply make-writer %) has-one)
           ~@(map #(apply make-reader %) has-many)
           ~@(apply concat
-                   (map #(apply make-group-writers %) has-many))))
+                   (map #(apply make-group-writers %) has-many))
+          ~@(apply concat
+                   (map #(apply make-associative-methods %) has-map))))
 
 (defn make-record [name & interfaces]
   `(defrecord ~name
      ~(vec (apply concat
-                  (for [interface interfaces]
-                    (apply concat
-                           (list
-                            (map first (:read-only interface))
-                            (map first (:has-one interface))
-                            (map first (:has-many interface)))))))
-     ~@(apply concat (map make-interface interfaces))))
+                  (for [{:keys [read-only
+                                has-one
+                                has-many
+                                has-map]} interfaces]
+                    (map first (concat read-only has-one has-many has-map)))))
+     ~@(mapcat make-interface interfaces)))
 
 (defmacro define-record [& args]
   (apply make-record args))
@@ -87,7 +108,8 @@
    :has-many [[watched]]}
   {:name IPlayer
    :read-only [[observers] [seed]]
-   :has-one [[rating] [rank]]})
+   :has-one [[rank]]
+   :has-map [[ratings Ratings Rating]]})
 
 (define-record Referee
   {:name IData
@@ -118,9 +140,9 @@
 (defn make-spectator [store phone-number first-name last-name carrier group]
   (make-data #(Spectator. % phone-number carrier group first-name last-name #{}) store))
 
-(defn make-player [store phone-number first-name last-name carrier group rating rank seed]
+(defn make-player [store phone-number first-name last-name carrier group rank seed]
   (make-data #(Player. % #{} phone-number carrier group first-name last-name
-                       #{} #{} seed rating rank)
+                       #{} #{} seed rank {})
              store))
 
 (defn make-club [store name]
