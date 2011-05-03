@@ -11,8 +11,9 @@ public class FencerPool extends Pool{
 	}
 
 	@Override
-	public Collection<FencerSeed> getSeeds() {
-		Collection<FencerSeed> fencerSeeds = new LinkedList<FencerSeed>();
+	//changes to return list to put the seedings in order
+	public List<FencerSeed> getSeeds() {
+		List<FencerSeed> fencerSeeds = new LinkedList<FencerSeed>();
 		createIdToFencerResultsMap();
 		tallyResults();
 		populateSeedListFromResults(fencerSeeds);
@@ -53,7 +54,6 @@ public class FencerPool extends Pool{
 		if(_players.size() > 8  || _players.size() < 4) {
 			throw new IllegalStateException("Illegal pool size (>8 or <4");
 		}
-
 		else if(_players.size() == 4) {
 			IncompleteResult temp;
 			temp = new IncompleteResult(_players.get(0), _players.get(3), 5);
@@ -69,7 +69,6 @@ public class FencerPool extends Pool{
 			temp = new IncompleteResult(_players.get(0), _players.get(1), 5);
 			_incompleteResults.add(5, temp);
 		}
-
 		else if(_players.size() == 5) {
 			IncompleteResult temp;
 			temp = new IncompleteResult(_players.get(0), _players.get(1), 5);
@@ -93,7 +92,6 @@ public class FencerPool extends Pool{
 			temp = new IncompleteResult(_players.get(3), _players.get(1), 5);
 			_incompleteResults.add(9, temp);
 		}
-
 		else if(_players.size() == 6) {
 			IncompleteResult temp;
 			temp = new IncompleteResult(_players.get(0), _players.get(1), 5);

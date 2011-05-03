@@ -12,6 +12,7 @@ public abstract class Pool {
 		_players = new ArrayList<Integer>();  ///// THIS used to be a hashset... why?
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
+		_results = new HashSet<CompleteResult>();
 	}
 
 	/**
@@ -46,7 +47,12 @@ public abstract class Pool {
 		return _incompleteResults.get(0);
 	}
 
-	public abstract Collection<? extends PlayerSeed> getSeeds();
+	//currently for testing only
+	public List<IncompleteResult> getIncompleteResults(){
+		return _incompleteResults;
+	}
+
+	public abstract List<? extends PlayerSeed> getSeeds();
 
 	/**
 	 * Adds its argument to the list of completed results if it matches the result the pool is expecting next.
