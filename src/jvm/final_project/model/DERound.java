@@ -137,7 +137,12 @@ public class DERound implements IRound {
 		return _currentBracket;
 	}
 
-	public IncompleteResult getNextBout() throws NoSuchBoutException{
+	/**
+	 * Gets the next match to be fenced.
+	 * @return IncompleteResult The next match to be fenced.
+	 * @throws NoSuchBoutException If there is no next bout.
+	 */
+	public IncompleteResult getNextMatch() throws NoSuchBoutException{
 		for(Result result : _matches) {
 			if(result instanceof IncompleteResult) {
 				return (IncompleteResult) result;
@@ -146,6 +151,11 @@ public class DERound implements IRound {
 		throw new NoSuchBoutException("No such bout exists in this DERound");
 	}
 
+	/**
+	 * Adds its argument as a completed match of the DE
+	 * @param newResult The completed result to be added.
+	 * @throws NoSuchBoutException If there is no such bout in the DE bracket.
+	 */
 	public void addCompleteResult(CompleteResult newResult) throws NoSuchBoutException {
 		Result tempResult;
 		for(int i = 0; i < _bracketSize /2; i++) {
