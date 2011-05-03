@@ -21,7 +21,7 @@ public class FencerPool extends Pool{
 		return fencerSeeds;
 	}
 
-	private void populateSeedListFromResults(Collection<FencerSeed> fencerSeeds) {
+	private void populateSeedListFromResults(List<FencerSeed> fencerSeeds) {
 		for (FencerRoundResults result : _idToFencerResults.values())
 			fencerSeeds.add(new FencerSeed(result));
 	}
