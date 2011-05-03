@@ -15,9 +15,9 @@
                    (.putData (.createReferee s "1111" "John" "Smith" "Verizon" "Coaches"))
                    (.putData (.createClub s "My Club"))
                    (.putData (.createPlayer s "1111" "John" "Smith" "Verizon"
-                                            "Players" "rating" 5 nil))
+                                            "Players" 5 nil))
                    (.putData (.createPlayer s "1111" "John" "Smith" "Verizon"
-                                            "Players" "rating" 5 nil))))))
+                                            "Players" 5 nil))))))
 
     (is (= (.getPerson s 1) (.getData s 1)))
     (is (= (.getPerson s 2) nil))
@@ -42,7 +42,7 @@
     (is (= (.getPhoneNumber (.getData s 3)) "1111"))
     (is (= (.getCarrier (.getData s 3)) "Verizon"))
     (is (= (.getGroup (.getData s 3)) "Players"))
-    (is (= (.getRating (.getData s 3)) "rating"))
+    (is (= (.getRating (.getData s 3) "gravity gun") nil))
     (is (= (.getRank (.getData s 3)) 5))
 
     (is (= (.getName (.getData s 2)) "My Club"))
@@ -66,7 +66,7 @@
     (is (= (.getPhoneNumber (.getData s 3)) "1111"))
     (is (= (.getCarrier (.getData s 3)) "Verizon"))
     (is (= (.getGroup (.getData s 3)) "Players"))
-    (is (= (.getRating (.getData s 3)) "rating"))
+    (is (= (.getRating (.getData s 3) "gravity gun") nil))
     (is (= (.getRank (.getData s 3)) 5))
 
     (is (= (.getName (.getData s 2)) "My Club"))
@@ -77,7 +77,7 @@
                    (.setPhoneNumber "1234")
                    (.setCarrier "Sprint")
                    (.setGroup "SuperPlayers")
-                   (.setRating "better")
+                   (.addRating "gravity gun" "amazing")
                    (.setRank 6))))
 
     (is (= (.getPhoneNumber (.getData s 0))) "1234")
@@ -92,7 +92,7 @@
     (is (= (.getPhoneNumber (.getData s 3))) "1234")
     (is (= (.getCarrier (.getData s 3))) "Sprint")
     (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
-    (is (= (.getRating (.getData s 3)) "better"))
+    (is (= (.getRating (.getData s 3) "gravity gun") "amazing"))
     (is (= (.getRank (.getData s 3)) 6))
     
     (is (= (.getName (.getData s 2)) "My Club"))
@@ -112,7 +112,7 @@
     (is (= (.getPhoneNumber (.getData s 3))) "1234")
     (is (= (.getCarrier (.getData s 3))) "Sprint")
     (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
-    (is (= (.getRating (.getData s 3)) "better"))
+    (is (= (.getRating (.getData s 3) "gravity gun") "amazing"))
     (is (= (.getRank (.getData s 3)) 6))
     
     (is (= (.getName (.getData s 2)) "Your Club"))
@@ -137,7 +137,7 @@
     (is (= (.getPhoneNumber (.getData s 3))) "1234")
     (is (= (.getCarrier (.getData s 3))) "Sprint")
     (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
-    (is (= (.getRating (.getData s 3)) "better"))
+    (is (= (.getRating (.getData s 3) "gravity gun") "amazing"))
     (is (= (.getRank (.getData s 3)) 6))
     
     (is (= (.getName (.getData s 2)) "Your Club"))
