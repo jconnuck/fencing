@@ -143,23 +143,23 @@ public class DERound implements IRound {
 	/**
 	 * Gets the next match to be fenced.
 	 * @return IncompleteResult The next match to be fenced.
-	 * @throws NoSuchBoutException If there is no next bout.
+	 * @throws NoSuchMatchException If there is no next bout.
 	 */
-	public IncompleteResult getNextMatch() throws NoSuchBoutException{
+	public IncompleteResult getNextMatch() throws NoSuchMatchException{
 		for(Result result : _matches) {
 			if(result instanceof IncompleteResult) {
 				return (IncompleteResult) result;
 			}
 		}
-		throw new NoSuchBoutException("No such bout exists in this DERound");
+		throw new NoSuchMatchException("No such bout exists in this DERound");
 	}
 
 	/**
 	 * Adds its argument as a completed match of the DE
 	 * @param newResult The completed result to be added.
-	 * @throws NoSuchBoutException If there is no such bout in the DE bracket.
+	 * @throws NoSuchMatchException If there is no such bout in the DE bracket.
 	 */
-	public void addCompleteResult(CompleteResult newResult) throws NoSuchBoutException {
+	public void addCompleteResult(CompleteResult newResult) throws NoSuchMatchException {
 		Result tempResult;
 		for(int i = 0; i < _bracketSize /2; i++) {
 			tempResult = _matches[i];
@@ -169,15 +169,15 @@ public class DERound implements IRound {
 			   tempResult.getPlayer1() == newResult.getPlayer2() &&
 			   tempResult.getPlayer2() == newResult.getPlayer1()) {
 				if(tempResult instanceof IncompleteResult) {
-					throw new NoSuchBoutException("This bout has already been completed");
+					throw new NoSuchMatchException("This bout has already been completed");
 				}
 			}
 		}
 	}
 
 	//TODO: why are we getting this warning?
-	public class NoSuchBoutException extends Exception {
-		public NoSuchBoutException(String message) {
+	public class NoSuchMatchException extends Exception {
+		public NoSuchMatchException(String message) {
 			super(message);
 		}
 	}

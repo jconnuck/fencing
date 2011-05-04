@@ -30,7 +30,7 @@ public class SignInPanel extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private TableRowSorter<SignInTableModel> sorter;
-	private JTextField searchField;
+	private JSearchTextField searchField;
 	private JButton button;
 	private JButton btnUnsignInAll;
 
@@ -51,8 +51,7 @@ public class SignInPanel extends JPanel {
 		SignInTableModel model = new SignInTableModel();
 		sorter = new TableRowSorter<SignInTableModel>(model);
 		
-		searchField = new JTextField();
-		searchField.setText("Search");
+		searchField = new JSearchTextField();
 		searchField.getDocument().addDocumentListener(
                 new DocumentListener() {
                     public void changedUpdate(DocumentEvent e) {
@@ -66,9 +65,10 @@ public class SignInPanel extends JPanel {
                     }
                 });
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+		gbc_txtSearch.gridwidth = 2;
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
-		gbc_txtSearch.gridx = 3;
+		gbc_txtSearch.gridx = 2;
 		gbc_txtSearch.gridy = 1;
 		add(searchField, gbc_txtSearch);
 		searchField.setColumns(10);

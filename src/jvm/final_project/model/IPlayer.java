@@ -12,8 +12,10 @@ public interface IPlayer extends IHasClub, IPerson, IObservable {
     IPlayer addClub(int club);
     IPlayer removeClub(int club);
     IPlayer clearClubs();
-    String getRating();
-    IPlayer setRating(String rating);
+    String getRating(String weapon);
+    IPlayer addRating(String weapon, String rating);
+    IPlayer removeRating(String weapon);
+    IPlayer clearRatings();
     //Is there a difference between rank and seed?
     int getRank();
     IPlayer setRank(int rank);
