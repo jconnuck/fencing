@@ -11,7 +11,7 @@ public class DERound implements IRound {
 	private static int POINTS_TO_WIN;
 
 	public DERound() {
-		
+
 	}
 	/**
 	 * Sets up the DE round by cutting the bottom _cut percentage of the competitors and filling the bracket with the remaining competitors.
