@@ -10,6 +10,9 @@ public class DERound implements IRound {
 	private int _currentBracket; /*!< The number of slots in the current stage of the DE round (must be a power of 2 and <= _bracketSize*/
 	private static int POINTS_TO_WIN;
 
+	public DERound() {
+		
+	}
 	/**
 	 * Sets up the DE round by cutting the bottom _cut percentage of the competitors and filling the bracket with the remaining competitors.
 	 */
