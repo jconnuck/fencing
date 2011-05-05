@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
+
+import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.JPanel;
 import javax.swing.JDesktopPane;
@@ -22,6 +24,10 @@ import javax.swing.Box;
 import javax.swing.JInternalFrame;
 import javax.swing.border.TitledBorder;
 import javax.swing.JSplitPane;
+
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.utils.ToolTipUtils;
+
 import java.awt.Dimension;
 
 public class MainWindow {
@@ -32,6 +38,11 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		try {
 		//	UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Throwable e) {
@@ -74,6 +85,7 @@ public class MainWindow {
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerSize(11);
 		splitPane.setOneTouchExpandable(true);
+		
 		GridBagConstraints gbc_splitPane = new GridBagConstraints();
 		gbc_splitPane.gridwidth = 3;
 		gbc_splitPane.fill = GridBagConstraints.BOTH;
@@ -87,8 +99,11 @@ public class MainWindow {
 		subscriberAdminPanel.setMinimumSize(new Dimension(0, 58));
 		splitPane.setLeftComponent(subscriberAdminPanel);
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		splitPane.setRightComponent(tabbedPane);
+		
 		SignInPanel signInPanel = new SignInPanel();
-		splitPane.setRightComponent(signInPanel);
+		tabbedPane.addTab("Sign In", null, signInPanel, null);
 		splitPane.setDividerLocation(300);
 	}
 }

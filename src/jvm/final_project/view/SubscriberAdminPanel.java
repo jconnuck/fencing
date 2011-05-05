@@ -7,8 +7,10 @@ import javax.swing.JTable;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -16,9 +18,15 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 
-public class SubscriberAdminPanel extends JPanel {
+import com.google.i18n.phonenumbers.AsYouTypeFormatter;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+
+import net.java.balloontip.BalloonTip;
+
+public class SubscriberAdminPanel extends JPanel implements ActionListener {
 
 	/**
 	 * 
@@ -27,6 +35,8 @@ public class SubscriberAdminPanel extends JPanel {
 	private JTable table;
 	private JSearchTextField searchField;
 	private TableRowSorter<SubscriberTableModel> sorter;
+	BalloonTip addNewSubscriberTip;
+	AddNewSubscriberPanel addNewSubscriberPane;
 
 	/**
 	 * Create the panel.
@@ -72,6 +82,15 @@ public class SubscriberAdminPanel extends JPanel {
 		add(searchField, gbc_searchTextField);
 		
 		JButton btnAddSubscriber = new JButton("Add Subscriber");
+		btnAddSubscriber.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				addNewSubscriberPane.setNoResults(false);
+				addNewSubscriberPane.getNameTextField().requestFocusInWindow();
+	        	addNewSubscriberPane.getNameTextField().setText("");
+	        	addNewSubscriberPane.getPhoneNumberTextField().setText("");
+				addNewSubscriberTip.setOpacity(0.9f);
+			}
+		});
 		GridBagConstraints gbc_btnAddSubscriber = new GridBagConstraints();
 		gbc_btnAddSubscriber.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAddSubscriber.anchor = GridBagConstraints.EAST;
@@ -90,6 +109,10 @@ public class SubscriberAdminPanel extends JPanel {
 		table.setRowSorter(sorter);
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
+		addNewSubscriberPane = new AddNewSubscriberPanel();
+		addNewSubscriberTip = new BalloonTip(btnAddSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
+		addNewSubscriberTip.setOpacity(0.0f);
+		addNewSubscriberPane.getCancelButton().addActionListener(this);
 	}
 	
 	private void filter() {
@@ -101,8 +124,25 @@ public class SubscriberAdminPanel extends JPanel {
             return;
         }
         sorter.setRowFilter(rf);
+		if (table.getRowCount() == 0) {
+			//Make tooltip visible
+        	addNewSubscriberTip.setOpacity(0.9f);
+        	//Clear any old text
+        	addNewSubscriberPane.setNoResults(true);
+        	addNewSubscriberPane.getNameTextField().setText("");
+        	addNewSubscriberPane.getPhoneNumberTextField().setText("");
+        	//Decide whether entered text is a name or phone number
+			try {
+				long number = Long.parseLong(searchField.getText());
+				addNewSubscriberPane.getPhoneNumberTextField().setText(searchField.getText());
+			} catch (NumberFormatException e) {
+				addNewSubscriberPane.getNameTextField().setText(searchField.getText());
+			}
+        } else {
+        	addNewSubscriberTip.setOpacity((float)0.0);
+        }
 	}
-	
+
 	class SubscriberTableModel extends AbstractTableModel{
 		private static final long serialVersionUID = 1L;
 		
@@ -150,4 +190,10 @@ public class SubscriberAdminPanel extends JPanel {
         }
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == addNewSubscriberPane.getCancelButton()) {
+			addNewSubscriberTip.setOpacity(0.0f);
+		}
+	}
 }
