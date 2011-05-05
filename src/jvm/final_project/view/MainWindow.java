@@ -29,6 +29,7 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.utils.ToolTipUtils;
 
 import java.awt.Dimension;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class MainWindow {
 
