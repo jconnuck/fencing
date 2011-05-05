@@ -45,7 +45,7 @@ public abstract class PoolRound implements IRound{
         		p.clearRefs();
         	}else{
 
-        	int temp;
+        	int temp = -1;
         	iter = refs.iterator();
         	while(iter.hasNext()){
         		temp = iter.next();
@@ -54,6 +54,10 @@ public abstract class PoolRound implements IRound{
         			iter.remove();
         			break;
         		}
+        	}
+        	if(temp == -1){
+        		//this should never be -1, (notice that if refs is empty we break, so temp must be initialized to something other than -1)
+        		throw new IllegalStateException("Structural error.  Must terminate.");//TODO: make this error message better
         	}
         	p.addRef(temp);
         	iter.remove();
