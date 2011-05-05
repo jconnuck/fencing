@@ -5,10 +5,8 @@ import final_project.model.*;
 public class TournamentController {
 	public State _state;
 	private Tournament _tournament;
-	private IDataStore _people;
 	
-	public TournamentController(IDataStore store) {
-		_people = store;
+	public TournamentController() {
 		_state = State.REGISTRATION;
 		_tournament = new Tournament();
 	}

@@ -1,17 +1,13 @@
 package final_project.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 import net.java.balloontip.BalloonTip;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class SubscriberAdminPanel extends JPanel implements ActionListener {
 
@@ -101,6 +97,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		addNewSubscriberTip.setOpacity(0.9f);
 		addNewSubscriberTip.setVisible(false);
 		addNewSubscriberPane.getCancelButton().addActionListener(this);
+		addNewSubscriberPane.getDoneButton().addActionListener(this);
 	}
 	
 	private void filter() {
@@ -184,6 +181,25 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addNewSubscriberPane.getCancelButton()) {
 			addNewSubscriberTip.setVisible(false);
+		}
+		else if (e.getSource() == addNewSubscriberPane.getDoneButton()) {
+			addNewSubscriberTip.setVisible(false);
+			//TODO add new subscriber
+			String phoneNumber = addNewSubscriberPane.getPhoneNumberTextField().getText();
+			String name = addNewSubscriberPane.getNameTextField().getText();
+			String firstName = "", lastName = "";
+			int nameSplit = name.lastIndexOf(' ');
+			if (nameSplit > 0) {
+				firstName = name.substring(0, nameSplit);
+				lastName = name.substring(nameSplit, name.length());
+			} else {
+				firstName = name;
+				lastName = "";
+			}
+			String carrier = "Boost Mobile";
+			String group = (String) addNewSubscriberPane.getGroup().getSelectedItem();
+			//Should interface with controller
+			//MainWindow.getTournamentController().createSpectator(phoneNumber, firstName, lastName, carrier, group);
 		}
 	}
 }

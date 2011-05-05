@@ -2,38 +2,21 @@ package final_project.view;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
-
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.JPanel;
-import javax.swing.JDesktopPane;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JToolBar;
-import javax.swing.JProgressBar;
-import javax.swing.JMenuItem;
-import java.awt.GridBagLayout;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JInternalFrame;
-import javax.swing.border.TitledBorder;
-import javax.swing.JSplitPane;
-
-import net.java.balloontip.BalloonTip;
-import net.java.balloontip.utils.ToolTipUtils;
+import javax.swing.*;
+import java.awt.*;
 
 import java.awt.Dimension;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import final_project.control.*;
 
 public class MainWindow {
 
 	private JFrame frmFencingManager;
+	private static TournamentController tournamentController;
+
+	public static TournamentController getTournamentController() {
+		return tournamentController;
+	}
 
 	/**
 	 * Launch the application.
@@ -41,11 +24,6 @@ public class MainWindow {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		try {
-		//	UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -65,6 +43,7 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
+		tournamentController = new TournamentController();
 		initialize();
 	}
 
@@ -72,6 +51,11 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		//Override key bindings to make enter press buttons
+		InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
+		im.put(KeyStroke.getKeyStroke( "ENTER" ), "pressed");
+		im.put(KeyStroke.getKeyStroke( "released ENTER" ), "released");
+		
 		frmFencingManager = new JFrame();
 		frmFencingManager.setTitle("Fencing Manager");
 		frmFencingManager.setBounds(100, 100, 900, 400);

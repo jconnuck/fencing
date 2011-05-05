@@ -4,7 +4,9 @@ import java.util.*;;
 
 public class Tournament {
 	Collection<IEvent> _events;
-	IDataStore _people;
+	IDataStore _dataStore;
 	
-	//public  
+	public IDataStore getDataStore() {
+		return _dataStore;
+	}
 }
