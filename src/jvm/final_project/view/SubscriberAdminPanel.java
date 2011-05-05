@@ -11,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import net.java.balloontip.BalloonTip;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class SubscriberAdminPanel extends JPanel implements ActionListener {
 
@@ -74,7 +75,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 				addNewSubscriberPane.getNameTextField().requestFocusInWindow();
 	        	addNewSubscriberPane.getNameTextField().setText("");
 	        	addNewSubscriberPane.getPhoneNumberTextField().setText("");
-				addNewSubscriberTip.setOpacity(0.9f);
+				addNewSubscriberTip.setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnAddSubscriber = new GridBagConstraints();
@@ -97,7 +98,8 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		scrollPane.setViewportView(table);
 		addNewSubscriberPane = new AddNewSubscriberPanel();
 		addNewSubscriberTip = new BalloonTip(btnAddSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
-		addNewSubscriberTip.setOpacity(0.0f);
+		addNewSubscriberTip.setOpacity(0.9f);
+		addNewSubscriberTip.setVisible(false);
 		addNewSubscriberPane.getCancelButton().addActionListener(this);
 	}
 	
@@ -112,20 +114,22 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
         sorter.setRowFilter(rf);
 		if (table.getRowCount() == 0) {
 			//Make tooltip visible
-        	addNewSubscriberTip.setOpacity(0.9f);
+        	addNewSubscriberTip.setVisible(true);
         	//Clear any old text
         	addNewSubscriberPane.setNoResults(true);
         	addNewSubscriberPane.getNameTextField().setText("");
         	addNewSubscriberPane.getPhoneNumberTextField().setText("");
         	//Decide whether entered text is a name or phone number
 			try {
-				long number = Long.parseLong(searchField.getText());
+				Long.parseLong(searchField.getText());
 				addNewSubscriberPane.getPhoneNumberTextField().setText(searchField.getText());
+				searchField.setNextFocusableComponent(addNewSubscriberPane.getNameTextField());
 			} catch (NumberFormatException e) {
 				addNewSubscriberPane.getNameTextField().setText(searchField.getText());
+				searchField.setNextFocusableComponent(addNewSubscriberPane.getPhoneNumberTextField());
 			}
         } else {
-        	addNewSubscriberTip.setOpacity((float)0.0);
+        	addNewSubscriberTip.setVisible(false);
         }
 	}
 
@@ -179,7 +183,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addNewSubscriberPane.getCancelButton()) {
-			addNewSubscriberTip.setOpacity(0.0f);
+			addNewSubscriberTip.setVisible(false);
 		}
 	}
 }

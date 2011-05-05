@@ -83,7 +83,6 @@ public class MainWindow {
 		frmFencingManager.getContentPane().setLayout(gridBagLayout);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setDividerSize(11);
 		splitPane.setOneTouchExpandable(true);
 		
 		GridBagConstraints gbc_splitPane = new GridBagConstraints();
