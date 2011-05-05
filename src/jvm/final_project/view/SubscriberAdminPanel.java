@@ -3,7 +3,6 @@ package final_project.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,7 +18,6 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private MyFocusTraversalPolicy tooltipPolicy;
 	private JTable table;
 	private JSearchTextField searchField;
 	private TableRowSorter<SubscriberTableModel> sorter;
@@ -101,11 +99,6 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		addNewSubscriberTip = new BalloonTip(btnAddSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
 		addNewSubscriberTip.setOpacity(0.0f);
 		addNewSubscriberPane.getCancelButton().addActionListener(this);
-		
-		Vector<Component> order = new Vector<Component>(2);
-		order.add(searchField);
-		order.add(addNewSubscriberPane.getNameTextField());
-		tooltipPolicy = new MyFocusTraversalPolicy(order);
 	}
 	
 	private void filter() {
