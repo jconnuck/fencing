@@ -5,11 +5,79 @@ import java.util.*;
 //also serves as pool controller
 public abstract class PoolRound implements IRound{
 
+	private IDataStore _dataStore;
 	protected List<Pool> _pools;
 	protected List<Integer> _resultSeedList;
 	//TODO: delete protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
+
+	//returns boolean of whether or not an optimal ref assignment was achieved
+	public boolean assignReferees(List<Integer> refs){
+		boolean toReturn = true;
+		Map<Pool, Integer> poolToNumConflicts = new HashMap<Pool,Integer>();
+		for(Pool p : _pools){
+			poolToNumConflicts.put(p, 0);
+		}
+		for(Pool pool : _pools){
+			for(Integer ref : refs){
+				if(haveConflict(pool, ref))
+					poolToNumConflicts.put(pool, poolToNumConflicts.get(pool) + 1);
+			}
+		}
+
+		//Standard Insertion Sort
+        for(int i = 1; i < _pools.size(); i++){
+            Pool tmp = _pools.get(i);
+            int k = i;
+            //TODO: check if this comparison is correct (might be > instead??)
+            while((k>0) && poolToNumConflicts.get(_pools.get(k - 1)) <  poolToNumConflicts.get(tmp)){
+                _pools.set(k, _pools.get(k-1));
+                k--;
+            }
+            _pools.set(k, tmp);
+        }
+
+        Iterator<Integer> iter;
+        for(Pool p : _pools){
+        	//TODO: notify gui and fencers that pool does not have ref
+        	if(refs.isEmpty()){
+        		p.clearRefs();
+        	}else{
+
+        	int temp;
+        	iter = refs.iterator();
+        	while(iter.hasNext()){
+        		temp = iter.next();
+        		if(!haveConflict(p, temp)){
+        			p.addRef(temp);
+        			iter.remove();
+        			break;
+        		}
+        	}
+        	p.addRef(temp);
+        	iter.remove();
+        	toReturn = false;
+        	}
+        }
+        return toReturn;
+	}
+
+	private boolean haveConflict(Pool p, Integer ref){
+		Collection<Integer> col1 = new HashSet<Integer>();
+		Collection<Integer> col2 = _dataStore.getReferee(ref).getClubs();
+
+		for(Integer player : p.getPlayers()){
+			col1.addAll(_dataStore.getPlayer(player).getClubs());
+		}
+
+		Set<Integer> intersection = new HashSet<Integer>();
+		for(Integer i : col1){
+			if(col2.contains(i))
+				intersection.add(i);
+		}
+		return (intersection.size() != 0);
+	}
 
 	public int getNumPlayers(){
 		return _numPlayers;
