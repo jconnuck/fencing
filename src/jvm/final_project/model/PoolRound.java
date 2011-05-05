@@ -7,7 +7,7 @@ public abstract class PoolRound implements IRound{
 
 	protected List<Pool> _pools;
 	protected List<Integer> _resultSeedList;
-	protected List<Integer> _initialSeeding;
+	//TODO: delete protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
 
