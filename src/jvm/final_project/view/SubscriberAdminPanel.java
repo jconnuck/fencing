@@ -1,28 +1,15 @@
 package final_project.view;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JTable;
-
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.RowFilter;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-
-import com.google.i18n.phonenumbers.AsYouTypeFormatter;
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import net.java.balloontip.BalloonTip;
 
@@ -32,6 +19,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private MyFocusTraversalPolicy tooltipPolicy;
 	private JTable table;
 	private JSearchTextField searchField;
 	private TableRowSorter<SubscriberTableModel> sorter;
@@ -113,6 +101,11 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		addNewSubscriberTip = new BalloonTip(btnAddSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
 		addNewSubscriberTip.setOpacity(0.0f);
 		addNewSubscriberPane.getCancelButton().addActionListener(this);
+		
+		Vector<Component> order = new Vector<Component>(2);
+		order.add(searchField);
+		order.add(addNewSubscriberPane.getNameTextField());
+		tooltipPolicy = new MyFocusTraversalPolicy(order);
 	}
 	
 	private void filter() {
