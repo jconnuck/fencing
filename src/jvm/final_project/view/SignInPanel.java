@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -19,8 +20,20 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.positioners.*;
+import net.java.balloontip.styles.*;
+import net.java.balloontip.utils.FadingUtils;
+import net.java.balloontip.utils.TimingUtils;
+import net.java.balloontip.utils.ToolTipUtils;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class SignInPanel extends JPanel {
 	/**
@@ -30,9 +43,10 @@ public class SignInPanel extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private TableRowSorter<SignInTableModel> sorter;
-	private JTextField searchField;
+	private JSearchTextField searchField;
 	private JButton button;
 	private JButton btnUnsignInAll;
+	private Component verticalStrut;
 
 	/**
 	 * Create the panel.
@@ -51,8 +65,7 @@ public class SignInPanel extends JPanel {
 		SignInTableModel model = new SignInTableModel();
 		sorter = new TableRowSorter<SignInTableModel>(model);
 		
-		searchField = new JTextField();
-		searchField.setText("Search");
+		searchField = new JSearchTextField();
 		searchField.getDocument().addDocumentListener(
                 new DocumentListener() {
                     public void changedUpdate(DocumentEvent e) {
@@ -65,10 +78,20 @@ public class SignInPanel extends JPanel {
                         filter();
                     }
                 });
+		
+		verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.fill = GridBagConstraints.VERTICAL;
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 3;
+		gbc_verticalStrut.gridy = 0;
+		add(verticalStrut, gbc_verticalStrut);
+		
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+		gbc_txtSearch.gridwidth = 2;
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
-		gbc_txtSearch.gridx = 3;
+		gbc_txtSearch.gridx = 2;
 		gbc_txtSearch.gridy = 1;
 		add(searchField, gbc_txtSearch);
 		searchField.setColumns(10);

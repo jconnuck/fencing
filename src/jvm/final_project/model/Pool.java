@@ -1,3 +1,4 @@
+//tested
 package final_project.model;
 
 import java.util.*;
@@ -9,7 +10,7 @@ public abstract class Pool {
 	protected List<IncompleteResult> _incompleteResults;
 
 	public Pool(){
-		_players = new ArrayList<Integer>();  // THIS used to be a hashset... why?
+		_players = new ArrayList<Integer>();
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 		_results = new HashSet<CompleteResult>();
