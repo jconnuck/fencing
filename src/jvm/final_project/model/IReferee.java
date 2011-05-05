@@ -1,6 +1,6 @@
 package final_project.model;
 
-public interface IReferee {
+public interface IReferee extends IPerson, IHasClub {
     boolean getReffing();
     IReferee setReffing(boolean isReffing);
     IReferee setPhoneNumber(String phoneNumber);

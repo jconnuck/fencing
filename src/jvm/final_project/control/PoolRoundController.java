@@ -4,8 +4,8 @@ import final_project.model.*;
 
 
 public class PoolRoundController {
-	PoolRound _poolRound;
-	int _numPools, _numBigPools, _numSmallPools;
+	private PoolRound _poolRound;
+	private int _numPools, _numBigPools, _numSmallPools;
 
 	public PoolRoundController() {
 

@@ -40,6 +40,13 @@ public abstract class Pool {
 		_players.add(id);
 	}
 
+	public void addRef(int id){
+		_refs.add(id);
+	}
+	public void clearRefs(){
+		_refs.clear();
+	}
+
 	/**
 	 * Gets the next match to be fenced.
 	 * @return IncompleteResult The next match to be fenced.
