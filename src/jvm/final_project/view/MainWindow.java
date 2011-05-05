@@ -58,7 +58,7 @@ public class MainWindow {
 		
 		frmFencingManager = new JFrame();
 		frmFencingManager.setTitle("Fencing Manager");
-		frmFencingManager.setBounds(100, 100, 900, 400);
+		frmFencingManager.setBounds(100, 100, 900, 600);
 		frmFencingManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{200, 200, 200, 0};
