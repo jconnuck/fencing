@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -19,8 +20,20 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.positioners.*;
+import net.java.balloontip.styles.*;
+import net.java.balloontip.utils.FadingUtils;
+import net.java.balloontip.utils.TimingUtils;
+import net.java.balloontip.utils.ToolTipUtils;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class SignInPanel extends JPanel {
 	/**
@@ -33,6 +46,7 @@ public class SignInPanel extends JPanel {
 	private JSearchTextField searchField;
 	private JButton button;
 	private JButton btnUnsignInAll;
+	private Component verticalStrut;
 
 	/**
 	 * Create the panel.
@@ -64,6 +78,15 @@ public class SignInPanel extends JPanel {
                         filter();
                     }
                 });
+		
+		verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.fill = GridBagConstraints.VERTICAL;
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 3;
+		gbc_verticalStrut.gridy = 0;
+		add(verticalStrut, gbc_verticalStrut);
+		
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.gridwidth = 2;
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
