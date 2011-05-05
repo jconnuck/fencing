@@ -11,8 +11,6 @@ public abstract class PoolRound implements IRound{
 	protected int _poolSize;
 	protected int _numPlayers;
 
-
-
 	public int getNumPlayers(){
 		return _numPlayers;
 	}
