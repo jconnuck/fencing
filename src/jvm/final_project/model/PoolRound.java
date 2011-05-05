@@ -11,11 +11,12 @@ public abstract class PoolRound implements IRound{
 	protected int _poolSize;
 	protected int _numPlayers;
 
-	
+
+
 	public int getNumPlayers(){
 		return _numPlayers;
 	}
-	
+
 	public void setNumPlayers(int numPlayers){
 		_numPlayers = numPlayers;
 	}
@@ -23,7 +24,7 @@ public abstract class PoolRound implements IRound{
 	public int getPoolSize(){
 		return _poolSize;
 	}
-		
+
 	public void setPoolSize(int newSize){
 		_poolSize = newSize;
 	}
