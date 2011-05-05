@@ -27,7 +27,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 	BalloonTip registerNewPlayerTip;
 	SignInPlayerPanel signInPlayerPane;
 	RegisterNewPlayerPanel registerNewPlayerPane;
-	private JButton addFencerButton;
+	private JButton registerPersonButton;
 
 	/**
 	 * Create the panel.
@@ -93,17 +93,17 @@ public class SignInPanel extends JPanel implements ActionListener {
 		add(searchField, gbc_txtSearch);
 		searchField.setColumns(10);
 		
-		addFencerButton = new JButton("Add Fencer");
-		GridBagConstraints gbc_addFencerButton = new GridBagConstraints();
-		gbc_addFencerButton.insets = new Insets(0, 0, 5, 5);
-		gbc_addFencerButton.gridx = 5;
-		gbc_addFencerButton.gridy = 1;
-		add(addFencerButton, gbc_addFencerButton);
+		registerPersonButton = new JButton("Register Person");
+		GridBagConstraints gbc_registerPersonButton = new GridBagConstraints();
+		gbc_registerPersonButton.insets = new Insets(0, 0, 5, 5);
+		gbc_registerPersonButton.gridx = 5;
+		gbc_registerPersonButton.gridy = 1;
+		add(registerPersonButton, gbc_registerPersonButton);
 		table = new JTable(model);
 		table.setRowSorter(sorter);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
-		addFencerButton.addActionListener(new ActionListener() {
+		registerPersonButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registerNewPlayerPane.setNoResults(false);
 				registerNewPlayerPane.getNameTextField().requestFocusInWindow();
@@ -134,14 +134,14 @@ public class SignInPanel extends JPanel implements ActionListener {
 		
 		//setup tooltips
 		signInPlayerPane = new SignInPlayerPanel();
-		signInPlayerTip = new BalloonTip(addFencerButton, signInPlayerPane, new DefaultBalloonStyle(), false);
+		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
 		signInPlayerTip.setOpacity(0.9f);
 		signInPlayerTip.setVisible(false);
 		signInPlayerPane.getCancelButton().addActionListener(this);
 		signInPlayerPane.getSignInButton().addActionListener(this);
 
 		registerNewPlayerPane = new RegisterNewPlayerPanel();
-		registerNewPlayerTip = new BalloonTip(addFencerButton, registerNewPlayerPane, new DefaultBalloonStyle(), false);
+		registerNewPlayerTip = new BalloonTip(registerPersonButton, registerNewPlayerPane, new DefaultBalloonStyle(), false);
 		registerNewPlayerTip.setOpacity(0.9f);
 		registerNewPlayerTip.setVisible(false);
 		registerNewPlayerPane.getCancelButton().addActionListener(this);
@@ -289,6 +289,6 @@ public class SignInPanel extends JPanel implements ActionListener {
 	}
 	
 	public JButton getAddFencerButton() {
-		return addFencerButton;
+		return registerPersonButton;
 	}
 }
