@@ -138,19 +138,22 @@ public class SignInPanel extends JPanel implements ActionListener {
         }
         sorter.setRowFilter(rf);
         if (table.getRowCount() == 1) {
+        	//select this row
+        	ListSelectionModel selectionModel = table.getSelectionModel();
+        	selectionModel.setSelectionInterval(0, 0);
         	//Make tooltip visible
         	signInPlayerPane.getResultLabel().setText("<html><i>Exact Match Found:</i> <b>" + table.getValueAt(0, 0) + "</b></html>");
-	        	searchField.addKeyListener
-	        		(new KeyAdapter() {
-	        			public void keyPressed(KeyEvent e) {
-	        				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-	        					signInPlayerTip.setVisible(false);
-	        					searchField.setText("");
-	        					//TODO Sign In Fencer
-	        				}
-	        			}
-	        		});
-        	//searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
+        	searchField.addKeyListener
+        		(new KeyAdapter() {
+        			public void keyPressed(KeyEvent e) {
+        				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        					signInPlayerTip.setVisible(false);
+        					searchField.setText("");
+        					//TODO Sign In Fencer
+        				}
+        			}
+        		});
+        	searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
         	signInPlayerTip.setVisible(true);
         }
         else {
@@ -211,9 +214,6 @@ public class SignInPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == signInPlayerPane.getCancelButton()) {
-			signInPlayerTip.setVisible(false);
-		}
-		if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			signInPlayerTip.setVisible(false);
 		}
 	}
