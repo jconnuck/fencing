@@ -3,7 +3,7 @@ package final_project.model;
 import java.util.*;
 
 public class FencerSeed extends PlayerSeed {
-	FencerRoundResults _fencerResults;
+	private FencerRoundResults _fencerResults;
 
 	public FencerSeed(PlayerRoundResults playerResults) {
 		super(playerResults);
