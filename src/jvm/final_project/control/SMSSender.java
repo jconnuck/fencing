@@ -100,6 +100,7 @@ public class SMSSender implements Constants {
 		return this.sendMessage(message, number);
 	}
 
+	//Should I organize this into a batch? TODO
 	public boolean sendFencerStripMessage(int id,  int strip) throws Exception {
 		String message = "Fencer id: " + id + " Strip assignment: " + strip;
 		

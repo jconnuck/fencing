@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 
 public class SMSReceiver implements Runnable {
 
@@ -81,6 +82,9 @@ public class SMSReceiver implements Runnable {
 				}
 			}
 			toReturn = true; //Input successfully processed
+		}
+		catch (UnknownHostException e) { 
+			//TODO: Let the GUI know it ain't got no internet
 		}
 		catch (Exception e) { }
 		finally {
