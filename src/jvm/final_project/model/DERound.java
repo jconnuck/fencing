@@ -182,29 +182,37 @@ public class DERound implements IRound {
         Result tempResult;
         for(int i = _matches.length -1; i >= 0; i--) {
             tempResult = _matches[i];
-            if(tempResult.getPlayer1() == newResult.getPlayer1() &&
-               tempResult.getPlayer2() == newResult.getPlayer2()
-               ||
-               tempResult.getPlayer1() == newResult.getPlayer2() &&
-               tempResult.getPlayer2() == newResult.getPlayer1()) {
-                if(tempResult instanceof CompleteResult) {
-                    throw new NoSuchMatchException("This bout has already been completed");
-                }
-                tempResult = newResult;
-                IncompleteResult nextResult = (IncompleteResult) _matches[getNextMatchIndex(i)];
-                if(nextResult == null) {
-                    nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
-                }
-                else if(nextResult.getPlayer2() == -1 ) {
-                    nextResult.setPlayer2(newResult.getWinner());
-                }
-                else if(nextResult.getPlayer1() == -1) {
-                    // Should never actually happen because only player1 should be set to -1
-                    nextResult.setPlayer1(newResult.getWinner());
-                }
-                return;
+            if(tempResult != null) {
+	            if(tempResult.getPlayer1() == newResult.getPlayer1() &&
+	               tempResult.getPlayer2() == newResult.getPlayer2()
+	               ||
+	               tempResult.getPlayer1() == newResult.getPlayer2() &&
+	               tempResult.getPlayer2() == newResult.getPlayer1()) {
+	                if(i == 0) {
+	                	tempResult = newResult;
+	                	// maybe announce winner of the event to all spectators and fencers
+	                	return;
+	                }
+	            	if(tempResult instanceof CompleteResult) {
+	                    throw new NoSuchMatchException("This bout has already been completed");
+	                }
+	                tempResult = newResult;
+	                IncompleteResult nextResult = (IncompleteResult) _matches[getNextMatchIndex(i)];
+	                if(nextResult == null) {
+	                    nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
+	                }
+	                else if(nextResult.getPlayer2() == -1 ) {
+	                    nextResult.setPlayer2(newResult.getWinner());
+	                }
+	                else if(nextResult.getPlayer1() == -1) {
+	                    // Should never actually happen because only player1 should be set to -1
+	                    nextResult.setPlayer1(newResult.getWinner());
+	                }
+	                return;
+	            }
             }
         }
+        
     }
 
     //TODO: why are we getting this warning?
