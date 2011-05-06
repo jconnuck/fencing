@@ -61,9 +61,10 @@ public class SMSController implements Constants {
 		_parser.parseOutput(received, number);
 	}
 	
-	public void returnResults(int winnerID, int winnerScore, int loserID, int loserScore) {
+	public void returnResults(int refID, int winnerID, int winnerScore, int loserID, int loserScore) {
 		/* Making the CompleteResult */
 		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), new PlayerResult(loserID, loserScore));
-		//_tournament.addResult(cr, stripID); //TODO should take ref id
+		_tournament.addCompletedResult(cr, refID);
 	}
+	
 }
