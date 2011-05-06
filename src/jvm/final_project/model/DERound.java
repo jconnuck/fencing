@@ -212,7 +212,6 @@ public class DERound implements IRound {
 	            }
             }
         }
-        
     }
 
     //TODO: why are we getting this warning?
