@@ -11,7 +11,7 @@ public class TournamentController {
 		_tournament = new Tournament();
 	}
 
-	public void addResult(CompleteResult result, int refID){
+	public void addCompletedResult(CompleteResult result, int refID){
 
 	}
 
