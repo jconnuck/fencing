@@ -205,7 +205,7 @@ public class DERound implements IRound {
 	                    nextResult.setPlayer2(newResult.getWinner());
 	                }
 	                else if(nextResult.getPlayer1() == -1) {
-	                    // Should never actually happen because only player1 should be set to -1
+	                    // Should never actually happen because only player2 should be set to -1
 	                    nextResult.setPlayer1(newResult.getWinner());
 	                }
 	                return;
