@@ -25,7 +25,6 @@ public class TournamentController {
 
 	public void addEvent(String weapon, Collection<Integer> preregs){
 		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
-//		_dataStore = new DataStore();
 	}
 
 	/**
