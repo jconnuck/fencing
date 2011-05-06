@@ -12,6 +12,41 @@ public abstract class PoolRound implements IRound{
 	protected int _poolSize;
 	protected int _numPlayers;
 
+	public boolean addCompleteResult(CompleteResult result){
+		for(Pool p : _pools){
+			if(poolHasResult(p, result)){
+				if(p.addCompletedResult(result)){
+					//code to reassign ref from p to a pool with no ref
+					Iterator<Integer> iter = p.getRefs().iterator();
+					for(Pool toCheck : _pools){
+						if(!iter.hasNext())
+							break;
+						if(toCheck.getRefs().isEmpty() && !toCheck.getIncompleteResults().isEmpty()){
+							toCheck.addRef(iter.next());
+							iter.remove();
+						}
+					}
+					while(iter.hasNext()){
+						final Integer temp = iter.next();
+						_dataStore.runTransaction(new Runnable(){
+							public void run(){
+								_dataStore.putData(_dataStore.getReferee(temp).setReffing(false));
+							}
+						});
+					}
+					p.clearRefs();
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//return true if the given pool p has the given CompleteResult as one of its matches
+	private boolean poolHasResult(Pool p, CompleteResult result){
+		return  p.getPlayers().contains(result.getLoser()) && p.getPlayers().contains(result.getWinner());
+	}
+
 	//returns boolean of whether or not an optimal ref assignment was achieved
 	public boolean assignReferees(List<Integer> refs){
 		boolean toReturn = true;
