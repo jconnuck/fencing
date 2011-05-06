@@ -66,14 +66,16 @@ public abstract class Pool {
 	 * Adds its argument to the list of completed results if it matches the result the pool is expecting next.
 	 * @param completeResult The result to be added to the pools collection of completed results.
 	 * @throws IllegalArgumentException
+	 * @return a boolean true if all of this pool's matches have been completed.
 	 */
-	public void addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
+	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
 		if (isPrematureResult(completeResult)) {
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		}
 		else {
 			_results.add(completeResult);
 			_incompleteResults.remove(0);
+			return _incompleteResults.isEmpty();
 		}
 	}
 

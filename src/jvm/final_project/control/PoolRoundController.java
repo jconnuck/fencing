@@ -11,6 +11,12 @@ public class PoolRoundController {
 
 	}
 
+	public void addCompleteResult(CompleteResult result) throws IllegalArgumentException{
+		if(!_poolRound.addCompleteResult(result)){
+			throw new IllegalArgumentException("No pools have given result.");
+		}
+	}
+
 	public boolean createPools(int poolSize) {
 		//Try to calculate the pool size. If unable to do so, return false
 		try {

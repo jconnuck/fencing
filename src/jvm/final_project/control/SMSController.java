@@ -1,6 +1,7 @@
 package final_project.control;
 
 import final_project.model.*;
+
 import java.net.*;
 import java.util.Collection;
 import java.io.*;
@@ -20,83 +21,34 @@ import java.io.*;
 
 
 public class SMSController implements Constants {
-	
-	IDataStore _store; /* Reference to IDataStore */
-	int _lastRetrievedID;
-	boolean _listening;
-	
-	public SMSController(IDataStore s) {
-		_store = s;
-		_lastRetrievedID = 0;
-		_listening = true;
-	}
 
-	
-	/**
-	 * This is the main method that handles sending a certain message to 
-	 * a certain phone number. It is called by all of the other, more 
-	 * specialized send methods below.
-	 * 
-	 * @param message
-	 * @param number
-	 */
-	private void sendMessage(String message, String number) {
-		OutputStreamWriter wr = null;
-		BufferedReader rd = null;
-		try {
-			//Constructing the data
-			String data = "";
-            data += "username=" + URLEncoder.encode("cs032fencing", "ISO-8859-1");
-            data += "&password=" + URLEncoder.encode("F3ncing!", "ISO-8859-1");
-            data += "&message=" + URLEncoder.encode(message, "ISO-8859-1");
-            data += "&want_report=1";
-            data += "&msisdn=1" + number;
+	// Also need a reference to the GUI
+	private SMSSender _sender;
+	private SMSParser _parser;
+	private TournamentController _tournament;
 
-            URL url = new URL("http://usa.bulksms.com:5567/eapi/submission/send_sms/2/2.0");
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);	//Does this block? 
-            wr.flush();
-            
-            // Get the response
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                // Print the response output...
-                System.out.println(line);
-            }
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-            try {
-				if(wr!=null) wr.close();
-				if(wr!=null) rd.close();
-			} catch (IOException e) {
-				e.printStackTrace(); //TODO make more useful
-			}
-		}
+	public SMSController(IDataStore s, TournamentController t) {
+		_tournament = t;
+		
+		/* Making sender and parser */
+		_sender = new SMSSender(s);
+		_parser = new SMSParser(s, this);
+		
+		/* Starting the "receiver" thread to continuously check the inbox */
+		SMSReceiver receiver = new SMSReceiver(this);
+		Thread thread = new Thread(receiver);
+		thread.run();
 	}
 	
-	/**
-	 * The following methods are convenience methods that the 
-	 * other classes can call so that they don't have to deal 
-	 * with following our SMS protocol. 
-	 */
-
-	//This method allows the admin to send a message to every member 
+	/* TODO: How to handle the booleans that the sender methods return? */
+	public void sendMessage(String message, String number) {
+		_sender.sendMessage(message, number);
+	}
+	
 	public void sendAllMessage(String message) {
-		//concatenating phone numbers
-		String number = ""; 
-		for(IPerson i: _store.getPeople()) {
-			if (i!= null)
-				number += i.getPhoneNumber() + ",";
-		}
-		this.sendMessage(message, number);
+		_sender.sendAllMessage(message);
 	}
-
+	
 	public void sendGroupMessage(String group, String message) { 
 		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
@@ -209,56 +161,10 @@ public class SMSController implements Constants {
 		//This method will eventually call subscribeUser on a certain name
 	}
 	
-	/**
-	 * registration request (for a spectator) 
-	 * subscription request --> subscribeUser
-	 * cancellation request --> cancelSubscription
-	 * assistance request
-	 * score submission 
-	 */
-	
-	/**
-	 * This method subscribes a user to an IObeservable. 
-	 * 
-	 * @param nameToSubscribeTo
-	 * @param number
-	 * @return
-	 */
-	public boolean subscribeUser(String nameToSubscribeTo, String number) {
-		//Checking to see that the person is registered in the database -- linear search through all people.
-		// TODO: Look up subscriber in IDataStore by phone number
-		boolean found = false;
-		for (IPerson i: _store.getPeople()) {
-			if(i.getPhoneNumber().equals(number)) {
-				found = true;
-				break;
-			}
-		}
-		// Sending an error message 
-		if (!found) {
-			this.sendMessage("This phone number is not registered. Please enter a registration code.", number);
-			return false;
-		}
-		
-		//Checking to see that a name exists in the IPersonStore
-		found = false;
-		for (IPerson i: _store.getPeople()) {
-			//if(i.getName().equals(nameToSubscribeTo)) {} TODO
-				found = true;
-		}
-		// Sending an error message 
-		if (!found) {
-			this.sendMessage("Subscription not successful: no fencer or group found with this name.", number);
-			return false;
-		}
-		
-		//Actually submitting the user
-		this.sendMessage("You were successfully subscribed to \'" + nameToSubscribeTo + "\'.", number);
-		return true;
+	public void returnResults(int refID, int winnerID, int winnerScore, int loserID, int loserScore) {
+		/* Making the CompleteResult */
+		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), new PlayerResult(loserID, loserScore));
+		_tournament.addCompletedResult(cr, refID);
 	}
 	
-	public boolean cancelSubscription(){
-		return false;
-	}
-
 }
