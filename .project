@@ -6,6 +6,11 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>ccw.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>com.google.gdt.eclipse.designer.GWTBuilder</name>
 			<arguments>
 			</arguments>
@@ -19,6 +24,7 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.gdt.eclipse.designer.GWTNature</nature>
+		<nature>ccw.nature</nature>
 	</natures>
 	<linkedResources>
 		<link>
