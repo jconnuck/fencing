@@ -35,6 +35,7 @@ package final_project.view;
  * for use in the design, construction, operation or maintenance of any
  * nuclear facility.
  */
+/*
 import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.text.*;
@@ -187,3 +188,4 @@ public class Java2sAutoTextField extends JTextField {
   private boolean isStrict;
 }
 
+*/

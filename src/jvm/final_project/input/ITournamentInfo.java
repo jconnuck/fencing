@@ -1,7 +1,10 @@
 package final_project.input;
 
 import java.util.*;
+import clojure.lang.*;
+import final_project.model.IDataStore;
 
-public interface ITournamentInfo {
-    //Placeholder until I get what information we will need
+public interface ITournamentInfo extends IPersistentMap {
+    Collection<IEventInfo> getEvents();
+    IDataStore getDataStore();
 }

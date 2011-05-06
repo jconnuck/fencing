@@ -67,9 +67,15 @@
 		<Club ClubID="1723" Name="New Paltz Fencing Club" DivisionID="40" Abbreviation="NEW PALTZ" City="" State=""  />
 	</ClubDatabase>
 	<Tournament TournamentID="12240" Name="Bladeworks Fencing Club's Tournament" Location="Bladeworks Fencing Club" StartDate="2013-12-12" EndDate="2013-12-13" Fee="35.00" FeeCurrency="USD" >
-		<Event EventID="52173" EventDateTime="2013-12-12 10:00:00" Weapon="Saber" Gender="Men" EnforceGender="True" AgeLimitMin="Senior" AgeLimitMax="Senior" EnforceAge="True" RatingLimit="Open" EnforceRating="False" Description="" IsTeam="True" Fee="0.00" FeeCurrency="USD" >
-			<PreReg CompetitorID="66061" EventFeePaid="0.00" TournamentFeePaid="35.00" />
-			<PreReg CompetitorID="66062" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+		<Event EventID="52173" EventDateTime="2013-12-12 10:00:00" Weapon="Saber" Gender="Men" EnforceGender="True" AgeLimitMin="Senior" AgeLimitMax="Senior" EnforceAge="True" RatingLimit="Open" EnforceRating="False" Description="" IsTeam="False" Fee="0.00" FeeCurrency="USD" >
+			<PreReg CompetitorID="18641" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="15074" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="16181" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="3315" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="29029" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="45980" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="34420" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="42052" EventFeePaid="0.00" TournamentFeePaid="35.00" />
 		</Event>
 	</Tournament>
 </FencingData>   

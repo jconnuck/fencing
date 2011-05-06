@@ -1,4 +1,4 @@
-package fencing_temp;
+//package fencing_temp;
 //================================================ Java code sample ================================================//
 
 import java.net.*;
