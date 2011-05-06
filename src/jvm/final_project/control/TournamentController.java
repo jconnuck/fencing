@@ -1,18 +1,18 @@
 package final_project.control;
 
+import java.util.Collection;
+
 import final_project.model.*;
+import final_project.model.DERound.NoSuchMatchException;
 
 public class TournamentController {
 //	public State _state;
 	private Tournament _tournament;
+	private Collection<EventController> _events;
 
 	public TournamentController() {
 //		_state = State.REGISTRATION;
 		_tournament = new Tournament();
-	}
-
-	public void addCompletedResult(CompleteResult result, int refID){
-
 	}
 
 	/**
@@ -29,6 +29,19 @@ public class TournamentController {
 	 * @param bout A completed bout to be added to results
 	 * @param stripID The number of the strip the bout was fenced on
 	 */
-	public void addResult(CompleteResult bout, int stripID) {
+	public void addResult(CompleteResult result, int ref) {
+		for(EventController event : _events){
+			if(event.hasRef(ref)){
+				try {
+					event.addCompletedResult(result);
+					return;
+				} catch (NoSuchMatchException e) {
+					e.printStackTrace();
+					//TODO text ref back saying problem with result
+				}
+			}
+		}
+		//TODO text ref again
+		//
 	}
 }

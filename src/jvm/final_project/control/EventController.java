@@ -20,11 +20,11 @@ public class EventController {
 		return _refs.contains(ref);
 	}
 
-	public void addCompletedResult(CompleteResult result){
+	public void addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
 			_poolController.addCompleteResult(result);
 		}else if(_state.equals(State.DE)){
-
+			_deController.addCompleteResult(result);
 		}
 	}
 }
