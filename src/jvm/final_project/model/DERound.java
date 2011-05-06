@@ -180,7 +180,7 @@ public class DERound implements IRound {
      */
     public void addCompleteResult(CompleteResult newResult) throws NoSuchMatchException {
         Result tempResult;
-        for(int i = 0; i < _matches.length; i++) {
+        for(int i = _matches.length -1; i >= 0; i--) {
             tempResult = _matches[i];
             if(tempResult.getPlayer1() == newResult.getPlayer1() &&
                tempResult.getPlayer2() == newResult.getPlayer2()
