@@ -11,6 +11,10 @@ public class PoolRoundController {
 
 	}
 
+	public void addCompletedResult(CompleteResult result){
+
+	}
+
 	public boolean createPools(int poolSize) {
 		//Try to calculate the pool size. If unable to do so, return false
 		try {
