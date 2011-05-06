@@ -6,11 +6,11 @@ import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 
 public class TournamentController {
-	private Tournament _tournament;
+
 	private Collection<EventController> _events;
 
 	public TournamentController() {
-		_tournament = new Tournament();
+
 	}
 
 	/**
