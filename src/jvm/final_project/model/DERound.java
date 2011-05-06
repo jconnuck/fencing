@@ -28,6 +28,10 @@ public class DERound implements IRound {
 		_seeding = seeding;
 	}
 	
+	public void setPointsToWin(int newPTW) {
+		POINTS_TO_WIN = newPTW;
+	}
+	
 	/**
 	 * Sets up the DE round by cutting the bottom _cut percentage of the competitors and filling the bracket with the remaining competitors.
 	 */
@@ -86,17 +90,17 @@ public class DERound implements IRound {
 			if(temp.getPlayer1() > _seeding.size()) { // If player2 got a bye
 				_matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer2(), 0),  // Sets player2 to the winner of the match
 												 new PlayerResult(-1, 0));
-				_matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer2(), -1, 15);
+				_matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer2(), -1, POINTS_TO_WIN);
 			}
 			else if(temp.getPlayer2() > _seeding.size()) { // If player1 got a bye
 				_matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer1(), 0),  // Sets player1 to the winner of the match
 						                         new PlayerResult(-1, 0));
-				_matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer1(), -1, 15);
+				_matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer1(), -1, POINTS_TO_WIN);
 			}
 			else {
 				_matches[i] = new IncompleteResult(_seeding.get(temp.getPlayer1() -1),
 												   _seeding.get(temp.getPlayer2() -1),
-												   15);
+												   POINTS_TO_WIN);
 			}
 		}
 	}
@@ -176,16 +180,29 @@ public class DERound implements IRound {
 	 */
 	public void addCompleteResult(CompleteResult newResult) throws NoSuchMatchException {
 		Result tempResult;
-		for(int i = 0; i < _bracketSize /2; i++) {
+		for(int i = 0; i < _matches.length; i++) {
 			tempResult = _matches[i];
 			if(tempResult.getPlayer1() == newResult.getPlayer1() &&
 			   tempResult.getPlayer2() == newResult.getPlayer2()
 			   ||
 			   tempResult.getPlayer1() == newResult.getPlayer2() &&
 			   tempResult.getPlayer2() == newResult.getPlayer1()) {
-				if(tempResult instanceof IncompleteResult) {
+				if(tempResult instanceof CompleteResult) {
 					throw new NoSuchMatchException("This bout has already been completed");
 				}
+				tempResult = newResult;
+				IncompleteResult nextResult = (IncompleteResult) _matches[getNextMatchIndex(i)];
+			    if(nextResult == null) {
+			    	nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
+			    }
+			    else if(nextResult.getPlayer2() == -1 ) {
+			    	nextResult.setPlayer2(newResult.getWinner());
+			    }
+			    else if(nextResult.getPlayer1() == -1) {
+			    	// Should never actually happen because only player1 should be set to -1
+			    	nextResult.setPlayer1(newResult.getWinner());
+			    }
+				return;
 			}
 		}
 	}

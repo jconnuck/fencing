@@ -7,4 +7,12 @@ public class IncompleteResult extends Result{
 		_player2 = player2;
 		_pointsToWin = pointsToWin;
 	}
+	
+	public void setPlayer1(int newP1) {
+		_player1 = newP1;
+	}
+	
+	public void setPlayer2(int newP2) {
+		_player2 = newP2;
+	}
 }
