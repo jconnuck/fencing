@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Scanner;
 
 import final_project.model.IPerson;
 import final_project.model.IDataStore;
@@ -14,9 +15,11 @@ import final_project.model.IDataStore;
 public class SMSSender implements Constants {
 
 	private IDataStore _store;
+	private ISMSController _control;
 	
-	public SMSSender(IDataStore s) {
+	public SMSSender(IDataStore s, ISMSController ctrl) {
 		_store = s;
+		_control = ctrl;
 	}
 
 	/**
@@ -49,14 +52,21 @@ public class SMSSender implements Constants {
             
             // Get the response
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
+            String line, output = "";
             while ((line = rd.readLine()) != null) {
-                // Print the response output...
-                System.out.println(line);
-                //Figure out if successful TODO and set toReturn
+            	output += line;
             }
-            toReturn = true;
-
+            //0|IN_PROGRESS|274166347
+            Scanner s = new Scanner(output);
+            if(!s.hasNext() || !s.hasNextInt()) {
+            	toReturn = false;
+            }
+            else {
+                int status_code = s.nextInt();
+                if(status_code == 0) {
+                	toReturn = true; //SMS in progress
+                }
+            }
 		}
 		catch (Exception e) {
 			toReturn = false;
@@ -80,7 +90,10 @@ public class SMSSender implements Constants {
 	 * with following our SMS protocol. 
 	 */
 
-	//This method allows the admin to send a message to every member 
+	/**
+	 * This method allows the admin to send a message to every person 
+	 * in the tournament.
+	 */
 	public boolean sendAllMessage(String message) {
 		//concatenating phone numbers
 		String number = ""; 
@@ -91,6 +104,14 @@ public class SMSSender implements Constants {
 		return this.sendMessage(message, number);
 	}
 
+	/**
+	 * Similar to sendAllMessage, this method also takes a group param,
+	 * meaning that only members of this certain group will be alerted.
+	 * 
+	 * @param group
+	 * @param message
+	 * @return
+	 */
 	public boolean sendGroupMessage(String group, String message) { 
 		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
@@ -111,8 +132,8 @@ public class SMSSender implements Constants {
 		}
 
 		String number = i.getPhoneNumber();
-		if(number.equals(INVALID_PHONE_NUMBER)) {
-			throw new Exception("Message could not be sent: No phone number for id " + id);
+		if(number.equals("")) {
+			return false;
 		}
 
 		return this.sendMessage(message, number);

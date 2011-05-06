@@ -40,4 +40,9 @@ public class MockSMSController implements ISMSController{
 	public void swapRefs(int oldRefID, int newRefID) {
 		System.out.println("Swap refs called on: old ref " + oldRefID + " new " + newRefID);
 	}
+
+	@Override
+	public void alertGUI(String message) {
+		System.out.println("Alert gui: " + message);
+	}
 }

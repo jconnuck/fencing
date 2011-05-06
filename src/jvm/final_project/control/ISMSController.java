@@ -17,5 +17,5 @@ public interface ISMSController {
 	abstract void parseOutput(String received, String number);
 	abstract void returnResults(int refID, int winnerID, int winnerScore, int loserID, int loserScore);
 	abstract void swapRefs(int oldRefID, int newRefID);
-
+	abstract void alertGUI(String message);
 }

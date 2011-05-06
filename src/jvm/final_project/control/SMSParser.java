@@ -175,7 +175,7 @@ public class SMSParser {
 		}
 
 		/* ACTUALLY SUBSCRIBING USER */
-		IPerson spect = _store.createSpectator(number, "", "", "", "");
+		IPerson spect = _store.createSpectator(number, "", "", "", "Spectator");
 		spect.addWatched(idToFollow);
 		_store.putData(spect);
 
@@ -237,13 +237,16 @@ public class SMSParser {
 
 		/* UNSUBSCRIBING */
 		IPerson spect = _store.getPerson(idToFind);
-		if (spect == null || spect.removeWatched(idToUnfollow)==null) {
+		if (spect == null || spect.removeWatched(idToUnfollow) == null) {
 			_control.sendMessage("Error: unsubscription not successful", number);
 			return false;
 		}
 		else {
 			_control.sendMessage("You have been successfully unsubscribed from " + firstToUnsubscribe 
 					+ " " + lastToUnsubscribe + " .", number);
+			//Cleaning up Spectator
+			if (spect.getWatched().isEmpty())
+				_store.removeData(spect);
 			return false;
 		}
 	}

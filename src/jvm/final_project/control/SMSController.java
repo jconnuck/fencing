@@ -13,7 +13,7 @@ public class SMSController implements Constants, ISMSController {
 		_tournament = t;
 		
 		/* Making sender and parser */
-		_sender = new SMSSender(s);
+		_sender = new SMSSender(s, this);
 		_parser = new SMSParser(s, this);
 		
 		/* Starting the "receiver" thread to continuously check the inbox */
@@ -53,6 +53,9 @@ public class SMSController implements Constants, ISMSController {
 		//should call swapRef method in tournament
 	}
 
+	public void alertGUI(String message) {
+		//should call some sort of alert method
+	}
 
 	
 }
