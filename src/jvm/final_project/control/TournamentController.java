@@ -10,11 +10,13 @@ public class TournamentController {
 	private Collection<EventController> _events;
 	private IDataStore _dataStore;
 	private int _currentEventID;
+	private StripController _stripController;
 
 	public TournamentController() {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		_dataStore = new DataStore();
+		_stripController = new StripController();
 	}
 
 	public void addEvent(String weapon){
@@ -23,6 +25,7 @@ public class TournamentController {
 
 	public void addEvent(String weapon, Collection<Integer> preregs){
 		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
+//		_dataStore = new DataStore();
 	}
 
 	/**
