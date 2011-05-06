@@ -9,9 +9,11 @@ public class TournamentController {
 
 	private Collection<EventController> _events;
 	private IDataStore _dataStore;
+	private StripController _stripController;
 
 	public TournamentController() {
 		_events = new LinkedList<EventController>();
+		_stripController = new StripController();
 //		_dataStore = new DataStore();
 	}
 
