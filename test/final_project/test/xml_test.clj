@@ -15,53 +15,57 @@
                 1723 "New Paltz Fencing Club"))
 
 (def correct-fencers
-     [{:firstName "Steven"
-       :lastName "Uhlman"
-       :clubs [136]
-       :ratings {"Epee" "E2008"
-                 "Foil" "U"
-                 "Saber" "U"}}
-      {:firstName "Frank"
-       :lastName "La"
-       :clubs [1]
-       :ratings {"Epee" "U"
-                 "Foil" "U"
-                 "Saber" "U"}}
-      {:firstName "Adrian"
-       :lastName "Pacia"
-       :clubs [1]
-       :ratings {"Epee" "B2007"
-                 "Foil" "E2007"
-                 "Saber" "E2006"}}
-      {:firstName "Ke"
-       :lastName "Ma"
-       :clubs [945]
-       :ratings {"Epee" "U"
-                 "Foil" "U"
-                 "Saber" "D2007"}}
-      {:firstName "Bradley"
-       :lastName "L'Herrou"
-       :clubs [698]
-       :ratings {"Epee" "U"
-                 "Foil" "U"
-                 "Saber" "U"}}
-      {:firstName "Donald"
-       :lastName "Paccini"
-       :clubs [793]
-       :ratings {"Foil" "U"}}
-      {:firstName "Blaine"
-       :lastName "Pace"
-       :clubs [1527]
-       :ratings {"Epee" "E2009"
-                 "Foil" "U"
-                 "Saber" "U"}}
-      {:firstName "Dexter"
-       :lastName "Pabulayan"
-       :clubs [1723]
-       :ratings {"Epee" "E2009"
-                 "Foil" "U"
-                 "Saber" "U"}}])
+     {3315 {:firstName "Steven"
+            :lastName "Uhlman"
+            :clubs [136]
+            :ratings {"Epee" "E2008"
+                      "Foil" "U"
+                      "Saber" "U"}}
+      15074 {:firstName "Frank"
+             :lastName "La"
+             :clubs [1]
+             :ratings {"Epee" "U"
+                       "Foil" "U"
+                       "Saber" "U"}}
+      16181 {:firstName "Adrian"
+             :lastName "Pacia"
+             :clubs [1]
+             :ratings {"Epee" "B2007"
+                       "Foil" "E2007"
+                       "Saber" "E2006"}}
+      18641 {:firstName "Ke"
+             :lastName "Ma"
+             :clubs [945]
+             :ratings {"Epee" "U"
+                       "Foil" "U"
+                       "Saber" "D2007"}}
+      29029 {:firstName "Bradley"
+             :lastName "L'Herrou"
+             :clubs [698]
+             :ratings {"Epee" "U"
+                       "Foil" "U"
+                       "Saber" "U"}}
+      34420 {:firstName "Donald"
+             :lastName "Paccini"
+             :clubs [793]
+             :ratings {"Foil" "U"}}
+      42052 {:firstName "Blaine"
+             :lastName "Pace"
+             :clubs [1527]
+             :ratings {"Epee" "E2009"
+                       "Foil" "U"
+                       "Saber" "U"}}
+      45980 {:firstName "Dexter"
+             :lastName "Pabulayan"
+             :clubs [1723]
+             :ratings {"Epee" "E2009"
+                       "Foil" "U"
+                       "Saber" "U"}}})
 
+(def correct-events
+     #{{:weapon "Saber"
+        :preregs [18641 15074 16181 3315 29029 45980 34420 42052]}})
+     
 (defn club-similar [{:keys [name]} name2]
   (= name name2))
 
@@ -82,15 +86,26 @@
                     clubs1 clubs2))
        (= ratings1 ratings2)))
 
+(defn event-similar [store {:keys [preregs weapon]} {preregs2 :preregs weapon2 :weapon}]
+  (and (every? identity
+               (map #(person-similar store (.getData store %1) (correct-fencers %2))
+                    preregs preregs2))
+       (= weapon weapon2)))
+
 (deftest XmlTest
   (let [reader (XmlReader.)
-        store (.createDataStore reader test-file)
+        ti (.getTournamentInfo reader test-file)
+        events (.getEvents ti)
+        store (.getDataStore ti)
         fencers (.getPlayers store)
         clubs (.getClubs store)]
     (is (= (count fencers) (count correct-fencers)))
     (doseq [fencer fencers]
       (is (some (partial person-similar store fencer)
-                correct-fencers)))
+                (vals correct-fencers))))
     (doseq [club clubs]
       (is (some (partial club-similar club)
-                (vals correct-clubs))))))
+                (vals correct-clubs))))
+    (doseq [event events]
+      (is (some (partial event-similar store event)
+                correct-events)))))

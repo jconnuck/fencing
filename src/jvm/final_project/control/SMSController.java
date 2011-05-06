@@ -101,7 +101,7 @@ public class SMSController implements Constants {
 		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
 			//also TODO problem with collection & synchronization?
-			if(i!-=null)
+			if(i!=null)
 				number += i.getPhoneNumber() + ",";
 		}
 	}
@@ -156,8 +156,7 @@ public class SMSController implements Constants {
 			count ++; //Just eating empty line
 		}
                 else { 
-			//TODO: Get phone number and message out of the 
-line
+			//TODO: Get phone number and message out of the line
 			//Then, call parseMessage()					
 		}
             }
@@ -204,8 +203,7 @@ line
 	private void parseOutput(String received, String number) {
 		//First, getting the first word
 		//Then, choosing a possible path based on that word
-		//POSSIBLE FIRST WORDS: 'follow', 'help', 'refswap', 
-'cancel', fencer name
+		//POSSIBLE FIRST WORDS: 'follow', 'help', 'refswap', 'cancel', fencer name
 
 		//if 'follow':
 		//This method will eventually call subscribeUser on a certain name
