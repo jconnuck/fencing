@@ -6,12 +6,10 @@ import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 
 public class TournamentController {
-//	public State _state;
 	private Tournament _tournament;
 	private Collection<EventController> _events;
 
 	public TournamentController() {
-//		_state = State.REGISTRATION;
 		_tournament = new Tournament();
 	}
 
