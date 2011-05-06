@@ -3,11 +3,11 @@ package final_project.control;
 import final_project.model.*;
 
 public class TournamentController {
-	public State _state;
+//	public State _state;
 	private Tournament _tournament;
 
 	public TournamentController() {
-		_state = State.REGISTRATION;
+//		_state = State.REGISTRATION;
 		_tournament = new Tournament();
 	}
 
@@ -30,10 +30,5 @@ public class TournamentController {
 	 * @param stripID The number of the strip the bout was fenced on
 	 */
 	public void addResult(CompleteResult bout, int stripID) {
-	}
-
-	// Represents the phase of the tournament that the TournamentControl is ready to carry out
-	public enum State {
-		REGISTRATION, POOLS, DE, FINAL
 	}
 }

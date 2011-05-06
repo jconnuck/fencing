@@ -14,20 +14,20 @@ public class DERound implements IRound {
 		_seeding = new ArrayList<Integer>();
 		POINTS_TO_WIN =15;
 	}
-	
+
 	public DERound(List<Integer> seeding) {
 		_seeding = seeding;
 		POINTS_TO_WIN = 15;
 	}
-	
+
 	public List<Integer> getSeeding() {
 		return _seeding;
 	}
-	
+
 	public void setSeeding(ArrayList<Integer> seeding) {
 		_seeding = seeding;
 	}
-	
+
 	/**
 	 * Sets up the DE round by cutting the bottom _cut percentage of the competitors and filling the bracket with the remaining competitors.
 	 */
