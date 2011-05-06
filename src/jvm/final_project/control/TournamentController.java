@@ -9,19 +9,35 @@ public class TournamentController {
 
 	private Collection<EventController> _events;
 	private IDataStore _dataStore;
+	private int _currentEventID;
 
 	public TournamentController() {
+		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
-//		_dataStore = new DataStore();
+		_dataStore = new DataStore();
+	}
+
+	public void addEvent(String weapon){
+		_events.add(new EventController(++_currentEventID, _dataStore, weapon));
+	}
+
+	public void addEvent(String weapon, Collection<Integer> preregs){
+		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
 	}
 
 	/**
-	 * Takes an event and a fencer and calls registerFencer for that event and fencer.
-	 * @param playerId The fencer to register
-	 * @param event The event for which the fencer is registering
+	 *Adds the given player to the given event.
+	 * @param playerID
+	 * @param eventID
+	 * @return a boolean, true if player was added, false otherwise.
 	 */
-	public void registerPlayer(int playerId, IEvent event) {
-		event.registerPlayer(playerId);
+	public boolean addPlayer(int playerID, int eventID){
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			iter.next().addPlayer(playerID);
+			return true;
+		}
+		return false;
 	}
 
 	/**

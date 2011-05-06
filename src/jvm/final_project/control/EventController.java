@@ -1,15 +1,48 @@
 package final_project.control;
 
-import java.util.Collection;
+import java.util.*;
 import final_project.model.*;
 
 
 public class EventController {
+
 	private Collection<Integer> _refs;
 	private State _state;
 	private DERoundController _deController;
 	private PoolRoundController _poolController;
 	private IDataStore _dataStore;
+	private String _weapon;
+	private Collection<Integer> _players;
+	private int _eventID;
+
+	public EventController(int id, IDataStore dataStore, String weapon){
+		setup();
+		_eventID = id;
+		_dataStore = dataStore;
+		_weapon = weapon;
+	}
+
+	public void addPlayer(int id){
+
+	}
+
+	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
+		setup();
+		_eventID = id;
+		_weapon = weapon;
+		_players.addAll(preregs);
+	}
+
+	public void addRef(Integer refID){
+		_refs.add(refID);
+	}
+
+	//helper method for EventController constructor
+	private void setup(){
+		_state = State.REGISTRATION;
+		_refs = new HashSet<Integer>();
+		_players = new HashSet<Integer>();
+	}
 
 	// Represents the phase of the tournament that the TournamentControl is ready to carry out
 	public enum State {
