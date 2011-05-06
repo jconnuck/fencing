@@ -40,7 +40,7 @@ public class SMSController implements Constants {
 	 * @param message
 	 * @param number
 	 */
-	public void sendMessage(String message, String number) {
+	private void sendMessage(String message, String number) {
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		try {
@@ -88,16 +88,21 @@ public class SMSController implements Constants {
 
 	//This method allows the admin to send a message to every member 
 	public void sendAllMessage(String message) {
+		//concatenating phone numbers
+		String number = ""; 
 		for(IPerson i: _store.getPeople()) {
-			this.sendMessage(message, i.getPhoneNumber());
+			if (i!= null)
+				number += i.getPhoneNumber() + ",";
 		}
+		this.sendMessage(message, number);
 	}
-	
-	//TODO: This should
+
 	public void sendGroupMessage(String group, String message) { 
+		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
-			//TODO make sure that i is never null; also TODO problem with collection & synchronization?
-			this.sendMessage(message, i.getPhoneNumber());
+			//also TODO problem with collection & synchronization?
+			if(i!-=null)
+				number += i.getPhoneNumber() + ",";
 		}
 	}
 
@@ -140,9 +145,21 @@ public class SMSController implements Constants {
             // Get the response
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
+	    int count = 0;
             while ((line = rd.readLine()) != null) {
-                // TODO Parse output to get out reply messages
-                System.out.println(line);
+                //Parsing the very first line
+		if(count==0) {
+			//TODO: get substring & store lastReceivedID
+			count ++;	
+		}
+		else if (count == 1) {
+			count ++; //Just eating empty line
+		}
+                else { 
+			//TODO: Get phone number and message out of the 
+line
+			//Then, call parseMessage()					
+		}
             }
 		}
 		catch (Exception e) {
@@ -178,10 +195,19 @@ public class SMSController implements Constants {
 	 * - common typos (fencre, follw) --> is this really necessary?
 	 * 
 	 */
-	public void parseMessage(String received, String number) {
+
+	/** 
+	 * This method handles parsing the message from the API & 
+	 * then calling the appropriate other methods on the data that 
+	 * it gets out of the line.
+	 */ 
+	private void parseOutput(String received, String number) {
 		//First, getting the first word
 		//Then, choosing a possible path based on that word
+		//POSSIBLE FIRST WORDS: 'follow', 'help', 'refswap', 
+'cancel', fencer name
 
+		//if 'follow':
 		//This method will eventually call subscribeUser on a certain name
 	}
 	

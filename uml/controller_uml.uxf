@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// This text will be stored with each diagram;  use it for notes.</help_text><zoom_level>9</zoom_level><element><type>com.umlet.element.base.Class</type><coordinates><x>396</x><y>36</y><w>198</w><h>135</h></coordinates><panel_attributes>_TournamentController_
+// This text will be stored with each diagram;  use it for notes.</help_text><zoom_level>9</zoom_level><element><type>com.umlet.element.base.Class</type><coordinates><x>396</x><y>27</y><w>198</w><h>135</h></coordinates><panel_attributes>_TournamentController_
 --
 tournament: Tournament
 people: IDataStore 
@@ -30,14 +30,14 @@ events: Collection &lt;Event
 # registerPlayer (playerID: int, 
     event: IEvent)
 # starts EventController(s)
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>135</x><y>405</y><w>126</w><h>99</h></coordinates><panel_attributes>_enum: State_
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>135</x><y>396</y><w>126</w><h>99</h></coordinates><panel_attributes>_enum: State_
 --
 REGISTRATION
 POOLS 
 DE 
-FINAL</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>189</x><y>360</y><w>206</w><h>62</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>189;27;27;27;27;45</additional_attributes></element><element><type>com.umlet.element.custom.Text</type><coordinates><x>171</x><y>162</y><w>144</w><h>45</h></coordinates><panel_attributes>- Control Design -
+FINAL</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>189</x><y>351</y><w>206</w><h>62</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>189;27;27;27;27;45</additional_attributes></element><element><type>com.umlet.element.custom.Text</type><coordinates><x>171</x><y>153</y><w>144</w><h>45</h></coordinates><panel_attributes>- Control Design -
          5/3/11
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>738</x><y>486</y><w>225</w><h>135</h></coordinates><panel_attributes>_SMSController_
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>738</x><y>477</y><w>225</w><h>135</h></coordinates><panel_attributes>_SMSController_
 --
 lastRetrievedID: int
 people: IDataStore
@@ -45,7 +45,7 @@ people: IDataStore
 # sendMessage(message: String, 
     number: String)
 # parseMessage(message: String)
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>378</x><y>333</y><w>243</w><h>171</h></coordinates><panel_attributes>_EventController_
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>378</x><y>324</y><w>243</w><h>171</h></coordinates><panel_attributes>_EventController_
 --
 state: enum
 players: List&lt;IPlayer&gt;
@@ -54,7 +54,7 @@ rounds: List&lt;Round&gt;
 #starts PoolRoundController
 #starts DERoundController
 
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>378</x><y>225</y><w>135</w><h>27</h></coordinates><panel_attributes>IDataStore: people</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>270</x><y>225</y><w>170</w><h>359</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>153;27;153;72;27;72;27;342</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>441</x><y>225</y><w>314</w><h>305</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>27;27;27;63;252;63;252;288;297;288</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>207</x><y>567</y><w>189</w><h>153</h></coordinates><panel_attributes>_PoolRoundController_
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>378</x><y>216</y><w>135</w><h>27</h></coordinates><panel_attributes>IDataStore: people</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>270</x><y>216</y><w>170</w><h>359</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>153;27;153;72;27;72;27;342</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>441</x><y>216</y><w>314</w><h>305</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>27;27;27;63;252;63;252;288;297;288</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>207</x><y>558</y><w>189</w><h>153</h></coordinates><panel_attributes>_PoolRoundController_
 --
 round: PoolRound
 --
@@ -66,10 +66,10 @@ round: PoolRound
 # createFinalSeeding
 
 
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>549</x><y>144</y><w>44</w><h>179</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>549</x><y>135</y><w>44</w><h>179</h></coordinates><panel_attributes>lt=-
 m1=  1
 m2=1..n
-</panel_attributes><additional_attributes>27;27;27;162</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>594</x><y>387</y><w>80</w><h>44</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;27;63;27</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>252</x><y>477</y><w>224</w><h>107</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>207;27;207;72;27;72;27;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>441</x><y>603</y><w>207</w><h>135</h></coordinates><panel_attributes>_DERoundController_
+</panel_attributes><additional_attributes>27;27;27;162</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>594</x><y>378</y><w>80</w><h>44</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;27;63;27</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>252</x><y>468</y><w>224</w><h>107</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>207;27;207;72;27;72;27;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>441</x><y>594</y><w>207</w><h>135</h></coordinates><panel_attributes>_DERoundController_
 --
 round: DERound
 --
@@ -77,4 +77,4 @@ round: DERound
   from PoolRoundController
 # creates and runs 
    the DERound
-# returns results </panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>513</x><y>477</y><w>44</w><h>143</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;27;27;126</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>387</y><w>125</w><h>179</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>108;162;27;162;27;27;27;63</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>621</x><y>567</y><w>134</w><h>107</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>117;27;63;27;63;90;27;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>369</x><y>540</y><w>386</w><h>107</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>369;27;54;27;54;90;27;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>549</x><y>144</y><w>44</w><h>206</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;189;27;27</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>423</x><y>144</y><w>44</w><h>98</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;81;27;27</additional_attributes></element></umlet_diagram>
+# returns results </panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>513</x><y>468</y><w>44</w><h>143</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;27;27;126</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>378</y><w>125</w><h>179</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>108;162;27;162;27;27;27;63</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>621</x><y>558</y><w>134</w><h>107</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>117;27;63;27;63;90;27;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>369</x><y>531</y><w>386</w><h>107</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>369;27;54;27;54;90;27;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>549</x><y>135</y><w>44</w><h>206</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;189;27;27</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>423</x><y>135</y><w>44</w><h>98</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>27;81;27;27</additional_attributes></element></umlet_diagram>
