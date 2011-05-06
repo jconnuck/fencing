@@ -2,12 +2,7 @@ package final_project.control;
 
 import final_project.model.*;
 
-import java.net.*;
-import java.util.Collection;
-import java.io.*;
-
-
-public class SMSController implements Constants {
+public class SMSController implements Constants, ISMSController {
 
 	// Also need a reference to the GUI
 	private SMSSender _sender;
@@ -53,5 +48,11 @@ public class SMSController implements Constants {
 		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), new PlayerResult(loserID, loserScore));
 		_tournament.addCompletedResult(cr, refID);
 	}
+	
+	public void swapRefs(int oldRefID, int newRefID) {
+		//should call swapRef method in tournament
+	}
+
+
 	
 }
