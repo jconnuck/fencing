@@ -94,7 +94,7 @@ public class DERound implements IRound {
         }
         switchSeedsForCompetitors();
     }
-    
+
     private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
         if(index < 0)
             throw new IllegalArgumentException("Index cannot be negative.");
@@ -206,11 +206,11 @@ public class DERound implements IRound {
     			i++;
     	}
     }
-    
+
     /**
      * Computes the index in _matches that is the first element in _matches for the round in the DE that has roundSize
      * Results in it.
-     * @param roundSize The number of Results in the round that the method finds the head of. 
+     * @param roundSize The number of Results in the round that the method finds the head of.
      * @return int the index of the head of the round that has roundSize Results in it in _matches.
      */
     private int computeRoundHead(int roundSize) {
@@ -264,18 +264,19 @@ public class DERound implements IRound {
 		            }
 	            }
 
-            }            	
+            }
         }
         throw new NoSuchMatchException("No match was found that corresponded to the CompleteResult you attempted to add");
     }
-    
+
     private boolean advanceRound(IncompleteResult justFinished) {
         IncompleteResult nextMatch = getNextMatch();
         if(nextMatch == null) {
         	_stripController.returnStrip(_stripsInUse.get(justFinished));
+        	final IncompleteResult justFinishedFinal = justFinished;
         	_dataStore.runTransaction(new Runnable(){
 				public void run(){
-					_dataStore.putData(_dataStore.getReferee(_refsInUse.get(justFinished)).setReffing(false)); // I'm not exactly sure how to deal with the problem of justFinished not being final... make a copy?
+					_dataStore.putData(_dataStore.getReferee(_refsInUse.get(justFinishedFinal)).setReffing(false)); // I'm not exactly sure how to deal with the problem of justFinished not being final... make a copy?
 				}
 			});
         	return false;
