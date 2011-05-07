@@ -68,14 +68,16 @@ public class EventController {
 	 * returns true if the pool round was started, false otherwise.
 	 * @return
 	 */
-	public boolean startPoolRound() {
+	public boolean startPoolRound(int poolSize) {
 		if(_state != State.REGISTRATION)
 			return false;
 		_poolController = new PoolRoundController(_dataStore);
-		return true;
+		boolean createPoolSuccess = _poolController.createPools(poolSize);
+		if(!createPoolSuccess){
+			_poolController = null;
+		}
+		return createPoolSuccess;
 	}
-
-
 
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
