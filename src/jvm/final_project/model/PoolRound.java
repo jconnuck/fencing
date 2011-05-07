@@ -14,6 +14,12 @@ public abstract class PoolRound implements IRound{
 	protected int _numPlayers;
 	private StripController _stripControl;
 
+
+	/*
+	 * Adds the given completeResult to the appropriate pool.
+	 * @param result A CompleteResult to be added to this PoolRound
+	 * @return a boolean, true if all matches in the PoolRound have been completed, false otherwise
+	 */
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
