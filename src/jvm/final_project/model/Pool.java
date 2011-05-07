@@ -72,6 +72,10 @@ public abstract class Pool {
 		return _incompleteResults;
 	}
 
+    public boolean isDone() {
+        return _incompleteResults.isEmpty();
+    }
+
 	public abstract List<? extends PlayerSeed> getSeeds();
 
 	/**
