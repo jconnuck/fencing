@@ -32,7 +32,7 @@ public class DERoundTest {
 		seeding1.add(39);
 		seeding1.add(60);
 		seeding1.add(20);		
-		round1 = new DERound(seeding1);
+		round1 = new DERound(null, null, seeding1);
 		
 		ArrayList<Integer> seeding2 = new ArrayList<Integer>();
 		seeding2.add(10);
@@ -40,11 +40,11 @@ public class DERoundTest {
 		seeding2.add(17);
 		seeding2.add(42);
 		seeding2.add(73);
-		round2 = new DERound(seeding2);
+		round2 = new DERound(null, null, seeding2);
 		
 		ArrayList<Integer> seeding3 = new ArrayList<Integer>(seeding1);
 		seeding3.add(29);
-		round3 = new DERound(seeding3);
+		round3 = new DERound(null, null, seeding3);
 	}
 
 	/**
