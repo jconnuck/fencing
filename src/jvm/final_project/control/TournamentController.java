@@ -4,6 +4,7 @@ import java.util.*;
 import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 
+//Created in the main method.
 public class TournamentController {
 
 	private Collection<EventController> _events;
@@ -29,6 +30,16 @@ public class TournamentController {
 		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
 	}
 
+	public void startPoolRound(int eventID) throws IllegalStateException{
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			if(!iter.next().startPoolRound()){
+				throw new IllegalStateException("Not correct time to create pool round.");
+			}
+		}
+		throw new IllegalStateException("No even created.");
+	}
+
 	/**
 	 *Adds the given player to the given event.
 	 * @param eventID
@@ -43,6 +54,8 @@ public class TournamentController {
 		}
 		return false;
 	}
+
+	//public
 
 	/**
 	 * Takes a completed bout and adds it to appropriate event.
