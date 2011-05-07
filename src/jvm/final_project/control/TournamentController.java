@@ -61,4 +61,14 @@ public class TournamentController {
 		//TODO text ref again
 		//
 	}
+	
+	/**
+	 * Method called by the SMSController when two refs need to be 
+	 * swapped. 
+	 * @param oldRefID
+	 * @param newRefID
+	 */
+	public void swapRef(int eventID, int oldRefID, int newRefID) {
+		//TODO: empty stub
+	}
 }
