@@ -10,12 +10,15 @@ public class TournamentController {
 	private IDataStore _dataStore;
 	private int _currentEventID;
 	private StripController _stripController;
+	private SMSController _smsController;
 
 	public TournamentController() {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		//_dataStore = new DataStore();
+		_dataStore = null; //Setting this temporarily to null because I need it for SMSController
 		_stripController = new StripController();
+		_smsController = new SMSController(_dataStore, this);
 	}
 
 	public void addEvent(String weapon){
