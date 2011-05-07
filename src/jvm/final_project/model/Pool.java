@@ -33,7 +33,7 @@ public abstract class Pool {
 		return _players;
 	}
 
-	public Collection<Integer> getStrip() {
+	public Collection<Integer> getStrips() {
 		return _strips;
 	}
 	
