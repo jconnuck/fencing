@@ -1,5 +1,6 @@
 package final_project.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.*;
@@ -22,8 +23,14 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+//		UIManager.put("nimbusBase", new Color(200, 215, 230));
+//		UIManager.put("nimbusBlueGrey",	new Color(200, 215, 230));
+//		UIManager.put("control", new Color(248,248,248));
+//		UIManager.put("nimbusSelection", DefaultBalloonStyle.bottomFillColor);
+//		UIManager.put("controlHighlight", new Color(233,236,242));
+//		UIManager.put("controlLHighlight", new Color(247,248,250));
 		try {
-			UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -43,7 +50,7 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
-		tournamentController = new TournamentController();
+		//tournamentController = new TournamentController();
 		initialize();
 	}
 
@@ -89,6 +96,9 @@ public class MainWindow {
 		
 		SignInPanel signInPanel = new SignInPanel();
 		tabbedPane.addTab("Sign In", null, signInPanel, null);
+		
+		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
+		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
 	}
 }

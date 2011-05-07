@@ -17,6 +17,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public RegisterNewPlayerPanel() {
+		setOpaque(false);
 		setPreferredSize(new Dimension(301, 200));
 		setSize(new Dimension(270, 200));
 		GridBagLayout gridBagLayout = new GridBagLayout();

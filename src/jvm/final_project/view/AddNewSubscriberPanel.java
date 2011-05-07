@@ -19,6 +19,7 @@ public class AddNewSubscriberPanel extends JPanel {
 	public AddNewSubscriberPanel() {
 		setPreferredSize(new Dimension(301, 200));
 		setSize(new Dimension(270, 200));
+		setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{87, 55, 143, 0, 0};
 		gridBagLayout.rowHeights = new int[]{26, 0, 32, 0, 0, 0, 0, 0};

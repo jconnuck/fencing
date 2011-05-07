@@ -19,6 +19,7 @@ public class SignInPlayerPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public SignInPlayerPanel() {
+		setOpaque(false);
 		setPreferredSize(new Dimension(254, 60));
 		setSize(new Dimension(270, 200));
 		GridBagLayout gridBagLayout = new GridBagLayout();

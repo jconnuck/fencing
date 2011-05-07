@@ -29,6 +29,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	 * Create the panel.
 	 */
 	public SubscriberAdminPanel() {
+		setOpaque(false);
 		initializeGridBagLayout();
 		initializeTable();
 		initializeComponents();

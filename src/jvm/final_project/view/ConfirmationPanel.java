@@ -15,6 +15,7 @@ public class ConfirmationPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public ConfirmationPanel(String action) {
+		setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{178, 69, 0};
 		gridBagLayout.rowHeights = new int[]{16, 0, 0, 0};

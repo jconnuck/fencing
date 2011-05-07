@@ -21,15 +21,15 @@ public class SignInPanel extends JPanel implements ActionListener {
 	private TableRowSorter<SignInTableModel> sorter;
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
-	private JButton signInAll, unsignInAll, importXml;
+	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
 	private Component verticalStrut;
 	private Collection<BalloonTip> balloons;
-	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip;
+	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip;
 	private SignInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
-	private JButton registerPersonButton;
-	private JButton btnStartPoolRound;
+	private StripSetupPanel stripSetupPane;
+	private PoolSizeInfoPanel poolSizeInfoPane;
 
 	/**
 	 * Create the panel.
@@ -44,6 +44,8 @@ public class SignInPanel extends JPanel implements ActionListener {
 	}
 
 	private void initializeComponents() {
+		setOpaque(false);
+		
 		signInAll = new JButton("Sign In All");
 		signInAll.addActionListener(this);
 		GridBagConstraints gbc_signInAll = new GridBagConstraints();
@@ -68,7 +70,6 @@ public class SignInPanel extends JPanel implements ActionListener {
 		gbc_registerPersonButton.gridx = 5;
 		gbc_registerPersonButton.gridy = 1;
 		add(registerPersonButton, gbc_registerPersonButton);
-		
 		registerPersonButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registerNewPlayerPane.setNoResults(false);
@@ -90,6 +91,22 @@ public class SignInPanel extends JPanel implements ActionListener {
 		add(scrollPane, gbc_scrollPane);
 		
 		scrollPane.setViewportView(table);
+		
+		importXml = new JButton("Import XML");
+		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
+		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
+		gbc_btnImportXml.gridx = 1;
+		gbc_btnImportXml.gridy = 3;
+		add(importXml, gbc_btnImportXml);
+		importXml.addActionListener(this);
+		
+		startPoolRound = new JButton("Start Pool Round");
+		GridBagConstraints gbc_startPoolRound = new GridBagConstraints();
+		gbc_startPoolRound.insets = new Insets(0, 0, 5, 5);
+		gbc_startPoolRound.gridx = 5;
+		gbc_startPoolRound.gridy = 3;
+		add(startPoolRound, gbc_startPoolRound);
+		startPoolRound.addActionListener(this);
 	}
 
 	private void initializeSearch() {
@@ -114,21 +131,6 @@ public class SignInPanel extends JPanel implements ActionListener {
 		gbc_txtSearch.gridy = 1;
 		add(searchField, gbc_txtSearch);
 		searchField.setColumns(10);
-		
-		importXml = new JButton("Import XML");
-		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
-		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
-		gbc_btnImportXml.gridx = 1;
-		gbc_btnImportXml.gridy = 3;
-		add(importXml, gbc_btnImportXml);
-		importXml.addActionListener(this);
-		
-		btnStartPoolRound = new JButton("Start Pool Round");
-		GridBagConstraints gbc_btnStartPoolRound = new GridBagConstraints();
-		gbc_btnStartPoolRound.insets = new Insets(0, 0, 5, 5);
-		gbc_btnStartPoolRound.gridx = 5;
-		gbc_btnStartPoolRound.gridy = 3;
-		add(btnStartPoolRound, gbc_btnStartPoolRound);
 	}
 
 	private void initializeTable() {
@@ -148,14 +150,6 @@ public class SignInPanel extends JPanel implements ActionListener {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		verticalStrut = Box.createVerticalStrut(20);
-		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
-		gbc_verticalStrut.fill = GridBagConstraints.VERTICAL;
-		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
-		gbc_verticalStrut.gridx = 3;
-		gbc_verticalStrut.gridy = 0;
-		add(verticalStrut, gbc_verticalStrut);
 	}
 
 	private void initializeBalloons() {
@@ -165,35 +159,44 @@ public class SignInPanel extends JPanel implements ActionListener {
 		signInPlayerPane = new SignInPlayerPanel();
 		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
 		signInPlayerTip.setOpacity(0.9f);
-		signInPlayerTip.setVisible(false);
 		signInPlayerPane.getCancelButton().addActionListener(this);
 		signInPlayerPane.getSignInButton().addActionListener(this);
 
 		registerNewPlayerPane = new RegisterNewPlayerPanel();
 		registerNewPlayerTip = new BalloonTip(registerPersonButton, registerNewPlayerPane, new DefaultBalloonStyle(), false);
 		registerNewPlayerTip.setOpacity(0.9f);
-		registerNewPlayerTip.setVisible(false);
 		registerNewPlayerPane.getCancelButton().addActionListener(this);
 		registerNewPlayerPane.getDoneButton().addActionListener(this);
 		
 		signInAllPane = new ConfirmationPanel("sign in");
 		signInAllTip = new BalloonTip(signInAll, signInAllPane, new DefaultBalloonStyle(), false);
 		signInAllTip.setOpacity(0.9f);
-		signInAllTip.setVisible(false);
 		signInAllPane.getCancelButton().addActionListener(this);
 		signInAllPane.getYesButton().addActionListener(this);
 		
 		unsignInAllPane = new ConfirmationPanel("un-sign in");
 		unsignInAllTip = new BalloonTip(unsignInAll, unsignInAllPane, new DefaultBalloonStyle(), false);
 		unsignInAllTip.setOpacity(0.9f);
-		unsignInAllTip.setVisible(false);
 		unsignInAllPane.getCancelButton().addActionListener(this);
 		unsignInAllPane.getYesButton().addActionListener(this);
+		
+		stripSetupPane = new StripSetupPanel();
+		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), false);
+		stripSetupTip.setOpacity(0.9f);
+		stripSetupPane.getCancelButton().addActionListener(this);
+		stripSetupPane.getDoneButton().addActionListener(this);
+		
+		poolSizeInfoPane = new PoolSizeInfoPanel();
+		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), false);
+		poolSizeTip.setOpacity(0.9f);
 		
 		balloons.add(signInPlayerTip);
 		balloons.add(registerNewPlayerTip);
 		balloons.add(signInAllTip);
 		balloons.add(unsignInAllTip);
+		balloons.add(stripSetupTip);
+		balloons.add(poolSizeTip);
+		hideAllBalloons();
 	}
 	
 	private void filter() {
@@ -306,6 +309,10 @@ public class SignInPanel extends JPanel implements ActionListener {
 		if (e.getSource() == importXml) {
 			//Import xml file
 		}
+		else if (e.getSource() == startPoolRound) {
+			hideAllBalloons();
+			stripSetupTip.setVisible(true);
+		}
 		else if (e.getSource() == signInPlayerPane.getCancelButton()) {
 			hideAllBalloons();
 		}
@@ -343,6 +350,14 @@ public class SignInPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == unsignInAllPane.getYesButton()) {
 			hideAllBalloons();
 			//TODO unsign in all
+		}
+		else if (e.getSource() == stripSetupPane.getCancelButton()) {
+			hideAllBalloons();
+		}
+		else if (e.getSource() == stripSetupPane.getDoneButton()) {
+			hideAllBalloons();
+			//TODO ask Tournament controller for options
+			poolSizeTip.setVisible(true);
 		}
 	}
 	
