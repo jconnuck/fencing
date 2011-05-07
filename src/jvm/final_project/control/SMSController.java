@@ -8,7 +8,8 @@ public class SMSController implements Constants, ISMSController {
 	private SMSSender _sender;
 	private SMSParser _parser;
 	private TournamentController _tournament;
-
+	private Thread _sendThread;
+	
 	public SMSController(IDataStore s, TournamentController t) {
 		_tournament = t;
 
@@ -18,8 +19,8 @@ public class SMSController implements Constants, ISMSController {
 
 		/* Starting the "receiver" thread to continuously check the inbox */
 		SMSReceiver receiver = new SMSReceiver(this);
-		Thread thread = new Thread(receiver);
-		thread.run();
+		_sendThread = new Thread(receiver);
+		_sendThread.run();
 	}
 
 	/* TODO: How to handle the booleans that the sender methods return? */
