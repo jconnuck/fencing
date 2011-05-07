@@ -22,8 +22,6 @@ public class EventController {
 		_weapon = weapon;
 	}
 
-
-
 	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
 		setup();
 		_eventID = id;
