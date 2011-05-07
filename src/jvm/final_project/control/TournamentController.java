@@ -19,8 +19,10 @@ public class TournamentController {
 		//_dataStore = new DataStore();
 		_dataStore = null; //Setting this temporarily to null because I need it for SMSController
 		_stripController = new StripController();
+		
 		//NEED TO ALSO ASK GUI FOR USERNAME & PASSWORD BEFORE SMSController CAN BE INSTANTIATED
-		_smsController = new SMSController(_dataStore, this); 
+		String username = "", password = ""; //Temporary TODO 
+		_smsController = new SMSController(_dataStore, this, username, password); 
 	}
 
 	public void addEvent(String weapon){

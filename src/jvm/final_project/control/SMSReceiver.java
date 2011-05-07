@@ -2,10 +2,10 @@ package final_project.control;
 
 import java.io.*;
 import java.net.*;
-import java.util.Calendar;
+import java.util.Scanner;
 
 /**
- * groups: technician & medical
+ *
  * @author Miranda
  *
  */
@@ -23,13 +23,13 @@ public class SMSReceiver implements Runnable, Constants {
 		_lastRetrievedID = 0;
 		_listening = true;
 	}
-	
+
 	public void run() {
 		while(_listening) {
 			this.getInbox();
 		}
 	}
-	
+
 	/* Methods to stop and start this thread by changing "_listening" boolean */
 	public void stopListening() {
 		_listening = false;
@@ -49,7 +49,7 @@ public class SMSReceiver implements Runnable, Constants {
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;
-		
+
 		try {
 			//Constructing data
 			String data = "";
@@ -73,27 +73,69 @@ public class SMSReceiver implements Runnable, Constants {
 				if(firstLine) {
 					//First line from API looks something like:
 					//0|records to follow|3 --> only care about status code (the zero)
-					_control.alertGUI("");
+					Scanner s = new Scanner(line);
+					if(!s.hasNextInt()) {
+						toReturn = false;
+						break;
+					}
+					int status_code = s.nextInt();
+					if(status_code == 0) {
+						toReturn = true; //SMS in progress
+					}
+					else if(status_code == 23) { //Authentication failure
+						_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
+						toReturn = false;
+						break;
+					}
+					else if(status_code == 25) {
+						_control.alertGUI("SMS API needs more credits! Send failure!", _control.getTime());
+						toReturn = false;
+						break;
+					}
+					else {
+						_control.alertGUI("Send SMS Failure", _control.getTime());
+						toReturn = false;
+						break;
+					}
 
-					
-					//TODO: get substring & store lastReceivedID
-					//TODO: Check to see that this does not return some error (no internet?)
 					//Eating the second (empty) line
 					line = rd.readLine();
-					if(!line.equals(""))
-						throw new Exception ("Weird output: " + line); //TODO: ?
 					firstLine = false;
 				}
 				else { 
+					//Example input:
 					//19|4412312345|Hi there|2004-01-20 16:06:40|44771234567|0
-					//TODO: Get phone number and message out of the line
-					//Then, call control's parsing methods
+					Scanner s = new Scanner(line);
+					s.useDelimiter("\\|"); //Must escape bar to satisfy regex
+					
+					//First, getting out the message id & storing it
+					if(!s.hasNextInt()) {
+						toReturn = false;
+						break;
+					}
+					_lastRetrievedID = s.nextInt();
+					//Next, getting the phone number the text was sent from
+					if(!s.hasNext()) {
+						toReturn = false;
+						break;
+					}
+					String number = s.next();
+					
+					//Lastly, getting the message receieved. Don't care about the rest.
+					if(!s.hasNext()) {
+						toReturn = false;
+						break;
+					}
+					String message = s.next();
+					
+					//Calling control's parse output method
+					_control.parseOutput(message, number);
 				}
 			}
 			toReturn = true; //Input successfully processed
 		} catch (UnknownHostException e) { 
 			//Letting the GUI know it ain't got no internet
-			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled");
+			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
 		} catch (Exception e) {
 			e.printStackTrace(); //What to do with these??
 		} 		
@@ -101,7 +143,9 @@ public class SMSReceiver implements Runnable, Constants {
 			try {
 				if(wr!=null) wr.close();
 				if(wr!=null) rd.close();
-			} catch (IOException e) { } //TODO: Send to GUI? 
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
 		}
 		return toReturn;
 	}

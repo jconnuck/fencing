@@ -1,7 +1,7 @@
 package final_project.control;
 
 import java.util.Scanner;
-
+import java.util.Calendar;
 import final_project.model.IDataStore;
 import final_project.model.IPerson;
 import final_project.model.IReferee;
@@ -14,10 +14,12 @@ public class SMSParser {
 
 	private IDataStore _store;
 	private ISMSController _control;
+	private Calendar _cal;
 
 	public SMSParser(IDataStore s, ISMSController ctrl) {
 		_store = s;
 		_control = ctrl;
+		_cal = Calendar.getInstance();
 	}
 
 	/**
@@ -33,7 +35,14 @@ public class SMSParser {
 
 		//Message: "help string"
 		if (firstWord.equals("Help") || firstWord.equals("help")) {
-			//TODO Alert GUI!
+			_control.alertGUI("Help message received! Message: " + received, _cal.getTime());
+			if(s.hasNext()) {
+				String groupToAlert = s.next();
+				if(groupToAlert.equals("medical") || groupToAlert.equals("Medical"))
+					_control.sendGroupMessage("Medical", received);
+				else if(groupToAlert.equals("technical") || groupToAlert.equals("Technical"))
+					_control.sendGroupMessage("Technical", received);
+			}
 		}
 
 		// Message: "Follow first last" or "follow clubName"
@@ -68,7 +77,7 @@ public class SMSParser {
 		}
 
 		//Message "result id beat id this-that" or "id beat id this to that"
-		else if(firstWord.equals("Result") || firstWord.equals("result")) { //TODO: do i like this?
+		else if(firstWord.equals("Result") || firstWord.equals("result")) {
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
 
 			/* Looping through to find the ref ID of this number */
