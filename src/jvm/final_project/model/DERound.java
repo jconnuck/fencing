@@ -2,6 +2,8 @@ package final_project.model;
 
 import java.util.*;
 
+import final_project.control.StripController;
+
 public class DERound implements IRound {
     private List<Integer> _seeding;  /*!< The seeding of fencers based on pool results. */
     private double _cut;         /*!< The percentage of the fencers to be cut before the round starts */
@@ -9,15 +11,28 @@ public class DERound implements IRound {
     private int _bracketSize;    /*!< The bracket size (How many slots there are in the first round of DEs) (must be a power of 2) */
     private int _currentBracket; /*!< The number of slots in the current stage of the DE round (must be a power of 2 and <= _bracketSize*/
     private static int POINTS_TO_WIN;
+    private StripController _stripController;
+    private Map<IncompleteResult, Integer> _stripsInUse; //Correlates currently fencing bouts with the strips that they are using
+    private Map<IncompleteResult, Integer> _refsInUse; //Correlates currently fencing bouts with the referees that they are using
+    private IDataStore _dataStore;
 
-    public DERound() {
+    public DERound(IDataStore store, StripController sc) {
+    	_dataStore = store;
         _seeding = new ArrayList<Integer>();
         POINTS_TO_WIN =15;
+        _stripController = sc;
+        _stripsInUse = new HashMap<IncompleteResult, Integer>();
+        _refsInUse = new HashMap<IncompleteResult, Integer>();
     }
 
-    public DERound(List<Integer> seeding) {
-        _seeding = seeding;
+    // I feel like there is a much more concise way to code this constructor that has an additional argument
+    public DERound(IDataStore store, StripController sc, List<Integer> seeding) {
+        _dataStore = store;
+    	_seeding = seeding;
         POINTS_TO_WIN = 15;
+        _stripController = sc;
+        _stripsInUse = new HashMap<IncompleteResult, Integer>();
+        _refsInUse = new HashMap<IncompleteResult, Integer>();
     }
 
     public List<Integer> getSeeding() {
@@ -77,6 +92,23 @@ public class DERound implements IRound {
         for(int i = 0; i < _matches.length - _bracketSize / 2 - 1; i++){
             _matches[i] = null;
         }
+        switchSeedsForCompetitors();
+    }
+    
+    private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
+        if(index < 0)
+            throw new IllegalArgumentException("Index cannot be negative.");
+        if(index >= _matches.length)
+            return;
+        _matches[index] = new IncompleteResult(	currentSeed,
+                                                currentBracketSize - currentSeed + 1,
+                                                POINTS_TO_WIN);
+        populateBracketHelper(	2 * index + 1,
+                                currentBracketSize * 2,
+                                currentSeed);
+        populateBracketHelper(	2 * index + 2,
+                                currentBracketSize * 2,
+                                currentBracketSize - currentSeed + 1);
     }
 
     /**
@@ -130,23 +162,6 @@ public class DERound implements IRound {
         return (boutsDown/2) + prevHeadIndex;
     }
 
-
-    private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
-        if(index < 0)
-            throw new IllegalArgumentException("Index cannot be negative.");
-        if(index >= _matches.length)
-            return;
-        _matches[index] = new IncompleteResult(	currentSeed,
-                                                currentBracketSize - currentSeed + 1,
-                                                POINTS_TO_WIN);
-        populateBracketHelper(	2 * index + 1,
-                                currentBracketSize * 2,
-                                currentSeed);
-        populateBracketHelper(	2 * index + 2,
-                                currentBracketSize * 2,
-                                currentBracketSize - currentSeed + 1);
-    }
-
     public void setCut(double newCut){
         _cut = newCut;
     }
@@ -160,17 +175,52 @@ public class DERound implements IRound {
     }
 
     /**
-     * Gets the next match to be fenced.
-     * @return IncompleteResult The next match to be fenced.
-     * @throws NoSuchMatchException If there is no next bout.
+     * Returns the next match to be fenced if there is one.  Returns null if there is not.
+     * @return IncompleteResult that represents the next match to be fenced.
      */
-    public IncompleteResult getNextMatch() throws NoSuchMatchException{
-        for(Result result : _matches) {
-            if(result instanceof IncompleteResult) {
-                return (IncompleteResult) result;
-            }
-        }
-        throw new NoSuchMatchException("No such bout exists in this DERound");
+    private IncompleteResult getNextMatch() {
+    	int currentRoundSize = _bracketSize /2;   // currentRoundSize is the number of matches in the current round.
+    	int currentRoundHead = computeRoundHead(currentRoundSize);
+    	int i = currentRoundHead;
+    	while(true){
+    		if(_matches[i] == null){
+    			return null;
+    		}
+    		else if(_matches[i] instanceof IncompleteResult  &&  // If the current match is an IncompleteResult and
+    				_stripsInUse.get(_matches[i]) == null) {     // the match is not currently being fenced.
+    			if(_matches[i].getPlayer1() == -1 ||      // If either of the players is not yet known.
+    			   _matches[i].getPlayer2() == -1) {
+    				return null;
+    			}
+    			else
+    				return (IncompleteResult) _matches[i];
+    		}
+    		if(currentRoundSize == 1)  // If method got to final.  This should only happen if all matches in the round have been completed.
+    			return null;
+    		if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
+    			currentRoundSize /= 2;
+    			currentRoundHead = computeRoundHead(currentRoundSize);
+    			i = currentRoundHead;
+    		}
+    		else
+    			i++;
+    	}
+    }
+    
+    /**
+     * Computes the index in _matches that is the first element in _matches for the round in the DE that has roundSize
+     * Results in it.
+     * @param roundSize The number of Results in the round that the method finds the head of. 
+     * @return int the index of the head of the round that has roundSize Results in it in _matches.
+     */
+    private int computeRoundHead(int roundSize) {
+    	int curRoundSize = 1;
+    	int toReturn =0;
+    	while(curRoundSize < roundSize) {
+    		toReturn += curRoundSize;
+    		curRoundSize *= 2;
+    	}
+    	return toReturn;
     }
 
     /**
@@ -208,10 +258,34 @@ public class DERound implements IRound {
 	                    // Should never actually happen because only player2 should be set to -1
 	                    nextResult.setPlayer1(newResult.getWinner());
 	                }
-	                return;
+		            boolean hasNextBout = true;
+		            while(hasNextBout){
+		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
+		            }
 	            }
-            }
+
+            }            	
         }
+        throw new NoSuchMatchException("No match was found that corresponded to the CompleteResult you attempted to add");
+    }
+    
+    private boolean advanceRound(IncompleteResult justFinished) {
+        IncompleteResult nextMatch = getNextMatch();
+        if(nextMatch == null) {
+        	_stripController.returnStrip(_stripsInUse.get(justFinished));
+        	_dataStore.runTransaction(new Runnable(){
+				public void run(){
+					_dataStore.putData(_dataStore.getReferee(_refsInUse.get(justFinished)).setReffing(false)); // I'm not exactly sure how to deal with the problem of justFinished not being final... make a copy?
+				}
+			});
+        	return false;
+        }
+        Integer strip = _stripsInUse.remove(justFinished);
+        Integer ref = _refsInUse.remove(justFinished);
+        _stripsInUse.put(nextMatch, strip);
+        _refsInUse.put(nextMatch, ref);
+        // Send notification to referee and fencers to start the match
+        return true;
     }
 
     //TODO: why are we getting this warning?
