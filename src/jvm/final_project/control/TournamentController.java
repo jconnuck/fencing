@@ -30,10 +30,10 @@ public class TournamentController {
 		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
 	}
 
-	public void startPoolRound(int eventID) throws IllegalStateException{
+	public void startPoolRound(int eventID, int poolSize) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
-			if(!iter.next().startPoolRound()){
+			if(!iter.next().startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
 		}

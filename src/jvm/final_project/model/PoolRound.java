@@ -109,20 +109,21 @@ public abstract class PoolRound implements IRound{
         }
         return toReturn;
 	}
-	
+
 	/**
 	 * Assigns a strip(if available) to each pool that has a referee.  If there are no more available strips,
 	 * the remaining pools that have not been assigned strips are notified that they have been flighted.
 	 */
 	public void assignStrips() {
 		for(Pool p : _pools) {
-			if(!p.getRefs().isEmpty())
+			if(!p.getRefs().isEmpty()){
 				if(_stripControl.availableStrip())
 					p.addStrip(_stripControl.checkOutStrip());
 				else {
 					//TODO: Send message to all the rest of the pools that they have been flighted
 					return;
 				}
+			}
 		}
 	}
 

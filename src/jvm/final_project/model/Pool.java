@@ -33,7 +33,7 @@ public abstract class Pool {
 		return _players;
 	}
 
-	public Collection<Integer> getStrip() {
+	public Collection<Integer> getStrips() {
 		return _strips;
 	}
 	
@@ -71,6 +71,10 @@ public abstract class Pool {
 	public List<IncompleteResult> getIncompleteResults(){
 		return _incompleteResults;
 	}
+
+    public boolean isDone() {
+        return _incompleteResults.isEmpty();
+    }
 
 	public abstract List<? extends PlayerSeed> getSeeds();
 
