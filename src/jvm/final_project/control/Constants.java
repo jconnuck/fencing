@@ -9,4 +9,8 @@ public interface Constants {
 	public static final String INVALID_PHONE_NUMBER = "No number found";
 	
 	public static final String[] groups = {"Fencer", "Referee", "Technician", "Medical", "Subscriber"};
+	
+	public static final String API_RECEIVE_URL = "http://usa.bulksms.com:5567/eapi/reception/get_inbox/1/1.0";
+	public static final String API_SEND_URL = "http://usa.bulksms.com:5567/eapi/reception/get_inbox/1/1.0";
+
 }

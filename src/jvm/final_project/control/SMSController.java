@@ -68,11 +68,4 @@ public class SMSController implements Constants, ISMSController {
 	public void alertGUI(String message) {
 		//should call some sort of alert method
 	}
-
-	@SuppressWarnings("serial")
-	public class GUIAlertException extends Exception {
-		public GUIAlertException(String message) {
-			super(message);
-		}
-	}
 }

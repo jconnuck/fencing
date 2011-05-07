@@ -70,7 +70,7 @@ public class SMSSender implements Constants {
                 	toReturn = true; //SMS in progress
                 }
                 if(status_code == 23) { //Authentication failure
-                	toReturn = false;
+                	throw new SMSController.GUIAlertException("Authentication failure!");
                 }
             }
 		}

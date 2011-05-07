@@ -2,14 +2,14 @@ package final_project.control;
 
 import java.io.*;
 import java.net.*;
-
+import java.util.Calendar;
 
 /**
  * groups: technician & medical
  * @author Miranda
  *
  */
-public class SMSReceiver implements Runnable {
+public class SMSReceiver implements Runnable, Constants {
 
 	private SMSController _control;
 	private String _username, _password; //Not the most secure but who cares.
@@ -57,7 +57,7 @@ public class SMSReceiver implements Runnable {
 			data += "&password=" + URLEncoder.encode(_password, "ISO-8859-1");
 			data += "&last_retrieved_id=" + _lastRetrievedID;
 
-			URL url = new URL("http://usa.bulksms.com:5567/eapi/reception/get_inbox/1/1.0");
+			URL url = new URL(API_RECEIVE_URL);
 			URLConnection conn = url.openConnection();
 			conn.setDoOutput(true);
 			wr = new OutputStreamWriter(conn.getOutputStream());
@@ -72,8 +72,8 @@ public class SMSReceiver implements Runnable {
 				//Parsing the very first line
 				if(firstLine) {
 					//First line from API looks something like:
-					//0|records to follow|3
-
+					//0|records to follow|3 --> only care about status code (the zero)
+					_control.alertGUI("");
 
 					
 					//TODO: get substring & store lastReceivedID
@@ -94,8 +94,6 @@ public class SMSReceiver implements Runnable {
 		} catch (UnknownHostException e) { 
 			//Letting the GUI know it ain't got no internet
 			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled");
-		} catch(SMSController.GUIAlertException e) {
-			_control.alertGUI(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace(); //What to do with these??
 		} 		
