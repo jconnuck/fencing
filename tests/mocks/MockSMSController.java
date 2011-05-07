@@ -2,7 +2,7 @@ package mocks;
 
 import final_project.control.ISMSController;
 
-public class MockSMSController implements ISMSController{
+public class MockSMSController implements ISMSController {
 
 	@Override
 	public void parseOutput(String received, String number) {
@@ -22,7 +22,7 @@ public class MockSMSController implements ISMSController{
 	}
 
 	@Override
-	public void sendFencerStripMessage(int id, int strip) throws Exception {
+	public void sendFencerStripMessage(int id, int strip) {
 		//This one is empty for now (testing SMSParsing and this is never called)
 	}
 

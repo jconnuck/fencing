@@ -8,6 +8,7 @@ public class SMSController implements Constants, ISMSController {
 	private SMSSender _sender;
 	private SMSParser _parser;
 	private TournamentController _tournament;
+	private Thread _sendThread;
 
 	public SMSController(IDataStore s, TournamentController t) {
 		_tournament = t;
@@ -35,7 +36,7 @@ public class SMSController implements Constants, ISMSController {
 		_sender.sendGroupMessage(group, message);
 	}
 
-	public void sendFencerStripMessage(int id,  int strip) throws Exception {
+	public void sendFencerStripMessage(int id,  int strip) {
 		_sender.sendFencerStripMessage(id, strip);
 	}
 	

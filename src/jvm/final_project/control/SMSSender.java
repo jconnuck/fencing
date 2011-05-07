@@ -15,7 +15,7 @@ import final_project.model.IDataStore;
 public class SMSSender implements Constants {
 
 	private IDataStore _store;
-	private ISMSController _control;
+	private ISMSController _control; //Needed to alert when there are no more credits, etc.
 	
 	public SMSSender(IDataStore s, ISMSController ctrl) {
 		_store = s;
@@ -76,9 +76,7 @@ public class SMSSender implements Constants {
             try {
 				if(wr!=null) wr.close();
 				if(wr!=null) rd.close();
-			} catch (IOException e) {
-				e.printStackTrace(); //TODO make more useful... Do I really care if this is fucking up?
-			}			
+			} catch (IOException e) { } //Currently don't care if an exception is thrown
 		}
 		return toReturn;
 
@@ -115,20 +113,20 @@ public class SMSSender implements Constants {
 	public boolean sendGroupMessage(String group, String message) { 
 		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
-			if (i!=null) //TODO: ask will if this makes sense...
+			if (i!=null && !i.getPhoneNumber().equals(""))
 				number += i.getPhoneNumber() + ",";
 		}
 		return this.sendMessage(message, number);
 	}
 
-	//Should I organize this into a batch? TODO
-	public boolean sendFencerStripMessage(int id,  int strip) throws Exception {
+	//Should I have another method, where this is organized into a batch? TODO
+	public boolean sendFencerStripMessage(int id,  int strip) {
 		String message = "Fencer id: " + id + " Strip assignment: " + strip;
 		
 		//Look up the fencer in the database to get their phone number
 		IPerson i = _store.getPerson(id);
 		if(i==null) {
-			throw new Exception("No fencer found for id " + id);
+			return false;
 		}
 
 		String number = i.getPhoneNumber();

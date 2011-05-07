@@ -1,7 +1,13 @@
 package final_project.control;
 
 import java.util.Scanner;
-import final_project.model.*;
+
+import final_project.model.IDataStore;
+import final_project.model.IPerson;
+import final_project.model.IReferee;
+import final_project.model.IPlayer;
+import final_project.model.IClub;
+
 import mocks.*;
 
 public class SMSParser {
@@ -27,7 +33,7 @@ public class SMSParser {
 
 		//Message: "help string" 
 		if (firstWord.equals("Help") || firstWord.equals("help")) {
-			//TODO Appeal to GUI!
+			//TODO Alert GUI!
 		}
 
 		// Message: "Follow first last" or "follow clubName"
@@ -293,8 +299,8 @@ public class SMSParser {
 	}
 
 	public static void main(String[] args) {
-		SMSParser p = new SMSParser(null, new MockSMSController());
-		p.parseOutput("Follow MiranjnbmamdaSteele", "8132987766");
+		SMSParser p = new SMSParser(null, null);
+		//p.parseOutput("Follow MiranjnbmamdaSteele", "8132987766");
 	}
 
 }
