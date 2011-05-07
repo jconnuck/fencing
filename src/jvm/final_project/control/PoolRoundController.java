@@ -2,7 +2,6 @@ package final_project.control;
 
 import final_project.model.*;
 
-
 public class PoolRoundController {
 	private PoolRound _poolRound;
 	private int _numPools, _numBigPools, _numSmallPools;
