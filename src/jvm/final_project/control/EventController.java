@@ -51,7 +51,7 @@ public class EventController {
 	public boolean hasRef(Integer ref){
 		return _refs.contains(ref);
 	}
-	
+
 	public void addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
 			_poolController.addCompleteResult(result);
@@ -59,7 +59,7 @@ public class EventController {
 			_deController.addCompleteResult(result);
 		}
 	}
-	
+
 	/**
 	 * Called in TournamentController;
 	 * returns true if the pool round was started, false otherwise.
@@ -68,7 +68,7 @@ public class EventController {
 	public boolean startPoolRound() {
 		if(_state != State.REGISTRATION)
 			return false;
-		
+
 		return true;
 	}
 }
