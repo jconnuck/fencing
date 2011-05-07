@@ -8,6 +8,7 @@ public abstract class Pool {
 	protected Collection<Integer> _refs;
 	protected Collection<CompleteResult> _results;
 	protected List<IncompleteResult> _incompleteResults;
+	protected Collection<Integer> _strips;
 
 	public Pool(){
 		_players = new ArrayList<Integer>();
@@ -32,6 +33,17 @@ public abstract class Pool {
 		return _players;
 	}
 
+	public Collection<Integer> getStrip() {
+		return _strips;
+	}
+	
+	public void addStrip(Integer toAdd) {
+		_strips.add(toAdd);
+	}
+	public void clearStrips() {
+		_strips.clear();
+	}
+	
 	public Collection<Integer> getRefs() {
 		return _refs;
 	}

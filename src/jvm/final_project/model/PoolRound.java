@@ -2,6 +2,8 @@ package final_project.model;
 
 import java.util.*;
 
+import final_project.control.StripController;
+
 //also serves as pool controller
 public abstract class PoolRound implements IRound{
 
@@ -11,6 +13,7 @@ public abstract class PoolRound implements IRound{
 	//TODO: delete protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
+	private StripController _stripControl;
 
 	public boolean addCompleteResult(CompleteResult result){
 		for(Pool p : _pools){
@@ -47,7 +50,13 @@ public abstract class PoolRound implements IRound{
 		return  p.getPlayers().contains(result.getLoser()) && p.getPlayers().contains(result.getWinner());
 	}
 
-	//returns boolean of whether or not an optimal ref assignment was achieved
+	/**
+	 * Assigns referees from the list of referee ID argument to the rounds pools; if there
+	 * are not enough referees, the remaining pools will have empty referees lists and will
+	 * be notified that they have been flighted.
+	 * @param refs A list of Integer representing a list of referees available for the PoolRound's pools.
+	 * @return true if there are no potential conflicts of interest, false if there are.
+	 */
 	public boolean assignReferees(List<Integer> refs){
 		boolean toReturn = true;
 		Map<Pool, Integer> poolToNumConflicts = new HashMap<Pool,Integer>();
@@ -75,7 +84,7 @@ public abstract class PoolRound implements IRound{
 
         Iterator<Integer> iter;
         for(Pool p : _pools){
-        	//TODO: notify gui and fencers that pool does not have ref
+        	//TODO: notify gui and fencers that pool has been flighted
         	if(refs.isEmpty()){
         		p.clearRefs();
         	}else{
@@ -100,6 +109,22 @@ public abstract class PoolRound implements IRound{
         	}
         }
         return toReturn;
+	}
+	
+	/**
+	 * Assigns a strip(if available) to each pool that has a referee.  If there are no more available strips,
+	 * the remaining pools that have not been assigned strips are notified that they have been flighted.
+	 */
+	public void assignStrips() {
+		for(Pool p : _pools) {
+			if(!p.getRefs().isEmpty())
+				if(_stripControl.availableStrip())
+					p.addStrip(_stripControl.checkOutStrip());
+				else {
+					//TODO: Send message to all the rest of the pools that they have been flighted
+					return;
+				}
+		}
 	}
 
 	private boolean haveConflict(Pool p, Integer ref){
