@@ -14,7 +14,6 @@ public abstract class PoolRound implements IRound{
 	protected int _numPlayers;
 	private StripController _stripControl;
 
-
 	/*
 	 * Adds the given completeResult to the appropriate pool.
 	 * @param result A CompleteResult to be added to this PoolRound
