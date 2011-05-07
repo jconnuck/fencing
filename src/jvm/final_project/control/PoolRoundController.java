@@ -1,13 +1,17 @@
 package final_project.control;
 
+import java.util.*;
+
 import final_project.model.*;
 
 public class PoolRoundController {
 	private PoolRound _poolRound;
 	private int _numPools, _numBigPools, _numSmallPools;
+	private IDataStore _dataStore;
 
 	public PoolRoundController(IDataStore ds) {
 		//_poolRound = new FencerPoolRound();
+		_dataStore = ds;
 	}
 
 	public void addCompleteResult(CompleteResult result) throws IllegalArgumentException{
@@ -26,6 +30,17 @@ public class PoolRoundController {
 
 		_poolRound = new FencerPoolRound(_numPools, poolSize);
         _poolRound.populatePools();
+        //_poolRound.assignReferees(refs);
+        Collection<IReferee> allRefs = _dataStore.getReferees();
+        List<Integer> availableRefs = new  LinkedList<Integer>();
+
+        for(IReferee ref: allRefs){
+        	if(!ref.getReffing())
+        		availableRefs.add(ref.getID());
+        }
+
+        _poolRound.assignStrips();
+        _poolRound.assignReferees(availableRefs);
 
         return true;
 	}
