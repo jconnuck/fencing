@@ -14,7 +14,7 @@ public abstract class PoolRound implements IRound{
 	protected int _numPlayers;
 	private StripController _stripControl;
 
-	public boolean addCompleteResult(CompleteResult result){
+	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
 				if(p.addCompletedResult(result)){
@@ -38,10 +38,16 @@ public abstract class PoolRound implements IRound{
 					}
 					p.clearRefs();
 				}
+				//returns true if all pools have completed, false otherwise
+				for(Pool tempPool : _pools){
+					if(!tempPool.isDone())
+						return false;
+				}
 				return true;
+
 			}
 		}
-		return false;
+		throw new IllegalArgumentException("No pools have given result.");
 	}
 
 	//return true if the given pool p has the given CompleteResult as one of its matches
