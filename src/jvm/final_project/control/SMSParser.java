@@ -8,7 +8,7 @@ import final_project.model.IReferee;
 import final_project.model.IPlayer;
 import final_project.model.IClub;
 
-import mocks.*;
+//import mocks.*;
 
 public class SMSParser {
 
@@ -20,18 +20,18 @@ public class SMSParser {
 		_control = ctrl;
 	}
 
-	/** 
-	 * This method handles parsing the message from the API & 
-	 * then calling the appropriate other methods on the data that 
+	/**
+	 * This method handles parsing the message from the API &
+	 * then calling the appropriate other methods on the data that
 	 * it gets out of the line.
-	 */ 
+	 */
 	public void parseOutput(String received, String number) {
 		Scanner s = new Scanner(received);
 
 		//First, getting the first word
 		String firstWord = s.next();
 
-		//Message: "help string" 
+		//Message: "help string"
 		if (firstWord.equals("Help") || firstWord.equals("help")) {
 			//TODO Alert GUI!
 		}
@@ -70,7 +70,7 @@ public class SMSParser {
 		//Message "result id beat id this-that" or "id beat id this to that"
 		else if(firstWord.equals("Result") || firstWord.equals("result")) { //TODO: do i like this?
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
-			
+
 			/* Looping through to find the ref ID of this number */
 			boolean found = false;
 			for (IReferee i: _store.getReferees()) {
@@ -84,7 +84,7 @@ public class SMSParser {
 				_control.sendMessage("We're sorry, this number is not registered as a referee.", number);
 				return;
 			}
-			
+
 			/* Now, parsing out fencer IDs and score */
 			if(s.hasNextInt())
 				winID = s.nextInt();
@@ -92,7 +92,7 @@ public class SMSParser {
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
-			
+
 			if(s.hasNextInt())
 				loseID = s.nextInt();
 			else {
@@ -112,14 +112,14 @@ public class SMSParser {
 					return;
 				}
 			}
-			
+
 			if(s.hasNextInt())
 				loseScore = s.nextInt();
 			else {
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
-			
+
 			/* NOW THAT WE'VE PARSED OUT ALL OF THE DATA */
 			_control.returnResults(refID, winID, winScore, loseID, loseScore);
 		}
@@ -129,7 +129,7 @@ public class SMSParser {
 		}
 	}
 
-	//Subscribes a user to an IObservable 
+	//Subscribes a user to an IObservable
 	public boolean subscribeUser(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
@@ -248,7 +248,7 @@ public class SMSParser {
 			return false;
 		}
 		else {
-			_control.sendMessage("You have been successfully unsubscribed from " + firstToUnsubscribe 
+			_control.sendMessage("You have been successfully unsubscribed from " + firstToUnsubscribe
 					+ " " + lastToUnsubscribe + " .", number);
 			//Cleaning up Spectator
 			if (spect.getWatched().isEmpty())
@@ -259,8 +259,8 @@ public class SMSParser {
 
 	public boolean swapRefs(String oldRefNumber, String newRefNumber){
 		/**
-		 * Looking up ref ids by searching through list of referees. If either 
-		 * phone number does not belong to a registered ref, the swap will not 
+		 * Looking up ref ids by searching through list of referees. If either
+		 * phone number does not belong to a registered ref, the swap will not
 		 * go through.
 		 */
 		int oldRefID = 0, newRefID = 0;
@@ -285,7 +285,7 @@ public class SMSParser {
 				break;
 			}
 		}
-		
+
 		if (!found) {
 			_control.sendMessage("You (message sender) are not registered as a referee.", oldRefNumber);
 			return false;

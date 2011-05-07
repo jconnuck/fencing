@@ -15,7 +15,7 @@ public class TournamentController {
 	public TournamentController() {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
-		//_dataStore = new DataStore();
+		_dataStore = new DataStore();
 		_stripController = new StripController();
 	}
 
