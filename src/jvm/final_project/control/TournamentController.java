@@ -1,7 +1,6 @@
 package final_project.control;
 
 import java.util.*;
-
 import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 
@@ -15,7 +14,7 @@ public class TournamentController {
 	public TournamentController() {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
-		_dataStore = new DataStore();
+		//_dataStore = new DataStore();
 		_stripController = new StripController();
 	}
 
