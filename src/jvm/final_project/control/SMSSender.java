@@ -14,12 +14,15 @@ import final_project.model.IDataStore;
 
 public class SMSSender implements Constants {
 
+	private String _username, _password;
 	private IDataStore _store;
 	private ISMSController _control; //Needed to alert when there are no more credits, etc.
 	
-	public SMSSender(IDataStore s, ISMSController ctrl) {
+	public SMSSender(IDataStore s, ISMSController ctrl, String username, String password) {
 		_store = s;
 		_control = ctrl;
+		_username = username;
+		_password = password;
 	}
 
 	/**
@@ -37,8 +40,8 @@ public class SMSSender implements Constants {
 		try {
 			//Constructing the data
 			String data = "";
-            data += "username=" + URLEncoder.encode("cs032fencing", "ISO-8859-1");
-            data += "&password=" + URLEncoder.encode("F3ncing!", "ISO-8859-1");
+            data += "username=" + URLEncoder.encode(_username, "ISO-8859-1");
+            data += "&password=" + URLEncoder.encode(_password, "ISO-8859-1");
             data += "&message=" + URLEncoder.encode(message, "ISO-8859-1");
             data += "&want_report=1";
             data += "&msisdn=1" + number;
@@ -65,6 +68,9 @@ public class SMSSender implements Constants {
                 int status_code = s.nextInt();
                 if(status_code == 0) {
                 	toReturn = true; //SMS in progress
+                }
+                if(status_code == 23) { //Authentication failure
+                	toReturn = false;
                 }
             }
 		}

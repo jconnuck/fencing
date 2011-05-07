@@ -10,18 +10,29 @@ public class SMSController implements Constants, ISMSController {
 	private TournamentController _tournament;
 	private Thread _sendThread;
 
-	public SMSController(IDataStore s, TournamentController t) {
+	/**
+	 *  Constructor needs to take the username & password for the BulkSMS API 
+	 * @param s
+	 * @param t
+	 * @param username
+	 * @param password
+	 */
+	public SMSController(IDataStore s, TournamentController t, String username, String password) {
 		_tournament = t;
 
 		/* Making sender and parser */
-		_sender = new SMSSender(s, this);
+		_sender = new SMSSender(s, this, username, password);
 		_parser = new SMSParser(s, this);
 
 		/* Starting the "receiver" thread to continuously check the inbox */
-		SMSReceiver receiver = new SMSReceiver(this);
+		SMSReceiver receiver = new SMSReceiver(this, username, password);
 		_sendThread = new Thread(receiver);
 		_sendThread.start();
+
+		receiver.getInbox();
+
 	}
+
 
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
@@ -56,5 +67,12 @@ public class SMSController implements Constants, ISMSController {
 
 	public void alertGUI(String message) {
 		//should call some sort of alert method
+	}
+
+	@SuppressWarnings("serial")
+	public class GUIAlertException extends Exception {
+		public GUIAlertException(String message) {
+			super(message);
+		}
 	}
 }
