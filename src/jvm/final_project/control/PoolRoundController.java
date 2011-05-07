@@ -14,8 +14,8 @@ public class PoolRoundController {
 		_dataStore = ds;
 	}
 
-	public void addCompleteResult(CompleteResult result) throws IllegalArgumentException{
-        _poolRound.addCompleteResult(result);
+	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
+        return _poolRound.addCompleteResult(result);
 	}
 
 	public boolean createPools(int poolSize) {
