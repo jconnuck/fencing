@@ -54,10 +54,12 @@ public class TournamentController {
 			if(event.hasRef(ref)){
 				try {
 					event.addCompletedResult(result);
+					//TODO Send ref confirmation message
 					return;
 				} catch (NoSuchMatchException e) {
+					//TODO Send ref error message
+					//_smsController.sendMessage(message, number)
 					e.printStackTrace();
-					//TODO text ref back saying problem with result
 				}
 			}
 		}
