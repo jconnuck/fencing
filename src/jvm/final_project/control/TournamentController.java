@@ -29,6 +29,10 @@ public class TournamentController {
 		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
 	}
 
+	public void startPoolRound(int eventID){
+
+	}
+
 	/**
 	 *Adds the given player to the given event.
 	 * @param eventID
@@ -43,6 +47,8 @@ public class TournamentController {
 		}
 		return false;
 	}
+
+	public
 
 	/**
 	 * Takes a completed bout and adds it to appropriate event.
