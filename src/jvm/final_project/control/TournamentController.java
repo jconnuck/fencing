@@ -37,7 +37,7 @@ public class TournamentController {
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
 		}
-		throw new IllegalStateException("No even created.");
+		throw new IllegalStateException("No event created.");
 	}
 
 	/**
@@ -54,8 +54,6 @@ public class TournamentController {
 		}
 		return false;
 	}
-
-	//public
 
 	/**
 	 * Takes a completed bout and adds it to appropriate event.

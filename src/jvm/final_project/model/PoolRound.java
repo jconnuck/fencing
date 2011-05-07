@@ -6,7 +6,6 @@ import final_project.control.StripController;
 
 //also serves as pool controller
 public abstract class PoolRound implements IRound{
-
 	private IDataStore _dataStore;
 	protected List<Pool> _pools;
 	protected List<Integer> _resultSeedList;
