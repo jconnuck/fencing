@@ -36,6 +36,7 @@ public class SMSParser {
 		//Message: "help string"
 		if (firstWord.equals("Help") || firstWord.equals("help")) {
 			_control.alertGUI("Help message received! Message: " + received, _cal.getTime());
+			/* Alerting the proper group for help (either technical or medical) */
 			if(s.hasNext()) {
 				String groupToAlert = s.next();
 				if(groupToAlert.equals("medical") || groupToAlert.equals("Medical"))
@@ -142,6 +143,10 @@ public class SMSParser {
 	public boolean subscribeUser(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
+		
+		if(_store == null)
+			return false;
+		
 		for (IPerson i: _store.getPeople()) {
 			if(i.getPhoneNumber().equals(number)) {
 				found = true;

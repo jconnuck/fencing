@@ -9,7 +9,6 @@ public class DERound implements IRound {
     private double _cut;         /*!< The percentage of the fencers to be cut before the round starts */
     private Result[] _matches;  /*!< Array of all bouts in this DE round. */
     private int _bracketSize;    /*!< The bracket size (How many slots there are in the first round of DEs) (must be a power of 2) */
-    private int _currentBracket; /*!< The number of slots in the current stage of the DE round (must be a power of 2 and <= _bracketSize*/
     private static int POINTS_TO_WIN;
     private StripController _stripController;
     private Map<IncompleteResult, Integer> _stripsInUse; //Correlates currently fencing bouts with the strips that they are using
@@ -168,10 +167,6 @@ public class DERound implements IRound {
 
     public double getCut() {
         return _cut;
-    }
-
-    public int getCurrentBracketSize() {
-        return _currentBracket;
     }
 
     /**
