@@ -28,11 +28,11 @@ public class TournamentController {
 
 	/**
 	 *Adds the given player to the given event.
-	 * @param playerID
 	 * @param eventID
+	 * @param playerID
 	 * @return a boolean, true if player was added, false otherwise.
 	 */
-	public boolean addPlayer(int playerID, int eventID){
+	public boolean addPlayer(int eventID, int playerID){
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
 			iter.next().addPlayer(playerID);
@@ -60,5 +60,15 @@ public class TournamentController {
 		}
 		//TODO text ref again
 		//
+	}
+	
+	/**
+	 * Method called by the SMSController when two refs need to be 
+	 * swapped. 
+	 * @param oldRefID
+	 * @param newRefID
+	 */
+	public void swapRef(int eventID, int oldRefID, int newRefID) {
+		//TODO: empty stub
 	}
 }
