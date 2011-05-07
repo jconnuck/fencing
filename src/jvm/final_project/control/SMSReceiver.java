@@ -13,14 +13,13 @@ public class SMSReceiver implements Runnable {
 		_lastRetrievedID = 0;
 		_listening = true;
 	}
-
-	@Override
+	
 	public void run() {
 		while(_listening) {
 			this.getInbox();
 		}
 	}
-
+	
 	/* Methods to stop and start this thread by changing "_listening" boolean */
 	public void stopListening() {
 		_listening = false;
@@ -89,4 +88,5 @@ public class SMSReceiver implements Runnable {
 		}
 		return toReturn;
 	}
+
 }
