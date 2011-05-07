@@ -14,7 +14,6 @@ import final_project.model.PlayerSeed;
 public class MockDataStore implements IDataStore {
 
 	public IClub createClub(String name) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -33,6 +32,8 @@ public class MockDataStore implements IDataStore {
 
 	public IPerson createSpectator(String phoneNumber, String firstName,
 			String lastName, String carrier, String group) {
+		System.out.println("Create spectator called");
+
 		// TODO Auto-generated method stub
 		return null;
 	}
