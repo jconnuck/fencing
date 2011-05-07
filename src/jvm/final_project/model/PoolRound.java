@@ -24,7 +24,7 @@ public abstract class PoolRound implements IRound{
 					for(Pool toCheck : _pools){
 						if(!refIter.hasNext() && !stripIter.hasNext())
 							break;
-						if(!toCheck.getIncompleteResults().isEmpty()) {
+						if(!toCheck.isDone()) {
 							boolean hasNoRef, hasNoStrip, extraRef, extraStrip, newPoolReady;
 							newPoolReady = false;
 							hasNoRef = toCheck.getRefs().isEmpty();
@@ -55,7 +55,7 @@ public abstract class PoolRound implements IRound{
 								//TODO: Notify newly ready pool(ref and fencers) that there pool has now begun
 							}
 						}
-						
+
 					}
 					while(refIter.hasNext()){
 						final Integer temp = refIter.next();
