@@ -287,3 +287,25 @@
 
 (defn -init []
   [[] (make-store)])
+
+(comment
+  (defn parse-text [str]
+    (mapcat #(let [split (str/split % #"-")]
+               (case (count split)
+                     1 (list (Integer/parseInt (first split)))
+                     2 (range (Integer/parseInt (first split))
+                              (inc (Integer/parseInt (second split))))
+                     (throw (IllegalArgumentException.
+                             "wrong number of dash-separated numbers"))))
+            (str/split str #",")))
+
+
+  (def get-char
+       (zipmap (range 62)
+               (concat (range 10)
+                       "abcdefghijklmnopqrstuvwxyz"
+                       "ABCDEFGHIJKLMNOPQRSTUVWXYZ")))
+
+  (defn rand-str [n]
+    (apply str
+           (repeatedly n #(get-char (int (rand 62)))))))

@@ -20,7 +20,7 @@ public class SMSController implements Constants, ISMSController {
 		/* Starting the "receiver" thread to continuously check the inbox */
 		SMSReceiver receiver = new SMSReceiver(this);
 		_sendThread = new Thread(receiver);
-		_sendThread.run();
+		_sendThread.start();
 	}
 
 	/* TODO: How to handle the booleans that the sender methods return? */
