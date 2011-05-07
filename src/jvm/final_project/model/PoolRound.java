@@ -18,18 +18,47 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
 				if(p.addCompletedResult(result)){
-					//code to reassign ref from p to a pool with no ref
-					Iterator<Integer> iter = p.getRefs().iterator();
+					//code to reassign newly free ref(s) and strip(s) to pools that don't have them.
+					Iterator<Integer> refIter = p.getRefs().iterator();
+					Iterator<Integer> stripIter = p.getStrips().iterator();
 					for(Pool toCheck : _pools){
-						if(!iter.hasNext())
+						if(!refIter.hasNext() && !stripIter.hasNext())
 							break;
-						if(toCheck.getRefs().isEmpty() && !toCheck.getIncompleteResults().isEmpty()){
-							toCheck.addRef(iter.next());
-							iter.remove();
+						if(!toCheck.getIncompleteResults().isEmpty()) {
+							boolean hasNoRef, hasNoStrip, extraRef, extraStrip, newPoolReady;
+							newPoolReady = false;
+							hasNoRef = toCheck.getRefs().isEmpty();
+							hasNoStrip = toCheck.getStrips().isEmpty();
+							extraRef = refIter.hasNext();
+							extraStrip = stripIter.hasNext();
+							if(hasNoRef && hasNoStrip &&
+							   extraRef && extraStrip){
+								toCheck.addRef(refIter.next());
+								refIter.remove();
+								toCheck.addStrip(stripIter.next());
+								stripIter.remove();
+								newPoolReady = true;
+							}
+							if(hasNoRef && !hasNoStrip &&
+							   extraRef) {
+								toCheck.addRef(refIter.next());
+								refIter.remove();
+								newPoolReady = true;
+							}
+							if(!hasNoRef && hasNoStrip &&
+									        extraStrip) {
+								toCheck.addStrip(stripIter.next());
+								stripIter.remove();
+								newPoolReady = true;
+							}
+							if(newPoolReady) {
+								//TODO: Notify newly ready pool(ref and fencers) that there pool has now begun
+							}
 						}
+						
 					}
-					while(iter.hasNext()){
-						final Integer temp = iter.next();
+					while(refIter.hasNext()){
+						final Integer temp = refIter.next();
 						_dataStore.runTransaction(new Runnable(){
 							public void run(){
 								_dataStore.putData(_dataStore.getReferee(temp).setReffing(false));
