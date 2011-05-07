@@ -3,6 +3,11 @@ package final_project.control;
 import java.io.*;
 import java.net.*;
 
+/**
+ * groups: technician & medical
+ * @author Miranda
+ *
+ */
 public class SMSReceiver implements Runnable {
 
 	//private SMSController _control;

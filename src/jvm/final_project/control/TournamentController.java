@@ -4,6 +4,7 @@ import java.util.*;
 import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 
+//Created in the main method.
 public class TournamentController {
 
 	private Collection<EventController> _events;
