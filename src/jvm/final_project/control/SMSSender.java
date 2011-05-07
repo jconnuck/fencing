@@ -17,7 +17,7 @@ public class SMSSender implements Constants {
 	private String _username, _password;
 	private IDataStore _store;
 	private ISMSController _control; //Needed to alert when there are no more credits, etc.
-	
+
 	public SMSSender(IDataStore s, ISMSController ctrl, String username, String password) {
 		_store = s;
 		_control = ctrl;
@@ -40,54 +40,65 @@ public class SMSSender implements Constants {
 		try {
 			//Constructing the data
 			String data = "";
-            data += "username=" + URLEncoder.encode(_username, "ISO-8859-1");
-            data += "&password=" + URLEncoder.encode(_password, "ISO-8859-1");
-            data += "&message=" + URLEncoder.encode(message, "ISO-8859-1");
-            data += "&want_report=1";
-            data += "&msisdn=1" + number;
+			data += "username=" + URLEncoder.encode(_username, "ISO-8859-1");
+			data += "&password=" + URLEncoder.encode(_password, "ISO-8859-1");
+			data += "&message=" + URLEncoder.encode(message, "ISO-8859-1");
+			data += "&want_report=1";
+			data += "&msisdn=1" + number;
 
-            URL url = new URL("http://usa.bulksms.com:5567/eapi/submission/send_sms/2/2.0");
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);	//Does this block? 
-            wr.flush();
-            
-            // Get the response
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line, output = "";
-            while ((line = rd.readLine()) != null) {
-            	output += line;
-            }
-            //0|IN_PROGRESS|274166347
-            Scanner s = new Scanner(output);
-            if(!s.hasNext() || !s.hasNextInt()) {
-            	toReturn = false;
-            }
-            else {
-                int status_code = s.nextInt();
-                if(status_code == 0) {
-                	toReturn = true; //SMS in progress
-                }
-                if(status_code == 23) { //Authentication failure
-                	throw new SMSController.GUIAlertException("Authentication failure!");
-                }
-            }
-		}
-		catch (Exception e) {
+			URL url = new URL("http://usa.bulksms.com:5567/eapi/submission/send_sms/2/2.0");
+			URLConnection conn = url.openConnection();
+			conn.setDoOutput(true);
+			wr = new OutputStreamWriter(conn.getOutputStream());
+			wr.write(data);	//Does this block? 
+			wr.flush();
+
+			// Get the response
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line, output = "";
+			while ((line = rd.readLine()) != null) {
+				output += line;
+			}
+			/**
+			 * For now, only care about first line. It should look something like this:
+			 * 0|IN_PROGRESS|274166347
+			 * where the 0 is the status code (all we care about).
+			 */
+	
+			Scanner s = new Scanner(output);
+			if(!s.hasNext() || !s.hasNextInt()) {
+				toReturn = false;
+			}
+			else {
+				int status_code = s.nextInt();
+				if(status_code == 0) {
+					toReturn = true; //SMS in progress
+				}
+				else if(status_code == 23) { //Authentication failure
+					_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
+					toReturn = false;
+				}
+				else if(status_code == 25) {
+					_control.alertGUI("SMS API needs more credits! Send failure!", _control.getTime());
+					toReturn = false;
+				}
+				else {
+					_control.alertGUI("Send SMS Failure", _control.getTime());
+					toReturn = false;
+				}
+			}
+		} catch (Exception e) {
 			toReturn = false;
 			e.printStackTrace();
-		}
-		finally {
-            try {
+		} finally {
+			try {
 				if(wr!=null) wr.close();
 				if(wr!=null) rd.close();
 			} catch (IOException e) { } //Currently don't care if an exception is thrown
 		}
 		return toReturn;
-
 	}
-	
+
 	/**
 	 * The following methods are convenience methods that the 
 	 * other classes can call so that they don't have to deal 
@@ -128,7 +139,7 @@ public class SMSSender implements Constants {
 	//Should I have another method, where this is organized into a batch? TODO
 	public boolean sendFencerStripMessage(int id,  int strip) {
 		String message = "Fencer id: " + id + " Strip assignment: " + strip;
-		
+
 		//Look up the fencer in the database to get their phone number
 		IPerson i = _store.getPerson(id);
 		if(i==null) {
@@ -142,5 +153,5 @@ public class SMSSender implements Constants {
 
 		return this.sendMessage(message, number);
 	}
-	
+
 }

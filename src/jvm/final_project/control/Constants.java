@@ -12,5 +12,7 @@ public interface Constants {
 	
 	public static final String API_RECEIVE_URL = "http://usa.bulksms.com:5567/eapi/reception/get_inbox/1/1.0";
 	public static final String API_SEND_URL = "http://usa.bulksms.com:5567/eapi/reception/get_inbox/1/1.0";
+	
+	public static final int EVENT_ID = 0; //Currently only supporting one event, which has id 0
 
 }

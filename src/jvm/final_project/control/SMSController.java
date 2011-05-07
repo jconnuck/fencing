@@ -1,5 +1,7 @@
 package final_project.control;
 
+import java.util.Date;
+import java.util.Calendar;
 import final_project.model.*;
 
 public class SMSController implements Constants, ISMSController {
@@ -9,6 +11,7 @@ public class SMSController implements Constants, ISMSController {
 	private SMSParser _parser;
 	private TournamentController _tournament;
 	private Thread _sendThread;
+	private Calendar _cal;
 
 	/**
 	 *  Constructor needs to take the username & password for the BulkSMS API 
@@ -19,7 +22,8 @@ public class SMSController implements Constants, ISMSController {
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
 		_tournament = t;
-
+		_cal = Calendar.getInstance();
+		
 		/* Making sender and parser */
 		_sender = new SMSSender(s, this, username, password);
 		_parser = new SMSParser(s, this);
@@ -62,10 +66,14 @@ public class SMSController implements Constants, ISMSController {
 	}
 
 	public void swapRefs(int oldRefID, int newRefID) {
-		//should call swapRef method in tournament
+		_tournament.swapRef(0, oldRefID, newRefID);
 	}
 
-	public void alertGUI(String message) {
+	public void alertGUI(String message, Date time) {
 		//should call some sort of alert method
+	}
+	
+	public Date getTime() {
+		return _cal.getTime();
 	}
 }
