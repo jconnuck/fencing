@@ -16,34 +16,72 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private JSearchTextField searchField;
+	private SubscriberTableModel model;
 	private TableRowSorter<SubscriberTableModel> sorter;
-	BalloonTip addNewSubscriberTip;
-	AddNewSubscriberPanel addNewSubscriberPane;
+	private JSearchTextField searchField;
+	private BalloonTip addNewSubscriberTip;
+	private AddNewSubscriberPanel addNewSubscriberPane;
+	private JButton addSubscriber;
+	private JScrollPane scrollPane;
+	private JLabel manageSubscribers;
 
 	/**
 	 * Create the panel.
 	 */
 	public SubscriberAdminPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{150, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		initializeGridBagLayout();
+		initializeTable();
+		initializeComponents();
+		initializeSearch();
+		initializeBalloons();
+	}
+
+	private void initializeBalloons() {
+		addNewSubscriberPane = new AddNewSubscriberPanel();
+		addNewSubscriberTip = new BalloonTip(addSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
+		addNewSubscriberTip.setOpacity(0.9f);
+		addNewSubscriberTip.setVisible(false);
+		addNewSubscriberPane.getCancelButton().addActionListener(this);
+		addNewSubscriberPane.getDoneButton().addActionListener(this);
+	}
+
+	private void initializeComponents() {
+		manageSubscribers = new JLabel("Manage Subscribers");
+		GridBagConstraints gbc_manageSubscribers = new GridBagConstraints();
+		gbc_manageSubscribers.gridwidth = 2;
+		gbc_manageSubscribers.insets = new Insets(0, 0, 5, 0);
+		gbc_manageSubscribers.gridx = 0;
+		gbc_manageSubscribers.gridy = 0;
+		add(manageSubscribers, gbc_manageSubscribers);
 		
-		//Set up table with custom sorter
-		SubscriberTableModel model = new SubscriberTableModel();
-		sorter = new TableRowSorter<SubscriberTableModel>(model);
+		addSubscriber = new JButton("Add Subscriber");
+		addSubscriber.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				addNewSubscriberPane.setNoResults(false);
+				addNewSubscriberPane.getNameTextField().requestFocusInWindow();
+	        	addNewSubscriberPane.getNameTextField().setText("");
+	        	addNewSubscriberPane.getPhoneNumberTextField().setText("");
+				addNewSubscriberTip.setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_btnAddSubscriber = new GridBagConstraints();
+		gbc_btnAddSubscriber.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAddSubscriber.anchor = GridBagConstraints.EAST;
+		gbc_btnAddSubscriber.gridx = 1;
+		gbc_btnAddSubscriber.gridy = 1;
+		add(addSubscriber, gbc_btnAddSubscriber);
 		
-		JLabel lblManageSubscribers = new JLabel("Manage Subscribers");
-		GridBagConstraints gbc_lblManageSubscribers = new GridBagConstraints();
-		gbc_lblManageSubscribers.gridwidth = 2;
-		gbc_lblManageSubscribers.insets = new Insets(0, 0, 5, 0);
-		gbc_lblManageSubscribers.gridx = 0;
-		gbc_lblManageSubscribers.gridy = 0;
-		add(lblManageSubscribers, gbc_lblManageSubscribers);
-		
+		scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 2;
+		add(scrollPane, gbc_scrollPane);
+		scrollPane.setViewportView(table);
+	}
+
+	private void initializeSearch() {
 		searchField = new JSearchTextField();
 		searchField.getDocument().addDocumentListener(
                 new DocumentListener() {
@@ -63,41 +101,24 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		gbc_searchTextField.gridx = 0;
 		gbc_searchTextField.gridy = 1;
 		add(searchField, gbc_searchTextField);
-		
-		JButton btnAddSubscriber = new JButton("Add Subscriber");
-		btnAddSubscriber.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				addNewSubscriberPane.setNoResults(false);
-				addNewSubscriberPane.getNameTextField().requestFocusInWindow();
-	        	addNewSubscriberPane.getNameTextField().setText("");
-	        	addNewSubscriberPane.getPhoneNumberTextField().setText("");
-				addNewSubscriberTip.setVisible(true);
-			}
-		});
-		GridBagConstraints gbc_btnAddSubscriber = new GridBagConstraints();
-		gbc_btnAddSubscriber.insets = new Insets(0, 0, 5, 0);
-		gbc_btnAddSubscriber.anchor = GridBagConstraints.EAST;
-		gbc_btnAddSubscriber.gridx = 1;
-		gbc_btnAddSubscriber.gridy = 1;
-		add(btnAddSubscriber, gbc_btnAddSubscriber);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 2;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 2;
-		add(scrollPane, gbc_scrollPane);
+	}
+
+	private void initializeTable() {
+		//Set up table with custom sorter
+		model = new SubscriberTableModel();
+		sorter = new TableRowSorter<SubscriberTableModel>(model);
 		table = new JTable(model);
 		table.setRowSorter(sorter);
 		table.setFillsViewportHeight(true);
-		scrollPane.setViewportView(table);
-		addNewSubscriberPane = new AddNewSubscriberPanel();
-		addNewSubscriberTip = new BalloonTip(btnAddSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
-		addNewSubscriberTip.setOpacity(0.9f);
-		addNewSubscriberTip.setVisible(false);
-		addNewSubscriberPane.getCancelButton().addActionListener(this);
-		addNewSubscriberPane.getDoneButton().addActionListener(this);
+	}
+
+	private void initializeGridBagLayout() {
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{150, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
 	}
 	
 	private void filter() {

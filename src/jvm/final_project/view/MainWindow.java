@@ -57,6 +57,7 @@ public class MainWindow {
 		im.put(KeyStroke.getKeyStroke( "released ENTER" ), "released");
 		
 		frmFencingManager = new JFrame();
+
 		frmFencingManager.setTitle("Fencing Manager");
 		frmFencingManager.setBounds(100, 100, 900, 600);
 		frmFencingManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

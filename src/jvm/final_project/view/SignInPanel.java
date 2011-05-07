@@ -3,11 +3,12 @@ package final_project.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+
 import javax.swing.event.*;
 import javax.swing.table.*;
 
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.utils.FadingUtils;
 
 
 public class SignInPanel extends JPanel implements ActionListener {
@@ -16,59 +17,35 @@ public class SignInPanel extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private JScrollPane scrollPane;
+	private SignInTableModel model;
 	private TableRowSorter<SignInTableModel> sorter;
+	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
-	private JButton signInAll;
-	private JButton unsignInAll;
-	private JButton btnImportXml;
+	private JButton signInAll, unsignInAll, importXml;
 	private Component verticalStrut;
-	BalloonTip signInPlayerTip;
-	BalloonTip registerNewPlayerTip;
-	SignInPlayerPanel signInPlayerPane;
-	RegisterNewPlayerPanel registerNewPlayerPane;
+	private Collection<BalloonTip> balloons;
+	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip;
+	private SignInPlayerPanel signInPlayerPane;
+	private RegisterNewPlayerPanel registerNewPlayerPane;
+	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private JButton registerPersonButton;
+	private JButton btnStartPoolRound;
 
 	/**
 	 * Create the panel.
 	 */
 	public SignInPanel() {
 		super();
-		
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 88, 102, 102, 102, 102, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		
-		//Set up table with custom sorter
-		SignInTableModel model = new SignInTableModel();
-		sorter = new TableRowSorter<SignInTableModel>(model);
-		
-		searchField = new JSearchTextField();
-		searchField.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    public void changedUpdate(DocumentEvent e) {
-                        filter();
-                    }
-                    public void insertUpdate(DocumentEvent e) {
-                        filter();
-                    }
-                    public void removeUpdate(DocumentEvent e) {
-                        filter();
-                    }
-                });
-		
-		verticalStrut = Box.createVerticalStrut(20);
-		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
-		gbc_verticalStrut.fill = GridBagConstraints.VERTICAL;
-		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
-		gbc_verticalStrut.gridx = 3;
-		gbc_verticalStrut.gridy = 0;
-		add(verticalStrut, gbc_verticalStrut);
-		
+		initializeGridBagLayout();
+		initializeTable();
+		initializeComponents();
+		initializeSearch();
+		initializeBalloons();
+	}
+
+	private void initializeComponents() {
 		signInAll = new JButton("Sign In All");
+		signInAll.addActionListener(this);
 		GridBagConstraints gbc_signInAll = new GridBagConstraints();
 		gbc_signInAll.anchor = GridBagConstraints.EAST;
 		gbc_signInAll.insets = new Insets(0, 0, 5, 5);
@@ -77,6 +54,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 		add(signInAll, gbc_signInAll);
 		
 		unsignInAll = new JButton("Unsign In All");
+		unsignInAll.addActionListener(this);
 		GridBagConstraints gbc_unsignInAll = new GridBagConstraints();
 		gbc_unsignInAll.anchor = GridBagConstraints.WEST;
 		gbc_unsignInAll.insets = new Insets(0, 0, 5, 5);
@@ -84,31 +62,20 @@ public class SignInPanel extends JPanel implements ActionListener {
 		gbc_unsignInAll.gridy = 1;
 		add(unsignInAll, gbc_unsignInAll);
 		
-		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
-		gbc_txtSearch.gridwidth = 2;
-		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
-		gbc_txtSearch.gridx = 3;
-		gbc_txtSearch.gridy = 1;
-		add(searchField, gbc_txtSearch);
-		searchField.setColumns(10);
-		
 		registerPersonButton = new JButton("Register Person");
 		GridBagConstraints gbc_registerPersonButton = new GridBagConstraints();
 		gbc_registerPersonButton.insets = new Insets(0, 0, 5, 5);
 		gbc_registerPersonButton.gridx = 5;
 		gbc_registerPersonButton.gridy = 1;
 		add(registerPersonButton, gbc_registerPersonButton);
-		table = new JTable(model);
-		table.setRowSorter(sorter);
-		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		table.setFillsViewportHeight(true);
+		
 		registerPersonButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registerNewPlayerPane.setNoResults(false);
 				registerNewPlayerPane.getNameTextField().requestFocusInWindow();
 				registerNewPlayerPane.getNameTextField().setText("");
 				registerNewPlayerPane.getPhoneNumberTextField().setText("");
+				hideAllBalloons();
 				registerNewPlayerTip.setVisible(true);
 			}
 		});
@@ -123,14 +90,76 @@ public class SignInPanel extends JPanel implements ActionListener {
 		add(scrollPane, gbc_scrollPane);
 		
 		scrollPane.setViewportView(table);
+	}
+
+	private void initializeSearch() {
+		searchField = new JSearchTextField();
+		searchField.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    public void changedUpdate(DocumentEvent e) {
+                        filter();
+                    }
+                    public void insertUpdate(DocumentEvent e) {
+                        filter();
+                    }
+                    public void removeUpdate(DocumentEvent e) {
+                        filter();
+                    }
+                });
+		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+		gbc_txtSearch.gridwidth = 2;
+		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
+		gbc_txtSearch.gridx = 3;
+		gbc_txtSearch.gridy = 1;
+		add(searchField, gbc_txtSearch);
+		searchField.setColumns(10);
 		
-		btnImportXml = new JButton("Import XML");
+		importXml = new JButton("Import XML");
 		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
 		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
-		gbc_btnImportXml.gridx = 5;
+		gbc_btnImportXml.gridx = 1;
 		gbc_btnImportXml.gridy = 3;
-		add(btnImportXml, gbc_btnImportXml);
-		btnImportXml.addActionListener(this);
+		add(importXml, gbc_btnImportXml);
+		importXml.addActionListener(this);
+		
+		btnStartPoolRound = new JButton("Start Pool Round");
+		GridBagConstraints gbc_btnStartPoolRound = new GridBagConstraints();
+		gbc_btnStartPoolRound.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStartPoolRound.gridx = 5;
+		gbc_btnStartPoolRound.gridy = 3;
+		add(btnStartPoolRound, gbc_btnStartPoolRound);
+	}
+
+	private void initializeTable() {
+		//Set up table with custom sorter
+		model = new SignInTableModel();
+		sorter = new TableRowSorter<SignInTableModel>(model);
+		table = new JTable(model);
+		table.setRowSorter(sorter);
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		table.setFillsViewportHeight(true);
+	}
+
+	private void initializeGridBagLayout() {
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 88, 102, 102, 102, 102, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+		
+		verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.fill = GridBagConstraints.VERTICAL;
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 3;
+		gbc_verticalStrut.gridy = 0;
+		add(verticalStrut, gbc_verticalStrut);
+	}
+
+	private void initializeBalloons() {
+		balloons = new ArrayList<BalloonTip>();
 		
 		//setup tooltips
 		signInPlayerPane = new SignInPlayerPanel();
@@ -146,6 +175,25 @@ public class SignInPanel extends JPanel implements ActionListener {
 		registerNewPlayerTip.setVisible(false);
 		registerNewPlayerPane.getCancelButton().addActionListener(this);
 		registerNewPlayerPane.getDoneButton().addActionListener(this);
+		
+		signInAllPane = new ConfirmationPanel("sign in");
+		signInAllTip = new BalloonTip(signInAll, signInAllPane, new DefaultBalloonStyle(), false);
+		signInAllTip.setOpacity(0.9f);
+		signInAllTip.setVisible(false);
+		signInAllPane.getCancelButton().addActionListener(this);
+		signInAllPane.getYesButton().addActionListener(this);
+		
+		unsignInAllPane = new ConfirmationPanel("un-sign in");
+		unsignInAllTip = new BalloonTip(unsignInAll, unsignInAllPane, new DefaultBalloonStyle(), false);
+		unsignInAllTip.setOpacity(0.9f);
+		unsignInAllTip.setVisible(false);
+		unsignInAllPane.getCancelButton().addActionListener(this);
+		unsignInAllPane.getYesButton().addActionListener(this);
+		
+		balloons.add(signInPlayerTip);
+		balloons.add(registerNewPlayerTip);
+		balloons.add(signInAllTip);
+		balloons.add(unsignInAllTip);
 	}
 	
 	private void filter() {
@@ -158,8 +206,8 @@ public class SignInPanel extends JPanel implements ActionListener {
         }
         sorter.setRowFilter(rf);
         if (table.getRowCount() == 0) {
-        	//Hide other tooltip
-        	signInPlayerTip.setVisible(false);
+        	//Hide other tooltips
+        	hideAllBalloons();
 			//Make tooltip visible
         	registerNewPlayerTip.setVisible(true);
         	//Clear any old text
@@ -195,11 +243,11 @@ public class SignInPanel extends JPanel implements ActionListener {
         			}
         		});
         	searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
+        	hideAllBalloons();
         	signInPlayerTip.setVisible(true);
         }
         else {
-        	signInPlayerTip.setVisible(false);
-        	registerNewPlayerTip.setVisible(false);
+        	hideAllBalloons();
         }
 	}
 	
@@ -255,32 +303,46 @@ public class SignInPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnImportXml) {
+		if (e.getSource() == importXml) {
 			//Import xml file
 		}
 		else if (e.getSource() == signInPlayerPane.getCancelButton()) {
-			signInPlayerTip.setVisible(false);
+			hideAllBalloons();
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
-			signInPlayerTip.setVisible(false);
+			hideAllBalloons();
 			//TODO sign in user
 			//id should be tied to row in model?
 			//MainWindow.getTournamentController().signInUser(id);
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
-			registerNewPlayerTip.setVisible(false);
+			hideAllBalloons();
 		}
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
-			registerNewPlayerTip.setVisible(false);
+			hideAllBalloons();
 			//TODO register & sign in user
 			//id should be tied to row in model?
 			//MainWindow.getTournamentController().registerUser(id);
 		}
 		else if (e.getSource() == signInAll) {
-			//Sign In All
+			//Make new signInAllTooltip
+			hideAllBalloons();
+			signInAllTip.setVisible(true);
 		}
 		else if (e.getSource() == unsignInAll) {
-			//Unsign In All
+			hideAllBalloons();
+			unsignInAllTip.setVisible(true);
+		}
+		else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {
+			hideAllBalloons();
+		}
+		else if (e.getSource() == signInAllPane.getYesButton()) { 
+			hideAllBalloons();
+			//TODO sign in all
+		}
+		else if (e.getSource() == unsignInAllPane.getYesButton()) {
+			hideAllBalloons();
+			//TODO unsign in all
 		}
 	}
 	
@@ -290,5 +352,10 @@ public class SignInPanel extends JPanel implements ActionListener {
 	
 	public JButton getAddFencerButton() {
 		return registerPersonButton;
+	}
+	
+	private void hideAllBalloons() {
+		for (BalloonTip b : balloons) 
+			b.setVisible(false);
 	}
 }

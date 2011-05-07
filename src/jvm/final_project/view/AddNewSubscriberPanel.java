@@ -93,6 +93,7 @@ public class AddNewSubscriberPanel extends JPanel {
 		add(lblGroup, gbc_lblGroup);
 		
 		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Fencer", "Referee", "Technician", "Medical", "Generic"}));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 3;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
