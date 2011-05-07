@@ -69,6 +69,8 @@ public class EventController {
 		if(_state != State.REGISTRATION)
 			return false;
 		
+		_poolController = new PoolRoundController(_dataStore);
+		
 		return true;
 	}
 }
