@@ -73,7 +73,6 @@ public abstract class PoolRound implements IRound{
 						return false;
 				}
 				return true;
-
 			}
 		}
 		throw new IllegalArgumentException("No pools have given result.");
