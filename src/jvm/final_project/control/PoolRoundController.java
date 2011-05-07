@@ -7,8 +7,8 @@ public class PoolRoundController {
 	private PoolRound _poolRound;
 	private int _numPools, _numBigPools, _numSmallPools;
 
-	public PoolRoundController() {
-
+	public PoolRoundController(IDataStore ds) {
+		//_poolRound = new FencerPoolRound();
 	}
 
 	public void addCompleteResult(CompleteResult result) throws IllegalArgumentException{
