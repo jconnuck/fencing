@@ -3,7 +3,6 @@ package final_project.control;
 import java.util.*;
 import final_project.model.*;
 
-
 public class EventController {
 
 	private Collection<Integer> _refs;
@@ -52,12 +51,24 @@ public class EventController {
 	public boolean hasRef(Integer ref){
 		return _refs.contains(ref);
 	}
-
+	
 	public void addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
 			_poolController.addCompleteResult(result);
 		}else if(_state.equals(State.DE)){
 			_deController.addCompleteResult(result);
 		}
+	}
+	
+	/**
+	 * Called in TournamentController;
+	 * returns true if the pool round was started, false otherwise.
+	 * @return
+	 */
+	public boolean startPoolRound() {
+		if(_state != State.REGISTRATION)
+			return false;
+		
+		return true;
 	}
 }
