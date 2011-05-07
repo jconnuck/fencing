@@ -1,6 +1,7 @@
 package final_project.control;
 
 import java.util.*;
+
 import final_project.model.*;
 
 public class EventController {
@@ -20,6 +21,8 @@ public class EventController {
 		_dataStore = dataStore;
 		_weapon = weapon;
 	}
+
+
 
 	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
 		setup();
@@ -70,5 +73,21 @@ public class EventController {
 			return false;
 		_poolController = new PoolRoundController(_dataStore);
 		return true;
+	}
+
+
+
+	public Collection<PoolSizeInfo> getValidPoolSizes() {
+		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
+		PoolSizeCalculator poolSizeCalc;
+		for(int i = 4; i < 9; i++){
+			try{
+				poolSizeCalc = new PoolSizeCalculator(_players.size(), i);
+				toReturn.add(new PoolSizeInfo(i, poolSizeCalc.getNumBigPools(), poolSizeCalc.getNumSmallPools()));
+			}catch(IllegalArgumentException e){
+
+			}
+		}
+		return toReturn;
 	}
 }

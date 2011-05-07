@@ -40,6 +40,14 @@ public class TournamentController {
 		throw new IllegalStateException("No event created.");
 	}
 
+	public Collection<PoolSizeInfo> getValidPoolSizes(int eventID){
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			return iter.next().getValidPoolSizes();
+		}
+		throw new IllegalStateException("No event created.");
+	}
+
 	/**
 	 *Adds the given player to the given event.
 	 * @param eventID
