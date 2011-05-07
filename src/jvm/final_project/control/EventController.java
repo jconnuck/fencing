@@ -22,16 +22,17 @@ public class EventController {
 		_weapon = weapon;
 	}
 
-	public void addPlayer(int id){
-		_players.add(id);
-	}
-
 	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
 		setup();
 		_eventID = id;
 		_weapon = weapon;
 		_players.addAll(preregs);
 	}
+
+	public void addPlayer(int id){
+		_players.add(id);
+	}
+
 
 	public void addRef(Integer refID){
 		_refs.add(refID);
