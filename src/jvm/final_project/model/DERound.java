@@ -140,7 +140,8 @@ public class DERound implements IRound {
      * @return int the index of the match that the winner of the index match will continue on to.
      */
     private int getNextMatchIndex(int index) {
-        int curRoundSize = 2;
+        return (index+(index%2)-2)/2;
+        /*int curRoundSize = 2;
         int headIndex = 0;
         int prevHeadIndex = 0;
         while(headIndex + curRoundSize < index) {  // Sets headIndex to the head of the round that contains index
@@ -157,7 +158,7 @@ public class DERound implements IRound {
         if(boutsDown %2 != 0) {  // If boutsDown is odd
             boutsDown++;
         }
-        return (boutsDown/2) + prevHeadIndex;
+        return (boutsDown/2) + prevHeadIndex;*/
     }
 
     public void setCut(double newCut){
