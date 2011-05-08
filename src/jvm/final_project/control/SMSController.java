@@ -3,7 +3,6 @@ package final_project.control;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Timer;
-
 import final_project.model.*;
 
 public class SMSController implements Constants, ISMSController {
