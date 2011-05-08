@@ -17,4 +17,7 @@ public interface Constants {
 	
 	public static final long RECEIVE_TIMER_STEP = 500; //500 milliseconds = updates every 0.5s
 
+	/* GUI CONSTANTS */
+	public static final int NUM_COLS_SIGN_IN = 4;
+	public static final int NUM_COLS_SUBSCRIBER_PANEL = 3;
 }

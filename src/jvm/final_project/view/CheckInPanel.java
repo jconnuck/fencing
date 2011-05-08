@@ -8,6 +8,8 @@ import java.util.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import final_project.control.TournamentController;
+
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.*;
 
@@ -18,6 +20,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table;
+	private TournamentController tournament;
 	private SignInTableModel model;
 	private TableRowSorter<SignInTableModel> sorter;
 	private JScrollPane scrollPane;
@@ -35,18 +38,20 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	/**
 	 * Create the panel.
 	 */
-	public CheckInPanel() {
+	public CheckInPanel(TournamentController t) {
 		super();
 		initializeGridBagLayout();
 		initializeTable();
 		initializeComponents();
 		initializeSearch();
 		initializeBalloons();
+
+		tournament = t;
 	}
 
 	private void initializeComponents() {
 		setOpaque(false);
-		
+
 		signInAll = new JButton("Sign In All");
 		signInAll.addActionListener(this);
 		GridBagConstraints gbc_signInAll = new GridBagConstraints();
@@ -55,7 +60,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		gbc_signInAll.gridx = 1;
 		gbc_signInAll.gridy = 1;
 		add(signInAll, gbc_signInAll);
-		
+
 		unsignInAll = new JButton("Unsign In All");
 		unsignInAll.addActionListener(this);
 		GridBagConstraints gbc_unsignInAll = new GridBagConstraints();
@@ -64,7 +69,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		gbc_unsignInAll.gridx = 2;
 		gbc_unsignInAll.gridy = 1;
 		add(unsignInAll, gbc_unsignInAll);
-		
+
 		registerPersonButton = new JButton("Register Person");
 		GridBagConstraints gbc_registerPersonButton = new GridBagConstraints();
 		gbc_registerPersonButton.insets = new Insets(0, 0, 5, 5);
@@ -81,7 +86,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 				registerNewPlayerTip.setVisible(true);
 			}
 		});
-		
+
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 5;
@@ -90,9 +95,9 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 2;
 		add(scrollPane, gbc_scrollPane);
-		
+
 		scrollPane.setViewportView(table);
-		
+
 		importXml = new JButton("Import XML");
 		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
 		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
@@ -100,7 +105,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		gbc_btnImportXml.gridy = 3;
 		add(importXml, gbc_btnImportXml);
 		importXml.addActionListener(this);
-		
+
 		startPoolRound = new JButton("Start Pool Round");
 		GridBagConstraints gbc_startPoolRound = new GridBagConstraints();
 		gbc_startPoolRound.insets = new Insets(0, 0, 5, 5);
@@ -113,17 +118,17 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	private void initializeSearch() {
 		searchField = new JSearchTextField();
 		searchField.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    public void changedUpdate(DocumentEvent e) {
-                        filter();
-                    }
-                    public void insertUpdate(DocumentEvent e) {
-                        filter();
-                    }
-                    public void removeUpdate(DocumentEvent e) {
-                        filter();
-                    }
-                });
+				new DocumentListener() {
+					public void changedUpdate(DocumentEvent e) {
+						filter();
+					}
+					public void insertUpdate(DocumentEvent e) {
+						filter();
+					}
+					public void removeUpdate(DocumentEvent e) {
+						filter();
+					}
+				});
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.gridwidth = 2;
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
@@ -155,7 +160,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 
 	private void initializeBalloons() {
 		balloons = new ArrayList<BalloonTip>();
-		
+
 		//setup tooltips
 		signInPlayerPane = new CheckInPlayerPanel();
 		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
@@ -168,29 +173,29 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		registerNewPlayerTip.setOpacity(0.9f);
 		registerNewPlayerPane.getCancelButton().addActionListener(this);
 		registerNewPlayerPane.getDoneButton().addActionListener(this);
-		
+
 		signInAllPane = new ConfirmationPanel("sign in");
 		signInAllTip = new BalloonTip(signInAll, signInAllPane, new DefaultBalloonStyle(), false);
 		signInAllTip.setOpacity(0.9f);
 		signInAllPane.getCancelButton().addActionListener(this);
 		signInAllPane.getYesButton().addActionListener(this);
-		
+
 		unsignInAllPane = new ConfirmationPanel("un-sign in");
 		unsignInAllTip = new BalloonTip(unsignInAll, unsignInAllPane, new DefaultBalloonStyle(), false);
 		unsignInAllTip.setOpacity(0.9f);
 		unsignInAllPane.getCancelButton().addActionListener(this);
 		unsignInAllPane.getYesButton().addActionListener(this);
-		
+
 		stripSetupPane = new StripSetupPanel();
 		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		stripSetupTip.setOpacity(0.9f);
 		stripSetupPane.getCancelButton().addActionListener(this);
 		stripSetupPane.getDoneButton().addActionListener(this);
-		
+
 		poolSizeInfoPane = new PoolSizeInfoPanel();
 		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		poolSizeTip.setOpacity(0.9f);
-		
+
 		balloons.add(signInPlayerTip);
 		balloons.add(registerNewPlayerTip);
 		balloons.add(signInAllTip);
@@ -199,26 +204,26 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		balloons.add(poolSizeTip);
 		hideAllBalloons();
 	}
-	
+
 	private void filter() {
 		RowFilter<SignInTableModel, Object> rf = null;
-        //If current expression doesn't parse, don't update.
-        try {
-            rf = RowFilter.regexFilter("(?i)" + searchField.getText());
-        } catch (java.util.regex.PatternSyntaxException e) {
-            return;
-        }
-        sorter.setRowFilter(rf);
-        if (table.getRowCount() == 0) {
-        	//Hide other tooltips
-        	hideAllBalloons();
+		//If current expression doesn't parse, don't update.
+		try {
+			rf = RowFilter.regexFilter("(?i)" + searchField.getText());
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
+		}
+		sorter.setRowFilter(rf);
+		if (table.getRowCount() == 0) {
+			//Hide other tooltips
+			hideAllBalloons();
 			//Make tooltip visible
-        	registerNewPlayerTip.setVisible(true);
-        	//Clear any old text
-        	registerNewPlayerPane.setNoResults(true);
-        	registerNewPlayerPane.getNameTextField().setText("");
-        	registerNewPlayerPane.getPhoneNumberTextField().setText("");
-        	//Decide whether entered text is a name or phone number
+			registerNewPlayerTip.setVisible(true);
+			//Clear any old text
+			registerNewPlayerPane.setNoResults(true);
+			registerNewPlayerPane.getNameTextField().setText("");
+			registerNewPlayerPane.getPhoneNumberTextField().setText("");
+			//Decide whether entered text is a name or phone number
 			try {
 				Long.parseLong(searchField.getText());
 				registerNewPlayerPane.getPhoneNumberTextField().setText(searchField.getText());
@@ -227,49 +232,45 @@ public class CheckInPanel extends JPanel implements ActionListener {
 				registerNewPlayerPane.getNameTextField().setText(searchField.getText());
 				searchField.setNextFocusableComponent(registerNewPlayerPane.getPhoneNumberTextField());
 			}
-        }
-        else if (table.getRowCount() == 1) {
-        	//Hide other tooltip
-        	registerNewPlayerTip.setVisible(false);
-        	//select this row
-        	ListSelectionModel selectionModel = table.getSelectionModel();
-        	selectionModel.setSelectionInterval(0, 0);
-        	//Make tooltip visible
-        	signInPlayerPane.getResultLabel().setText("<html><i>Exact Match Found:</i> <b>" + table.getValueAt(0, 0) + "</b></html>");
-        	searchField.addKeyListener
-        		(new KeyAdapter() {
-        			public void keyPressed(KeyEvent e) {
-        				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-        					signInPlayerTip.setVisible(false);
-        					searchField.setText("");
-        					//TODO Sign In Fencer
-        				}
-        			}
-        		});
-        	searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
-        	hideAllBalloons();
-        	signInPlayerTip.setVisible(true);
-        }
-        else {
-        	hideAllBalloons();
-        }
+		}
+		else if (table.getRowCount() == 1) {
+			//Hide other tooltip
+			registerNewPlayerTip.setVisible(false);
+			//select this row
+			ListSelectionModel selectionModel = table.getSelectionModel();
+			selectionModel.setSelectionInterval(0, 0);
+			//Make tooltip visible
+			signInPlayerPane.getResultLabel().setText("<html><i>Exact Match Found:</i> <b>" + table.getValueAt(0, 0) + "</b></html>");
+			searchField.addKeyListener
+			(new KeyAdapter() {
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						signInPlayerTip.setVisible(false);
+						searchField.setText("");
+						//TODO Sign In Fencer
+					}
+				}
+			});
+			searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
+			hideAllBalloons();
+			signInPlayerTip.setVisible(true);
+		}
+		else {
+			hideAllBalloons();
+		}
 	}
-	
+
 	class SignInTableModel extends AbstractTableModel{
 		private static final long serialVersionUID = 1L;
-		
-		private  String[] columnNames = {"ID", "Name", "Team", "Group", "Signed In"};
-		
-		private Object[][] data = {
-			{1, "John Connuck", "New York Yankees", "Referee", new Boolean(true)},
-			{2, "Greg Maddux", "Chicago Cubs", "Fencer", new Boolean(false)},
-			{3, "Michael Jordan", "Chicago White Sox", "Referee", new Boolean(false)},
-			{4, "Daryl Strawberry", "New York Mets", "Fencer", new Boolean(false)},
-			{5, "Mariano Rivera", "New York Yankees", "Fencer", new Boolean(false)},
-			{6, "Mark McGuire", "St. Louis Cardinals", "Fencer", new Boolean(false)},
-			{7, "Sammy Sosa", "Chicago Cubs", "Fencer", new Boolean(false)},
-		};
-		
+
+		private  String[] columnNames = {"Name", "Team", "Group", "Signed In"};
+
+		private Object[][] data = tournament.giveSignInPanelInfo();
+
+		public void setData(Object[][] newData) {
+			data = newData;
+		}
+
 		@Override
 		public int getColumnCount() {
 			return columnNames.length;
@@ -300,9 +301,9 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		@Override
 		public void setValueAt(Object value, int row, int col) {
-            data[row][col] = value;
-            fireTableCellUpdated(row, col);
-        }
+			data[row][col] = value;
+			fireTableCellUpdated(row, col);
+		}
 	}
 
 	@Override
@@ -329,8 +330,9 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
 			hideAllBalloons();
 			//TODO register & sign in user
-			//id should be tied to row in model?
-			//MainWindow.getTournamentController().registerUser(id);
+			//Need to get the info out of the registerNewPlayerPane
+			//tournament.registerFencer();
+			//id should be tied to row in model? --> ?
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip
@@ -346,11 +348,15 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == signInAllPane.getYesButton()) { 
 			hideAllBalloons();
-			//TODO sign in all
+			//Checking in all as true!
+			Object[][] newData = tournament.checkInAll(true);
+			model.setData(newData);
 		}
 		else if (e.getSource() == unsignInAllPane.getYesButton()) {
 			hideAllBalloons();
-			//TODO unsign in all
+			//Checking in all as false
+			Object[][] newData = tournament.checkInAll(false);
+			model.setData(newData);		
 		}
 		else if (e.getSource() == stripSetupPane.getCancelButton()) {
 			hideAllBalloons();
@@ -361,15 +367,15 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			poolSizeTip.setVisible(true);
 		}
 	}
-	
+
 	public JSearchTextField getSearchField() {
 		return searchField;
 	}
-	
+
 	public JButton getAddFencerButton() {
 		return registerPersonButton;
 	}
-	
+
 	private void hideAllBalloons() {
 		for (BalloonTip b : balloons) 
 			b.setVisible(false);

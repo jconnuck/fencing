@@ -152,7 +152,7 @@ public class DERound implements IRound {
     }
 
     /**
-     * Returns the next match to be fenced if there is one.  Returns null if there is not.
+     * Returns the next match to be played if there is one.  Returns null if there is not.
      * @return IncompleteResult that represents the next match to be fenced.
      */
     private IncompleteResult getNextMatch() {
@@ -215,15 +215,14 @@ public class DERound implements IRound {
 	               ||
 	               tempResult.getPlayer1() == newResult.getPlayer2() &&
 	               tempResult.getPlayer2() == newResult.getPlayer1()) {
-	                if(i == 0) {
-	                	tempResult = newResult;
-	                	// maybe announce winner of the event to all spectators and fencers
-	                	return;
-	                }
 	            	if(tempResult instanceof CompleteResult) {
 	                    throw new NoSuchMatchException("This bout has already been completed");
 	                }
-	                tempResult = newResult;
+	                _matches[i] = newResult;
+	                if(i == 0) {
+	                	// maybe announce winner of the event to all spectators and fencers
+	                	return;
+	                }
 	                IncompleteResult nextResult = (IncompleteResult) _matches[getNextMatchIndex(i)];
 	                if(nextResult == null) {
 	                    nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
@@ -235,6 +234,14 @@ public class DERound implements IRound {
 	                    // Should never actually happen because only player2 should be set to -1
 	                    nextResult.setPlayer1(newResult.getWinner());
 	                }
+                    final IncompleteResult justFinished = (IncompleteResult) tempResult;
+                    _stripController.returnStrip(_stripsInUse.get(justFinished));
+                    _dataStore.runTransaction(new Runnable(){
+                            public void run(){
+                                _dataStore.putData(_dataStore.getReferee(_refsInUse.get(justFinished))
+                                                   .setReffing(false));
+                            }
+                        });
 		            boolean hasNextBout = true;
 		            while(hasNextBout){
 		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
@@ -249,14 +256,7 @@ public class DERound implements IRound {
     private boolean advanceRound(IncompleteResult justFinished) {
         IncompleteResult nextMatch = getNextMatch();
         if(nextMatch == null) {
-        	_stripController.returnStrip(_stripsInUse.get(justFinished));
-        	final IncompleteResult justFinishedFinal = justFinished;
-        	_dataStore.runTransaction(new Runnable(){
-				public void run(){
-					_dataStore.putData(_dataStore.getReferee(_refsInUse.get(justFinishedFinal)).setReffing(false)); // I'm not exactly sure how to deal with the problem of justFinished not being final... make a copy?
-				}
-			});
-        	return false;
+            return false;
         }
         Integer strip = _stripsInUse.remove(justFinished);
         Integer ref = _refsInUse.remove(justFinished);

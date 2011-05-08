@@ -107,7 +107,7 @@
    :has-one [[phoneNumber] [carrier] [group] [firstName] [lastName]]
    :has-many [[watched]]}
   {:name IPlayer
-   :read-only [[observers] [seed]]
+   :read-only [[observers]]
    :has-one [[rank] [checkedIn]]
    :has-map [[ratings Ratings Rating]]})
 
@@ -140,9 +140,9 @@
 (defn make-spectator [store phone-number first-name last-name carrier group]
   (make-data #(Spectator. % phone-number carrier group first-name last-name #{}) store))
 
-(defn make-player [store phone-number first-name last-name carrier group rank seed]
+(defn make-player [store phone-number first-name last-name carrier group rank]
   (make-data #(Player. % #{} phone-number carrier group first-name last-name
-                       #{} #{} seed rank false {})
+                       #{} #{} rank false {})
              store))
 
 (defn make-club [store name]

@@ -41,7 +41,7 @@ public interface IDataStore {
     IPerson createSpectator(String phoneNumber, String firstName, String lastName,
                             String carrier, String group);
     IPlayer createPlayer(String phoneNumber, String firstName, String lastName,
-                         String carrier, String group, int rank, PlayerSeed seed);
+                         String carrier, String group, int rank);
     IClub createClub(String name);
     IReferee createReferee(String phoneNumber, String firstName, String lastName,
                            String carrier, String group);

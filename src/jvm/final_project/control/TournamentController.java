@@ -5,21 +5,23 @@ import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 
 //Created in the main method.
-public class TournamentController {
+public class TournamentController implements Constants{
 
 	private Collection<EventController> _events;
 	private IDataStore _dataStore;
 	private int _currentEventID;
 	private StripController _stripController;
 	private SMSController _smsController;
+	private DataFormattingHelper _dataHelper;
 
 	public TournamentController(String username, String password) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		//_dataStore = new DataStore();
-		_dataStore = null; //Setting this temporarily to null because I need it for SMSController
+		_dataStore = null; //Setting this temporarily to null because I need it for SMSController/DataFormattingHelper
 		_stripController = new StripController();
 		
+		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password); 
 	}
 
@@ -82,7 +84,7 @@ public class TournamentController {
 				}
 			}
 		}
-		//TODO text ref again
+		//TODO text ref again --> why? -mk
 	}
 
 	/**
@@ -94,4 +96,43 @@ public class TournamentController {
 	public void swapRef(int eventID, int oldRefID, int newRefID) {
 		//TODO: empty stub
 	}
+	
+	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
+	
+	//Method to check in a fencer. Gives
+	public Object[][] checkInFencer(int playerID) {
+		_dataStore.getPlayer(playerID).setCheckedIn(true);
+		return _dataHelper.giveSignInPanelInfo();
+	}
+	
+	/** 
+	 * Maybe confusing, but this method checks in all fencers as either all true, or
+	 * all false, depending on param checkAs
+	 * @param checkAs
+	 * @return
+	 */
+	public Object[][] checkInAll(boolean checkAs) {
+		for (IPlayer i: _dataStore.getPlayers())
+			i.setCheckedIn(checkAs);
+		return _dataHelper.giveSignInPanelInfo();
+	}
+	
+	public Object[][] giveSubscriberTableInfo() {
+		return _dataHelper.giveSubscriberTableInfo();
+	}
+	
+	public Object[][] giveSignInPanelInfo() {
+		return _dataHelper.giveSignInPanelInfo();		
+	}
+	
+	public Object[][] registerSpectator(String number, String firstName, String lastName) {
+		_dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
+		return _dataHelper.giveSubscriberTableInfo();
+	}
+	
+	public Object[][] registerFencer(String number, String firstName, String lastName, int rank, int seed) {
+		//_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank, seed);
+		return _dataHelper.giveSignInPanelInfo();
+	}
+	
 }

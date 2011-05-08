@@ -2,11 +2,11 @@ package final_project.view;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import final_project.control.TournamentController;
 import net.java.balloontip.BalloonTip;
 
 public class SubscriberAdminPanel extends JPanel implements ActionListener {
@@ -24,11 +24,15 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	private JButton addSubscriber;
 	private JScrollPane scrollPane;
 	private JLabel manageSubscribers;
+	private TournamentController tournament;
 
+	
 	/**
 	 * Create the panel.
 	 */
-	public SubscriberAdminPanel() {
+	public SubscriberAdminPanel(TournamentController t) {
+		tournament = t;
+		
 		setOpaque(false);
 		initializeGridBagLayout();
 		initializeTable();
@@ -157,13 +161,11 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		
 		private  String[] columnNames = {"Name", "Phone Number", "Subscribed To"};
 		
-		private Object[][] data = {
-			{"John Connuck", "2123007360", ""},
-			{"Bob Dylan", "5556667777", ""},
-			{"Jimi Hendrix", "5554443333", ""},
-			{"The Beatles", "", ""},
-		};
+		private Object[][] data = tournament.giveSubscriberTableInfo();
 		
+		public void setData(Object[][] newData) {
+			data = newData;
+		}
 		@Override
 		public int getColumnCount() {
 			return columnNames.length;
@@ -218,10 +220,11 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 				firstName = name;
 				lastName = "";
 			}
-			String carrier = "Boost Mobile";
-			String group = (String) addNewSubscriberPane.getGroup().getSelectedItem();
-			//Should interface with controller
-			//MainWindow.getTournamentController().createSpectator(phoneNumber, firstName, lastName, carrier, group);
+
+			String group = (String) addNewSubscriberPane.getGroup().getSelectedItem(); //?? Isn't group spectator?
+			//Registering this new spectator and updating the model table to reflect the new subscriber
+			Object[][] newData = tournament.registerSpectator(phoneNumber, firstName, lastName);
+			model.setData(newData);
 		}
 	}
 }
