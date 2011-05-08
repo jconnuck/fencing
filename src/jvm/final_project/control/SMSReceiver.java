@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.TimerTask;
 
 /**
- *
+ * The SMSReceiver task extends the 
  * @author Miranda
  *
  */
@@ -15,31 +15,18 @@ public class SMSReceiver extends TimerTask implements Constants {
 	private SMSController _control;
 	private String _username, _password; //Not the most secure but who cares.
 	private int _lastRetrievedID;
-	private boolean _listening;
 
 	public SMSReceiver(SMSController ctrl, String username, String password) {
 		_control = ctrl;
 		_username = username;
 		_password = password;
 		_lastRetrievedID = 0;
-		_listening = true;
 	}
 
 	public void run() {
-		while(_listening) {
 			this.getInbox();
-		}
 	}
 
-	/* Methods to stop and start this thread by changing "_listening" boolean */
-	public void stopListening() {
-		_listening = false;
-	}
-
-	public void restartListening() {
-		_listening = true;
-		this.run();
-	}
 
 	/**
 	 * GET INBOX METHOD
