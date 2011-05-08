@@ -9,7 +9,7 @@ public abstract class PoolRound implements IRound{
 	private IDataStore _dataStore;
 	protected List<Pool> _pools;
 	protected List<Integer> _resultSeedList;
-	//TODO: delete protected List<Integer> _initialSeeding;
+	protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
 	private StripController _stripControl;
