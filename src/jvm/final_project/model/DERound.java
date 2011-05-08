@@ -141,24 +141,6 @@ public class DERound implements IRound {
      */
     private int getNextMatchIndex(int index) {
         return (index+(index%2)-2)/2;
-        /*int curRoundSize = 2;
-        int headIndex = 0;
-        int prevHeadIndex = 0;
-        while(headIndex + curRoundSize < index) {  // Sets headIndex to the head of the round that contains index
-            prevHeadIndex = headIndex;             // and prevHeadIndex to the head of the previous index
-            headIndex += curRoundSize;
-            curRoundSize *= 2;
-        }
-        int curIndex = headIndex;
-        int boutsDown = 0;
-        while(curIndex < index) {
-            curIndex++;
-            boutsDown++;
-        }
-        if(boutsDown %2 != 0) {  // If boutsDown is odd
-            boutsDown++;
-        }
-        return (boutsDown/2) + prevHeadIndex;*/
     }
 
     public void setCut(double newCut){
