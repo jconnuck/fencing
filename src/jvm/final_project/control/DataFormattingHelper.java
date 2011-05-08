@@ -5,15 +5,15 @@ import final_project.model.*;
 
 /**
  * Class to help the TournamentController format the
- * data from the data store in a specific way, so that 
+ * data from the data store in a specific way, so that
  * the GUI can display it nicely.
- * 
+ *
  * @author mksteele
  */
 public class DataFormattingHelper implements Constants {
 
 	private IDataStore _dataStore;
-	
+
 	public DataFormattingHelper(IDataStore s) {
 		_dataStore = s;
 	}
@@ -38,11 +38,19 @@ public class DataFormattingHelper implements Constants {
 					Iterator<Integer> iter = ((IPlayer) i).getClubs().iterator();
 					if(iter.hasNext()) //Such a mess, just to get out the club name...
 						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
+					//TODO test fix code
+					else{
+						toReturn[index][1] = "";
+					}
 				}
 				else if(i instanceof IReferee) {
 					Iterator<Integer> iter = ((IReferee) i).getClubs().iterator();
 					if(iter.hasNext()) //Such a mess, just to get out the club name...
 						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
+					//TODO test fix code
+					else{
+						toReturn[index][1] = "";
+					}
 				}
 				else
 					toReturn[index][1] = "";
@@ -56,30 +64,30 @@ public class DataFormattingHelper implements Constants {
 				}
 				else
 					toReturn[index][3] = null;
-				
+
 				/* ID */
 				toReturn[index][4] = i.getID();
 			}
 			index++;
 		}
-		
+
 		return toReturn;
 	}
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * {"First Last", "Number", "Following"},
 	 */
 	public Object[][] giveSubscriberTableInfo() {
 		//Making the object array with as many rows as spectators in the data store
 		Object[][] toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
-		
+
 		int index = 0;
 		for(IPerson i: _dataStore.getPeopleForGroup("Spectator")) {
 			toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
 			toReturn[index][1] = i.getPhoneNumber();
-			
+
 			toReturn[index][2] = "";
 			while(i.getWatched().iterator().hasNext()) {
 				IObservable followed = _dataStore.getObservable(i.getWatched().iterator().next());
@@ -87,11 +95,11 @@ public class DataFormattingHelper implements Constants {
 					toReturn[index][2] =  ((IClub) followed).getName() + "";
 				}
 			}
-			
+
 			index++;
 		}
-	
+
 		return toReturn;
 	}
-	
+
 }

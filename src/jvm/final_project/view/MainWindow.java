@@ -48,13 +48,11 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		tournamentController = new TournamentController("cs032fencing", "F3ncing!");
-		tournamentController.registerAndCheckInFencer("1231231231", "jon", "leavitt", 1);
-		tournamentController.registerAndCheckInFencer("12312231231", "jo2n", "leavitt", 1);
-		tournamentController.registerAndCheckInFencer("1231231231", "jon2", "leav4itt", 1);
-		tournamentController.registerAndCheckInFencer("1231231231", "jo2n", "leav4itt", 1);
-		tournamentController.registerAndCheckInFencer("12312131231", "jo2n", "le3av4itt", 1);
-		tournamentController.registerAndCheckInFencer("1231231231", "j24on", "le3avitt", 1);
-		tournamentController.registerAndCheckInFencer("1231231231", "j24on", "le2avitt", 1);
+		tournamentController.registerAndCheckInFencer("123456789", "jon", "leavitt", 1);
+		tournamentController.registerAndCheckInFencer("12312231231", "miranda", "steele", 1);
+		tournamentController.registerAndCheckInFencer("1231231231", "william", "zimrin", 1);
+		tournamentController.registerAndCheckInFencer("1231231231", "john", "connuck", 1);
+		tournamentController.registerAndCheckInFencer("12312131231", "josh", "grill", 1);
 		initialize();
 	}
 

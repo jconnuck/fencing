@@ -16,7 +16,7 @@ import net.java.balloontip.BalloonTip.*;
 
 public class CheckInPanel extends JPanel implements ActionListener {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table;
@@ -34,7 +34,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private StripSetupPanel stripSetupPane;
 	private PoolSizeInfoPanel poolSizeInfoPane;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -247,7 +247,8 @@ public class CheckInPanel extends JPanel implements ActionListener {
 						signInPlayerTip.setVisible(false);
 						searchField.setText("");
 						//Signing in the fencer
-						tournament.checkInFencer(Integer.parseInt((String)(table.getValueAt(0, 4))), true);
+						Object[][] newData = tournament.checkInFencer(Integer.parseInt((String)(table.getValueAt(0, 4))), true);
+						model.setData(newData);
 						System.out.println("Fencer checked in with id: " + Integer.parseInt((String)(table.getValueAt(0, 4)))); //TODO delete after testing
 					}
 				}
@@ -325,10 +326,12 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			hideAllBalloons();
-			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
+//			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
+			int id = (Integer)table.getValueAt(table.getSelectedRow(), 4); //Getting the ID DOES THIS WORK??
 			System.out.println("ID parsed from table: " + id);  //TODO delete after testing
 			//Checking in the fencer as the checkAs boolean
-			tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
+			Object[][] newData = tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
+			model.setData(newData);
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
 			hideAllBalloons();
@@ -364,7 +367,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {
 			hideAllBalloons();
 		}
-		else if (e.getSource() == signInAllPane.getYesButton()) { 
+		else if (e.getSource() == signInAllPane.getYesButton()) {
 			hideAllBalloons();
 			//Checking in all as true!
 			Object[][] newData = tournament.checkInAll(true);
@@ -374,7 +377,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			hideAllBalloons();
 			//Checking in all as false
 			Object[][] newData = tournament.checkInAll(false);
-			model.setData(newData);		
+			model.setData(newData);
 		}
 		else if (e.getSource() == stripSetupPane.getCancelButton()) {
 			hideAllBalloons();
@@ -395,7 +398,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	}
 
 	private void hideAllBalloons() {
-		for (BalloonTip b : balloons) 
+		for (BalloonTip b : balloons)
 			b.setVisible(false);
 	}
 }

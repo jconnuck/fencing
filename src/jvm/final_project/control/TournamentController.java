@@ -123,8 +123,12 @@ public class TournamentController implements Constants{
 	}
 
 	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank) {
-		IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
-		p.setCheckedIn(true);
+		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(true);
+		_dataStore.runTransaction(new Runnable(){
+			public void run(){
+				_dataStore.putData(p);
+			}
+		});
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
