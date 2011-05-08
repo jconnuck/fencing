@@ -16,6 +16,8 @@ public interface IPlayer extends IHasClub, IPerson, IObservable {
     IPlayer clearRatings();
     int getRank();
     IPlayer setRank(int rank);
+    boolean getCheckedIn();
+    IPlayer setCheckedIn(boolean checkedIn);
     public PlayerSeed getSeed();
     IPlayer setFirstName(String name);
     IPlayer setLastName(String name);

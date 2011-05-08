@@ -108,7 +108,7 @@
    :has-many [[watched]]}
   {:name IPlayer
    :read-only [[observers] [seed]]
-   :has-one [[rank]]
+   :has-one [[rank] [checkedIn]]
    :has-map [[ratings Ratings Rating]]})
 
 (define-record Referee
@@ -142,7 +142,7 @@
 
 (defn make-player [store phone-number first-name last-name carrier group rank seed]
   (make-data #(Player. % #{} phone-number carrier group first-name last-name
-                       #{} #{} seed rank {})
+                       #{} #{} seed rank false {})
              store))
 
 (defn make-club [store name]
@@ -308,4 +308,9 @@
 
   (defn rand-str [n]
     (apply str
-           (repeatedly n #(get-char (int (rand 62)))))))
+           (repeatedly n #(get-char (int (rand 62))))))
+
+  (for [ref all-refs :when (:reffing ref)]
+    (:id ref))
+
+  (map :id (filter :reffing all-refs)))
