@@ -129,7 +129,12 @@ public class TournamentController implements Constants{
 	}
 
 	public Object[][] registerSpectator(String number, String firstName, String lastName) {
-		_dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
+		final IPerson temp =  _dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
+		_dataStore.runTransaction(new Runnable(){
+			public void run(){
+				_dataStore.putData(temp);
+			}
+		});
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
