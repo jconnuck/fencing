@@ -164,7 +164,11 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		private Object[][] data = tournament.giveSubscriberTableInfo();
 		
 		public void setData(Object[][] newData) {
-			data = newData;
+			for(int i=0; i < newData.length; i++) {
+				for(int j=0; j<newData[i].length; j++) {
+					setValueAt(newData[i][j], i, j);
+				}
+			}
 		}
 		@Override
 		public int getColumnCount() {

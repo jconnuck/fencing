@@ -161,5 +161,8 @@ public class RegisterNewPlayerPanel extends JPanel {
 	public JComboBox getGroup() {
 		return comboBox;
 	}
+	public JTextField getRankField() {
+		return rankField;
+	}
 }
 

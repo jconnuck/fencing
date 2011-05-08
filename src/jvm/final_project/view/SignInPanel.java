@@ -262,12 +262,16 @@ public class SignInPanel extends JPanel implements ActionListener {
 	class SignInTableModel extends AbstractTableModel{
 		private static final long serialVersionUID = 1L;
 
-		private  String[] columnNames = {"Name", "Team", "Group", "Signed In"};
+		private  String[] columnNames = {"Name", "Team", "Group", "Signed In", "ID"};
 
 		private Object[][] data = tournament.giveSignInPanelInfo();
 
 		public void setData(Object[][] newData) {
-			data = newData;
+			for(int i=0; i < newData.length; i++) {
+				for(int j=0; j<newData[i].length; j++) {
+					setValueAt(newData[i][j], i, j);
+				}
+			}
 		}
 		@Override
 		public int getColumnCount() {
@@ -318,8 +322,8 @@ public class SignInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			hideAllBalloons();
-			//TODO sign in user
-			//id should be tied to row in model?
+			tournament.checkInFencer(signInPlayerPane.);
+			signInPlayerPane.getSignInButton().isEnabled();
 			//MainWindow.getTournamentController().signInUser(id);
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
@@ -329,7 +333,19 @@ public class SignInPanel extends JPanel implements ActionListener {
 			hideAllBalloons();
 			//TODO register & sign in user
 			//Need to get the info out of the registerNewPlayerPane
-			//tournament.registerFencer();
+			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
+			String name = registerNewPlayerPane.getNameTextField().getText();
+			String firstName = "", lastName = "";
+			int nameSplit = name.lastIndexOf(' ');
+			if (nameSplit > 0) {
+				firstName = name.substring(0, nameSplit);
+				lastName = name.substring(nameSplit, name.length());
+			} else {
+				firstName = name;
+				lastName = "";
+			}
+			int rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
+			tournament.registerFencer(number, firstName, lastName, rank);
 			//id should be tied to row in model? --> ?
 		}
 		else if (e.getSource() == signInAll) {

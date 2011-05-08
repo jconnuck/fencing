@@ -99,24 +99,18 @@ public class TournamentController implements Constants{
 	
 	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
 	
-	//Method to check in a fencer. Gives
 	public Object[][] checkInFencer(int playerID) {
 		_dataStore.getPlayer(playerID).setCheckedIn(true);
 		return _dataHelper.giveSignInPanelInfo();
 	}
 	
-	/** 
-	 * Maybe confusing, but this method checks in all fencers as either all true, or
-	 * all false, depending on param checkAs
-	 * @param checkAs
-	 * @return
-	 */
+	//Checks in all players as the boolean parameter
 	public Object[][] checkInAll(boolean checkAs) {
 		for (IPlayer i: _dataStore.getPlayers())
 			i.setCheckedIn(checkAs);
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 	public Object[][] giveSubscriberTableInfo() {
 		return _dataHelper.giveSubscriberTableInfo();
 	}
@@ -130,8 +124,8 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 	
-	public Object[][] registerFencer(String number, String firstName, String lastName, int rank, int seed) {
-		//_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank, seed);
+	public Object[][] registerFencer(String number, String firstName, String lastName, int rank) {
+		_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
 		return _dataHelper.giveSignInPanelInfo();
 	}
 	

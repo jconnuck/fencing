@@ -20,7 +20,7 @@ public class DataFormattingHelper implements Constants {
 
 	/**
 	 * Formats data for the SignInPanel. Has the form
-	 * {"First Last", "Club", "Group", signed in y/n }
+	 * {"First Last", "Club", "Group", signed in y/n, "ID" }
 	 * @return
 	 */
 	public Object[][] giveSignInPanelInfo() {
@@ -55,7 +55,10 @@ public class DataFormattingHelper implements Constants {
 					toReturn[index][3] = ((IPlayer)i).getCheckedIn();
 				}
 				else
-					toReturn[index][3] = null; 
+					toReturn[index][3] = null;
+				
+				/* ID */
+				toReturn[index][4] = i.getID();
 			}
 			index++;
 		}
