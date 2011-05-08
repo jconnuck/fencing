@@ -50,7 +50,7 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
-		//tournamentController = new TournamentController();
+		tournamentController = new TournamentController("cs032fencing", "F3ncing!");
 		initialize();
 	}
 
