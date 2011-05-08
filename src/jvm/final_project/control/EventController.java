@@ -12,7 +12,7 @@ public class EventController {
 	private PoolRoundController _poolController;
 	private IDataStore _dataStore;
 	private String _weapon;
-	private Collection<Integer> _players;
+	private List<Integer> _players;
 	private int _eventID;
 
 	public EventController(int id, IDataStore dataStore, String weapon){
@@ -33,7 +33,7 @@ public class EventController {
 	private void setup(){
 		_state = State.REGISTRATION;
 		_refs = new HashSet<Integer>();
-		_players = new HashSet<Integer>();
+		_players = new LinkedList<Integer>();
 	}
 
 	public void addPlayer(int id){
@@ -69,7 +69,7 @@ public class EventController {
 	public boolean startPoolRound(int poolSize) {
 		if(_state != State.REGISTRATION)
 			return false;
-		_poolController = new PoolRoundController(_dataStore);
+		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players));
 		boolean createPoolSuccess = _poolController.createPools(poolSize);
 		if(!createPoolSuccess){
 			_poolController = null;
@@ -90,4 +90,27 @@ public class EventController {
 		}
 		return toReturn;
 	}
+
+	public void convertPlayersListToSortedSeeding(){
+		Collections.sort(new LinkedList<Integer>(_players),
+				new Comparator<Integer>(){
+			@Override
+			public int compare(Integer arg0, Integer arg1) {
+				// TODO Auto-generated method stub
+				_dataStore.getData(3);
+				return 0;
+			}
+		});
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
