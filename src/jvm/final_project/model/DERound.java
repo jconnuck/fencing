@@ -41,6 +41,10 @@ public class DERound implements IRound {
     public void setSeeding(ArrayList<Integer> seeding) {
         _seeding = seeding;
     }
+    
+    public Result[] getMatches() {
+    	return _matches;
+    }
 
     public void setPointsToWin(int newPTW) {
         POINTS_TO_WIN = newPTW;
@@ -114,7 +118,7 @@ public class DERound implements IRound {
      * Helper function for populateBracket() that takes the values that represent the seeding of the competitors
      * in the current IncompleteResults and replaces them with the int id of the actual competitor of that seed.
      */
-    public void switchSeedsForCompetitors(){
+    private void switchSeedsForCompetitors(){
         for(int i = _matches.length - _bracketSize / 2; i < _matches.length; i++){
             IncompleteResult temp;
             temp = (IncompleteResult) _matches[i];
