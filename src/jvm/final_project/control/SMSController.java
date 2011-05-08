@@ -3,10 +3,10 @@ package final_project.control;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Timer;
-
+import java.io.Serializable;
 import final_project.model.*;
 
-public class SMSController implements Constants, ISMSController {
+public class SMSController implements Constants, ISMSController, Serializable {
 
 	private SMSSender _sender;
 	private SMSParser _parser;
@@ -15,7 +15,7 @@ public class SMSController implements Constants, ISMSController {
 	private Calendar _cal;
 
 	/**
-	 *  Constructor needs to take the username & password for the BulkSMS API 
+	 *  Constructor needs to take the username & password for the BulkSMS API
 	 * @param s
 	 * @param t
 	 * @param username
@@ -24,7 +24,7 @@ public class SMSController implements Constants, ISMSController {
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
 		_tournament = t;
 		_cal = Calendar.getInstance();
-		
+
 		/* Making sender and parser */
 		_sender = new SMSSender(s, this, username, password);
 		_parser = new SMSParser(s, this);
@@ -71,7 +71,7 @@ public class SMSController implements Constants, ISMSController {
 	public void alertGUI(String message, Date time) {
 		//should call some sort of alert method
 	}
-	
+
 	public Date getTime() {
 		return _cal.getTime();
 	}
