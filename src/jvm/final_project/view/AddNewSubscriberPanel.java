@@ -152,7 +152,6 @@ public class AddNewSubscriberPanel extends JPanel {
 	public JButton getCancelButton() {
 		return btnCancel;
 	}
-
 	public JTextField getPhoneNumberTextField() {
 		return phoneNumberTextField;
 	}

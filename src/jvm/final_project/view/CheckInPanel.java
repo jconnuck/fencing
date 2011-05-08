@@ -136,6 +136,27 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		gbc_txtSearch.gridy = 1;
 		add(searchField, gbc_txtSearch);
 		searchField.setColumns(10);
+		
+		searchField.addKeyListener
+		(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					signInSelectedPlayer();
+				}
+			}
+		});
+	}
+	
+	private void signInSelectedPlayer() {
+		hideAllBalloons();
+//			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
+		//changed to table.convertColumIndexToView to prevent bug where user rearranges column ordering
+		int id = (Integer)table.getValueAt(table.getSelectedRow(), table.convertColumnIndexToView(4)); //Getting the ID DOES THIS WORK??
+		System.out.println("ID parsed from table: " + id);  //TODO delete after testing
+		//Checking in the fencer as the checkAs boolean
+		Object[][] newData = tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
+		model.setData(newData);
+		searchField.setText("");
 	}
 
 	private void initializeTable() {
@@ -146,6 +167,8 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		table.setRowSorter(sorter);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
+		table.grabFocus();
+		table.getRowSorter().toggleSortOrder(0);
 	}
 
 	private void initializeGridBagLayout() {
@@ -240,19 +263,6 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			selectionModel.setSelectionInterval(0, 0);
 			//Make tooltip visible
 			signInPlayerPane.getResultLabel().setText("<html><i>Exact Match Found:</i> <b>" + table.getValueAt(0, 0) + "</b></html>");
-			searchField.addKeyListener
-			(new KeyAdapter() {
-				public void keyPressed(KeyEvent e) {
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						signInPlayerTip.setVisible(false);
-						searchField.setText("");
-						//Signing in the fencer
-						Object[][] newData = tournament.checkInFencer(Integer.parseInt((String)(table.getValueAt(0, 4))), true);
-						model.setData(newData);
-						System.out.println("Fencer checked in with id: " + Integer.parseInt((String)(table.getValueAt(0, 4)))); //TODO delete after testing
-					}
-				}
-			});
 			searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
 			hideAllBalloons();
 			signInPlayerTip.setVisible(true);
@@ -325,13 +335,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			hideAllBalloons();
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
-			hideAllBalloons();
-//			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
-			int id = (Integer)table.getValueAt(table.getSelectedRow(), 4); //Getting the ID DOES THIS WORK??
-			System.out.println("ID parsed from table: " + id);  //TODO delete after testing
-			//Checking in the fencer as the checkAs boolean
-			Object[][] newData = tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
-			model.setData(newData);
+			signInSelectedPlayer();
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
 			hideAllBalloons();
