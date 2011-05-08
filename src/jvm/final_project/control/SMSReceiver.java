@@ -5,11 +5,11 @@ import java.util.Scanner;
 import java.util.TimerTask;
 
 /**
- * The SMSReceiver task extends the 
+ * The SMSReceiver task extends the
  * @author Miranda
  *
  */
-public class SMSReceiver extends TimerTask implements Constants {
+public class SMSReceiver extends TimerTask implements Constants{
 
 	private SMSController _control;
 	private String _username, _password; //Not the most secure but who cares.
