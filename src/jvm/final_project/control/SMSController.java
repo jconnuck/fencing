@@ -3,10 +3,7 @@ package final_project.control;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Timer;
-<<<<<<< HEAD
-=======
 import java.io.Serializable;
->>>>>>> b14293d031333d0847d3575fb763fbf36375ca7c
 import final_project.model.*;
 
 public class SMSController implements Constants, ISMSController, Serializable {
