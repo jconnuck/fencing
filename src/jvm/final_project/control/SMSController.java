@@ -2,15 +2,16 @@ package final_project.control;
 
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Timer;
+
 import final_project.model.*;
 
 public class SMSController implements Constants, ISMSController {
 
-	// Also need a reference to the GUI
 	private SMSSender _sender;
 	private SMSParser _parser;
 	private TournamentController _tournament;
-	private Thread _sendThread;
+	private Timer _timer;
 	private Calendar _cal;
 
 	/**
@@ -30,13 +31,11 @@ public class SMSController implements Constants, ISMSController {
 
 		/* Starting the "receiver" thread to continuously check the inbox */
 		SMSReceiver receiver = new SMSReceiver(this, username, password);
-		_sendThread = new Thread(receiver);
-		_sendThread.start();
+		_timer = new Timer();
+		_timer.scheduleAtFixedRate(receiver, 0, RECEIVE_TIMER_STEP);
 
-		receiver.getInbox();
-
+		receiver.getInbox(); //Getting the inbox for the first time to make sure that the inbox is empty
 	}
-
 
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
