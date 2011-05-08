@@ -67,7 +67,7 @@ public class DERound implements IRound {
      */
     private void calcBracketSize() throws IllegalArgumentException{
         if(_seeding.size() < 2)
-            throw new IllegalArgumentException("Attempted to build a bracket for less than 2 competitors.");
+            throw new IllegalArgumentException("Attempted to build a bracket for fewer than 2 competitors.");
         int curSize = 2;
         int totalSize = 2;
         while(curSize < _seeding.size()) {
