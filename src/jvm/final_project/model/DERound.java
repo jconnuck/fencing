@@ -41,7 +41,7 @@ public class DERound implements IRound {
     public void setSeeding(ArrayList<Integer> seeding) {
         _seeding = seeding;
     }
-    
+
     public Result[] getMatches() {
     	return _matches;
     }

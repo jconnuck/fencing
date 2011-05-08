@@ -3,47 +3,35 @@ package final_project.control;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.TimerTask;
 
 /**
- *
+ * The SMSReceiver task extends the 
  * @author Miranda
  *
  */
-public class SMSReceiver implements Runnable, Constants {
+public class SMSReceiver extends TimerTask implements Constants {
 
 	private SMSController _control;
 	private String _username, _password; //Not the most secure but who cares.
 	private int _lastRetrievedID;
-	private boolean _listening;
 
 	public SMSReceiver(SMSController ctrl, String username, String password) {
 		_control = ctrl;
 		_username = username;
 		_password = password;
 		_lastRetrievedID = 0;
-		_listening = true;
 	}
 
 	public void run() {
-		while(_listening) {
 			this.getInbox();
-		}
 	}
 
-	/* Methods to stop and start this thread by changing "_listening" boolean */
-	public void stopListening() {
-		_listening = false;
-	}
-
-	public void restartListening() {
-		_listening = true;
-		this.run();
-	}
 
 	/**
 	 * GET INBOX METHOD
-	 * Calls on the API to get all of the messages not previously 
-	 * 
+	 * Calls on the API to get all of the messages not previously
+	 *
 	 */
 	public boolean getInbox() {
 		OutputStreamWriter wr = null;
@@ -102,12 +90,12 @@ public class SMSReceiver implements Runnable, Constants {
 					line = rd.readLine();
 					firstLine = false;
 				}
-				else { 
+				else {
 					//Example input:
 					//19|4412312345|Hi there|2004-01-20 16:06:40|44771234567|0
 					Scanner s = new Scanner(line);
 					s.useDelimiter("\\|"); //Must escape bar to satisfy regex
-					
+
 					//First, getting out the message id & storing it
 					if(!s.hasNextInt()) {
 						toReturn = false;
@@ -120,32 +108,32 @@ public class SMSReceiver implements Runnable, Constants {
 						break;
 					}
 					String number = s.next();
-					
+
 					//Lastly, getting the message receieved. Don't care about the rest.
 					if(!s.hasNext()) {
 						toReturn = false;
 						break;
 					}
 					String message = s.next();
-					
+
 					//Calling control's parse output method
 					_control.parseOutput(message, number);
 				}
 			}
 			toReturn = true; //Input successfully processed
-		} catch (UnknownHostException e) { 
+		} catch (UnknownHostException e) {
 			//Letting the GUI know it ain't got no internet
 			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
 		} catch (Exception e) {
 			e.printStackTrace(); //What to do with these??
-		} 		
+		}
 		finally {
 			try {
 				if(wr!=null) wr.close();
 				if(wr!=null) rd.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} 
+			}
 		}
 		return toReturn;
 	}

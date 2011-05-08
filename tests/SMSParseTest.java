@@ -24,6 +24,5 @@ public class SMSParseTest {
 	public void test_parseOutput() {
 		_parser.parseOutput("help fencer at strip 2 broke their leg!!!!!", "8132987766");
 	
-	
 	}
 }
