@@ -40,13 +40,12 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	 */
 	public CheckInPanel(TournamentController t) {
 		super();
+		tournament = t;
 		initializeGridBagLayout();
 		initializeTable();
 		initializeComponents();
 		initializeSearch();
 		initializeBalloons();
-
-		tournament = t;
 	}
 
 	private void initializeComponents() {
