@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import mocks.*;
-
 import org.junit.*;
 import static org.junit.Assert.*;
 import src.clj.final_project.model.*;
