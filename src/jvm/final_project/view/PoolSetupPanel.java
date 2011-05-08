@@ -15,6 +15,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.AbstractListModel;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 
 public class PoolSetupPanel extends JPanel {
 
@@ -22,28 +24,26 @@ public class PoolSetupPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public PoolSetupPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{79, 555, 0};
-		gridBagLayout.rowHeights = new int[]{71, 379, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Referee1", "Referee2", "Referee3"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 1;
-		gbc_list.gridy = 1;
-		add(list, gbc_list);
+		PoolRefList poolRefList = new PoolRefList();
+		add(poolRefList);
+		
+		PoolRefList poolRefList_1 = new PoolRefList();
+		add(poolRefList_1);
+		
+		PoolRefList poolRefList_2 = new PoolRefList();
+		add(poolRefList_2);
+		
+		JPanel panel = new JPanel();
+		add(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		JButton btnReassignReferees = new JButton("Re-assign Referees");
+		panel.add(btnReassignReferees);
+		
+		JButton btnAcceptSeeding = new JButton("Accept Assignments");
+		panel.add(btnAcceptSeeding);
 
 	}
 }

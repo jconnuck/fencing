@@ -8,10 +8,12 @@ public class PoolRoundController {
 	private PoolRound _poolRound;
 	private int _numPools, _numBigPools, _numSmallPools;
 	private IDataStore _dataStore;
+    private List<Integer> _initialSeeding;
 
-	public PoolRoundController(IDataStore ds) {
+	public PoolRoundController(IDataStore ds, List<Integer> initialSeeding) {
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
+        _initialSeeding = initialSeeding;
 	}
 
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
@@ -26,7 +28,7 @@ public class PoolRoundController {
 			return false;
 		}
 
-		_poolRound = new FencerPoolRound(_numPools, poolSize);
+		_poolRound = new FencerPoolRound(_initialSeeding, _numPools, poolSize);
         _poolRound.populatePools();
         //_poolRound.assignReferees(refs);
         Collection<IReferee> allRefs = _dataStore.getReferees();
