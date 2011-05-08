@@ -98,7 +98,12 @@ public class TournamentController implements Constants{
 
 	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
 	public Object[][] checkInFencer(int playerID, boolean checkAs) {
-		_dataStore.getPlayer(playerID).setCheckedIn(checkAs);
+		final IPlayer temp = _dataStore.getPlayer(playerID).setCheckedIn(checkAs);
+		_dataStore.runTransaction(new Runnable(){
+			public void run(){
+				_dataStore.putData(temp);
+			}
+		});
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
