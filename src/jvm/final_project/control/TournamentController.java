@@ -131,7 +131,7 @@ public class TournamentController implements Constants{
 	}
 	
 	public Object[][] registerFencer(String number, String firstName, String lastName, int rank, int seed) {
-		_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank, seed);
+		//_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank, seed);
 		return _dataHelper.giveSignInPanelInfo();
 	}
 	
