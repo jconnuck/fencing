@@ -1,3 +1,5 @@
+package final_project.tests;
+
 import java.util.Scanner;
 import org.junit.*;
 import static org.junit.Assert.*;

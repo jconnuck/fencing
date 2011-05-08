@@ -1,4 +1,4 @@
-package mocks;
+package final_project.tests.mocks;
 
 import java.util.Collection;
 
@@ -105,21 +105,21 @@ public class MockDataStore implements IDataStore {
 
 	public void putData(IData person) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void removeData(IData person) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void removeID(int id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void runTransaction(Runnable transaction) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

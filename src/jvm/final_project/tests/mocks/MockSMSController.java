@@ -1,4 +1,4 @@
-package mocks;
+package final_project.tests.mocks;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -8,11 +8,11 @@ import final_project.control.ISMSController;
 public class MockSMSController implements ISMSController {
 
 	java.util.Calendar _cal;
-	
+
 	public MockSMSController() {
 		_cal = Calendar.getInstance();
 	}
-	
+
 	public void parseOutput(String received, String number) {
 		System.out.println("Parse output called on: " + received + " " + number);
 	}
@@ -24,7 +24,7 @@ public class MockSMSController implements ISMSController {
 	}
 
 	public void sendAllMessage(String message) {
-		System.out.println("Send all called on: " + message);	
+		System.out.println("Send all called on: " + message);
 	}
 
 	public void sendFencerStripMessage(int id, int strip) {
@@ -32,7 +32,7 @@ public class MockSMSController implements ISMSController {
 	}
 
 	public void sendGroupMessage(String group, String message) {
-		System.out.println("Send group called on: " + message);	
+		System.out.println("Send group called on: " + message);
 	}
 
 	public void sendMessage(String message, String number) {

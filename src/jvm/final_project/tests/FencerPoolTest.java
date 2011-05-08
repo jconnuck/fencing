@@ -1,4 +1,4 @@
-package tests;
+package final_project.tests;
 
 import java.util.Collection;
 
