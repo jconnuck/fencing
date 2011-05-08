@@ -122,4 +122,7 @@ public class MockDataStore implements IDataStore {
 		// TODO Auto-generated method stub
 
 	}
+
+    public Collection<IPerson> getPeopleWithoutClub(String club) {
+    }
 }
