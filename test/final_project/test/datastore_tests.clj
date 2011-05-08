@@ -1,7 +1,7 @@
 (ns final_project.test.datastore-tests
   (:use [clojure test]
         [final_project.model DataStore])
-  (:import [final_project.model DataStore]))
+  (:import [final_project.model DataStore Rating]))
 
 (deftest observers-test
   (let [s (DataStore.)]
@@ -77,7 +77,7 @@
                    (.setPhoneNumber "1234")
                    (.setCarrier "Sprint")
                    (.setGroup "SuperPlayers")
-                   (.addRating "gravity gun" "amazing")
+                   (.addRating "gravity gun" (Rating. "e2008"))
                    (.setRank 6))))
 
     (is (= (.getPhoneNumber (.getData s 0))) "1234")
@@ -92,7 +92,7 @@
     (is (= (.getPhoneNumber (.getData s 3))) "1234")
     (is (= (.getCarrier (.getData s 3))) "Sprint")
     (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
-    (is (= (.getRating (.getData s 3) "gravity gun") "amazing"))
+    (is (= (.getRating (.getData s 3) "gravity gun") (Rating. "e2008")))
     (is (= (.getRank (.getData s 3)) 6))
     
     (is (= (.getName (.getData s 2)) "My Club"))
@@ -112,7 +112,7 @@
     (is (= (.getPhoneNumber (.getData s 3))) "1234")
     (is (= (.getCarrier (.getData s 3))) "Sprint")
     (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
-    (is (= (.getRating (.getData s 3) "gravity gun") "amazing"))
+    (is (= (.getRating (.getData s 3) "gravity gun") (Rating. "e2008")))
     (is (= (.getRank (.getData s 3)) 6))
     
     (is (= (.getName (.getData s 2)) "Your Club"))
@@ -137,7 +137,7 @@
     (is (= (.getPhoneNumber (.getData s 3))) "1234")
     (is (= (.getCarrier (.getData s 3))) "Sprint")
     (is (= (.getGroup (.getData s 3)) "SuperPlayers"))
-    (is (= (.getRating (.getData s 3) "gravity gun") "amazing"))
+    (is (= (.getRating (.getData s 3) "gravity gun") (Rating. "e2008")))
     (is (= (.getRank (.getData s 3)) 6))
     
     (is (= (.getName (.getData s 2)) "Your Club"))

@@ -1,6 +1,6 @@
 (ns final_project.test.xml-test
   (import [final_project.input XmlReader]
-          [final_project.model DataStore])
+          [final_project.model DataStore Rating])
   (:use final_project.input.XmlReader
         clojure.test))
 
@@ -26,7 +26,7 @@
              :clubs [1]
              :ratings {"Epee" (Rating. "U")
                        "Foil" (Rating. "U")
-                       "Saber" (Rating. n"U")}}
+                       "Saber" (Rating. "U")}}
       16181 {:firstName "Adrian"
              :lastName "Pacia"
              :clubs [1]

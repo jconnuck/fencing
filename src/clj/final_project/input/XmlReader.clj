@@ -32,8 +32,8 @@
                      (for [[key val] attrs :when (re-find #"^:ClubID" (str key))]
                        val))
              (map list
-                  (xml-> fencer :Rating (attr :Weapon) #(Rating. %))
-                  (xml-> fencer :Rating text)))]))
+                  (xml-> fencer :Rating (attr :Weapon))
+                  (xml-> fencer :Rating text #(Rating. %))))]))
 
 (defn parse-club [^IDataStore store {:keys [attrs] :as club}]
   [(:ClubID attrs) (.createClub store (:Name attrs))])
