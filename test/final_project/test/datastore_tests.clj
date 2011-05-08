@@ -15,9 +15,9 @@
                    (.putData (.createReferee s "1111" "John" "Smith" "Verizon" "Coaches"))
                    (.putData (.createClub s "My Club"))
                    (.putData (.createPlayer s "1111" "John" "Smith" "Verizon"
-                                            "Players" 5 nil))
+                                            "Players" 5))
                    (.putData (.createPlayer s "1111" "John" "Smith" "Verizon"
-                                            "Players" 5 nil))))))
+                                            "Players" 5))))))
 
     (is (= (.getPerson s 1) (.getData s 1)))
     (is (= (.getPerson s 2) nil))

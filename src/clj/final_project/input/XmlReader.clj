@@ -27,7 +27,7 @@
              (reduce #(.addClub %1 (:id (clubs %2)))
                      (.createPlayer store
                                     "" (:FirstName attrs) (:LastName attrs)
-                                    "" "Fencer" -1 nil)
+                                    "" "Fencer" -1)
                      (for [[key val] attrs :when (re-find #"^:ClubID" (str key))]
                        val))
              (map list

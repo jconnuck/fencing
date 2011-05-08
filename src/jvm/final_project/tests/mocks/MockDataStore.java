@@ -18,8 +18,7 @@ public class MockDataStore implements IDataStore {
 	}
 
 	public IPlayer createPlayer(String phoneNumber, String firstName,
-			String lastName, String carrier, String group, int rank,
-			PlayerSeed seed) {
+			String lastName, String carrier, String group, int rank) {
 		// TODO Auto-generated method stub
 		return null;
 	}
