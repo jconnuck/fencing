@@ -17,12 +17,12 @@ public class TournamentController implements Constants{
 	public TournamentController(String username, String password) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
-		//_dataStore = new DataStore();
+		_dataStore = new DataStore();
 		_dataStore = null; //Setting this temporarily to null because I need it for SMSController/DataFormattingHelper
 		_stripController = new StripController();
-		
+
 		_dataHelper = new DataFormattingHelper(_dataStore);
-		_smsController = new SMSController(_dataStore, this, username, password); 
+		_smsController = new SMSController(_dataStore, this, username, password);
 	}
 
 	public void addEvent(String weapon){
@@ -96,13 +96,13 @@ public class TournamentController implements Constants{
 	public void swapRef(int eventID, int oldRefID, int newRefID) {
 		//TODO: empty stub
 	}
-	
+
 	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
 	public Object[][] checkInFencer(int playerID, boolean checkAs) {
 		_dataStore.getPlayer(playerID).setCheckedIn(checkAs);
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 	//Checks in all players as the boolean parameter
 	public Object[][] checkInAll(boolean checkAs) {
 		for (IPlayer i: _dataStore.getPlayers())
@@ -113,20 +113,20 @@ public class TournamentController implements Constants{
 	public Object[][] giveSubscriberTableInfo() {
 		return _dataHelper.giveSubscriberTableInfo();
 	}
-	
+
 	public Object[][] giveSignInPanelInfo() {
-		return _dataHelper.giveSignInPanelInfo();		
+		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 	public Object[][] registerSpectator(String number, String firstName, String lastName) {
 		_dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
 		return _dataHelper.giveSubscriberTableInfo();
 	}
-	
+
 	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank) {
 		IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
 		p.setCheckedIn(true);
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 }

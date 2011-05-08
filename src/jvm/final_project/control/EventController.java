@@ -96,7 +96,6 @@ public class EventController {
 				new Comparator<Integer>(){
 			@Override
 			public int compare(Integer arg0, Integer arg1) {
-				// TODO Auto-generated method stub
 				_dataStore.getData(3);
 				return 0;
 			}
