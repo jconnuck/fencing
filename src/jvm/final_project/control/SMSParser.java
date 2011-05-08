@@ -312,9 +312,4 @@ public class SMSParser {
 
 	}
 
-	public static void main(String[] args) {
-		SMSParser p = new SMSParser(null, null);
-		//p.parseOutput("Follow MiranjnbmamdaSteele", "8132987766");
-	}
-
 }

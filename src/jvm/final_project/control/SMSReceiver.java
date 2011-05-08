@@ -1,5 +1,4 @@
 package final_project.control;
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -26,7 +25,6 @@ public class SMSReceiver extends TimerTask implements Constants {
 	public void run() {
 			this.getInbox();
 	}
-
 
 	/**
 	 * GET INBOX METHOD
