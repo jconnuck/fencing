@@ -122,4 +122,12 @@ public class MockDataStore implements IDataStore {
 		// TODO Auto-generated method stub
 
 	}
+
+    public Collection<IPerson> getPeopleWithoutGroup(String club) {
+        return null;
+    }
+
+    public int getNextReferee() {
+        return -1;
+    }
 }

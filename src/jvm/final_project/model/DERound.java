@@ -152,7 +152,7 @@ public class DERound implements IRound {
     }
 
     /**
-     * Returns the next match to be fenced if there is one.  Returns null if there is not.
+     * Returns the next match to be played if there is one.  Returns null if there is not.
      * @return IncompleteResult that represents the next match to be fenced.
      */
     private IncompleteResult getNextMatch() {
