@@ -109,8 +109,14 @@ public class TournamentController implements Constants{
 
 	//Checks in all players as the boolean parameter
 	public Object[][] checkInAll(boolean checkAs) {
-		for (IPlayer i: _dataStore.getPlayers())
-			i.setCheckedIn(checkAs);
+		for (IPlayer i: _dataStore.getPlayers()){
+			final IPlayer temp = i.setCheckedIn(checkAs);
+			_dataStore.runTransaction(new Runnable(){
+				public void run(){
+					_dataStore.putData(temp);
+				}
+			});
+		}
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
