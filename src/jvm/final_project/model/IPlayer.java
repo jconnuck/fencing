@@ -10,8 +10,8 @@ public interface IPlayer extends IHasClub, IPerson, IObservable {
     IPlayer addClub(int club);
     IPlayer removeClub(int club);
     IPlayer clearClubs();
-    String getRating(String weapon);
-    IPlayer addRating(String weapon, String rating);
+    Rating getRating(String weapon);
+    IPlayer addRating(String weapon, Rating rating);
     IPlayer removeRating(String weapon);
     IPlayer clearRatings();
     int getRank();
