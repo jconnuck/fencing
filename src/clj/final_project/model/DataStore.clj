@@ -246,6 +246,9 @@
 (defn -getPeopleForGroup [this group]
   (get-predicate #(= group (.getGroup %)) (.store this)))
 
+(defn -getPeopleWithoutGroup [this group]
+  (get-predicate #(not= group (.getGroup %)) (.store this)))
+
 (defn -getPerson [this id]
   (get-datum-type (.store this) id IPerson))
 
