@@ -34,19 +34,18 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private StripSetupPanel stripSetupPane;
 	private PoolSizeInfoPanel poolSizeInfoPane;
-
+	
 	/**
 	 * Create the panel.
 	 */
 	public CheckInPanel(TournamentController t) {
 		super();
+		tournament = t;
 		initializeGridBagLayout();
 		initializeTable();
 		initializeComponents();
 		initializeSearch();
 		initializeBalloons();
-
-		tournament = t;
 	}
 
 	private void initializeComponents() {
@@ -247,7 +246,9 @@ public class CheckInPanel extends JPanel implements ActionListener {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						signInPlayerTip.setVisible(false);
 						searchField.setText("");
-						//TODO Sign In Fencer
+						//Signing in the fencer
+						tournament.checkInFencer(Integer.parseInt((String)(table.getValueAt(0, 4))), true);
+						System.out.println("Fencer checked in with id: " + Integer.parseInt((String)(table.getValueAt(0, 4)))); //TODO delete after testing
 					}
 				}
 			});
@@ -263,12 +264,16 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	class SignInTableModel extends AbstractTableModel{
 		private static final long serialVersionUID = 1L;
 
-		private  String[] columnNames = {"Name", "Team", "Group", "Signed In"};
+		private  String[] columnNames = {"Name", "Team", "Group", "Signed In", "ID"};
 
 		private Object[][] data = tournament.giveSignInPanelInfo();
 
 		public void setData(Object[][] newData) {
-			data = newData;
+			for(int i=0; i < newData.length; i++) {
+				for(int j=0; j<newData[i].length; j++) {
+					setValueAt(newData[i][j], i, j);
+				}
+			}
 		}
 
 		@Override
@@ -320,19 +325,32 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			hideAllBalloons();
-			//TODO sign in user
-			//id should be tied to row in model?
-			//MainWindow.getTournamentController().signInUser(id);
+			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
+			System.out.println("ID parsed from table: " + id);  //TODO delete after testing
+			//Checking in the fencer as the checkAs boolean
+			tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
 			hideAllBalloons();
 		}
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
 			hideAllBalloons();
-			//TODO register & sign in user
-			//Need to get the info out of the registerNewPlayerPane
-			//tournament.registerFencer();
-			//id should be tied to row in model? --> ?
+			//Getting the info out of the registerNewPlayerPane
+			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
+			String name = registerNewPlayerPane.getNameTextField().getText();
+			String firstName = "", lastName = "";
+			int nameSplit = name.lastIndexOf(' ');
+			if (nameSplit > 0) {
+				firstName = name.substring(0, nameSplit);
+				lastName = name.substring(nameSplit, name.length());
+			} else {
+				firstName = name;
+				lastName = "";
+			}
+			int rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
+			/* Registering player and resetting the data in the table */
+			Object[][] newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank);
+			model.setData(newData);
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip

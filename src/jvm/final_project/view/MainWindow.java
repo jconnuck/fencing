@@ -13,11 +13,8 @@ import final_project.control.*;
 public class MainWindow {
 
 	private JFrame frmFencingManager;
-	private static TournamentController tournamentController;
+	private TournamentController tournamentController;
 
-	public static TournamentController getTournamentController() {
-		return tournamentController;
-	}
 
 	/**
 	 * Launch the application.
