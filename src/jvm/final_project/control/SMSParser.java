@@ -54,7 +54,7 @@ public class SMSParser {
 			if(s.hasNext())
 				lastName = s.next();
 
-			this.subscribeUser(firstName, lastName, number);
+			this.subscribeUserToObservable(firstName, lastName, number);
 		}
 
 		// Message: "unsubscribe first last" or "Unsubscribe clubName"
@@ -65,7 +65,7 @@ public class SMSParser {
 			if(s.hasNext())
 				lastName = s.next();
 
-			this.unsubscribeUser(firstName, lastName, number);
+			this.unsubscribeUserToObservable(firstName, lastName, number);
 		}
 
 		//Message: "refswap number"
@@ -140,7 +140,7 @@ public class SMSParser {
 	}
 
 	//Subscribes a user to an IObservable
-	public boolean subscribeUser(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
+	public boolean subscribeUserToObservable(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
 		
@@ -203,7 +203,7 @@ public class SMSParser {
 		return true;
 	}
 
-	public boolean unsubscribeUser(String firstToUnsubscribe, String lastToUnsubscribe, String number) {
+	public boolean unsubscribeUserToObservable(String firstToUnsubscribe, String lastToUnsubscribe, String number) {
 		//Finding the spectator at this phone number
 		int idToFind = 0;
 		boolean found = false;
