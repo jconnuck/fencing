@@ -76,11 +76,10 @@ public class TournamentController {
 			if(event.hasRef(ref)){
 				try {
 					event.addCompletedResult(result);
-					//TODO Send ref confirmation message
+					_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
 					return;
 				} catch (NoSuchMatchException e) {
-					//TODO Send ref error message
-					//_smsController.sendMessage(message, number)
+					_smsController.sendMessage("Error: result could not be processed", _dataStore.getReferee(ref).getPhoneNumber());
 					e.printStackTrace();
 				}
 			}

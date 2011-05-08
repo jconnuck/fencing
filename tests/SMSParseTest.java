@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import mocks.MockDataStore;
+import mocks.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -11,26 +11,18 @@ import final_project.control.SMSParser;
 
 public class SMSParseTest {
 
-	private SMSController _control;
+	private SMSParser _parser;
+	private MockSMSController _control;
 	private MockDataStore _store;
-	
-	
-	public SMSParseTest () {
-		_control = new SMSController();
-	}
-	
-	@Before
-	public void setUp() {
-	}
-	
-	@After
-	public void tearDown() {
 		
+	public SMSParseTest () {
+		_control = new MockSMSController();
+		_parser = new SMSParser(_store, _control);
 	}
 	
 	@Test
-	public void test_subscribeUser() {
-		_parser.parseOutput("follow Miranda Steele", "8132987766");
+	public void test_parseOutput() {
+		_parser.parseOutput("help fencer at strip 2 broke their leg!!!!!", "8132987766");
 	
 	
 	}
