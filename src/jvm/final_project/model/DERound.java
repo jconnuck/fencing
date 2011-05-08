@@ -16,12 +16,7 @@ public class DERound implements IRound {
     private IDataStore _dataStore;
 
     public DERound(IDataStore store, StripController sc) {
-    	_dataStore = store;
-        _seeding = new ArrayList<Integer>();
-        POINTS_TO_WIN =15;
-        _stripController = sc;
-        _stripsInUse = new HashMap<IncompleteResult, Integer>();
-        _refsInUse = new HashMap<IncompleteResult, Integer>();
+        this(store,sc,new ArrayList<Integer>());
     }
 
     // I feel like there is a much more concise way to code this constructor that has an additional argument
