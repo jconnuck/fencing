@@ -9,7 +9,7 @@ public abstract class PoolRound implements IRound{
 	private IDataStore _dataStore;
 	protected List<Pool> _pools;
 	protected List<Integer> _resultSeedList;
-	//TODO: delete protected List<Integer> _initialSeeding;
+	protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
 	private StripController _stripControl;
@@ -216,6 +216,6 @@ public abstract class PoolRound implements IRound{
 
 	public void populatePools() {
 		for (int i = 0; i < _numPlayers; ++i)
-			_pools.get(i % _pools.size()).addPlayer(_resultSeedList.get(i));
+			_pools.get(i % _pools.size()).addPlayer(_initialSeeding.get(i));
 	}
 }
