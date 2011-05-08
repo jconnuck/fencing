@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.io.Serializable;
 import final_project.model.*;
 
-public class SMSController implements Constants, ISMSController, Serializable {
+public class SMSController implements Constants, ISMSController {
 
 	private SMSSender _sender;
 	private SMSParser _parser;
