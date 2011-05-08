@@ -18,7 +18,6 @@ public class TournamentController implements Constants{
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		_dataStore = new DataStore();
-		_dataStore = null; //Setting this temporarily to null because I need it for SMSController/DataFormattingHelper
 		_stripController = new StripController();
 
 		_dataHelper = new DataFormattingHelper(_dataStore);

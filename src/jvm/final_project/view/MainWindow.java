@@ -48,6 +48,13 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		tournamentController = new TournamentController("cs032fencing", "F3ncing!");
+		tournamentController.registerAndCheckInFencer("1231231231", "jon", "leavitt", 1);
+		tournamentController.registerAndCheckInFencer("12312231231", "jo2n", "leavitt", 1);
+		tournamentController.registerAndCheckInFencer("1231231231", "jon2", "leav4itt", 1);
+		tournamentController.registerAndCheckInFencer("1231231231", "jo2n", "leav4itt", 1);
+		tournamentController.registerAndCheckInFencer("12312131231", "jo2n", "le3av4itt", 1);
+		tournamentController.registerAndCheckInFencer("1231231231", "j24on", "le3avitt", 1);
+		tournamentController.registerAndCheckInFencer("1231231231", "j24on", "le2avitt", 1);
 		initialize();
 	}
 
@@ -59,7 +66,7 @@ public class MainWindow {
 		InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
 		im.put(KeyStroke.getKeyStroke( "ENTER" ), "pressed");
 		im.put(KeyStroke.getKeyStroke( "released ENTER" ), "released");
-		
+
 		frmFencingManager = new JFrame();
 
 		frmFencingManager.setTitle("Fencing Manager");
@@ -71,32 +78,32 @@ public class MainWindow {
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frmFencingManager.getContentPane().setLayout(gridBagLayout);
-		
+
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(true);
-		
+
 		GridBagConstraints gbc_splitPane = new GridBagConstraints();
 		gbc_splitPane.gridwidth = 3;
 		gbc_splitPane.fill = GridBagConstraints.BOTH;
 		gbc_splitPane.gridx = 0;
 		gbc_splitPane.gridy = 0;
 		frmFencingManager.getContentPane().add(splitPane, gbc_splitPane);
-		
+
 		SubscriberAdminPanel subscriberAdminPanel = new SubscriberAdminPanel(tournamentController);
 		subscriberAdminPanel.setOpaque(true);
 		subscriberAdminPanel.setSize(new Dimension(273, 58));
 		subscriberAdminPanel.setMinimumSize(new Dimension(0, 58));
 		splitPane.setLeftComponent(subscriberAdminPanel);
-		
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitPane.setRightComponent(tabbedPane);
-		
+
 		CheckInPanel checkInPanel = new CheckInPanel(tournamentController);
 		tabbedPane.addTab("New tab", null, checkInPanel, null);
-		
+
 		PoolSetupPanel poolSetupPanel = new PoolSetupPanel();
 		tabbedPane.addTab("New tab", null, poolSetupPanel, null);
-		
+
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
