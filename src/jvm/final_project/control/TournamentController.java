@@ -12,14 +12,16 @@ public class TournamentController implements Constants{
 	private int _currentEventID;
 	private StripController _stripController;
 	private SMSController _smsController;
+	private DataFormattingHelper _dataHelper;
 
 	public TournamentController(String username, String password) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		//_dataStore = new DataStore();
-		_dataStore = null; //Setting this temporarily to null because I need it for SMSController
+		_dataStore = null; //Setting this temporarily to null because I need it for SMSController/DataFormattingHelper
 		_stripController = new StripController();
 		
+		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password); 
 	}
 
@@ -82,7 +84,7 @@ public class TournamentController implements Constants{
 				}
 			}
 		}
-		//TODO text ref again
+		//TODO text ref again --> why? -mk
 	}
 
 	/**
@@ -98,49 +100,39 @@ public class TournamentController implements Constants{
 	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
 	
 	//Method to check in a fencer. Gives
-	public void checkInFencer(int playerID) {
+	public Object[][] checkInFencer(int playerID) {
 		_dataStore.getPlayer(playerID).setCheckedIn(true);
+		return _dataHelper.giveSignInPanelInfo();
 	}
 	
-	public Object[][] subscribeUser() {
-		return null;
+	/** 
+	 * Maybe confusing, but this method checks in all fencers as either all true, or
+	 * all false, depending on param checkAs
+	 * @param checkAs
+	 * @return
+	 */
+	public Object[][] checkInAll(boolean checkAs) {
+		for (IPlayer i: _dataStore.getPlayers())
+			i.setCheckedIn(checkAs);
+		return _dataHelper.giveSignInPanelInfo();
 	}
 	
-	public void giveSignInPanelInfo() {
-		/*
-		private Object[][] data = {
-			{"John Connuck", "2123007360", ""},
-			{"Bob Dylan", "5556667777", ""},
-			{"Jimi Hendrix", "5554443333", ""},
-			{"The Beatles", "", ""},
-		};
-			private Object[][] data = {
-			{"John Connuck", "New York Yankees", "Referee", new Boolean(true)},
-			{"Greg Maddux", "Chicago Cubs", "Fencer", new Boolean(false)},
-			{"Michael Jordan", "Chicago White Sox", "Referee", new Boolean(false)},
-			{"Daryl Strawberry", "New York Mets", "Fencer", new Boolean(false)},
-			{"Mariano Rivera", "New York Yankees", "Fencer", new Boolean(false)},
-			{"Mark McGuire", "St. Louis Cardinals", "Fencer", new Boolean(false)},
-			{"Sammy Sosa", "Chicago Cubs", "Fencer", new Boolean(false)},
-		}; */
-		
-		int numPeople = _dataStore.getPeople().size() - _dataStore.getPeopleForGroup("Spectator").size();
-		Object[][] toReturn = new Object[numPeople][NUM_COLS_SIGN_IN];
-		
-		int index = 0;
-		for (IPerson i: _dataStore.getPeople()) {
-			if(!i.getGroup().equals("Spectator")){
-				toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
-				if(i instanceof IPlayer) {
-					if(((IPlayer) i).getClubs().iterator().hasNext()) {
-						toReturn[index][1] = ((IPlayer) i).getClubs().iterator().next();
-					}
-				}
-				                
-			}
-		}
-		
+	public Object[][] giveSubscriberTableInfo() {
+		return _dataHelper.giveSubscriberTableInfo();
 	}
 	
+	public Object[][] giveSignInPanelInfo() {
+		return _dataHelper.giveSignInPanelInfo();		
+	}
+	
+	public Object[][] registerSpectator(String number, String firstName, String lastName) {
+		_dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
+		return _dataHelper.giveSubscriberTableInfo();
+	}
+	
+	public Object[][] registerFencer(String number, String firstName, String lastName, int rank, int seed) {
+		_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank, seed);
+		return _dataHelper.giveSignInPanelInfo();
+	}
 	
 }
