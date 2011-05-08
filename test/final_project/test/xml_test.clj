@@ -18,49 +18,49 @@
      {3315 {:firstName "Steven"
             :lastName "Uhlman"
             :clubs [136]
-            :ratings {"Epee" "E2008"
-                      "Foil" "U"
-                      "Saber" "U"}}
+            :ratings {"Epee" (Rating. "E2008")
+                      "Foil" (Rating. "U")
+                      "Saber" (Rating. "U")}}
       15074 {:firstName "Frank"
              :lastName "La"
              :clubs [1]
-             :ratings {"Epee" "U"
-                       "Foil" "U"
-                       "Saber" "U"}}
+             :ratings {"Epee" (Rating. "U")
+                       "Foil" (Rating. "U")
+                       "Saber" (Rating. n"U")}}
       16181 {:firstName "Adrian"
              :lastName "Pacia"
              :clubs [1]
-             :ratings {"Epee" "B2007"
-                       "Foil" "E2007"
-                       "Saber" "E2006"}}
+             :ratings {"Epee" (Rating. "B2007")
+                       "Foil" (Rating. "E2007")
+                       "Saber" (Rating. "E2006")}}
       18641 {:firstName "Ke"
              :lastName "Ma"
              :clubs [945]
-             :ratings {"Epee" "U"
-                       "Foil" "U"
-                       "Saber" "D2007"}}
+             :ratings {"Epee" (Rating. "U")
+                       "Foil" (Rating. "U")
+                       "Saber" (Rating. "D2007")}}
       29029 {:firstName "Bradley"
              :lastName "L'Herrou"
              :clubs [698]
-             :ratings {"Epee" "U"
-                       "Foil" "U"
-                       "Saber" "U"}}
+             :ratings {"Epee" (Rating. "U")
+                       "Foil" (Rating. "U")
+                       "Saber" (Rating. "U")}}
       34420 {:firstName "Donald"
              :lastName "Paccini"
              :clubs [793]
-             :ratings {"Foil" "U"}}
+             :ratings {"Foil" (Rating. "U")}}
       42052 {:firstName "Blaine"
              :lastName "Pace"
              :clubs [1527]
-             :ratings {"Epee" "E2009"
-                       "Foil" "U"
-                       "Saber" "U"}}
+             :ratings {"Epee" (Rating. "E2009")
+                       "Foil" (Rating. "U")
+                       "Saber" (Rating. "U")}}
       45980 {:firstName "Dexter"
              :lastName "Pabulayan"
              :clubs [1723]
-             :ratings {"Epee" "E2009"
-                       "Foil" "U"
-                       "Saber" "U"}}})
+             :ratings {"Epee" (Rating. "E2009")
+                       "Foil" (Rating. "U")
+                       "Saber" (Rating. "U")}}})
 
 (def correct-events
      #{{:weapon "Saber"

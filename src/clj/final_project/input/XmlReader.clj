@@ -1,6 +1,7 @@
 (ns final_project.input.XmlReader
   (:import [final_project.model IPerson IPlayer IDataStore
-            IObservable DataStore IHasClub IReferee IData IClub]
+            IObservable DataStore IHasClub IReferee IData IClub
+            Rating]
            [final_project.input IDataInput ITournamentInfo XmlReader IEventInfo])
   (:use [clojure xml]
         clojure.contrib.zip-filter.xml)
@@ -31,7 +32,7 @@
                      (for [[key val] attrs :when (re-find #"^:ClubID" (str key))]
                        val))
              (map list
-                  (xml-> fencer :Rating (attr :Weapon))
+                  (xml-> fencer :Rating (attr :Weapon) #(Rating. %))
                   (xml-> fencer :Rating text)))]))
 
 (defn parse-club [^IDataStore store {:keys [attrs] :as club}]
