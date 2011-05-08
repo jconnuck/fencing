@@ -11,9 +11,10 @@ import javax.swing.table.*;
 import final_project.control.TournamentController;
 
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.*;
 
 
-public class SignInPanel extends JPanel implements ActionListener {
+public class CheckInPanel extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -28,7 +29,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 	private Component verticalStrut;
 	private Collection<BalloonTip> balloons;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip;
-	private SignInPlayerPanel signInPlayerPane;
+	private CheckInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private StripSetupPanel stripSetupPane;
@@ -37,7 +38,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 	/**
 	 * Create the panel.
 	 */
-	public SignInPanel(TournamentController t) {
+	public CheckInPanel(TournamentController t) {
 		super();
 		initializeGridBagLayout();
 		initializeTable();
@@ -161,7 +162,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 		balloons = new ArrayList<BalloonTip>();
 
 		//setup tooltips
-		signInPlayerPane = new SignInPlayerPanel();
+		signInPlayerPane = new CheckInPlayerPanel();
 		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
 		signInPlayerTip.setOpacity(0.9f);
 		signInPlayerPane.getCancelButton().addActionListener(this);
@@ -186,13 +187,13 @@ public class SignInPanel extends JPanel implements ActionListener {
 		unsignInAllPane.getYesButton().addActionListener(this);
 
 		stripSetupPane = new StripSetupPanel();
-		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), false);
+		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		stripSetupTip.setOpacity(0.9f);
 		stripSetupPane.getCancelButton().addActionListener(this);
 		stripSetupPane.getDoneButton().addActionListener(this);
 
 		poolSizeInfoPane = new PoolSizeInfoPanel();
-		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), false);
+		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		poolSizeTip.setOpacity(0.9f);
 
 		balloons.add(signInPlayerTip);
@@ -273,6 +274,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 				}
 			}
 		}
+
 		@Override
 		public int getColumnCount() {
 			return columnNames.length;
