@@ -1,4 +1,4 @@
-//package tests;
+package tests;
 
 import java.util.Collection;
 
@@ -6,11 +6,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import final_project.model.CompleteResult;
-import final_project.model.FencerPool;
-import final_project.model.FencerSeed;
-import final_project.model.IncompleteResult;
-import final_project.model.PlayerResult;
+import final_project.model.*;
 
 public class FencerPoolTest extends TestCase {
 
