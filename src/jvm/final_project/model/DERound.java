@@ -234,14 +234,11 @@ public class DERound implements IRound {
 	                    // Should never actually happen because only player2 should be set to -1
 	                    nextResult.setPlayer1(newResult.getWinner());
 	                }
-                    final IncompleteResult justFinished = (IncompleteResult) tempResult;
+                    IncompleteResult justFinished = (IncompleteResult) tempResult;
                     _stripController.returnStrip(_stripsInUse.get(justFinished));
-                    _dataStore.runTransaction(new Runnable(){
-                            public void run(){
-                                _dataStore.putData(_dataStore.getReferee(_refsInUse.get(justFinished))
-                                                   .setReffing(false));
-                            }
-                        });
+                    returnRef(_refsInUse.get(justFinished));
+                    _refsInUse.remove(justFinished);
+                    _stripsInUse.remove(justFinished);
 		            boolean hasNextBout = true;
 		            while(hasNextBout){
 		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
@@ -253,17 +250,34 @@ public class DERound implements IRound {
         throw new NoSuchMatchException("No match was found that corresponded to the CompleteResult you attempted to add");
     }
 
+    private void returnRef(int id) {
+        final int fid = id;
+        _dataStore.runTransaction(new Runnable(){
+                public void run(){
+                    _dataStore.putData(_dataStore.getReferee(fid).setReffing(false));
+                }
+            });
+    }
+
     private boolean advanceRound(IncompleteResult justFinished) {
         IncompleteResult nextMatch = getNextMatch();
         if(nextMatch == null) {
             return false;
         }
-        Integer strip = _stripsInUse.remove(justFinished);
-        Integer ref = _refsInUse.remove(justFinished);
-        _stripsInUse.put(nextMatch, strip);
-        _refsInUse.put(nextMatch, ref);
-        // Send notification to referee and fencers to start the match
-        return true;
+
+        int ref = _dataStore.getNextReferee();
+
+        if (ref != -1 && _stripController.availableStrip()) {
+            int strip = _stripController.checkOutStrip();
+            _stripsInUse.put(nextMatch, strip);
+            _refsInUse.put(nextMatch, ref);
+            // Send notification to referee and fencers to start the match
+            return true;
+        } else {
+            if (ref!=-1)
+                returnRef(ref);
+            return false;
+        }
     }
 
     //TODO: why are we getting this warning?

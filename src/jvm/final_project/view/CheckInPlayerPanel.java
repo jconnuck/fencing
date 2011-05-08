@@ -10,7 +10,7 @@ import javax.swing.JComboBox;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
-public class SignInPlayerPanel extends JPanel {
+public class CheckInPlayerPanel extends JPanel {
 	JLabel resultLabel;
 	private JButton btnCancel;
 	private JButton signInButton;
@@ -18,7 +18,7 @@ public class SignInPlayerPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public SignInPlayerPanel() {
+	public CheckInPlayerPanel() {
 		setOpaque(false);
 		setPreferredSize(new Dimension(254, 60));
 		setSize(new Dimension(270, 200));
