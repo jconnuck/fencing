@@ -13,6 +13,7 @@ public interface IDataStore {
 
     //returns all the people with the correct group
     Collection<IPerson> getPeopleForGroup(String group);
+    Collection<IPerson> getPeopleWithoutGroup(String group);
 
     //returns the datum that corresponds to the id.  If the datum does
     //not implement the correct interface or does not exist, returns
