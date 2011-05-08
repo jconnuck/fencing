@@ -184,35 +184,10 @@ public class DERoundTest {
 	}
 
 	/**
-	 * Test method for {@link final_project.model.DERound#getCurrentBracketSize()}.
-	 */
-	@Test
-	public void testGetCurrentBracketSize() {
-		fail("Not yet implemented");
-	}
-
-	/**
 	 * Test method for {@link final_project.model.DERound#getNextMatch()}.
 	 */
 	@Test
 	public void testGetNextMatch() {
 		fail("Not yet implemented");
 	}
-
-	/**
-	 * Test method for {@link final_project.model.DERound#addCompleteResult(final_project.model.CompleteResult)}.
-	 */
-	@Test
-	public void testAddCompleteResult() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link final_project.model.DERound#getTopNPlayers(int)}.
-	 */
-	@Test
-	public void testGetTopNPlayers() {
-		fail("Not yet implemented");
-	}
-
 }

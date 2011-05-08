@@ -204,13 +204,6 @@ public abstract class PoolRound implements IRound{
 		return _resultSeedList;
 	}
 
-	public List<Integer> getTopNPlayers(int num) {
-		if (_resultSeedList == null) {
-			seedFromResults();
-		}
-		return _resultSeedList.subList(0, num);
-	}
-
 	public void seedFromResults() {
 		_resultSeedList = new LinkedList<Integer>();
 		List<PlayerSeed> playerSeeds = new LinkedList<PlayerSeed>();

@@ -294,10 +294,4 @@ public class DERound implements IRound {
             super(message);
         }
     }
-
-    @Override
-	public List<Integer> getTopNPlayers(int num) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
