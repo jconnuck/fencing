@@ -3,13 +3,14 @@ package final_project.control;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.TimerTask;
 
 /**
  *
  * @author Miranda
  *
  */
-public class SMSReceiver implements Runnable, Constants {
+public class SMSReceiver extends TimerTask implements Constants {
 
 	private SMSController _control;
 	private String _username, _password; //Not the most secure but who cares.
