@@ -123,6 +123,7 @@ public class MockDataStore implements IDataStore {
 
 	}
 
-    public Collection<IPerson> getPeopleWithoutClub(String club) {
+    public Collection<IPerson> getPeopleWithoutGroup(String club) {
+        return null;
     }
 }
