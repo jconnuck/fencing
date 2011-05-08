@@ -94,8 +94,11 @@ public class MainWindow {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitPane.setRightComponent(tabbedPane);
 		
-		SignInPanel signInPanel = new SignInPanel();
-		tabbedPane.addTab("Sign In", null, signInPanel, null);
+		CheckInPanel checkInPanel = new CheckInPanel();
+		tabbedPane.addTab("New tab", null, checkInPanel, null);
+		
+		PoolSetupPanel poolSetupPanel = new PoolSetupPanel();
+		tabbedPane.addTab("New tab", null, poolSetupPanel, null);
 		
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);

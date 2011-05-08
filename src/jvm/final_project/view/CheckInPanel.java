@@ -9,9 +9,10 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.*;
 
 
-public class SignInPanel extends JPanel implements ActionListener {
+public class CheckInPanel extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -25,7 +26,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 	private Component verticalStrut;
 	private Collection<BalloonTip> balloons;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip;
-	private SignInPlayerPanel signInPlayerPane;
+	private CheckInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private StripSetupPanel stripSetupPane;
@@ -34,7 +35,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 	/**
 	 * Create the panel.
 	 */
-	public SignInPanel() {
+	public CheckInPanel() {
 		super();
 		initializeGridBagLayout();
 		initializeTable();
@@ -156,7 +157,7 @@ public class SignInPanel extends JPanel implements ActionListener {
 		balloons = new ArrayList<BalloonTip>();
 		
 		//setup tooltips
-		signInPlayerPane = new SignInPlayerPanel();
+		signInPlayerPane = new CheckInPlayerPanel();
 		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
 		signInPlayerTip.setOpacity(0.9f);
 		signInPlayerPane.getCancelButton().addActionListener(this);
@@ -181,13 +182,13 @@ public class SignInPanel extends JPanel implements ActionListener {
 		unsignInAllPane.getYesButton().addActionListener(this);
 		
 		stripSetupPane = new StripSetupPanel();
-		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), false);
+		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		stripSetupTip.setOpacity(0.9f);
 		stripSetupPane.getCancelButton().addActionListener(this);
 		stripSetupPane.getDoneButton().addActionListener(this);
 		
 		poolSizeInfoPane = new PoolSizeInfoPanel();
-		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), false);
+		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		poolSizeTip.setOpacity(0.9f);
 		
 		balloons.add(signInPlayerTip);
@@ -257,16 +258,16 @@ public class SignInPanel extends JPanel implements ActionListener {
 	class SignInTableModel extends AbstractTableModel{
 		private static final long serialVersionUID = 1L;
 		
-		private  String[] columnNames = {"Name", "Team", "Group", "Signed In"};
+		private  String[] columnNames = {"ID", "Name", "Team", "Group", "Signed In"};
 		
 		private Object[][] data = {
-			{"John Connuck", "New York Yankees", "Referee", new Boolean(true)},
-			{"Greg Maddux", "Chicago Cubs", "Fencer", new Boolean(false)},
-			{"Michael Jordan", "Chicago White Sox", "Referee", new Boolean(false)},
-			{"Daryl Strawberry", "New York Mets", "Fencer", new Boolean(false)},
-			{"Mariano Rivera", "New York Yankees", "Fencer", new Boolean(false)},
-			{"Mark McGuire", "St. Louis Cardinals", "Fencer", new Boolean(false)},
-			{"Sammy Sosa", "Chicago Cubs", "Fencer", new Boolean(false)},
+			{1, "John Connuck", "New York Yankees", "Referee", new Boolean(true)},
+			{2, "Greg Maddux", "Chicago Cubs", "Fencer", new Boolean(false)},
+			{3, "Michael Jordan", "Chicago White Sox", "Referee", new Boolean(false)},
+			{4, "Daryl Strawberry", "New York Mets", "Fencer", new Boolean(false)},
+			{5, "Mariano Rivera", "New York Yankees", "Fencer", new Boolean(false)},
+			{6, "Mark McGuire", "St. Louis Cardinals", "Fencer", new Boolean(false)},
+			{7, "Sammy Sosa", "Chicago Cubs", "Fencer", new Boolean(false)},
 		};
 		
 		@Override
