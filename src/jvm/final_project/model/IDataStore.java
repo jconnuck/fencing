@@ -34,6 +34,9 @@ public interface IDataStore {
     void removeData(IData person);
     void removeID(int id);
 
+    //gets a free ref and sets his reffing to true
+    int getNextReferee();
+
     //creates an object with an ID that is unique to the DataStore
     IPerson createSpectator(String phoneNumber, String firstName, String lastName,
                             String carrier, String group);

@@ -126,4 +126,8 @@ public class MockDataStore implements IDataStore {
     public Collection<IPerson> getPeopleWithoutGroup(String club) {
         return null;
     }
+
+    public int getNextReferee() {
+        return -1;
+    }
 }

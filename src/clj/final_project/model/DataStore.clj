@@ -291,6 +291,14 @@
 (defn -init []
   [[] (make-store)])
 
+(defn -getNextReferee [this]
+  (.runTransaction this
+                   #(let [ref (.setReffing (first (filter (complement :isReffing)
+                                                          (.getReferees this)))
+                                           true)]
+                      (.putData this ref)
+                      (:id ref))))
+
 (comment
   (defn parse-text [str]
     (mapcat #(let [split (str/split % #"-")]
