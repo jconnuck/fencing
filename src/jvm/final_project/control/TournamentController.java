@@ -13,15 +13,13 @@ public class TournamentController {
 	private StripController _stripController;
 	private SMSController _smsController;
 
-	public TournamentController() {
+	public TournamentController(String username, String password) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		//_dataStore = new DataStore();
 		_dataStore = null; //Setting this temporarily to null because I need it for SMSController
 		_stripController = new StripController();
 		
-		//NEED TO ALSO ASK GUI FOR USERNAME & PASSWORD BEFORE SMSController CAN BE INSTANTIATED
-		String username = "", password = ""; //Temporary TODO 
 		_smsController = new SMSController(_dataStore, this, username, password); 
 	}
 
@@ -85,7 +83,6 @@ public class TournamentController {
 			}
 		}
 		//TODO text ref again
-		//
 	}
 
 	/**

@@ -17,7 +17,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private SubscriberTableModel model;
-	private TableRowSorter<SubscriberTableModel> sorter;
+	private javax.swing.table.TableRowSorter<SubscriberTableModel> sorter;
 	private JSearchTextField searchField;
 	private BalloonTip addNewSubscriberTip;
 	private AddNewSubscriberPanel addNewSubscriberPane;

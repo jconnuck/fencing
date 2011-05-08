@@ -1,11 +1,16 @@
-package tests;
+//package tests;
 
-import final_project.model.*;
-import junit.framework.TestCase;
-import org.junit.*;
-import static org.junit.Assert.*;
-import com.sun.source.tree.AssertTree;
 import java.util.Collection;
+
+import junit.framework.TestCase;
+
+import org.junit.Test;
+
+import final_project.model.CompleteResult;
+import final_project.model.FencerPool;
+import final_project.model.FencerSeed;
+import final_project.model.IncompleteResult;
+import final_project.model.PlayerResult;
 
 public class FencerPoolTest extends TestCase {
 
@@ -54,7 +59,12 @@ public class FencerPoolTest extends TestCase {
 		}catch(IllegalStateException e){
 			assertTrue(true);
 		}
-		this.setUp();
+		try {
+			this.setUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(15, p.getIncompleteResults().size());
 		p.addCompletedResult(new CompleteResult(new PlayerResult(0, 12), new PlayerResult(1, 12)));
 		assertTrue(true);
