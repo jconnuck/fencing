@@ -98,9 +98,8 @@ public class TournamentController implements Constants{
 	}
 	
 	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
-	
-	public Object[][] checkInFencer(int playerID) {
-		_dataStore.getPlayer(playerID).setCheckedIn(true);
+	public Object[][] checkInFencer(int playerID, boolean checkAs) {
+		_dataStore.getPlayer(playerID).setCheckedIn(checkAs);
 		return _dataHelper.giveSignInPanelInfo();
 	}
 	
@@ -124,8 +123,9 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 	
-	public Object[][] registerFencer(String number, String firstName, String lastName, int rank) {
-		_dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
+	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank) {
+		IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
+		p.setCheckedIn(true);
 		return _dataHelper.giveSignInPanelInfo();
 	}
 	

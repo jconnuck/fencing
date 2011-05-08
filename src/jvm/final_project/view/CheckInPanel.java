@@ -34,7 +34,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private StripSetupPanel stripSetupPane;
 	private PoolSizeInfoPanel poolSizeInfoPane;
-
+	
 	/**
 	 * Create the panel.
 	 */
@@ -247,7 +247,9 @@ public class CheckInPanel extends JPanel implements ActionListener {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						signInPlayerTip.setVisible(false);
 						searchField.setText("");
-						//TODO Sign In Fencer
+						//Signing in the fencer
+						tournament.checkInFencer(Integer.parseInt((String)(table.getValueAt(0, 4))), true);
+						System.out.println("Fencer checked in with id: " + Integer.parseInt((String)(table.getValueAt(0, 4)))); //TODO delete after testing
 					}
 				}
 			});
@@ -324,17 +326,17 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			hideAllBalloons();
-			tournament.checkInFencer(signInPlayerPane.);
-			signInPlayerPane.getSignInButton().isEnabled();
-			//MainWindow.getTournamentController().signInUser(id);
+			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
+			System.out.println("ID parsed from table: " + id);  //TODO delete after testing
+			//Checking in the fencer as the checkAs boolean
+			tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
 			hideAllBalloons();
 		}
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
 			hideAllBalloons();
-			//TODO register & sign in user
-			//Need to get the info out of the registerNewPlayerPane
+			//Getting the info out of the registerNewPlayerPane
 			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
 			String name = registerNewPlayerPane.getNameTextField().getText();
 			String firstName = "", lastName = "";
@@ -347,8 +349,9 @@ public class CheckInPanel extends JPanel implements ActionListener {
 				lastName = "";
 			}
 			int rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
-			tournament.registerFencer(number, firstName, lastName, rank);
-			//id should be tied to row in model? --> ?
+			/* Registering player and resetting the data in the table */
+			Object[][] newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank);
+			model.setData(newData);
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip
