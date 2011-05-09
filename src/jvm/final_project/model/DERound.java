@@ -15,12 +15,14 @@ public class DERound implements IRound {
     private Map<IncompleteResult, Integer> _refsInUse; //Correlates currently fencing bouts with the referees that they are using
     private IDataStore _dataStore;
 
-    public DERound(IDataStore store, StripController sc) {
+    //WHY DO WE NEED THIS CONSTRUCTOR?
+    /*public DERound(IDataStore store, StripController sc) {
         this(store,sc,new ArrayList<Integer>());
-    }
+    }*/
 
     // I feel like there is a much more concise way to code this constructor that has an additional argument
-    public DERound(IDataStore store, StripController sc, List<Integer> seeding) {
+    public DERound(IDataStore store, StripController sc, List<Integer> seeding, double cut) {
+    	this._cut = cut;
         _dataStore = store;
     	_seeding = seeding;
         POINTS_TO_WIN = 15;
@@ -71,7 +73,7 @@ public class DERound implements IRound {
     public void calcBracketSize() throws IllegalArgumentException{
         if(_seeding.size() < 2)
             throw new IllegalArgumentException("Attempted to build a bracket for fewer than 2 competitors.");
-        
+
         _bracketSize = (int) Math.pow(2,Math.ceil(Math.log(_seeding.size())/Math.log(2)));
         _matches = new Result[_bracketSize -1];
     }
