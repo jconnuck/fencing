@@ -1,2 +1,4 @@
+
+
 Credit to Georgios Migdos <cyberpython@gmail.com> for the JSearchTextField and JIconTextField classes, used under the Apache license.
 See JSearchTextField.java and JIconTextField.java for more information.
