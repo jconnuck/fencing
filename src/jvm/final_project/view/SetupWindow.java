@@ -241,11 +241,11 @@ public class SetupWindow {
                                                                  "","Fencer",1));
                                 store.putData(store.createPlayer("5432167893", "John", "Connuck",
                                                                  "","Fencer",1));
-                                store.putData(store.createSpectator("4123355989", "Josh", "Grill",
+                                store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
                                                                     "","Spectator"));
                             }
                         });
-                    i = new TournamentInfo(store,events);
+                    i = new TournamentInfo(store,events); 
                 }
 				MainWindow mainWindow = new MainWindow(i);
 

@@ -14,12 +14,14 @@ public class SMSReceiver extends TimerTask implements Constants{
 	private SMSController _control;
 	private String _username, _password; //Not the most secure but who cares.
 	private int _lastRetrievedID;
-
+	private boolean _flushed;
+	
 	public SMSReceiver(SMSController ctrl, String username, String password) {
 		_control = ctrl;
 		_username = username;
 		_password = password;
 		_lastRetrievedID = 0;
+		_flushed = false;
 	}
 
 	public void run() {
@@ -29,9 +31,10 @@ public class SMSReceiver extends TimerTask implements Constants{
 	/**
 	 * GET INBOX METHOD
 	 * Calls on the API to get all of the messages not previously
-	 *
 	 */
 	public boolean getInbox() {
+		if(!_flushed)
+			this.flushInbox();
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;
@@ -107,7 +110,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 						toReturn = false;
 						break;
 					}
-					String number = s.next();
+					String number = s.next().substring(1); //Eating the first one
 
 					//Lastly, getting the message receieved. Don't care about the rest.
 					if(!s.hasNext()) {
@@ -163,19 +166,23 @@ public class SMSReceiver extends TimerTask implements Constants{
 			// Get the response
 			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line;
+			boolean firstLine = true;
 			while ((line = rd.readLine()) != null) {
 				//Parsing the very first line
+				if(firstLine) {
 					//First line from API looks something like:
 					//0|records to follow|3 --> only care about status code (the zero)
 					Scanner s = new Scanner(line);
 					s.useDelimiter("\\|");
 
 					if(!s.hasNextInt()) {
-						return;
+						break;
 					}
 					int status_code = s.nextInt();
-
-					if(status_code == 23) { //Authentication failure
+					if(status_code == 0) {
+						//Do nothing --> no error
+					}
+					else if(status_code == 23) { //Authentication failure
 						_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
 						break;
 					}
@@ -187,8 +194,24 @@ public class SMSReceiver extends TimerTask implements Constants{
 						_control.alertGUI("Send SMS Failure", _control.getTime());
 						break;
 					}
-			}
 
+					//Eating the second (empty) line
+					line = rd.readLine();
+					firstLine = false;
+				}
+				else {
+					//Example input:
+					//19|4412312345|Hi there|2004-01-20 16:06:40|44771234567|0
+					Scanner s = new Scanner(line);
+					s.useDelimiter("\\|"); //Must escape bar to satisfy regex
+
+					//First, getting out the message id & storing it
+					if(!s.hasNextInt()) {
+						break;
+					}
+					_lastRetrievedID = s.nextInt();
+				}
+			}
 		} catch (UnknownHostException e) {
 			//Letting the GUI know it ain't got no internet
 			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
@@ -203,6 +226,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 				e.printStackTrace();
 			}
 		}
+		_flushed = true;
 	}
 	
 }

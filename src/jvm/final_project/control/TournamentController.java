@@ -170,7 +170,7 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
-	public Object[][] registerSpectator(String number, String firstName, String lastName) {
+	public Object[][] registerSpectator(String number, String firstName, String lastName) {		
 		final IPerson temp =  _dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
@@ -194,6 +194,8 @@ public class TournamentController implements Constants{
 	}
 
 	public void registerFencer(String number, String firstName, String lastName, int rank) {
+		//Concatenating a 1 to the beginning of the phone number
+		number = "1" + number;
 		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){

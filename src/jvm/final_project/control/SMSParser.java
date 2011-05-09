@@ -144,19 +144,20 @@ public class SMSParser {
 	public boolean subscribeUserToObservable(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
-		System.out.println("Gets into subscribeUser");
+		System.out.println("Gets into subscribeUser " + number);
 		if(_store == null)
 			return false;
 
 		for (IPerson i: _store.getPeople()) {
+			System.out.println(i.getPhoneNumber());
 			if(i.getPhoneNumber().equals(number)) {
 				found = true;
 				break;
 			}
 		}
 
-		if (!found) { // Sending an error message if this number is not found
-			_control.sendMessage("This phone number is not registered. Please send us a registration code.", number);
+		System.out.println("person found? " + found);
+		if (!found) {
 			return false;
 		}
 		System.out.println("gets before checking person/club exists");

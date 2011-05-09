@@ -16,7 +16,8 @@ public interface Constants {
 	public static final int EVENT_ID = 0; //Currently only supporting one event, which has id 0
 
 	public static final long RECEIVE_TIMER_STEP = 500; //500 milliseconds = updates every 0.5s
-
+	public static final long RECIEVE_START_DELAY = 500; //First delay, so flushing can be done properly
+	
 	/* GUI CONSTANTS */
 	public static final int NUM_COLS_SIGN_IN = 5;
 	public static final int NUM_COLS_SUBSCRIBER_PANEL = 3;
