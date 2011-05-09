@@ -58,7 +58,7 @@ public class DERound implements IRound {
      * Cuts the bottom _cut percentage of fencers from _seeding.
      */
     public void makeCut() {
-        int newEnd = (int) Math.ceil(_seeding.size() * (1 - _cut));
+        int newEnd = (int) Math.ceil(_seeding.size() * (1.0 - (_cut/100)));
         _seeding = _seeding.subList(0, newEnd);
     }
 
