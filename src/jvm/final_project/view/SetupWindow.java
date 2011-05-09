@@ -182,6 +182,7 @@ public class SetupWindow {
 		gbc_textField_2.gridy = 1;
 		panel.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
+        textField_2.setText("Saber");
 		
 		JLabel lblor = new JLabel("-OR-");
 		GridBagConstraints gbc_lblor = new GridBagConstraints();
@@ -220,26 +221,32 @@ public class SetupWindow {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-                String weapon = textField_2.getText();
-                IEventInfo e = new EventInfo(weapon,new ArrayList<Integer>());
-                Collection<IEventInfo> events = new ArrayList<IEventInfo>();
-                events.add(e);
-                final IDataStore store = new DataStore();
-                store.runTransaction(new Runnable() {
-                        public void run() {
-                            store.putData(store.createPlayer("1234567891", "Jon", "Leavitt",
-                                                             "","Fencer",1));
-                            store.putData(store.createPlayer("1234561291", "William", "Zimrin",
-                                                             "","Fencer",1));
-                            store.putData(store.createPlayer("1235467892", "Josh", "Grill",
-                                                             "","Fencer",1));
-                            store.putData(store.createPlayer("5432167893", "John", "Connuck",
-                                                             "","Fencer",1));
-                            store.putData(store.createSpectator("4123355989", "Josh", "Grill",
-                                                                "","Spectator"));
-                        }
-                    });
-                ITournamentInfo i = new TournamentInfo(store,events);
+                ITournamentInfo i;
+                if (xmlFile != null) {
+                    IDataInput in = new XmlReader();
+                    i=in.getTournamentInfo(xmlFile);
+                } else {
+                    String weapon = textField_2.getText();
+                    IEventInfo e = new EventInfo(weapon,new ArrayList<Integer>());
+                    Collection<IEventInfo> events = new ArrayList<IEventInfo>();
+                    events.add(e);
+                    final IDataStore store = new DataStore();
+                    store.runTransaction(new Runnable() {
+                            public void run() {
+                                store.putData(store.createPlayer("1234567891", "Jon", "Leavitt",
+                                                                 "","Fencer",1));
+                                store.putData(store.createPlayer("1234561291", "William", "Zimrin",
+                                                                 "","Fencer",1));
+                                store.putData(store.createPlayer("1235467892", "Josh", "Grill",
+                                                                 "","Fencer",1));
+                                store.putData(store.createPlayer("5432167893", "John", "Connuck",
+                                                                 "","Fencer",1));
+                                store.putData(store.createSpectator("4123355989", "Josh", "Grill",
+                                                                    "","Spectator"));
+                            }
+                        });
+                    i = new TournamentInfo(store,events);
+                }
 				MainWindow mainWindow = new MainWindow(i);
 
 				frame.setVisible(false);
