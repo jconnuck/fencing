@@ -73,10 +73,10 @@ public class TournamentController implements Constants{
 	}
 
 	//in progress
-	public void startDERound(int eventID) throws IllegalStateException{
+	public void startDERound(int eventID, double cut) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
-
+			iter.next().startDERound(cut);
 		}
 		throw new IllegalStateException("No event created.");
 	}
