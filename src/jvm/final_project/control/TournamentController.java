@@ -171,8 +171,13 @@ public class TournamentController implements Constants{
 		});
 	}
 
+    public Collection<PoolSizeInfo> getValidPoolSizes() {
+        if (!_events.empty())
+            return _events.iterator().next().getValidPoolSizes();
+        return new ArrayList<PoolSizeInfo>()
+    }
+
 	public Object[][] getPoolSizeInfoTable() {
 		return _dataHelper.getPoolSizeInfoTable(_stripRows, _stripCols);
 	}
-
 }
