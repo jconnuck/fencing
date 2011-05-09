@@ -50,11 +50,9 @@ public class DERoundTest {
 		round3 = new DERound(null, null, seeding3);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
+
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		ArrayList<Integer> seeding1 = new ArrayList<Integer>();
 		seeding1.add(80);
 		seeding1.add(70);
@@ -97,55 +95,66 @@ public class DERoundTest {
 		round1.setCut(0);
 		round1.makeCut();
 		assertEquals(8, round1.getSeeding().size());
+		tearDown();
 
 		round1.setCut(15);
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
-
+		tearDown();
+		
 		round1.setCut(20);
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
-
+		tearDown();
+		
 		round1.setCut(25);
 		round1.makeCut();
 		assertEquals(6, round1.getSeeding().size());
-
+		tearDown();
+		
 		round1.setCut(30);
 		round1.makeCut();
 		assertEquals(6, round1.getSeeding().size());
-
+		tearDown();
+		
 		round2.setCut(15);
 		round2.makeCut();
 		assertEquals(5, round2.getSeeding().size());
-
+		tearDown();
+		
 		round2.setCut(20);
 		round2.makeCut();
 		assertEquals(4, round2.getSeeding().size());
-
+		tearDown();
+		
 		round2.setCut(25);
 		round2.makeCut();
 		assertEquals(4, round2.getSeeding().size());
-
+		tearDown();
+		
 		round2.setCut(30);
 		round2.makeCut();
 		assertEquals(4, round2.getSeeding().size());
-
+		tearDown();
+		
 		round3.setCut(15);
 		round3.makeCut();
 		assertEquals(10, round3.getSeeding().size());
-
+		tearDown();
+		
 		round3.setCut(20);
 		round3.makeCut();
 		assertEquals(9, round3.getSeeding().size());
-
+		tearDown();
+		
 		round3.setCut(25);
 		round3.makeCut();
 		assertEquals(9, round3.getSeeding().size());
-
+		tearDown();
+		
 		round3.setCut(30);
 		round3.makeCut();
 		assertEquals(8, round3.getSeeding().size());
-
 	}
 
 	/**
@@ -164,14 +173,21 @@ public class DERoundTest {
 		Result[] round2Matches = round2.getMatches();
 		Result[] round3Matches = round3.getMatches();
 
+
+		System.out.println(round1Matches[2].getPlayer1());
+		System.out.println(round1Matches[2].getPlayer2());
+		System.out.println(round1Matches[3].getPlayer1());
+		System.out.println(round1Matches[3].getPlayer2());
+		System.out.println(round1Matches[4].getPlayer1());
+		System.out.println(round1Matches[4].getPlayer2());
+		System.out.println(round1Matches[5].getPlayer1());
+		System.out.println(round1Matches[5].getPlayer2());
+		System.out.println(round1Matches[6].getPlayer1());
+		System.out.println(round1Matches[6].getPlayer2());
 		assertNull(round1Matches[0]);
 		assertNull(round1Matches[1]);
 		assertNull(round1Matches[2]);
 		// These players could be in the opposite order, so it might fail because of that and have to be switched
-		System.out.println(round1Matches[3]);
-		System.out.println(round1Matches[4]);
-		System.out.println(round1Matches[5]);
-		System.out.println(round1Matches[6]);
 		
 		//assertEquals(round1Matches[3].getPlayer1(), 20);
 		//assertEquals(round1Matches[3].getPlayer2(), 80);
