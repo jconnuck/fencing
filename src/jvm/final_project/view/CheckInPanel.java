@@ -214,7 +214,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		stripSetupPane.getCancelButton().addActionListener(this);
 		stripSetupPane.getDoneButton().addActionListener(this);
 
-		poolSizeInfoPane = new PoolSizeInfoPanel();
+		poolSizeInfoPane = new PoolSizeInfoPanel(tournament);
 		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		poolSizeTip.setOpacity(0.9f);
 
@@ -348,7 +348,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			int nameSplit = name.lastIndexOf(' ');
 			if (nameSplit > 0) {
 				firstName = name.substring(0, nameSplit);
-				lastName = name.substring(nameSplit, name.length());
+				lastName = name.substring(nameSplit+1, name.length());
 			} else {
 				firstName = name;
 				lastName = "";

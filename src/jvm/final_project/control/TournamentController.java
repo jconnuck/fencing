@@ -20,6 +20,10 @@ public class TournamentController implements Constants{
 		_dataStore = new DataStore();
 		_stripController = new StripController();
 
+		//TODO Temporary
+		EventController e = new EventController(_currentEventID, _dataStore, "Saber");
+		_events.add(e);
+		
 		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password);
 	}
@@ -182,7 +186,11 @@ public class TournamentController implements Constants{
     }
 
 	public Object[][] getPoolSizeInfoTable() {
+		System.out.println("trying to get pool size info table");
 		int[] stripSizes = this.getStripSizes(EVENT_ID);
-		return _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
+		System.out.println("strip sizes" + this.getStripSizes(EVENT_ID));
+		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
+		System.out.println("to return " + toReturn);
+		return toReturn;
 	}
 }
