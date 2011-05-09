@@ -88,6 +88,7 @@ public class DERound implements IRound {
         }
         populateBracketHelper(0, 2, 1, false);
         Arrays.fill(_matches, 0, computeRoundHead(_bracketSize /2), null);
+        System.out.println(Arrays.deepToString(getMatches()));
         switchSeedsForCompetitors();
     }
 
@@ -135,17 +136,41 @@ public class DERound implements IRound {
      */
     private void switchSeedsForCompetitors(){
     	IncompleteResult temp;
+    	IncompleteResult next;
         for(int i = _matches.length - (_bracketSize /2); i < _matches.length; i++){
             temp = (IncompleteResult) _matches[i];
+            next = (IncompleteResult) _matches[getNextMatchIndex(i)];
             if(temp.getPlayer1() > _seeding.size()) { // If player2 got a bye
-                _matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer2(), 0),  // Sets player2 to the winner of the match
+                _matches[i] = new CompleteResult(new PlayerResult(_seeding.get(temp.getPlayer2() -1), 0),  // Sets player2 to the winner of the match
                                                  new PlayerResult(-1, 0));
-                _matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer2(), -1, POINTS_TO_WIN);
+                if(next == null) // If the next round has not yet been initialized
+                	_matches[getNextMatchIndex(i)] = new IncompleteResult(_seeding.get(temp.getPlayer2() -1),
+                														  -1,
+                														  POINTS_TO_WIN);
+                else if(next.getPlayer2() == -1) // If the next bout has already been initialized because opponent also got a bye
+                	_matches[getNextMatchIndex(i)] = new IncompleteResult(next.getPlayer1(),
+                														  _seeding.get(temp.getPlayer2() -1),
+                														  POINTS_TO_WIN);
+                else if(next.getPlayer1() == -1)  // This should  never happen because of the way this function works, but better safe than sorry.
+                	_matches[getNextMatchIndex(i)] = new IncompleteResult(_seeding.get(temp.getPlayer2() -1),
+                														  next.getPlayer2(),
+                														  POINTS_TO_WIN);
             }
             else if(temp.getPlayer2() > _seeding.size()) { // If player1 got a bye
-                _matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer1(), 0),  // Sets player1 to the winner of the match
+                _matches[i] = new CompleteResult(new PlayerResult(_seeding.get(temp.getPlayer1() -1), 0),  // Sets player1 to the winner of the match
                                                  new PlayerResult(-1, 0));
-                _matches[getNextMatchIndex(i)] = new IncompleteResult(temp.getPlayer1(), -1, POINTS_TO_WIN);
+                if(next == null)  // If the next bout has not yet been initialized
+                	_matches[getNextMatchIndex(i)] = new IncompleteResult(_seeding.get(temp.getPlayer1() -1),
+                														  -1,
+                														  POINTS_TO_WIN);
+                else if(next.getPlayer2() == -1) // If the next bout has already been initialized because opponent also got a bye
+                	_matches[getNextMatchIndex(i)] = new IncompleteResult(next.getPlayer1(),
+							  											  _seeding.get(temp.getPlayer1() -1),
+							  											  POINTS_TO_WIN);
+                else if(next.getPlayer1() == -1)  // This should  never happen because of the way this function works, but better safe than sorry.
+                	_matches[getNextMatchIndex(i)] = new IncompleteResult(_seeding.get(temp.getPlayer1() -1),
+							  											  next.getPlayer2(),
+							  											  POINTS_TO_WIN);
             }
             else {
                 _matches[i] = new IncompleteResult(_seeding.get(temp.getPlayer1() -1),
@@ -153,20 +178,6 @@ public class DERound implements IRound {
                                                    POINTS_TO_WIN);
             }
         }
-        for(int j = _matches.length - (_bracketSize /4); j < _matches.length - (_bracketSize /2); j++){
-        	temp = (IncompleteResult) _matches[j];
-        	int player1ID;
-        	int player2ID;
-        	if(temp.getPlayer1() == -1)
-        		player1ID = -1;
-        	else
-        		player1ID = _seeding.get(temp.getPlayer1() -1);
-        	if(temp.getPlayer2() == -1)
-        		player2ID = -1;
-        	else
-        		player2ID = _seeding.get(temp.getPlayer2() -1);
-        	_matches[j] = new IncompleteResult(player1ID, player2ID, POINTS_TO_WIN);
-        	}
     }
 
     /**

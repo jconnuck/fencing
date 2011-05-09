@@ -172,8 +172,12 @@ public class DERoundTest {
 		assertEquals(round3.getMatches().length, 15);
 
 		round1.populateBracket();
+		System.out.println("Bracket one done");
 		round2.populateBracket();
+		System.out.println("Bracket two done");
 		round3.populateBracket();
+		System.out.println("Bracket three done");
+		
 		Result[] round1Matches = round1.getMatches();
 		Result[] round2Matches = round2.getMatches();
 		Result[] round3Matches = round3.getMatches();
@@ -195,7 +199,6 @@ public class DERoundTest {
 		assertEquals(round1Matches[6].getPlayer2(), 60);
 
 		assertNull(round2Matches[0]);
-		assertNull(round2Matches[1]);
 		// These players could be in the opposite order, so it might fail because of that and have to be switched
 		assertEquals(round2Matches[1].getPlayer1(), 10);
 		assertEquals(round2Matches[1].getPlayer2(), -1);
@@ -224,16 +227,16 @@ public class DERoundTest {
 		assertEquals(round3Matches[6].getPlayer2(), -1);
 		assertEquals(round3Matches[7].getPlayer1(), 80);
 		assertEquals(round3Matches[7].getPlayer2(), -1);
-		assertEquals(round3Matches[8].getPlayer1(), 29);
-		assertEquals(round3Matches[8].getPlayer2(), 20);
+		assertEquals(round3Matches[8].getPlayer1(), 20);
+		assertEquals(round3Matches[8].getPlayer2(), 29);
 		assertEquals(round3Matches[9].getPlayer1(), 40);
 		assertEquals(round3Matches[9].getPlayer2(), -1);
 		assertEquals(round3Matches[10].getPlayer1(), 90);
 		assertEquals(round3Matches[10].getPlayer2(), -1);
 		assertEquals(round3Matches[11].getPlayer1(), 50);
 		assertEquals(round3Matches[11].getPlayer2(), -1);
-		assertEquals(round3Matches[12].getPlayer1(), 43);
-		assertEquals(round3Matches[12].getPlayer2(), 30);
+		assertEquals(round3Matches[12].getPlayer1(), 39);
+		assertEquals(round3Matches[12].getPlayer2(), 43);
 		assertEquals(round3Matches[13].getPlayer1(), 60);
 		assertEquals(round3Matches[13].getPlayer2(), 69);
 		assertEquals(round3Matches[14].getPlayer1(), 70);
