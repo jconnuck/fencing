@@ -169,6 +169,11 @@ public class DERoundTest {
 		assertNull(round1Matches[1]);
 		assertNull(round1Matches[2]);
 		// These players could be in the opposite order, so it might fail because of that and have to be switched
+		System.out.println(round1Matches[3]);
+		System.out.println(round1Matches[4]);
+		System.out.println(round1Matches[5]);
+		System.out.println(round1Matches[6]);
+		
 		assertEquals(round1Matches[3].getPlayer1(), 20);
 		assertEquals(round1Matches[3].getPlayer2(), 80);
 		assertEquals(round1Matches[4].getPlayer1(), 90);

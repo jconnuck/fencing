@@ -136,8 +136,8 @@ public class TournamentController implements Constants{
 			}
 		});
 		//Should text new spectator that they were registered, so they'll have a phone number to respond to
-		_smsController.sendMessage("Thank you for registering with our system! Please respond " +
-			 "to this phone number with your follower requests.", number);
+		//_smsController.sendMessage("Thank you for registering with our system! Please respond " +
+			 //"to this phone number with your follower requests.", number);
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
