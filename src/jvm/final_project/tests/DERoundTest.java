@@ -177,7 +177,8 @@ public class DERoundTest {
 		Result[] round1Matches = round1.getMatches();
 		Result[] round2Matches = round2.getMatches();
 		Result[] round3Matches = round3.getMatches();
-
+		
+		System.out.println("Version: proper");
 		System.out.println(Arrays.deepToString(round2Matches));
 		
 		assertNull(round1Matches[0]);
