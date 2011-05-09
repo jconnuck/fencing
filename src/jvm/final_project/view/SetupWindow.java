@@ -2,6 +2,30 @@ package final_project.view;
 
 import java.awt.EventQueue;
 
+import java.util.*;
+import javax.swing.JFrame;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
+import java.awt.GridBagConstraints;
+import javax.swing.JPanel;
+import javax.swing.JInternalFrame;
+import java.awt.Insets;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import javax.swing.border.TitledBorder;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
+import java.io.File;
+import final_project.control.*;
+import final_project.model.*;
+import final_project.input.data.*;
+import final_project.input.*;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.*;
@@ -158,6 +182,7 @@ public class SetupWindow {
 		gbc_textField_2.gridy = 1;
 		panel.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
+        textField_2.setText("Saber");
 		
 		JLabel lblor = new JLabel("-OR-");
 		GridBagConstraints gbc_lblor = new GridBagConstraints();
@@ -196,9 +221,34 @@ public class SetupWindow {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MainWindow mainWindow = new MainWindow();
-                TournamentController tc = mainWindow.getTournamentController();
-                
+                ITournamentInfo i;
+                if (xmlFile != null) {
+                    IDataInput in = new XmlReader();
+                    i=in.getTournamentInfo(xmlFile);
+                } else {
+                    String weapon = textField_2.getText();
+                    IEventInfo e = new EventInfo(weapon,new ArrayList<Integer>());
+                    Collection<IEventInfo> events = new ArrayList<IEventInfo>();
+                    events.add(e);
+                    final IDataStore store = new DataStore();
+                    store.runTransaction(new Runnable() {
+                            public void run() {
+                                store.putData(store.createPlayer("1234567891", "Jon", "Leavitt",
+                                                                 "","Fencer",1));
+                                store.putData(store.createPlayer("1234561291", "William", "Zimrin",
+                                                                 "","Fencer",1));
+                                store.putData(store.createPlayer("1235467892", "Josh", "Grill",
+                                                                 "","Fencer",1));
+                                store.putData(store.createPlayer("5432167893", "John", "Connuck",
+                                                                 "","Fencer",1));
+                                store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
+                                                                    "","Spectator"));
+                            }
+                        });
+                    i = new TournamentInfo(store,events); 
+                }
+				MainWindow mainWindow = new MainWindow(i);
+
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);
 			}

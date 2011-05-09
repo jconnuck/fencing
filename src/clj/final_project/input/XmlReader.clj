@@ -1,23 +1,15 @@
 (ns final_project.input.XmlReader
+  (:use [clojure xml]
+        clojure.contrib.zip-filter.xml
+        final_project.input.data)
+  (:require [clojure.zip :as zip])
   (:import [final_project.model IPerson IPlayer IDataStore
             IObservable DataStore IHasClub IReferee IData IClub
             Rating]
+           [final_project.input.data EventInfo TournamentInfo]
            [final_project.input IDataInput ITournamentInfo XmlReader IEventInfo])
-  (:use [clojure xml]
-        clojure.contrib.zip-filter.xml)
-  (:require [clojure.zip :as zip])
   (:gen-class :main false
               :implements [final_project.input.IDataInput]))
-
-(defrecord TournamentInfo [dataStore events]
-  ITournamentInfo
-  (getEvents [this] events)
-  (getDataStore [this] dataStore))
-
-(defrecord EventInfo [weapon preregs]
-  IEventInfo
-  (getWeaponType [this] weapon)
-  (getPreregs [this] preregs))
 
 (def test-file "test_data/TestInput.frd")
 

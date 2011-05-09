@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.Dimension;
 
 import final_project.control.*;
+import final_project.input.*;
 
 public class MainWindow {
 
@@ -46,14 +47,8 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() {
-		tournamentController = new TournamentController("cs032fencing", "F3ncing!");
-		tournamentController.registerFencer("123456789", "jon", "leavitt", 1);
-		tournamentController.registerFencer("12312231231", "miranda", "steele", 1);
-		tournamentController.registerFencer("1231231231", "william", "zimrin", 1);
-		tournamentController.registerFencer("1231231231", "john", "connuck", 1);
-		tournamentController.registerFencer("12312131231", "josh", "grill", 1);
-		tournamentController.registerSpectator("4123355989", "Josh", "Grill");
+	public MainWindow(ITournamentInfo info) {
+		tournamentController = new TournamentController("cs032fencing", "F3ncing!",info);
 		initialize();
 		frmFencingManager.setVisible(true);
 	}
@@ -108,8 +103,4 @@ public class MainWindow {
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
 	}
-
-    public TournamentController getTournamentController() {
-        return tournamentController;
-    }
 }

@@ -48,6 +48,7 @@ public class SMSParser {
 
 		// Message: "Follow first last" or "follow clubName"
 		else if(firstWord.equals("Follow") || firstWord.equals("follow")) {
+			System.out.println("Follow message received");
 			String firstName = "", lastName = "";
 			if(s.hasNext())
 				firstName = s.next();
@@ -143,27 +144,31 @@ public class SMSParser {
 	public boolean subscribeUserToObservable(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
-		
+		System.out.println("Gets into subscribeUser " + number);
 		if(_store == null)
 			return false;
-		
+
 		for (IPerson i: _store.getPeople()) {
+			System.out.println(i.getPhoneNumber());
 			if(i.getPhoneNumber().equals(number)) {
 				found = true;
 				break;
 			}
 		}
 
-		if (!found) { // Sending an error message if this number is not found
-			_control.sendMessage("This phone number is not registered. Please send us a registration code.", number);
+		System.out.println("person found? " + found);
+		if (!found) {
 			return false;
 		}
+		System.out.println("gets before checking person/club exists");
 
 		/* Checking to see that the person/club to be followed exists */
 		found = false;
 		int counter = 0; //To make sure that we don't get duplicates
 		int idToFollow = 0;
 		if(lastNameToSubscribeTo.equals("")) { // Last name empty, this is a club.
+			System.out.println("inside club");
+
 			for (IClub i: _store.getClubs()) {
 				if(i.getName().equals(firstNameToSubscribeTo)) {
 					idToFollow = i.getID();
@@ -174,6 +179,8 @@ public class SMSParser {
 		}
 		else {
 			for (IPlayer i: _store.getPlayers()) {
+				System.out.println("inside player");
+
 				if(i.getFirstName().equals(firstNameToSubscribeTo)) {
 					if (i.getLastName().equals(lastNameToSubscribeTo)) {
 						idToFollow = i.getID();
@@ -186,6 +193,7 @@ public class SMSParser {
 
 		/* Handling error messages */
 		if (!found) {
+			System.out.println("Not found");
 			_control.sendMessage("We're sorry, no fencer or group was found with this name.", number);
 			return false;
 		}
@@ -193,12 +201,27 @@ public class SMSParser {
 			_control.sendMessage("Multiple entries found for this name. Please respond with \"follow\" followed by an ID number.", number);
 			return false;
 		}
-
+		System.out.println("Subscribing");
 		/* ACTUALLY SUBSCRIBING USER */
-		IPerson spect = _store.createSpectator(number, "", "", "", "Spectator");
-		spect.addWatched(idToFollow);
-		_store.putData(spect);
-
+		found = false;
+		int idSpectator = 0;
+		for (IPerson i: _store.getPeopleForGroup("Spectator")) {
+			if (i.getPhoneNumber().equals(number)) {
+				found = true;
+				idSpectator = i.getID();
+				break;
+			}
+		}
+		
+		final int finalID = idSpectator;
+		final int finalIDToFollow = idToFollow;
+		_store.runTransaction(new Runnable(){
+			public void run(){
+				IPerson spect = _store.getPerson(finalID).addWatched(finalIDToFollow);
+				_store.putData(spect);
+			}
+		});
+		System.out.println("Finishing subscribe should be texting user");
 		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + lastNameToSubscribeTo + " !", number);
 		return true;
 	}
@@ -256,7 +279,7 @@ public class SMSParser {
 		}
 
 		/* UNSUBSCRIBING */
-		IPerson spect = _store.getPerson(idToFind);
+		final IPerson spect = _store.getPerson(idToFind);
 		if (spect == null || spect.removeWatched(idToUnfollow) == null) {
 			_control.sendMessage("Error: unsubscription not successful", number);
 			return false;
@@ -265,8 +288,13 @@ public class SMSParser {
 			_control.sendMessage("You have been successfully unsubscribed from " + firstToUnsubscribe
 					+ " " + lastToUnsubscribe + " .", number);
 			//Cleaning up Spectator
-			if (spect.getWatched().isEmpty())
-				_store.removeData(spect);
+			if (spect.getWatched().isEmpty()) {
+				_store.runTransaction(new Runnable() {
+					public void run() {
+						_store.removeData(spect);
+					}
+				});
+			}
 			return false;
 		}
 	}

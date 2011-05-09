@@ -3,6 +3,7 @@ package final_project.control;
 import java.util.*;
 import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
+import final_project.input.*;
 
 //Created in the main method.
 public class TournamentController implements Constants{
@@ -14,26 +15,29 @@ public class TournamentController implements Constants{
 	private SMSController _smsController;
 	private DataFormattingHelper _dataHelper;
 
-	public TournamentController(String username, String password) {
+	public TournamentController(String username, String password, ITournamentInfo info) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
-		_dataStore = new DataStore();
+		_dataStore = info.getDataStore();
 		_stripController = new StripController();
 
-		//TODO Temporary
-		EventController e = new EventController(_currentEventID, _dataStore, "Saber");
-		_events.add(e);
+        for (IEventInfo e : info.getEvents())
+            addEvent(e.getWeaponType(),e.getPreregs());
 
 		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password);
 	}
 
-	public void addEvent(String weapon){
-		_events.add(new EventController(++_currentEventID, _dataStore, weapon));
+	public int addEvent(String weapon){
+        int id = ++_currentEventID;
+		_events.add(new EventController(id, _dataStore, weapon));
+        return id;
 	}
 
-	public void addEvent(String weapon, Collection<Integer> preregs){
-		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
+	public int addEvent(String weapon, Collection<Integer> preregs){
+        int id = ++_currentEventID;
+		_events.add(new EventController(id, _dataStore, weapon, preregs));
+        return id;
 	}
 
 	public int[] getStripSizes(int eventID) {
@@ -166,7 +170,7 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
-	public Object[][] registerSpectator(String number, String firstName, String lastName) {
+	public Object[][] registerSpectator(String number, String firstName, String lastName) {		
 		final IPerson temp =  _dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
@@ -190,6 +194,8 @@ public class TournamentController implements Constants{
 	}
 
 	public void registerFencer(String number, String firstName, String lastName, int rank) {
+		//Concatenating a 1 to the beginning of the phone number
+		number = "1" + number;
 		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
@@ -205,11 +211,8 @@ public class TournamentController implements Constants{
     }
 
 	public Object[][] getPoolSizeInfoTable() {
-		System.out.println("trying to get pool size info table");
 		int[] stripSizes = this.getStripSizes(EVENT_ID);
-		System.out.println("strip sizes" + this.getStripSizes(EVENT_ID));
 		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
-		System.out.println("to return " + toReturn);
 		return toReturn;
 	}
 }

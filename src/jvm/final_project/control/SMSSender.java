@@ -34,16 +34,18 @@ public class SMSSender implements Constants {
 	 * @param number
 	 */
 	public boolean sendMessage(String message, String number) {
+		System.out.println("Send message called on: " + message + "  " + number);
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;
+		
 		try {
 			//Constructing the data
 			String data = "";
 			data += "username=" + URLEncoder.encode(_username, "ISO-8859-1");
 			data += "&password=" + URLEncoder.encode(_password, "ISO-8859-1");
 			data += "&message=" + URLEncoder.encode(message, "ISO-8859-1");
-			data += "&want_report=1";
+			data += "&want_report=";
 			data += "&msisdn=1" + number;
 
 			URL url = new URL("http://usa.bulksms.com:5567/eapi/submission/send_sms/2/2.0");
@@ -66,6 +68,7 @@ public class SMSSender implements Constants {
 			 */
 	
 			Scanner s = new Scanner(output);
+			s.useDelimiter("\\|");
 			if(!s.hasNext() || !s.hasNextInt()) {
 				toReturn = false;
 			}
