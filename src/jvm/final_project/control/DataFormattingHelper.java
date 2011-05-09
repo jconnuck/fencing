@@ -42,19 +42,15 @@ public class DataFormattingHelper implements Constants {
 					Iterator<Integer> iter = ((IPlayer) i).getClubs().iterator();
 					if(iter.hasNext()) //Such a mess, just to get out the club name...
 						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
-					//TODO test fix code
-					else{
+					else
 						toReturn[index][1] = "";
-					}
 				}
 				else if(i instanceof IReferee) {
 					Iterator<Integer> iter = ((IReferee) i).getClubs().iterator();
 					if(iter.hasNext()) //Such a mess, just to get out the club name...
 						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
-					//TODO test fix code
-					else{
+					else
 						toReturn[index][1] = "";
-					}
 				}
 				else
 					toReturn[index][1] = "";
@@ -103,10 +99,10 @@ public class DataFormattingHelper implements Constants {
 				int id = ((Integer)(i.getWatched().iterator().next())).intValue();
 				System.out.println("ID in data formatting helper subscribe panel" + id); //TODO println
 				IObservable followed = _dataStore.getObservable(id);
-				if(followed instanceof IClub) {
+				if(followed instanceof IClub) 
 					toReturn[index][2] =  ((IClub) followed).getName() + "";
-				}
 			}
+			
 			index++;
 		}
 

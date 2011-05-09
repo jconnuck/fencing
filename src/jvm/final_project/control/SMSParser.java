@@ -48,6 +48,7 @@ public class SMSParser {
 
 		// Message: "Follow first last" or "follow clubName"
 		else if(firstWord.equals("Follow") || firstWord.equals("follow")) {
+			System.out.println("Follow message received");
 			String firstName = "", lastName = "";
 			if(s.hasNext())
 				firstName = s.next();
@@ -143,10 +144,10 @@ public class SMSParser {
 	public boolean subscribeUserToObservable(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
-		
+		System.out.println("Gets into subscribeUser");
 		if(_store == null)
 			return false;
-		
+
 		for (IPerson i: _store.getPeople()) {
 			if(i.getPhoneNumber().equals(number)) {
 				found = true;
@@ -195,9 +196,24 @@ public class SMSParser {
 		}
 
 		/* ACTUALLY SUBSCRIBING USER */
-		IPerson spect = _store.createSpectator(number, "", "", "", "Spectator");
-		spect.addWatched(idToFollow);
-		_store.putData(spect);
+		found = false;
+		int idSpectator = 0;
+		for (IPerson i: _store.getPeopleForGroup("Spectator")) {
+			if (i.getPhoneNumber().equals(number)) {
+				found = true;
+				idSpectator = i.getID();
+				break;
+			}
+		}
+		
+		final int finalID = idSpectator;
+		final int finalIDToFollow = idToFollow;
+		_store.runTransaction(new Runnable(){
+			public void run(){
+				IPerson spect = _store.getPerson(finalID).addWatched(finalIDToFollow);
+				_store.putData(spect);
+			}
+		});
 
 		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + lastNameToSubscribeTo + " !", number);
 		return true;
@@ -256,7 +272,7 @@ public class SMSParser {
 		}
 
 		/* UNSUBSCRIBING */
-		IPerson spect = _store.getPerson(idToFind);
+		final IPerson spect = _store.getPerson(idToFind);
 		if (spect == null || spect.removeWatched(idToUnfollow) == null) {
 			_control.sendMessage("Error: unsubscription not successful", number);
 			return false;
@@ -265,8 +281,13 @@ public class SMSParser {
 			_control.sendMessage("You have been successfully unsubscribed from " + firstToUnsubscribe
 					+ " " + lastToUnsubscribe + " .", number);
 			//Cleaning up Spectator
-			if (spect.getWatched().isEmpty())
-				_store.removeData(spect);
+			if (spect.getWatched().isEmpty()) {
+				_store.runTransaction(new Runnable() {
+					public void run() {
+						_store.removeData(spect);
+					}
+				});
+			}
 			return false;
 		}
 	}

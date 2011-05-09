@@ -32,6 +32,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 	 *
 	 */
 	public boolean getInbox() {
+		System.out.println("GET INBOX CALLED");
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;
@@ -100,6 +101,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 						break;
 					}
 					_lastRetrievedID = s.nextInt();
+					System.out.println("Updated _lastRetreived id" + _lastRetrievedID);
 					//Next, getting the phone number the text was sent from
 					if(!s.hasNext()) {
 						toReturn = false;
@@ -113,7 +115,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 						break;
 					}
 					String message = s.next();
-
+					System.out.println("Received message!!! " + number + " " + message);
 					//Calling control's parse output method
 					_control.parseOutput(message, number);
 				}

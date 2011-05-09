@@ -396,7 +396,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			//Getting the strip arrangement from the editor
 			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
 			int col = (Integer) stripSetupPane.getColSpinner().getValue();
-			System.out.println("Strip row: " + row + " col: " + col);
 			tournament.setStripSizes(EVENT_ID, row, col);
 			poolSizeTip.setVisible(true);
 		}

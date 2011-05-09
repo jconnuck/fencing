@@ -53,7 +53,7 @@ public class MainWindow {
 		tournamentController.registerFencer("1231231231", "william", "zimrin", 1);
 		tournamentController.registerFencer("1231231231", "john", "connuck", 1);
 		tournamentController.registerFencer("12312131231", "josh", "grill", 1);
-		tournamentController.registerSpectator("4123355989", "Josh", "Grill");
+		tournamentController.registerSpectator("8132987766", "Miranda", "Steele");
 		initialize();
 		frmFencingManager.setVisible(true);
 	}
