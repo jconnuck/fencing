@@ -23,7 +23,7 @@ public class TournamentController implements Constants{
 		//TODO Temporary
 		EventController e = new EventController(_currentEventID, _dataStore, "Saber");
 		_events.add(e);
-		
+
 		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password);
 	}
@@ -39,17 +39,17 @@ public class TournamentController implements Constants{
 	public int[] getStripSizes(int eventID) {
 		if(_events.isEmpty())
 			throw new IllegalStateException("No event created.");
-		
+
 		for (EventController e: _events)
 			return e.getStripArrangement(); //This works because we only care about the first one
-		
+
 		return null;
 	}
 
 	public void setStripSizes(int eventID, int stripRows, int stripCols) {
 		if(_events.isEmpty())
 			throw new IllegalStateException("No event created.");
-		
+
 		for (EventController e: _events)
 			e.setStripArrangement(stripRows, stripCols);
 	}
@@ -75,11 +75,9 @@ public class TournamentController implements Constants{
 	//in progress
 	public void startDERound(int eventID) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
-		//if(iter.hasNext()){
-			//if(!iter.next().startPoolRound(poolSize)){
-				//throw new IllegalStateException("Not correct time to create pool round.");
-	//		}
-		//}
+		if(iter.hasNext()){
+
+		}
 		throw new IllegalStateException("No event created.");
 	}
 
