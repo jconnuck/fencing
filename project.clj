@@ -1,7 +1,8 @@
 (defproject final_project "0.0.1-SNAPSHOT"
   :description "TODO: add summary of your project"
   :aot [final_project.model.DataStore
-        final_project.input.XmlReader]
+        final_project.input.XmlReader
+        final_project.input.data]
   :main final_project.view.SetupWindow
   :dependencies [[clojure "1.2.0"]
                  [clojure-contrib "1.2.0"]

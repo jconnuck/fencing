@@ -17,11 +17,7 @@ public class EventController {
 	private int _eventID;
 
 	public EventController(int id, IDataStore dataStore, String weapon){
-		setup();
-		_eventID = id;
-		_dataStore = dataStore;
-		_weapon = weapon;
-		_stripArrangement = new int[2];
+        this(id,dataStore,weapon,new LinkedList<Integer>());
 	}
 
 	public Result[] getDEMatches(){
@@ -29,17 +25,12 @@ public class EventController {
 	}
 
 	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
-		setup();
-		_eventID = id;
-		_weapon = weapon;
-		_players.addAll(preregs);
-	}
-
-	//helper method for EventController constructor
-	private void setup(){
 		_state = State.REGISTRATION;
 		_refs = new HashSet<Integer>();
-		_players = new LinkedList<Integer>();
+		_eventID = id;
+		_weapon = weapon;
+		_players = new LinkedList<Integer>(preregs);
+		_stripArrangement = new int[2];
 	}
 
 	public void addPlayer(int id){

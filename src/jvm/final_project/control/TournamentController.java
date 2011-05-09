@@ -3,6 +3,7 @@ package final_project.control;
 import java.util.*;
 import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
+import final_project.input.*;
 
 //Created in the main method.
 public class TournamentController implements Constants{
@@ -14,26 +15,29 @@ public class TournamentController implements Constants{
 	private SMSController _smsController;
 	private DataFormattingHelper _dataHelper;
 
-	public TournamentController(String username, String password) {
+	public TournamentController(String username, String password, ITournamentInfo info) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
-		_dataStore = new DataStore();
+		_dataStore = info.getDataStore();
 		_stripController = new StripController();
 
-		//TODO Temporary
-		EventController e = new EventController(_currentEventID, _dataStore, "Saber");
-		_events.add(e);
-		
+        for (IEventInfo e : info.getEvents())
+            addEvent(e.getWeaponType(),e.getPreregs());
+
 		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password);
 	}
 
-	public void addEvent(String weapon){
-		_events.add(new EventController(++_currentEventID, _dataStore, weapon));
+	public int addEvent(String weapon){
+        int id = ++_currentEventID;
+		_events.add(new EventController(id, _dataStore, weapon));
+        return id;
 	}
 
-	public void addEvent(String weapon, Collection<Integer> preregs){
-		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
+	public int addEvent(String weapon, Collection<Integer> preregs){
+        int id = ++_currentEventID;
+		_events.add(new EventController(id, _dataStore, weapon, preregs));
+        return id;
 	}
 
 	public int[] getStripSizes(int eventID) {
