@@ -117,7 +117,7 @@ public class DataFormattingHelper implements Constants {
 		return toReturn;
 	}
 
-	public Object[][] getPoolSizeInfoTable() {
+	public Object[][] getPoolSizeInfoTable(int stripRows, int stripCols) {
 		
 		Object[][] toReturn = new Object[NUM_POOL_SIZES_POSSIBLE][NUM_COLS_POOL_SETUP];
 		
