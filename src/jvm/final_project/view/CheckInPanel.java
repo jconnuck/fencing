@@ -4,18 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.io.*;
 
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-import final_project.control.Constants;
 import final_project.control.TournamentController;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.*;
 
 
-public class CheckInPanel extends JPanel implements ActionListener, Constants {
+public class CheckInPanel extends JPanel implements ActionListener {
 	/**
 	 *
 	 */
@@ -35,6 +35,8 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
 	private StripSetupPanel stripSetupPane;
 	private PoolSizeInfoPanel poolSizeInfoPane;
+	private File xmlFile;
+	private JLabel fileLabel;
 
 	/**
 	 * Create the panel.
@@ -105,6 +107,15 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		gbc_btnImportXml.gridy = 3;
 		add(importXml, gbc_btnImportXml);
 		importXml.addActionListener(this);
+		
+		fileLabel = new JLabel("");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.gridwidth = 3;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 3;
+		add(fileLabel, gbc_label);
 
 		startPoolRound = new JButton("Start Pool Round");
 		GridBagConstraints gbc_startPoolRound = new GridBagConstraints();
@@ -176,7 +187,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 88, 102, 102, 102, 102, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 	}
@@ -325,6 +336,13 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == importXml) {
 			//Import xml file
+			JFileChooser fileChooser = new JFileChooser();
+			int returnValue = fileChooser.showOpenDialog(importXml);
+			
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				xmlFile = fileChooser.getSelectedFile();
+				fileLabel.setText(xmlFile.getPath());
+			}
 		}
 		else if (e.getSource() == startPoolRound) {
 			hideAllBalloons();
@@ -349,7 +367,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			int nameSplit = name.lastIndexOf(' ');
 			if (nameSplit > 0) {
 				firstName = name.substring(0, nameSplit);
-				lastName = name.substring(nameSplit+1, name.length());
+				lastName = name.substring(nameSplit, name.length());
 			} else {
 				firstName = name;
 				lastName = "";
@@ -394,11 +412,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		}
 		else if (e.getSource() == stripSetupPane.getDoneButton()) {
 			hideAllBalloons();
-			//Getting the strip arrangement from the editor
-			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
-			int col = (Integer) stripSetupPane.getColSpinner().getValue();
-			System.out.println("Strip row: " + row + " col: " + col);
-			tournament.setStripSizes(EVENT_ID, row, col);
+			//TODO ask Tournament controller for options
 			poolSizeTip.setVisible(true);
 		}
 	}

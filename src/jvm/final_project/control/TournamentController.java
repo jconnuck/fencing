@@ -43,17 +43,17 @@ public class TournamentController implements Constants{
 	public int[] getStripSizes(int eventID) {
 		if(_events.isEmpty())
 			throw new IllegalStateException("No event created.");
-		
+
 		for (EventController e: _events)
 			return e.getStripArrangement(); //This works because we only care about the first one
-		
+
 		return null;
 	}
 
 	public void setStripSizes(int eventID, int stripRows, int stripCols) {
 		if(_events.isEmpty())
 			throw new IllegalStateException("No event created.");
-		
+
 		for (EventController e: _events)
 			e.setStripArrangement(stripRows, stripCols);
 	}
@@ -77,13 +77,11 @@ public class TournamentController implements Constants{
 	}
 
 	//in progress
-	public void startDERound(int eventID) throws IllegalStateException{
+	public void startDERound(int eventID, double cut) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
-		//if(iter.hasNext()){
-			//if(!iter.next().startPoolRound(poolSize)){
-				//throw new IllegalStateException("Not correct time to create pool round.");
-	//		}
-		//}
+		if(iter.hasNext()){
+			iter.next().startDERound(cut);
+		}
 		throw new IllegalStateException("No event created.");
 	}
 

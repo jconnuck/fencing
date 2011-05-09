@@ -26,6 +26,11 @@ import final_project.control.*;
 import final_project.model.*;
 import final_project.input.data.*;
 import final_project.input.*;
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.border.*;
+import java.awt.event.*;
+import java.io.*;
 
 public class SetupWindow {
 
@@ -34,7 +39,9 @@ public class SetupWindow {
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JFileChooser fileChooser;
     private File xmlFile;
+    private JLabel fileLabel;
 
 	/**
 	 * Launch the application.
@@ -72,16 +79,17 @@ public class SetupWindow {
 		frame.setBounds(100, 100, 379, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{315, 0};
+		gridBagLayout.columnWidths = new int[]{315, 0, 0};
 		gridBagLayout.rowHeights = new int[]{97, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JPanel smsLoginPanel = new JPanel();
 		smsLoginPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "SMS Login", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagConstraints gbc_smsLoginPanel = new GridBagConstraints();
-		gbc_smsLoginPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_smsLoginPanel.gridwidth = 2;
+		gbc_smsLoginPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_smsLoginPanel.fill = GridBagConstraints.BOTH;
 		gbc_smsLoginPanel.gridx = 0;
 		gbc_smsLoginPanel.gridy = 0;
@@ -128,16 +136,17 @@ public class SetupWindow {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Tournament Info", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.gridwidth = 2;
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;
 		frame.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{85, 315, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblTournamentName = new JLabel("Name:");
@@ -182,12 +191,31 @@ public class SetupWindow {
 		gbc_lblor.gridy = 2;
 		panel.add(lblor, gbc_lblor);
 		
-		JButton btnImportXml = new JButton("Import XML");
+		final JButton btnImportXml = new JButton("Import XML");
+		btnImportXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				fileChooser = new JFileChooser();
+				int returnValue = fileChooser.showOpenDialog(btnImportXml);
+				
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					xmlFile = fileChooser.getSelectedFile();
+					fileLabel.setText(xmlFile.getPath());
+				}
+			}
+		});
 		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
+		gbc_btnImportXml.insets = new Insets(0, 0, 5, 0);
 		gbc_btnImportXml.gridwidth = 2;
 		gbc_btnImportXml.gridx = 0;
 		gbc_btnImportXml.gridy = 3;
 		panel.add(btnImportXml, gbc_btnImportXml);
+		
+		fileLabel = new JLabel("");
+		GridBagConstraints gbc_fileLabel = new GridBagConstraints();
+		gbc_fileLabel.gridwidth = 2;
+		gbc_fileLabel.gridx = 0;
+		gbc_fileLabel.gridy = 4;
+		panel.add(fileLabel, gbc_fileLabel);
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
@@ -213,11 +241,13 @@ public class SetupWindow {
                     });
                 ITournamentInfo i = new TournamentInfo(store,events);
 				MainWindow mainWindow = new MainWindow(i);
+
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
+		gbc_btnStart.insets = new Insets(0, 0, 0, 5);
 		gbc_btnStart.anchor = GridBagConstraints.EAST;
 		gbc_btnStart.gridx = 0;
 		gbc_btnStart.gridy = 2;
