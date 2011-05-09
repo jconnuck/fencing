@@ -207,11 +207,8 @@ public class TournamentController implements Constants{
     }
 
 	public Object[][] getPoolSizeInfoTable() {
-		System.out.println("trying to get pool size info table");
 		int[] stripSizes = this.getStripSizes(EVENT_ID);
-		System.out.println("strip sizes" + this.getStripSizes(EVENT_ID));
 		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
-		System.out.println("to return " + toReturn);
 		return toReturn;
 	}
 }

@@ -342,7 +342,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
 			hideAllBalloons();
 			//Getting the info out of the registerNewPlayerPane
-			System.out.println("Register new player called");
 			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
 			String name = registerNewPlayerPane.getNameTextField().getText();
 			String firstName = "", lastName = "";
