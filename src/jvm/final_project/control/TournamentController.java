@@ -43,7 +43,7 @@ public class TournamentController implements Constants{
 		}
 		throw new IllegalStateException("No event created.");
 	}
-	
+
 	public void setStripSizes(int eventID, int stripRows, int stripCols) {
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
@@ -51,7 +51,7 @@ public class TournamentController implements Constants{
 		}
 		throw new IllegalStateException("No event created.");
 	}
-	
+
 	public void startPoolRound(int eventID, int poolSize) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
@@ -59,6 +59,25 @@ public class TournamentController implements Constants{
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
 		}
+		throw new IllegalStateException("No event created.");
+	}
+
+	public Result[] getDEMatches(int eventID){
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			return iter.next().getDEMatches();
+		}
+		throw new IllegalStateException("No event created.");
+	}
+
+	//in progress
+	public void startDERound(int eventID) throws IllegalStateException{
+		Iterator<EventController> iter = _events.iterator();
+		//if(iter.hasNext()){
+			//if(!iter.next().startPoolRound(poolSize)){
+				//throw new IllegalStateException("Not correct time to create pool round.");
+	//		}
+		//}
 		throw new IllegalStateException("No event created.");
 	}
 
@@ -169,7 +188,7 @@ public class TournamentController implements Constants{
 		});
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 	public void registerFencer(String number, String firstName, String lastName, int rank) {
 		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
 		_dataStore.runTransaction(new Runnable(){
