@@ -65,7 +65,7 @@ public class DERound implements IRound {
     /**
      * Calculates the proper bracket size using the number of fencers in the round.
      */
-    private void calcBracketSize() throws IllegalArgumentException{
+    public void calcBracketSize() throws IllegalArgumentException{
         if(_seeding.size() < 2)
             throw new IllegalArgumentException("Attempted to build a bracket for fewer than 2 competitors.");
         int curSize = 2;

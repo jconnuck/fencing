@@ -364,10 +364,14 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			//Make new signInAllTooltip
 			hideAllBalloons();
 			signInAllTip.setVisible(true);
+			Object[][] newData = tournament.checkInAll(true);
+			model.setData(newData);
 		}
 		else if (e.getSource() == unsignInAll) {
 			hideAllBalloons();
 			unsignInAllTip.setVisible(true);
+			Object[][] newData = tournament.checkInAll(false);
+			model.setData(newData);
 		}
 		else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {
 			hideAllBalloons();

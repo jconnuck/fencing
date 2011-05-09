@@ -1,7 +1,6 @@
 package final_project.tests;
 
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -154,6 +153,11 @@ public class DERoundTest {
 	 */
 	@Test
 	public void testPopulateBracket() {
+		round1.calcBracketSize();
+		round2.calcBracketSize();
+		round3.calcBracketSize();
+
+		
 		round1.populateBracket();
 		round2.populateBracket();
 		round3.populateBracket();
@@ -165,8 +169,8 @@ public class DERoundTest {
 		assertNull(round1Matches[1]);
 		assertNull(round1Matches[2]);
 		// These players could be in the opposite order, so it might fail because of that and have to be switched
-		assertEquals(round1Matches[3].getPlayer1(), 80);
-		assertEquals(round1Matches[3].getPlayer2(), 20);
+		assertEquals(round1Matches[3].getPlayer1(), 20);
+		assertEquals(round1Matches[3].getPlayer2(), 80);
 		assertEquals(round1Matches[4].getPlayer1(), 90);
 		assertEquals(round1Matches[4].getPlayer2(), 40);
 		assertEquals(round1Matches[5].getPlayer1(), 50);

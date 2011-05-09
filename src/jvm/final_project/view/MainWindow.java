@@ -54,7 +54,7 @@ public class MainWindow {
 		tournamentController.registerFencer("1231231231", "john", "connuck", 1);
 		tournamentController.registerFencer("12312131231", "josh", "grill", 1);
 		
-		tournamentController.registerSpectator("8132987766", "Miranda", "Steele");
+		tournamentController.registerSpectator("4123355989", "Josh", "Grill");
 		initialize();
 	}
 
