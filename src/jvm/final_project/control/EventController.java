@@ -8,6 +8,7 @@ public class EventController {
 
 	private Collection<Integer> _refs;
 	private State _state;
+	private int[] _stripArrangement;
 	private DERoundController _deController;
 	private PoolRoundController _poolController;
 	private IDataStore _dataStore;
@@ -20,6 +21,7 @@ public class EventController {
 		_eventID = id;
 		_dataStore = dataStore;
 		_weapon = weapon;
+		_stripArrangement = new int[2];
 	}
 
 	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
@@ -61,6 +63,15 @@ public class EventController {
 		}
 	}
 
+	public void setStripArrangement(int rows, int cols) {
+		_stripArrangement[0] = rows;
+		_stripArrangement[1] = cols;
+	}
+	
+	public int[] getStripArrangement() {
+		return _stripArrangement;
+	}
+	
 	/**
 	 * Called in TournamentController;
 	 * returns true if the pool round was started, false otherwise.
