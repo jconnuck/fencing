@@ -2,6 +2,8 @@ package final_project.model;
 
 import java.util.*;
 
+import final_project.model.store.*;
+
 import final_project.control.StripController;
 
 public class DERound implements IRound {

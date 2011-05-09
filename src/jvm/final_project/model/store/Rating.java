@@ -1,4 +1,4 @@
-package final_project.model;
+package final_project.model.store;
 
 public class Rating implements Comparable<Rating> {
     public final String _rating, _year;

@@ -1,4 +1,4 @@
-package final_project.model;
+package final_project.model.store;
 
 public interface IPlayer extends IHasClub, IPerson, IObservable {
     IPlayer setPhoneNumber(String phoneNumber);

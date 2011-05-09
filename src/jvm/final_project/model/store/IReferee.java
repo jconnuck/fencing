@@ -1,4 +1,4 @@
-package final_project.model;
+package final_project.model.store;
 
 public interface IReferee extends IPerson, IHasClub {
     boolean getReffing();

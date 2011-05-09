@@ -1,11 +1,11 @@
-(ns final_project.model.DataStore
-  (:import [final_project.model IPerson IPlayer IDataStore
+(ns final_project.model.store.DataStore
+  (:import [final_project.model.store IPerson IPlayer IDataStore
             IObservable DataStore IHasClub IReferee IData IClub])
   (:require [clojure.set :as set]
             [clojure.string :as str])
   (:gen-class :main false
               :state store
-              :implements [final_project.model.IDataStore]
+              :implements [final_project.model.store.IDataStore]
               :init init))
 
 (defn capitalize-sym [id]

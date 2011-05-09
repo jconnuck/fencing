@@ -9,8 +9,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
-import final_project.model.IPerson;
-import final_project.model.IDataStore;
+import final_project.model.store.*;
 
 public class SMSSender implements Constants {
 

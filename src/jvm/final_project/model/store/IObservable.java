@@ -1,4 +1,4 @@
-package final_project.model;
+package final_project.model.store;
 
 import java.util.*;
 
