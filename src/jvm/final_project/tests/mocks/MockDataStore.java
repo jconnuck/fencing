@@ -2,14 +2,7 @@ package final_project.tests.mocks;
 
 import java.util.Collection;
 
-import final_project.model.IClub;
-import final_project.model.IData;
-import final_project.model.IDataStore;
-import final_project.model.IObservable;
-import final_project.model.IPerson;
-import final_project.model.IPlayer;
-import final_project.model.IReferee;
-import final_project.model.PlayerSeed;
+import final_project.model.store.*;
 
 public class MockDataStore implements IDataStore {
 

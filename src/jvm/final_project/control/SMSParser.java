@@ -2,11 +2,7 @@ package final_project.control;
 
 import java.util.Scanner;
 import java.util.Calendar;
-import final_project.model.IDataStore;
-import final_project.model.IPerson;
-import final_project.model.IReferee;
-import final_project.model.IPlayer;
-import final_project.model.IClub;
+import final_project.model.store.*;
 
 //import mocks.*;
 

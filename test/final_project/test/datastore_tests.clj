@@ -1,7 +1,7 @@
 (ns final_project.test.datastore-tests
   (:use [clojure test]
-        [final_project.model DataStore])
-  (:import [final_project.model DataStore Rating]))
+        [final_project.model.store DataStore])
+  (:import [final_project.model.store DataStore Rating]))
 
 (deftest observers-test
   (let [s (DataStore.)]

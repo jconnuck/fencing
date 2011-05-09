@@ -4,7 +4,7 @@ import java.util.*;
 
 import final_project.model.CompleteResult;
 import final_project.model.DERound;
-import final_project.model.IDataStore;
+import final_project.model.store.IDataStore;
 import final_project.model.Result;
 
 public class DERoundController {
