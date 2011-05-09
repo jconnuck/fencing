@@ -28,11 +28,15 @@ public interface IDataStore {
     //mutator methods must be run in a transaction.  If these are
     //called outside of a transaction, an exception will be thrown
 
+    //BEGIN TRANSACTION METHODS
+
     //adds a datum to the datastore
     void putData(IData person);
     //removes the datum from the datastore
     void removeData(IData person);
     void removeID(int id);
+
+    //END TRANSACTION METHODS
 
     //gets a free ref and sets his reffing to true
     int getNextReferee();
