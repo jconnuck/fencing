@@ -3,7 +3,6 @@
  ['cake.file :only ['file]])
 
 (deftask pre-compile #{deps compile-native}
-  (println *config*)
   (doseq [path (:pre-compile *project*)]
     (compile-java (file path)))
   (compile-clojure (source-dir) (file "classes") (:aot *project*)))
