@@ -20,6 +20,8 @@ import javax.swing.JButton;
 public class StripSetupPanel extends JPanel {
 	private JButton cancelButton;
 	private JButton doneButton;
+	private JSpinner rowSpinner;
+	private JSpinner colSpinner;
 
 	/**
 	 * Create the panel.
@@ -51,7 +53,7 @@ public class StripSetupPanel extends JPanel {
 		gbc_lblRows.gridy = 1;
 		add(lblRows, gbc_lblRows);
 		
-		JSpinner rowSpinner = new JSpinner();
+		rowSpinner = new JSpinner();
 		rowSpinner.setModel(new SpinnerNumberModel(new Integer(6), new Integer(1), null, new Integer(1)));
 		GridBagConstraints gbc_rowSpinner = new GridBagConstraints();
 		gbc_rowSpinner.anchor = GridBagConstraints.WEST;
@@ -68,7 +70,7 @@ public class StripSetupPanel extends JPanel {
 		gbc_lblColumns.gridy = 1;
 		add(lblColumns, gbc_lblColumns);
 		
-		JSpinner colSpinner = new JSpinner();
+		colSpinner = new JSpinner();
 		colSpinner.setModel(new SpinnerNumberModel(new Integer(5), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_colSpinner = new GridBagConstraints();
 		gbc_colSpinner.anchor = GridBagConstraints.WEST;
@@ -107,5 +109,11 @@ public class StripSetupPanel extends JPanel {
 	}
 	public JButton getDoneButton() {
 		return doneButton;
+	}
+	public JSpinner getRowSpinner() {
+		return rowSpinner;
+	}
+	public JSpinner getColSpinner() {
+		return colSpinner;
 	}
 }
