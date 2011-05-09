@@ -94,13 +94,13 @@ public class MainWindow {
 		splitPane.setRightComponent(tabbedPane);
 
 		CheckInPanel checkInPanel = new CheckInPanel(tournamentController);
-		tabbedPane.addTab("New tab", null, checkInPanel, null);
+		tabbedPane.addTab("Check In", null, checkInPanel, null);
 
 		PoolSetupPanel poolSetupPanel = new PoolSetupPanel();
-		tabbedPane.addTab("New tab", null, poolSetupPanel, null);
+		tabbedPane.addTab("Pool Setup TEST", null, poolSetupPanel, null);
 		
-		PoolObservererPanel poolObservererPanel = new PoolObservererPanel(tournamentController, 1);
-		tabbedPane.addTab("New tab", null, poolObservererPanel, null);
+		PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournamentController, 1);
+		tabbedPane.addTab("Pool Observer TEST", null, poolObserverPanel, null);
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
