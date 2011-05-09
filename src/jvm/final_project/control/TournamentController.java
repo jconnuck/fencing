@@ -160,4 +160,9 @@ public class TournamentController implements Constants{
 		});
 	}
 
+    public Collection<PoolSizeInfo> getValidPoolSizes() {
+        if (!_events.empty())
+            return _events.iterator().next().getValidPoolSizes();
+        return new ArrayList<PoolSizeInfo>()
+    }
 }
