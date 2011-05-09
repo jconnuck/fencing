@@ -215,4 +215,8 @@ public class TournamentController implements Constants{
 		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
 		return toReturn;
 	}
+	
+	public String getNameFromId(int playerId) {
+		return _dataStore.getPlayer(playerId).getFirstName() + _dataStore.getPlayer(playerId).getLastName();
+	}
 }
