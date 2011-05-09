@@ -26,7 +26,9 @@ public class PoolSizeInfoPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PoolSizeInfoPanel() {
+	public PoolSizeInfoPanel(TournamentController t) {
+		tournament = t;
+		
 		setPreferredSize(new Dimension(300, 177));
 		setMaximumSize(new Dimension(300, 200));
 		setOpaque(false);

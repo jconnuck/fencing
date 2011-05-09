@@ -20,6 +20,10 @@ public class TournamentController implements Constants{
 		_dataStore = new DataStore();
 		_stripController = new StripController();
 
+		//TODO Temporary
+		EventController e = new EventController(_currentEventID, _dataStore, "Saber");
+		_events.add(e);
+		
 		_dataHelper = new DataFormattingHelper(_dataStore);
 		_smsController = new SMSController(_dataStore, this, username, password);
 	}
@@ -33,21 +37,23 @@ public class TournamentController implements Constants{
 	}
 
 	public int[] getStripSizes(int eventID) {
-		Iterator<EventController> iter = _events.iterator();
-		if(iter.hasNext()){
-			return iter.next().getStripArrangement();
-		}
-		throw new IllegalStateException("No event created.");
+		if(_events.isEmpty())
+			throw new IllegalStateException("No event created.");
+		
+		for (EventController e: _events)
+			return e.getStripArrangement(); //This works because we only care about the first one
+		
+		return null;
 	}
-	
+
 	public void setStripSizes(int eventID, int stripRows, int stripCols) {
-		Iterator<EventController> iter = _events.iterator();
-		if(iter.hasNext()){
-			iter.next().setStripArrangement(stripRows, stripCols);
-		}
-		throw new IllegalStateException("No event created.");
+		if(_events.isEmpty())
+			throw new IllegalStateException("No event created.");
+		
+		for (EventController e: _events)
+			e.setStripArrangement(stripRows, stripCols);
 	}
-	
+
 	public void startPoolRound(int eventID, int poolSize) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
@@ -55,6 +61,25 @@ public class TournamentController implements Constants{
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
 		}
+		throw new IllegalStateException("No event created.");
+	}
+
+	public Result[] getDEMatches(int eventID){
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			return iter.next().getDEMatches();
+		}
+		throw new IllegalStateException("No event created.");
+	}
+
+	//in progress
+	public void startDERound(int eventID) throws IllegalStateException{
+		Iterator<EventController> iter = _events.iterator();
+		//if(iter.hasNext()){
+			//if(!iter.next().startPoolRound(poolSize)){
+				//throw new IllegalStateException("Not correct time to create pool round.");
+	//		}
+		//}
 		throw new IllegalStateException("No event created.");
 	}
 
@@ -165,7 +190,7 @@ public class TournamentController implements Constants{
 		});
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 	public void registerFencer(String number, String firstName, String lastName, int rank) {
 		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
 		_dataStore.runTransaction(new Runnable(){
@@ -182,7 +207,11 @@ public class TournamentController implements Constants{
     }
 
 	public Object[][] getPoolSizeInfoTable() {
+		System.out.println("trying to get pool size info table");
 		int[] stripSizes = this.getStripSizes(EVENT_ID);
-		return _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
+		System.out.println("strip sizes" + this.getStripSizes(EVENT_ID));
+		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
+		System.out.println("to return " + toReturn);
+		return toReturn;
 	}
 }

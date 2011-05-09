@@ -24,6 +24,10 @@ public class EventController {
 		_stripArrangement = new int[2];
 	}
 
+	public Result[] getDEMatches(){
+		return _deController.getMatches();
+	}
+
 	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
 		setup();
 		_eventID = id;
@@ -67,11 +71,11 @@ public class EventController {
 		_stripArrangement[0] = rows;
 		_stripArrangement[1] = cols;
 	}
-	
+
 	public int[] getStripArrangement() {
 		return _stripArrangement;
 	}
-	
+
 	/**
 	 * Called in TournamentController;
 	 * returns true if the pool round was started, false otherwise.

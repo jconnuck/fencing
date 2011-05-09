@@ -8,13 +8,14 @@ import java.util.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import final_project.control.Constants;
 import final_project.control.TournamentController;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.*;
 
 
-public class CheckInPanel extends JPanel implements ActionListener {
+public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	/**
 	 *
 	 */
@@ -214,7 +215,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		stripSetupPane.getCancelButton().addActionListener(this);
 		stripSetupPane.getDoneButton().addActionListener(this);
 
-		poolSizeInfoPane = new PoolSizeInfoPanel();
+		poolSizeInfoPane = new PoolSizeInfoPanel(tournament);
 		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
 		poolSizeTip.setOpacity(0.9f);
 
@@ -348,7 +349,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 			int nameSplit = name.lastIndexOf(' ');
 			if (nameSplit > 0) {
 				firstName = name.substring(0, nameSplit);
-				lastName = name.substring(nameSplit, name.length());
+				lastName = name.substring(nameSplit+1, name.length());
 			} else {
 				firstName = name;
 				lastName = "";
@@ -393,7 +394,11 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == stripSetupPane.getDoneButton()) {
 			hideAllBalloons();
-			//TODO ask Tournament controller for options
+			//Getting the strip arrangement from the editor
+			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
+			int col = (Integer) stripSetupPane.getColSpinner().getValue();
+			System.out.println("Strip row: " + row + " col: " + col);
+			tournament.setStripSizes(EVENT_ID, row, col);
 			poolSizeTip.setVisible(true);
 		}
 	}
