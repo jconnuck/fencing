@@ -34,7 +34,7 @@ public class SMSController implements Constants, ISMSController {
 
 		/* Starting the timer to continuously check the inbox */
 		_timer = new Timer(true);
-		_timer.scheduleAtFixedRate(_receiver, 0, RECEIVE_TIMER_STEP);
+		_timer.scheduleAtFixedRate(_receiver, RECIEVE_START_DELAY, RECEIVE_TIMER_STEP);
 
 		_receiver.flushInbox(); //Flushing the inbox to make sure that it's empty
 	}
