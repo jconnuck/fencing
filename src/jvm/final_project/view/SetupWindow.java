@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 import java.io.File;
 import final_project.control.*;
 import final_project.model.*;
+import final_project.model.store.*;
 import final_project.input.data.*;
 import final_project.input.*;
 import javax.swing.*;
