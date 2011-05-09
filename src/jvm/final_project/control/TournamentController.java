@@ -218,6 +218,6 @@ public class TournamentController implements Constants{
 	}
 	
 	public String getNameFromId(int playerId) {
-		return _dataStore.getPlayer(playerId).getFirstName() + _dataStore.getPlayer(playerId).getLastName();
+		return _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
 	}
 }

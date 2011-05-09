@@ -98,6 +98,9 @@ public class MainWindow {
 
 		PoolSetupPanel poolSetupPanel = new PoolSetupPanel();
 		tabbedPane.addTab("New tab", null, poolSetupPanel, null);
+		
+		PoolObservererPanel poolObservererPanel = new PoolObservererPanel(tournamentController, 1);
+		tabbedPane.addTab("New tab", null, poolObservererPanel, null);
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
