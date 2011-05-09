@@ -135,7 +135,7 @@ public class DataFormattingHelper implements Constants {
 			//toReturn[i][1] = tournament.getBigPools();
 		}
 		                                 
-		return null;
+		return toReturn;
 	}
 
 }
