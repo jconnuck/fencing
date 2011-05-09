@@ -59,7 +59,7 @@ public class DERound implements IRound {
      */
     public void makeCut() {
         int newEnd = (int) Math.ceil(_seeding.size() * (1.0 - (_cut/100)));
-        _seeding = _seeding.subList(0, newEnd);
+        _seeding = _seeding.subList(0, newEnd +1);
     }
 
     /**
