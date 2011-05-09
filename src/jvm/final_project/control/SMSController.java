@@ -35,7 +35,7 @@ public class SMSController implements Constants, ISMSController {
 		_timer = new Timer(true);
 		_timer.scheduleAtFixedRate(_receiver, 0, RECEIVE_TIMER_STEP);
 
-		_receiver.getInbox(); //Getting the inbox for the first time to make sure that the inbox is empty
+		_receiver.flushInbox(); //Flushing the inbox to make sure that it's empty
 	}
 
 	/* TODO: How to handle the booleans that the sender methods return? */

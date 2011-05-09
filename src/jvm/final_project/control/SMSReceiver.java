@@ -56,11 +56,14 @@ public class SMSReceiver extends TimerTask implements Constants{
 			String line;
 			boolean firstLine = true;
 			while ((line = rd.readLine()) != null) {
+				System.out.println(line);
 				//Parsing the very first line
 				if(firstLine) {
 					//First line from API looks something like:
 					//0|records to follow|3 --> only care about status code (the zero)
 					Scanner s = new Scanner(line);
+					s.useDelimiter("\\|");
+
 					if(!s.hasNextInt()) {
 						toReturn = false;
 						break;
@@ -101,7 +104,6 @@ public class SMSReceiver extends TimerTask implements Constants{
 						break;
 					}
 					_lastRetrievedID = s.nextInt();
-					System.out.println("Updated _lastRetreived id" + _lastRetrievedID);
 					//Next, getting the phone number the text was sent from
 					if(!s.hasNext()) {
 						toReturn = false;
@@ -138,4 +140,71 @@ public class SMSReceiver extends TimerTask implements Constants{
 		return toReturn;
 	}
 
+
+	/**
+	 * Gets inbox without parsing messages
+	 */
+	public void flushInbox() {
+		OutputStreamWriter wr = null;
+		BufferedReader rd = null;
+		
+		try {
+			//Constructing data
+			String data = "";
+			data += "username=" + URLEncoder.encode(_username, "ISO-8859-1");
+			data += "&password=" + URLEncoder.encode(_password, "ISO-8859-1");
+			data += "&last_retrieved_id=" + _lastRetrievedID;
+
+			URL url = new URL(API_RECEIVE_URL);
+			URLConnection conn = url.openConnection();
+			conn.setDoOutput(true);
+			wr = new OutputStreamWriter(conn.getOutputStream());
+			wr.write(data);
+			wr.flush();
+
+			// Get the response
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
+			while ((line = rd.readLine()) != null) {
+				//Parsing the very first line
+					//First line from API looks something like:
+					//0|records to follow|3 --> only care about status code (the zero)
+					Scanner s = new Scanner(line);
+					s.useDelimiter("\\|");
+
+					if(!s.hasNextInt()) {
+						return;
+					}
+					int status_code = s.nextInt();
+
+					if(status_code == 23) { //Authentication failure
+						_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
+						break;
+					}
+					else if(status_code == 25) {
+						_control.alertGUI("SMS API needs more credits! Send failure!", _control.getTime());
+						break;
+					}
+					else {
+						_control.alertGUI("Send SMS Failure", _control.getTime());
+						break;
+					}
+			}
+
+		} catch (UnknownHostException e) {
+			//Letting the GUI know it ain't got no internet
+			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
+		} catch (Exception e) {
+			e.printStackTrace(); //What to do with these??
+		}
+		finally {
+			try {
+				if(wr!=null) wr.close();
+				if(wr!=null) rd.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }
