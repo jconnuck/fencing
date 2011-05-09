@@ -11,13 +11,18 @@ import javax.swing.Action;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+
+import final_project.control.TournamentController;
+
 import java.awt.Dimension;
 
 public class PoolSizeInfoPanel extends JPanel {
 	private JTable table;
-
+	private TournamentController tournament;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -51,29 +56,56 @@ public class PoolSizeInfoPanel extends JPanel {
 		table.setRowSelectionAllowed(false);
 		table.setRowHeight(24);
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"4", null, null, "Select"},
-				{"5", null, null, "Select"},
-				{"6", null, null, "Select"},
-				{"7", null, null, "Select"},
-				{"5", null, null, "Select"},
-			},
-			new String[] {
-				"Pool Size", "Big Pools", "Small Pools", ""
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		table.setModel(new PoolSizeInfoTable());
 		table.setCellSelectionEnabled(false);
 		
 		//Make last column buttons
 		ButtonColumn buttonColumn = new ButtonColumn(table, new SelectAction(), 3);
+	}
+	
+	public class PoolSizeInfoTable extends AbstractTableModel {
+		private String[] columnNames = {"Pool Size", "Big Pools", "Small Pools", ""};
+		private Object[][] data = tournament.getPoolSizeInfoTable();
+
+		public void setData(Object[][] newData) {
+			data = newData;
+		}
+		
+		@Override
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+		@Override
+		public int getRowCount() {
+			return data.length;
+		}
+		@Override
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+		@Override
+		public Object getValueAt(int row, int col) {
+			return data[row][col];
+		}
+		@Override
+		public Class getColumnClass(int c) {
+			return getValueAt(0, c).getClass();
+		}
+		@Override
+		public boolean isCellEditable(int row, int col) {
+			if (col < 2) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		@Override
+		public void setValueAt(Object value, int row, int col) {
+			if(data.length == 0)
+				return;
+			data[row][col] = value;
+			fireTableCellUpdated(row, col);
+		}
 	}
 	
 	class SelectAction extends AbstractAction {

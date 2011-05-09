@@ -8,6 +8,7 @@ import final_project.model.DERound.NoSuchMatchException;
 public class TournamentController implements Constants{
 
 	private Collection<EventController> _events;
+	private Collection<int[]> _eventsStripSizes;
 	private IDataStore _dataStore;
 	private int _currentEventID;
 	private StripController _stripController;
@@ -17,6 +18,7 @@ public class TournamentController implements Constants{
 	public TournamentController(String username, String password) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
+		_eventsStripSizes = new LinkedList<int[]>();
 		_dataStore = new DataStore();
 		_stripController = new StripController();
 
@@ -32,6 +34,15 @@ public class TournamentController implements Constants{
 		_events.add(new EventController(++_currentEventID, _dataStore, weapon, preregs));
 	}
 
+	public void setStripSizes(int stripRows, int stripCols) {
+		Iterator<int[]> iter = _eventsStripSizes.iterator();
+		if(iter.hasNext()) {
+			
+		}
+		else { //creating the int[] for the first time
+			_eventsStripSizes.add(new int[2]);
+		}
+	}
 	public void startPoolRound(int eventID, int poolSize) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
@@ -158,6 +169,10 @@ public class TournamentController implements Constants{
 				_dataStore.putData(p);
 			}
 		});
+	}
+
+	public Object[][] getPoolSizeInfoTable() {
+		return _dataHelper.getPoolSizeInfoTable(_stripRows, _stripCols);
 	}
 
 }

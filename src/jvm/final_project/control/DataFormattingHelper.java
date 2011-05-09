@@ -104,16 +104,39 @@ public class DataFormattingHelper implements Constants {
 
 			toReturn[index][2] = "";
 			while(i.getWatched().iterator().hasNext()) {
-				IObservable followed = _dataStore.getObservable(i.getWatched().iterator().next());
+				int id = ((Integer)(i.getWatched().iterator().next())).intValue();
+				System.out.println("ID in data formatting helper subscribe panel" + id); //TODO println
+				IObservable followed = _dataStore.getObservable(id);
 				if(followed instanceof IClub) {
 					toReturn[index][2] =  ((IClub) followed).getName() + "";
 				}
 			}
-
 			index++;
 		}
 
 		return toReturn;
 	}
 
+	public Object[][] getPoolSizeInfoTable() {
+		
+		Object[][] toReturn = new Object[NUM_POOL_SIZES_POSSIBLE][NUM_COLS_POOL_SETUP];
+		
+		// TODO Auto-generated method stub
+		/* 			new Object[][] {
+				{"4", null, null, "Select"},
+				{"5", null, null, "Select"},
+				{"6", null, null, "Select"},
+				{"7", null, null, "Select"},
+				{"8", null, null, "Select"},
+			} */
+		                           
+		for(int i=0; i<NUM_POOL_SIZES_POSSIBLE; i++) {
+			toReturn[i][0] = i+4; //Pool sizes go from 4-8
+			toReturn[i][1] = tournament.getBigPools()
+		}
+		                                 
+		return null;
+	}
+
 }
+
