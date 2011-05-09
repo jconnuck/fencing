@@ -197,7 +197,7 @@ public class SetupWindow {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MainWindow mainWindow = new MainWindow();
-                TournamentController tc = mainWindow.getTournamentController();
+				//TournamentController tc = mainWindow.getTournamentController();
                 
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);
