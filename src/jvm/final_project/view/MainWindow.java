@@ -108,4 +108,8 @@ public class MainWindow {
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
 	}
+
+    public TournamentController getTournamentController() {
+        return _tournamentController;
+    }
 }

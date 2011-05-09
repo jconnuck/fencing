@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import java.io.File;
 
 public class SetupWindow {
 
@@ -28,6 +29,7 @@ public class SetupWindow {
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+    private File xmlFile;
 
 	/**
 	 * Launch the application.
@@ -186,6 +188,8 @@ public class SetupWindow {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MainWindow mainWindow = new MainWindow();
+                TournamentController tc = mainWindow.getTournamentController();
+                
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);
 			}
