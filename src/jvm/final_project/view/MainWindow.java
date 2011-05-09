@@ -110,6 +110,6 @@ public class MainWindow {
 	}
 
     public TournamentController getTournamentController() {
-        return _tournamentController;
+        return tournamentController;
     }
 }
