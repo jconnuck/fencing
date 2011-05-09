@@ -360,7 +360,6 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
 			hideAllBalloons();
 			//Getting the info out of the registerNewPlayerPane
-			System.out.println("Register new player called");
 			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
 			String name = registerNewPlayerPane.getNameTextField().getText();
 			String firstName = "", lastName = "";
@@ -412,7 +411,14 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == stripSetupPane.getDoneButton()) {
 			hideAllBalloons();
+<<<<<<< HEAD
+			//Getting the strip arrangement from the editor
+			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
+			int col = (Integer) stripSetupPane.getColSpinner().getValue();
+			tournament.setStripSizes(EVENT_ID, row, col);
+=======
 			//TODO ask Tournament controller for options
+>>>>>>> 5597f5c8779f4cae3efd0dc168cdcb54674b47af
 			poolSizeTip.setVisible(true);
 		}
 	}
