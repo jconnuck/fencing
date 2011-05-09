@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import java.io.File;
+import final_project.control.*;
 
 public class SetupWindow {
 
