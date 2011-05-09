@@ -96,55 +96,55 @@ public class DERoundTest {
 	public void testMakeCut() {
 		round1.setCut(0);
 		round1.makeCut();
-		assertEquals(8, round1.getSeeding());
+		assertEquals(8, round1.getSeeding().size());
 
 		round1.setCut(15);
 		round1.makeCut();
-		assertEquals(7, round1.getSeeding());
+		assertEquals(7, round1.getSeeding().size());
 
 		round1.setCut(20);
 		round1.makeCut();
-		assertEquals(7, round1.getSeeding());
+		assertEquals(7, round1.getSeeding().size());
 
 		round1.setCut(25);
 		round1.makeCut();
-		assertEquals(6, round1.getSeeding());
+		assertEquals(6, round1.getSeeding().size());
 
 		round1.setCut(30);
 		round1.makeCut();
-		assertEquals(6, round1.getSeeding());
+		assertEquals(6, round1.getSeeding().size());
 
 		round2.setCut(15);
 		round2.makeCut();
-		assertEquals(5, round2.getSeeding());
+		assertEquals(5, round2.getSeeding().size());
 
 		round2.setCut(20);
 		round2.makeCut();
-		assertEquals(4, round2.getSeeding());
+		assertEquals(4, round2.getSeeding().size());
 
 		round2.setCut(25);
 		round2.makeCut();
-		assertEquals(4, round2.getSeeding());
+		assertEquals(4, round2.getSeeding().size());
 
 		round2.setCut(30);
 		round2.makeCut();
-		assertEquals(4, round2.getSeeding());
+		assertEquals(4, round2.getSeeding().size());
 
 		round3.setCut(15);
 		round3.makeCut();
-		assertEquals(10, round3.getSeeding());
+		assertEquals(10, round3.getSeeding().size());
 
 		round3.setCut(20);
 		round3.makeCut();
-		assertEquals(9, round3.getSeeding());
+		assertEquals(9, round3.getSeeding().size());
 
 		round3.setCut(25);
 		round3.makeCut();
-		assertEquals(9, round3.getSeeding());
+		assertEquals(9, round3.getSeeding().size());
 
 		round3.setCut(30);
 		round3.makeCut();
-		assertEquals(8, round3.getSeeding());
+		assertEquals(8, round3.getSeeding().size());
 
 	}
 
