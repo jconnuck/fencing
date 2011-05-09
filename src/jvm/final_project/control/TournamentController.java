@@ -135,6 +135,9 @@ public class TournamentController implements Constants{
 				_dataStore.putData(temp);
 			}
 		});
+		//Should text new spectator that they were registered, so they'll have a phone number to respond to
+		//_smsController.sendMessage("Thank you for registering with our system! Please respond" +
+			// "to this phone number with your follower requests.", number);
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
@@ -146,6 +149,15 @@ public class TournamentController implements Constants{
 			}
 		});
 		return _dataHelper.giveSignInPanelInfo();
+	}
+	
+	public void registerFencer(String number, String firstName, String lastName, int rank) {
+		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
+		_dataStore.runTransaction(new Runnable(){
+			public void run(){
+				_dataStore.putData(p);
+			}
+		});
 	}
 
 }

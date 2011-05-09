@@ -280,11 +280,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		private Object[][] data = tournament.giveSignInPanelInfo();
 
 		public void setData(Object[][] newData) {
-			for(int i=0; i < newData.length; i++) {
-				for(int j=0; j<newData[i].length; j++) {
-					setValueAt(newData[i][j], i, j);
-				}
-			}
+			data = newData;
 		}
 
 		@Override
@@ -317,6 +313,8 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		@Override
 		public void setValueAt(Object value, int row, int col) {
+			if(data.length == 0)
+				return;
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
@@ -343,6 +341,7 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
 			hideAllBalloons();
 			//Getting the info out of the registerNewPlayerPane
+			System.out.println("Register new player called");
 			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
 			String name = registerNewPlayerPane.getNameTextField().getText();
 			String firstName = "", lastName = "";
@@ -355,6 +354,8 @@ public class CheckInPanel extends JPanel implements ActionListener {
 				lastName = "";
 			}
 			int rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
+			//TODO: Need to make it impossible to click done unless all fields are filled out
+			
 			/* Registering player and resetting the data in the table */
 			Object[][] newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank);
 			model.setData(newData);

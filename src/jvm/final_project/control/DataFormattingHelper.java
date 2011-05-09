@@ -26,7 +26,13 @@ public class DataFormattingHelper implements Constants {
 	public Object[][] giveSignInPanelInfo() {
 		int numPeople = _dataStore.getPeople().size() - _dataStore.getPeopleForGroup("Spectator").size();
 		Object[][] toReturn = new Object[numPeople][NUM_COLS_SIGN_IN];
-
+		System.out.println("Sign in table size: " + numPeople);
+		System.out.println("People size: " + _dataStore.getPeople().size());
+		
+		//Making one blank row so that the GUI does not break on empty input
+		for(int i=0; i < NUM_COLS_SIGN_IN; i++)
+			toReturn[0][i] = "";
+		
 		int index = 0;
 		for (IPerson i: _dataStore.getPeople()) {
 			if(!i.getGroup().equals("Spectator")){
@@ -67,10 +73,12 @@ public class DataFormattingHelper implements Constants {
 
 				/* ID */
 				toReturn[index][4] = i.getID();
+				
+				index++;
 			}
-			index++;
 		}
-
+		
+		System.out.println(toReturn); //TODO println
 		return toReturn;
 	}
 
@@ -82,7 +90,13 @@ public class DataFormattingHelper implements Constants {
 	public Object[][] giveSubscriberTableInfo() {
 		//Making the object array with as many rows as spectators in the data store
 		Object[][] toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
-
+		System.out.println("Subscriber size: " + _dataStore.getPeopleForGroup("Spectator").size());
+		
+		//TODO WHY DOES THE GUI BREAK ON EMPTY INPUT????
+		//Making one blank row so that the GUI does not break on empty input
+		for(int i=0; i < NUM_COLS_SUBSCRIBER_PANEL; i++)
+			toReturn[0][i] = "";
+		
 		int index = 0;
 		for(IPerson i: _dataStore.getPeopleForGroup("Spectator")) {
 			toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
