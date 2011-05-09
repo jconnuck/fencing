@@ -2,24 +2,10 @@ package final_project.view;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import javax.swing.JPanel;
-import javax.swing.JInternalFrame;
-import java.awt.Insets;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.border.TitledBorder;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.border.*;
+import java.awt.event.*;
 
 public class SetupWindow {
 
@@ -28,6 +14,7 @@ public class SetupWindow {
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JFileChooser fileChooser;
 
 	/**
 	 * Launch the application.
@@ -175,7 +162,16 @@ public class SetupWindow {
 		gbc_lblor.gridy = 2;
 		panel.add(lblor, gbc_lblor);
 		
-		JButton btnImportXml = new JButton("Import XML");
+		final JButton btnImportXml = new JButton("Import XML");
+		btnImportXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int returnValue = fileChooser.showOpenDialog(btnImportXml);
+				
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					xmlFile = fileChooser.getSelectedFile();
+				}
+			}
+		});
 		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
 		gbc_btnImportXml.gridwidth = 2;
 		gbc_btnImportXml.gridx = 0;

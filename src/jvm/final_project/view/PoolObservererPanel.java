@@ -31,7 +31,7 @@ public class PoolObservererPanel extends JPanel {
 		add(statusLabel, gbc_lblStatusFencing);
 		
 		JLabel lblCurrentBout = new JLabel("Current Bout:");
-		lblCurrentBout.setFont(new Font("Score Board", Font.PLAIN, 12));
+		lblCurrentBout.setFont(new Font("Score Board", Font.PLAIN, 14));
 		lblCurrentBout.setForeground(new Color(0, 191, 255));
 		GridBagConstraints gbc_lblCurrentBout = new GridBagConstraints();
 		gbc_lblCurrentBout.gridwidth = 2;
@@ -45,6 +45,7 @@ public class PoolObservererPanel extends JPanel {
 		lblLebronJamesVs.setForeground(new Color(0, 191, 255));
 		lblLebronJamesVs.setFont(new Font("Score Board", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblLebronJamesVs = new GridBagConstraints();
+		gbc_lblLebronJamesVs.anchor = GridBagConstraints.SOUTH;
 		gbc_lblLebronJamesVs.gridwidth = 3;
 		gbc_lblLebronJamesVs.insets = new Insets(0, 0, 5, 0);
 		gbc_lblLebronJamesVs.gridx = 2;
