@@ -159,12 +159,15 @@ public class SMSParser {
 			_control.sendMessage("This phone number is not registered. Please send us a registration code.", number);
 			return false;
 		}
+		System.out.println("gets before checking person/club exists");
 
 		/* Checking to see that the person/club to be followed exists */
 		found = false;
 		int counter = 0; //To make sure that we don't get duplicates
 		int idToFollow = 0;
 		if(lastNameToSubscribeTo.equals("")) { // Last name empty, this is a club.
+			System.out.println("inside club");
+
 			for (IClub i: _store.getClubs()) {
 				if(i.getName().equals(firstNameToSubscribeTo)) {
 					idToFollow = i.getID();
@@ -175,6 +178,8 @@ public class SMSParser {
 		}
 		else {
 			for (IPlayer i: _store.getPlayers()) {
+				System.out.println("inside player");
+
 				if(i.getFirstName().equals(firstNameToSubscribeTo)) {
 					if (i.getLastName().equals(lastNameToSubscribeTo)) {
 						idToFollow = i.getID();
@@ -187,6 +192,7 @@ public class SMSParser {
 
 		/* Handling error messages */
 		if (!found) {
+			System.out.println("Not found");
 			_control.sendMessage("We're sorry, no fencer or group was found with this name.", number);
 			return false;
 		}
@@ -194,7 +200,7 @@ public class SMSParser {
 			_control.sendMessage("Multiple entries found for this name. Please respond with \"follow\" followed by an ID number.", number);
 			return false;
 		}
-
+		System.out.println("Subscribing");
 		/* ACTUALLY SUBSCRIBING USER */
 		found = false;
 		int idSpectator = 0;
@@ -214,7 +220,7 @@ public class SMSParser {
 				_store.putData(spect);
 			}
 		});
-
+		System.out.println("Finishing subscribe should be texting user");
 		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + lastNameToSubscribeTo + " !", number);
 		return true;
 	}
