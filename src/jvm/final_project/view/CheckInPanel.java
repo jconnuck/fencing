@@ -9,13 +9,14 @@ import java.io.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import final_project.control.Constants;
 import final_project.control.TournamentController;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.*;
 
 
-public class CheckInPanel extends JPanel implements ActionListener {
+public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	/**
 	 *
 	 */
@@ -411,14 +412,12 @@ public class CheckInPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getSource() == stripSetupPane.getDoneButton()) {
 			hideAllBalloons();
-<<<<<<< HEAD
+
 			//Getting the strip arrangement from the editor
 			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
 			int col = (Integer) stripSetupPane.getColSpinner().getValue();
 			tournament.setStripSizes(EVENT_ID, row, col);
-=======
-			//TODO ask Tournament controller for options
->>>>>>> 5597f5c8779f4cae3efd0dc168cdcb54674b47af
+
 			poolSizeTip.setVisible(true);
 		}
 	}
