@@ -1,6 +1,6 @@
 (ns final_project.test.xml-test
   (import [final_project.input XmlReader]
-          [final_project.model DataStore Rating])
+          [final_project.model.store DataStore Rating])
   (:use final_project.input.XmlReader
         clojure.test))
 

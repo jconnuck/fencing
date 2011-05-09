@@ -1,9 +1,10 @@
 (ns final_project.input.XmlReader
   (:use [clojure xml]
         clojure.contrib.zip-filter.xml
-        final_project.input.data)
+        final_project.input.data
+        final_project.model.store.DataStore)
   (:require [clojure.zip :as zip])
-  (:import [final_project.model IPerson IPlayer IDataStore
+  (:import [final_project.model.store IPerson IPlayer IDataStore
             IObservable DataStore IHasClub IReferee IData IClub
             Rating]
            [final_project.input.data EventInfo TournamentInfo]

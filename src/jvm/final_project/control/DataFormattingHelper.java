@@ -2,6 +2,7 @@ package final_project.control;
 
 import java.util.Iterator;
 import final_project.model.*;
+import final_project.model.store.*;
 
 /**
  * Class to help the TournamentController format the

@@ -8,6 +8,16 @@ public class CompleteResult extends Result{
 		_loserResult = loserResult;
 	}
 
+	@Override
+	public int getPlayer1() {
+		return _winnerResult.getPlayerId();
+	}
+	
+	@Override
+	public int getPlayer2() {
+		return _loserResult.getPlayerId();
+	}
+	
 	public int getPointsToWin() {
 		return _pointsToWin;
 	}

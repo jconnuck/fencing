@@ -2,6 +2,8 @@ package final_project.model;
 
 import java.util.*;
 
+import final_project.model.store.*;
+
 import final_project.control.StripController;
 
 public class DERound implements IRound {
@@ -20,7 +22,6 @@ public class DERound implements IRound {
         this(store,sc,new ArrayList<Integer>());
     }*/
 
-    // I feel like there is a much more concise way to code this constructor that has an additional argument
     public DERound(IDataStore store, StripController sc, List<Integer> seeding, double cut) {
     	this._cut = cut;
         _dataStore = store;
@@ -60,11 +61,11 @@ public class DERound implements IRound {
      * Cuts the bottom _cut percentage of fencers from _seeding.
      */
     public void makeCut() {
-        int newEnd = (int) Math.ceil(_seeding.size() * (1.0 - (_cut/100)));
+    	int newEnd = (int) Math.ceil(_seeding.size() * (1.0 - (_cut/100.0)));
         if(newEnd == _seeding.size()) {
         	return;
         }
-        _seeding = _seeding.subList(0, newEnd +1);
+        _seeding = _seeding.subList(0, newEnd);
     }
 
     /**
@@ -73,7 +74,6 @@ public class DERound implements IRound {
     public void calcBracketSize() throws IllegalArgumentException{
         if(_seeding.size() < 2)
             throw new IllegalArgumentException("Attempted to build a bracket for fewer than 2 competitors.");
-
         _bracketSize = (int) Math.pow(2,Math.ceil(Math.log(_seeding.size())/Math.log(2)));
         _matches = new Result[_bracketSize -1];
     }
@@ -86,27 +86,47 @@ public class DERound implements IRound {
         if(_matches == null){
             throw new IllegalStateException("_matches not yet instantiated.");
         }
-        populateBracketHelper(0, 2, 1);
-        for(int i = 0; i < _matches.length - _bracketSize / 2 - 1; i++){
-            _matches[i] = null;
-        }
+        populateBracketHelper(0, 2, 1, false);
+        Arrays.fill(_matches, 0, computeRoundHead(_bracketSize /2), null);
         switchSeedsForCompetitors();
     }
 
-    private void populateBracketHelper(int index, int currentBracketSize, int currentSeed){
+    /**
+     * Recursively populates _matches with IncompleteResults with players whose IDs are their position(1-indexed) in _seeding.
+     * @param index The index in _matches whose IncompleteResult is to be created.
+     * @param currentBracketSize The number of fencers in the current round(round that index is in).
+     * @param currentSeed The seed of the higher seeded competitor in the IncompleteResult to be created.
+     * @param bottomSwap True if the bottom and top children must be swapped (to ensure that on the bottom half of the bracket the higher seeds are lower on the table).
+     */
+    private void populateBracketHelper(int index, int currentBracketSize, int currentSeed, boolean bottomSwap){
         if(index < 0)
             throw new IllegalArgumentException("Index cannot be negative.");
         if(index >= _matches.length)
             return;
-        _matches[index] = new IncompleteResult(	currentSeed,
-                                                currentBracketSize - currentSeed + 1,
-                                                POINTS_TO_WIN);
-        populateBracketHelper(	2 * index + 1,
-                                currentBracketSize * 2,
-                                currentSeed);
-        populateBracketHelper(	2 * index + 2,
-                                currentBracketSize * 2,
-                                currentBracketSize - currentSeed + 1);
+        _matches[index] = new IncompleteResult(currentSeed,
+                                               currentBracketSize - currentSeed + 1,
+                                               POINTS_TO_WIN);
+        if(bottomSwap) {
+        	populateBracketHelper(2 * index + 1,
+                    			  currentBracketSize * 2,
+                    			  currentBracketSize - currentSeed + 1,
+                    			  false);
+        	populateBracketHelper(2 * index + 2,
+                    			  currentBracketSize * 2,
+                    			  currentSeed,
+                    			  true);
+        }
+        else {
+        	populateBracketHelper(2 * index + 1,
+                              	  currentBracketSize * 2,
+                              	  currentSeed,
+                              	  false);
+        	populateBracketHelper(2 * index + 2,
+                              	  currentBracketSize * 2,
+                              	  currentBracketSize - currentSeed + 1,
+                              	  true);
+        }
+        
     }
 
     /**

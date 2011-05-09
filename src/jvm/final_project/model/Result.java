@@ -8,6 +8,11 @@ public class Result {
 	public int[] getPlayers() {
 		return new int[] {_player1, _player2};
 	}
+	
+	@Override
+	public String toString() {
+		return("(" + _player1 + ", " + _player2 + ")");
+	}
 
 	//Where is this used?
 	public void setPointsToWin(int toWin) {
