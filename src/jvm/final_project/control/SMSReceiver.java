@@ -32,7 +32,6 @@ public class SMSReceiver extends TimerTask implements Constants{
 	 *
 	 */
 	public boolean getInbox() {
-		System.out.println("GET INBOX CALLED");
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;
@@ -56,7 +55,6 @@ public class SMSReceiver extends TimerTask implements Constants{
 			String line;
 			boolean firstLine = true;
 			while ((line = rd.readLine()) != null) {
-				System.out.println(line);
 				//Parsing the very first line
 				if(firstLine) {
 					//First line from API looks something like:
