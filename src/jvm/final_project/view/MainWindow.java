@@ -19,29 +19,29 @@ public class MainWindow {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-//		UIManager.put("nimbusBase", new Color(200, 215, 230));
-//		UIManager.put("nimbusBlueGrey",	new Color(200, 215, 230));
-//		UIManager.put("control", new Color(248,248,248));
-//		UIManager.put("nimbusSelection", DefaultBalloonStyle.bottomFillColor);
-//		UIManager.put("controlHighlight", new Color(233,236,242));
-//		UIManager.put("controlLHighlight", new Color(247,248,250));
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow();
-					window.frmFencingManager.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+////		UIManager.put("nimbusBase", new Color(200, 215, 230));
+////		UIManager.put("nimbusBlueGrey",	new Color(200, 215, 230));
+////		UIManager.put("control", new Color(248,248,248));
+////		UIManager.put("nimbusSelection", DefaultBalloonStyle.bottomFillColor);
+////		UIManager.put("controlHighlight", new Color(233,236,242));
+////		UIManager.put("controlLHighlight", new Color(247,248,250));
+//		try {
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		}
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MainWindow window = new MainWindow();
+//					window.frmFencingManager.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -53,9 +53,9 @@ public class MainWindow {
 		tournamentController.registerFencer("1231231231", "william", "zimrin", 1);
 		tournamentController.registerFencer("1231231231", "john", "connuck", 1);
 		tournamentController.registerFencer("12312131231", "josh", "grill", 1);
-		
 		tournamentController.registerSpectator("4123355989", "Josh", "Grill");
 		initialize();
+		frmFencingManager.setVisible(true);
 	}
 
 	/**
@@ -108,4 +108,8 @@ public class MainWindow {
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
 	}
+
+    public TournamentController getTournamentController() {
+        return _tournamentController;
+    }
 }
