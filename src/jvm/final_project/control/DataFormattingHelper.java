@@ -132,7 +132,7 @@ public class DataFormattingHelper implements Constants {
 		                           
 		for(int i=0; i<NUM_POOL_SIZES_POSSIBLE; i++) {
 			toReturn[i][0] = i+4; //Pool sizes go from 4-8
-			toReturn[i][1] = tournament.getBigPools();
+			//toReturn[i][1] = tournament.getBigPools();
 		}
 		                                 
 		return null;
