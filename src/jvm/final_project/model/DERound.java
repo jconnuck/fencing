@@ -135,7 +135,7 @@ public class DERound implements IRound {
      */
     private void switchSeedsForCompetitors(){
     	IncompleteResult temp;
-        for(int i = _matches.length - _bracketSize /2; i < _matches.length; i++){
+        for(int i = _matches.length - (_bracketSize /2); i < _matches.length; i++){
             temp = (IncompleteResult) _matches[i];
             if(temp.getPlayer1() > _seeding.size()) { // If player2 got a bye
                 _matches[i] = new CompleteResult(new PlayerResult(temp.getPlayer2(), 0),  // Sets player2 to the winner of the match
@@ -153,7 +153,7 @@ public class DERound implements IRound {
                                                    POINTS_TO_WIN);
             }
         }
-        for(int j = _matches.length - _bracketSize /4; j < _matches.length - _bracketSize /2; j++){
+        for(int j = _matches.length - (_bracketSize /4); j < _matches.length - (_bracketSize /2); j++){
         	temp = (IncompleteResult) _matches[j];
         	int player1ID;
         	int player2ID;
