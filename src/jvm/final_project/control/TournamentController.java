@@ -68,6 +68,7 @@ public class TournamentController implements Constants{
 			if(!iter.next().startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
+            return;
 		}
 		throw new IllegalStateException("No event created.");
 	}

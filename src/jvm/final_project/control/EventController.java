@@ -34,6 +34,7 @@ public class EventController {
 		_players = new LinkedList<Integer>(preregs);
 		_stripArrangement = new int[2];
 		_stripController = stripController;
+        _dataStore = dataStore;
 	}
 
 	public void addPlayer(int id){

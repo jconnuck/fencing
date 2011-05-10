@@ -49,7 +49,7 @@ public class PoolRoundController {
 	}
 
 	private void calcPoolSize(int poolSize) throws IllegalArgumentException{
-		PoolSizeCalculator poolSizeCalc = new PoolSizeCalculator(_poolRound.getNumPlayers(), poolSize);
+		PoolSizeCalculator poolSizeCalc = new PoolSizeCalculator(_initialSeeding.size(), poolSize);
 		_numBigPools = poolSizeCalc.getNumBigPools();
 		_numSmallPools = poolSizeCalc.getNumSmallPools();
 		_numPools = _numBigPools + _numSmallPools;
