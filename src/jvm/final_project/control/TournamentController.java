@@ -220,7 +220,10 @@ public class TournamentController implements Constants{
 	}
 
 	public String getNameFromId(int playerId) {
-		return _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
+		String toReturn = "";
+		if(_dataStore.getPlayer(playerId) != null)
+			toReturn = _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
+		return toReturn;
 	}
 
 	public Object[][] getPoolRefListTable(int id) {
