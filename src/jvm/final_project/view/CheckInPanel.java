@@ -169,6 +169,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		Object[][] newData = tournament.checkInFencer(id, checkAs);
 		model.setData(newData);
 		searchField.setText("");
+		
 		this.repaint();
 	}
 
@@ -418,6 +419,9 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			//Checking in all as true!
 			Object[][] newData = tournament.checkInAll(true);
 			model.setData(newData);
+	        //Fix for weird sorting
+	        sorter.sort();
+	        table.clearSelection();
 			this.repaint();
 
 		}
@@ -426,6 +430,9 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			//Checking in all as false
 			Object[][] newData = tournament.checkInAll(false);
 			model.setData(newData);
+	        //Fix for weird sorting
+	        sorter.sort();
+	        table.clearSelection();
 			this.repaint();
 
 		}
