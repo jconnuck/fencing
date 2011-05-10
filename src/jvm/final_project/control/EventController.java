@@ -119,7 +119,7 @@ public class EventController {
 		});
 	}
 
-	public Collection<Pool> getPools() {
+	public List<Pool> getPools() {
 		if(_poolController == null)
 			return new LinkedList<Pool>(); //TODO tossing empty list
 		return _poolController.getPools();

@@ -221,7 +221,7 @@ public abstract class PoolRound implements IRound{
 			_pools.get(i % _pools.size()).addPlayer(_initialSeeding.get(i));
 	}
 
-	public Collection<Pool> getPools() {
+	public List<Pool> getPools() {
 		return _pools;
 	}
 }

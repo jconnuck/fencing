@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import final_project.control.*;
 import final_project.model.*;
+import final_project.model.store.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,17 +12,28 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.*;
 import javax.swing.border.EmptyBorder;
 
-public class PoolObserverPanel extends JPanel {
+import java.util.*;
+
+public class PoolObserverPanel extends JPanel implements PoolObserver {
 	/**
 	 * Create the panel.
 	 */
 	TournamentController tournament;
 	JLabel statusLabel;
-	JPanel upcommingBoutsPane;
-	int numIncompleteBouts;
+	JPanel upcomingBoutsPane;
+	JPanel completedBoutsPane;
+	Collection<ScoreView> incompleteResults, completeResults;
+    Pool pool;
+    JLabel currentBout;
+    IDataStore store;
 	
-	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
+	public PoolObserverPanel(TournamentController tournament, int poolNumber, IDataStore store) {
+        this.store = store;
 		this.tournament = tournament;
+        this.pool = this.tournament.getPools(0).get(poolNumber);
+        this.pool.addObserver(this);
+        incompleteResults = new LinkedList<ScoreView>();
+        completeResults = new LinkedList<ScoreView>();
 		setBackground(Color.BLACK);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{151, 80, 80, 150, 0};
@@ -68,28 +80,28 @@ public class PoolObserverPanel extends JPanel {
 		gbc_statusLabel.gridy = 1;
 		add(statusLabel, gbc_statusLabel);
 		
-		JScrollPane upcommingBoutsScrollPane = new JScrollPane();
-		upcommingBoutsScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		GridBagConstraints gbc_upcommingBoutsScrollPane = new GridBagConstraints();
-		gbc_upcommingBoutsScrollPane.fill = GridBagConstraints.BOTH;
-		gbc_upcommingBoutsScrollPane.gridwidth = 4;
-		gbc_upcommingBoutsScrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_upcommingBoutsScrollPane.gridx = 0;
-		gbc_upcommingBoutsScrollPane.gridy = 2;
-		add(upcommingBoutsScrollPane, gbc_upcommingBoutsScrollPane);
+		JScrollPane upcomingBoutsScrollPane = new JScrollPane();
+		upcomingBoutsScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		GridBagConstraints gbc_upcomingBoutsScrollPane = new GridBagConstraints();
+		gbc_upcomingBoutsScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_upcomingBoutsScrollPane.gridwidth = 4;
+		gbc_upcomingBoutsScrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_upcomingBoutsScrollPane.gridx = 0;
+		gbc_upcomingBoutsScrollPane.gridy = 2;
+		add(upcomingBoutsScrollPane, gbc_upcomingBoutsScrollPane);
 		
-		upcommingBoutsPane = new JPanel();
-		upcommingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		upcommingBoutsPane.setBackground(Color.BLACK);
-		upcommingBoutsScrollPane.setViewportView(upcommingBoutsPane);
-		upcommingBoutsPane.setLayout(new BoxLayout(upcommingBoutsPane, BoxLayout.Y_AXIS));
+		upcomingBoutsPane = new JPanel();
+		upcomingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		upcomingBoutsPane.setBackground(Color.BLACK);
+		upcomingBoutsScrollPane.setViewportView(upcomingBoutsPane);
+		upcomingBoutsPane.setLayout(new BoxLayout(upcomingBoutsPane, BoxLayout.Y_AXIS));
 		
-		JLabel lblUpcommingBouts = new JLabel("upcoming bouts");
-		lblUpcommingBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
-		upcommingBoutsPane.add(lblUpcommingBouts);
-		lblUpcommingBouts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUpcommingBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
-		lblUpcommingBouts.setForeground(Color.WHITE);
+		JLabel lblUpcomingBouts = new JLabel("upcoming bouts");
+		lblUpcomingBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
+		upcomingBoutsPane.add(lblUpcomingBouts);
+		lblUpcomingBouts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUpcomingBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
+		lblUpcomingBouts.setForeground(Color.WHITE);
 		
 		JLabel lblCurrentBout = new JLabel("current bout");
 		lblCurrentBout.setHorizontalAlignment(SwingConstants.CENTER);
@@ -102,7 +114,8 @@ public class PoolObserverPanel extends JPanel {
 		gbc_lblCurrentBout.gridy = 3;
 		add(lblCurrentBout, gbc_lblCurrentBout);
 		
-		JLabel lblLebronJamesVs = new JLabel("Lebron James vs. Kobe Bryant");
+		JLabel lblLebronJamesVs = new JLabel();
+        currentBout = lblLebronJamesVs;
 		lblLebronJamesVs.setForeground(Color.CYAN);
 		lblLebronJamesVs.setFont(new Font("Score Board", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblLebronJamesVs = new GridBagConstraints();
@@ -112,25 +125,6 @@ public class PoolObserverPanel extends JPanel {
 		gbc_lblLebronJamesVs.gridx = 0;
 		gbc_lblLebronJamesVs.gridy = 4;
 		add(lblLebronJamesVs, gbc_lblLebronJamesVs);
-		
-		//TODO remove these: Mock incomplete results:
-		IncompleteResult testIncompleteResult1 = new IncompleteResult(0, 1, 5);
-		IncompleteResult testIncompleteResult2 = new IncompleteResult(1, 2, 5);
-		
-		ScoreView scoreView = new ScoreView(tournament, testIncompleteResult1);
-		upcommingBoutsPane.add(scoreView, 1);
-		
-		ScoreView scoreView_1 = new ScoreView(tournament, testIncompleteResult2);
-		upcommingBoutsPane.add(scoreView_1, 1);
-		
-		ScoreView scoreView_2 = new ScoreView(tournament, testIncompleteResult1);
-		upcommingBoutsPane.add(scoreView_2, 1);
-		
-		ScoreView scoreView_3 = new ScoreView(tournament, testIncompleteResult2);
-		upcommingBoutsPane.add(scoreView_3, 1);
-		
-		ScoreView scoreView_4 = new ScoreView(tournament, testIncompleteResult1);
-		upcommingBoutsPane.add(scoreView_4, 1);
 		
 		JScrollPane completedBoutsScrollPane = new JScrollPane();
 		completedBoutsScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -142,7 +136,7 @@ public class PoolObserverPanel extends JPanel {
 		gbc_completedBoutsScrollPane.gridy = 5;
 		add(completedBoutsScrollPane, gbc_completedBoutsScrollPane);
 		
-		JPanel completedBoutsPane = new JPanel();
+        completedBoutsPane = new JPanel();
 		completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		completedBoutsPane.setBackground(Color.BLACK);
 		completedBoutsScrollPane.setViewportView(completedBoutsPane);
@@ -154,25 +148,6 @@ public class PoolObserverPanel extends JPanel {
 		lblCompletedBouts.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCompletedBouts.setForeground(Color.WHITE);
 		lblCompletedBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
-		
-		//TODO remove these: Mock incomplete results:
-		CompleteResult testCompleteResult1 = new CompleteResult(new PlayerResult(0, 5), new PlayerResult(1,3));
-		CompleteResult testCompleteResult2 = new CompleteResult(new PlayerResult(1, 4), new PlayerResult(2,5));
-		
-		ScoreView scoreView_5 = new ScoreView(tournament, testCompleteResult1);
-		completedBoutsPane.add(scoreView_5, 1);
-		
-		ScoreView scoreView_6 = new ScoreView(tournament, testCompleteResult2);
-		completedBoutsPane.add(scoreView_6, 1);
-		
-		ScoreView scoreView_7 = new ScoreView(tournament, testCompleteResult1);
-		completedBoutsPane.add(scoreView_7, 1);
-		
-		ScoreView scoreView_8 = new ScoreView(tournament, testCompleteResult2);
-		completedBoutsPane.add(scoreView_8, 1);
-		
-		ScoreView scoreView_9 = new ScoreView(tournament, testCompleteResult1);
-		completedBoutsPane.add(scoreView_9, 1);
 		
 		JProgressBar progressBar = new JProgressBar();
 		GridBagConstraints gbc_progressBar = new GridBagConstraints();
@@ -195,6 +170,50 @@ public class PoolObserverPanel extends JPanel {
 		gbc_btnMessageReferee.gridy = 6;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
+        setCurrentBout();
+        for (IncompleteResult res : pool.getIncompleteResults())
+            addIncompleteResult(res);
+        for (CompleteResult res : pool.getResults())
+            addCompleteResult(res);
+        /*
+		//TODO remove these: Mock incomplete results:
+		IncompleteResult testIncompleteResult1 = new IncompleteResult(0, 1, 5);
+		IncompleteResult testIncompleteResult2 = new IncompleteResult(1, 2, 5);
+		
+		ScoreView scoreView = new ScoreView(tournament, testIncompleteResult1);
+		upcomingBoutsPane.add(scoreView, 1);
+		
+		ScoreView scoreView_1 = new ScoreView(tournament, testIncompleteResult2);
+		upcomingBoutsPane.add(scoreView_1, 1);
+		
+		ScoreView scoreView_2 = new ScoreView(tournament, testIncompleteResult1);
+		upcomingBoutsPane.add(scoreView_2, 1);
+		
+		ScoreView scoreView_3 = new ScoreView(tournament, testIncompleteResult2);
+		upcomingBoutsPane.add(scoreView_3, 1);
+		
+		ScoreView scoreView_4 = new ScoreView(tournament, testIncompleteResult1);
+		upcomingBoutsPane.add(scoreView_4, 1);
+		
+		//TODO remove these: Mock incomplete results:
+		CompleteResult testCompleteResult1 = new CompleteResult(new PlayerResult(0, 5), new PlayerResult(1,3));
+		CompleteResult testCompleteResult2 = new CompleteResult(new PlayerResult(1, 4), new PlayerResult(2,5));
+		
+		ScoreView scoreView_5 = new ScoreView(tournament, testCompleteResult1);
+		completedBoutsPane.add(scoreView_5, 1);
+		
+		ScoreView scoreView_6 = new ScoreView(tournament, testCompleteResult2);
+		completedBoutsPane.add(scoreView_6, 1);
+		
+		ScoreView scoreView_7 = new ScoreView(tournament, testCompleteResult1);
+		completedBoutsPane.add(scoreView_7, 1);
+		
+		ScoreView scoreView_8 = new ScoreView(tournament, testCompleteResult2);
+		completedBoutsPane.add(scoreView_8, 1);
+		
+		ScoreView scoreView_9 = new ScoreView(tournament, testCompleteResult1);
+		completedBoutsPane.add(scoreView_9, 1);
+		*/
 	}
 	
 	public enum Status {
@@ -223,18 +242,41 @@ public class PoolObserverPanel extends JPanel {
 	}
 	
 	public void addIncompleteResult(IncompleteResult incompleteResult) {
-		++numIncompleteBouts;
 		ScoreView newBout = new ScoreView(tournament, incompleteResult);
-		upcommingBoutsPane.add(newBout, 1);
+        incompleteResults.add(newBout);
+		upcomingBoutsPane.add(newBout, 1);
 	}
 	
 	public void addCompleteResult(CompleteResult completeResult) {
 		ScoreView newBout = new ScoreView(tournament, completeResult);
-		upcommingBoutsPane.add(newBout, 1);
+        completeResults.add(newBout);
+        for (Iterator<ScoreView> itr = incompleteResults.iterator(); itr.hasNext();) {
+            ScoreView v = itr.next();
+            if ((v.player1Name.equals(newBout.player1Name) &&
+                 v.player2Name.equals(newBout.player2Name)) ||
+                (v.player1Name.equals(newBout.player2Name) &&
+                 v.player2Name.equals(newBout.player1Name))) {
+                upcomingBoutsPane.remove(v);
+                itr.remove();
+            }
+        }
+        setCurrentBout();
+		completedBoutsPane.add(newBout, 1);
 	}
+
+            
 	
-	public void setCurrentBout(IncompleteResult incompleteResult) {
-	
+	public void setCurrentBout() {
+        IncompleteResult next = pool.getNextResult();
+        if (next==null)
+            currentBout.setText("No Bout");
+        else {
+            IPlayer player1 = store.getPlayer(next.getPlayer1());
+            IPlayer player2 = store.getPlayer(next.getPlayer2());
+            currentBout.setText(player1.getFirstName()+" "+player1.getLastName()+
+                                " vs "+
+                                player2.getFirstName()+" "+player2.getLastName());
+        }
 	}
 
 }

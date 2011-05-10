@@ -2,6 +2,7 @@
 package final_project.model;
 
 import java.util.*;
+import final_project.control.*;
 
 public abstract class Pool {
 	protected List<Integer> _players;
@@ -9,12 +10,26 @@ public abstract class Pool {
 	protected Collection<CompleteResult> _results;
 	protected List<IncompleteResult> _incompleteResults;
 	protected Collection<Integer> _strips;
+    protected Collection<PoolObserver> _observers;
 
 	public Pool(){
 		_players = new ArrayList<Integer>();
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 		_results = new HashSet<CompleteResult>();
+	}
+
+    public void addObserver(PoolObserver observer) {
+        _observers.add(observer);
+    }
+
+    public void removeObserver(PoolObserver observer) {
+        _observers.remove(observer);
+    }
+
+	//currently for testing only
+	public int numPlayers(){
+		return _players.size();
 	}
 
 	/**
@@ -36,14 +51,14 @@ public abstract class Pool {
 	public Collection<Integer> getStrips() {
 		return _strips;
 	}
-	
+
 	public void addStrip(Integer toAdd) {
 		_strips.add(toAdd);
 	}
 	public void clearStrips() {
 		_strips.clear();
 	}
-	
+
 	public Collection<Integer> getRefs() {
 		return _refs;
 	}
@@ -64,6 +79,8 @@ public abstract class Pool {
 	 * @return IncompleteResult The next match to be fenced.
 	 */
 	public IncompleteResult getNextResult() {
+        if (_incompleteResults.isEmpty())
+            return null;
 		return _incompleteResults.get(0);
 	}
 
@@ -90,6 +107,8 @@ public abstract class Pool {
 		else {
 			_results.add(completeResult);
 			_incompleteResults.remove(0);
+            for (PoolObserver obs : _observers)
+                obs.addCompleteResult(completeResult);
 			return _incompleteResults.isEmpty();
 		}
 	}

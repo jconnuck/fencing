@@ -26,49 +26,53 @@ public class DEBracketUnitPanel extends JPanel {
 	public DEBracketUnitPanel(TournamentController tournament) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{100, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		JLabel lblPlayerName = new JLabel("Player 1 Name");
-		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
-		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPlayerName.gridx = 0;
-		gbc_lblPlayerName.gridy = 0;
-		add(lblPlayerName, gbc_lblPlayerName);
 		
 		JPanel panel = new JPanel() {
 			public void paintComponent(Graphics graphics) {
 				Graphics2D g = (Graphics2D)graphics;
 				g.setColor(Color.BLACK);
 				//player 1 horizontal bar
-				g.drawLine(0, 8, (this.getWidth() * 2) / 3, 8);
+				g.drawLine(0, 0, (this.getWidth() * 2) / 3, 0);
 				//player 2 horizontal bar
 				g.drawLine(0, this.getHeight() - 1, (this.getWidth() * 2) / 3, this.getHeight() - 1);
 				//vertical connecting bar
-				g.drawLine((this.getWidth() * 2) / 3, 8, (this.getWidth() * 2) / 3, this.getHeight() - 1);
+				g.drawLine((this.getWidth() * 2) / 3, 0, (this.getWidth() * 2) / 3, this.getHeight());
 				//horizontal connecting bar
-				g.drawLine((this.getWidth() * 2) / 3, (this.getHeight() - 9) / 2, this.getWidth(), (this.getHeight() - 9) / 2);
+				g.drawLine((this.getWidth() * 2) / 3, (this.getHeight()) / 2, this.getWidth(), (this.getHeight()) / 2);
 			}
 		};
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panel.repaint();
 		
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridheight = 3;
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.gridwidth = 2;
 		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
+		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 0;
 		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		JLabel lblPlayerName = new JLabel("Player 1 Name");
+		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
+		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 0);
+		gbc_lblPlayerName.gridx = 0;
+		gbc_lblPlayerName.gridy = 0;
+		panel.add(lblPlayerName, gbc_lblPlayerName);
 		
 		JLabel lblPlayerName_1 = new JLabel("Player 2 Name");
 		GridBagConstraints gbc_lblPlayerName_1 = new GridBagConstraints();
-		gbc_lblPlayerName_1.insets = new Insets(0, 0, 0, 5);
 		gbc_lblPlayerName_1.gridx = 0;
 		gbc_lblPlayerName_1.gridy = 2;
-		add(lblPlayerName_1, gbc_lblPlayerName_1);
+		panel.add(lblPlayerName_1, gbc_lblPlayerName_1);
 
 	}
 	
