@@ -17,7 +17,7 @@ public abstract class PoolRound implements IRound{
 	protected StripController _stripControl;
 	protected SMSController _smsController;
 
-	
+
 	/*
 	 * Adds the given completeResult to the appropriate pool.
 	 * @param result A CompleteResult to be added to this PoolRound
@@ -147,8 +147,6 @@ public abstract class PoolRound implements IRound{
                 while(iter.hasNext()){
                     temp = iter.next();
                     if(!haveConflict(p, temp)){
-                        p.addRef(temp);
-                        iter.remove();
                         break;
                     }
                 }
@@ -184,7 +182,7 @@ public abstract class PoolRound implements IRound{
 	private boolean haveConflict(Pool p, Integer ref){
 		Collection<Integer> col1 = new HashSet<Integer>();
 		System.out.println("data store ref? " + _dataStore.getReferee(ref));
-		
+
 		Collection<Integer> col2 = _dataStore.getReferee(ref).getClubs();
 		System.out.println("clubs " + col2);
 
