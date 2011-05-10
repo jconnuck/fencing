@@ -47,8 +47,8 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow(ITournamentInfo info) {
-		tournamentController = new TournamentController("cs032fencing", "F3ncing!",info);
+	public MainWindow(ITournamentInfo info,String username, String password) {
+		tournamentController = new TournamentController(username,password,info);
 		initialize();
 		frmFencingManager.setVisible(true);
 	}
