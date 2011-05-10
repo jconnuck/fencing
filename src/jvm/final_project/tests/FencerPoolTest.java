@@ -33,7 +33,12 @@ public class FencerPoolTest extends TestCase {
 	public void testGetNextResult() {
 		IncompleteResult temp = p.getNextResult();
 		assertEquals(0, temp.getPlayer1());
+		System.out.println(temp.getPlayer1());
+		for(IncompleteResult ir : p.getIncompleteResults()){
+			System.out.println(ir.getPlayer1());
+		}
 		assertEquals(1, temp.getPlayer1());
+
 	}
 
 	//also does minor testing of createIncompleteResults()
