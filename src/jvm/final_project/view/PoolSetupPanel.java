@@ -21,6 +21,7 @@ import java.awt.Component;
 import java.util.Collection;
 
 import final_project.control.*;
+import final_project.model.FencerPool;
 import final_project.model.Pool;
 import final_project.model.store.IDataStore;
 
@@ -40,10 +41,10 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
 		//TODO Replace with for-loop of generated PoolRefLists from pool information
-		PoolRefList lastPool = null;
+		PoolRefList lastPool = new PoolRefList(t, new FencerPool(), store);
 		for(Pool p: t.getPools(EVENT_ID)) {
-			lastPool = new PoolRefList(t, p, store);
 			panel_1.add(lastPool);
+			lastPool = new PoolRefList(t, p, store);
 		}
 		
 		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();

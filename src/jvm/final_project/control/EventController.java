@@ -117,17 +117,7 @@ public class EventController {
 	}
 
 	public Collection<Pool> getPools() {
-		_poolController.getPools();
+		return _poolController.getPools();
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
