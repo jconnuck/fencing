@@ -154,6 +154,9 @@ public class DataFormattingHelper implements Constants {
 			if(clubs.hasNext()) {
 				toReturn[i][1] = _dataStore.getClub(clubs.next()).getName();
 			}
+			
+			toReturn[i][2] = i+1;
+			
 			i++;
 		}
 		
