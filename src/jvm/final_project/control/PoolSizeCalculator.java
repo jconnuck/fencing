@@ -24,8 +24,13 @@ public class PoolSizeCalculator {
 		while (placedPlayers < numPlayers)
 			placedPlayers = (++_numBigPools * poolSize);
 
-		while (placedPlayers > numPlayers)
+		while (placedPlayers > numPlayers) {
 			placedPlayers = (--_numBigPools * poolSize) + (++_numSmallPools * (poolSize - 1));
+			if(_numBigPools < 0  ||  _numSmallPools < 0)
+				throw new IllegalArgumentException("Invalid pool size or number of players");
+		}
+			
+			
 
 		if (placedPlayers != numPlayers)
 			throw new IllegalArgumentException("Invalid pool size for given number of players");

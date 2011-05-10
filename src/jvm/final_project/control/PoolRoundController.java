@@ -12,13 +12,16 @@ public class PoolRoundController {
     private List<Integer> _initialSeeding;
     private StripController _stripController;
     private SMSController _smsController;
+    private int _poolSize;
 
-	public PoolRoundController(IDataStore ds, List<Integer> initialSeeding, StripController stripController, SMSController smsController) {
+	public PoolRoundController(IDataStore ds, List<Integer> initialSeeding, StripController stripController, SMSController smsController, int poolSize) {
+		this._poolSize = poolSize;
 		_stripController = stripController;
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
         _smsController = smsController;
+        createPools(_poolSize);
 	}
 
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
