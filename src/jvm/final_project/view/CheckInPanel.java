@@ -240,7 +240,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		balloons.add(unsignInAllTip);
 		balloons.add(stripSetupTip);
 		balloons.add(poolSizeTip);
-		tournament.getMainWindow().hideAllBalloons();
+		hideAllBalloons();
 	}
 
 	private void filter() {
