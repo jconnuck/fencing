@@ -26,7 +26,7 @@ public class EventController {
 	public void clearPlayers() {
 		_players.clear();
 	}
-	
+
 	public Result[] getDEMatches(){
 		return _deController.getMatches();
 	}
@@ -85,7 +85,7 @@ public class EventController {
 	public boolean startPoolRound(int poolSize) {
 		if(_state != State.REGISTRATION)
 			return false;
-		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController, _smsController);
+		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController, _smsController, poolSize);
 		boolean createPoolSuccess = _poolController.createPools(poolSize);
 		if(!createPoolSuccess){
 			_poolController = null;
