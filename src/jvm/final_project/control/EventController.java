@@ -16,22 +16,24 @@ public class EventController {
 	private String _weapon;
 	private List<Integer> _players;
 	private int _eventID;
+	private StripController _stripController;
 
-	public EventController(int id, IDataStore dataStore, String weapon){
-        this(id,dataStore,weapon,new LinkedList<Integer>());
+	public EventController(int id, IDataStore dataStore, String weapon, StripController stripController){
+        this(id,dataStore,weapon,new LinkedList<Integer>(), stripController);
 	}
 
 	public Result[] getDEMatches(){
 		return _deController.getMatches();
 	}
 
-	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs){
+	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs, StripController stripController){
 		_state = State.REGISTRATION;
 		_refs = new HashSet<Integer>();
 		_eventID = id;
 		_weapon = weapon;
 		_players = new LinkedList<Integer>(preregs);
 		_stripArrangement = new int[2];
+		_stripController = stripController;
 	}
 
 	public void addPlayer(int id){
@@ -76,7 +78,7 @@ public class EventController {
 	public boolean startPoolRound(int poolSize) {
 		if(_state != State.REGISTRATION)
 			return false;
-		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players));
+		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController);
 		boolean createPoolSuccess = _poolController.createPools(poolSize);
 		if(!createPoolSuccess){
 			_poolController = null;
@@ -87,22 +89,26 @@ public class EventController {
 	public boolean startDERound(double cut){
 		if(_state != State.POOLS)
 			return false;
-		//_deController = new DERoundController(_dataStore, )
+		convertPlayersListToSortedSeeding();
+		_deController = new DERoundController(_dataStore, _stripController, _players, cut);
 		return true;
 	}
 
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
-		System.out.println("get valid pool sizes called in event controller");
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
+		if(_players.size()==0)
+			return toReturn;
+
 		PoolSizeCalculator poolSizeCalc;
 		for(int i = 4; i < 9; i++){
 			try{
 				poolSizeCalc = new PoolSizeCalculator(_players.size(), i);
 				System.out.println("big pools: " + poolSizeCalc.getNumBigPools() + " small: " + poolSizeCalc.getNumSmallPools());
 				toReturn.add(new PoolSizeInfo(i, poolSizeCalc.getNumBigPools(), poolSizeCalc.getNumSmallPools()));
-				
+
 			}catch(IllegalArgumentException e){
-				e.printStackTrace();
+				System.out.println("big pools: " + 0 + " small: " + 0);
+				toReturn.add(new PoolSizeInfo(i, 0, 0));
 			}
 		}
 		return toReturn;

@@ -121,7 +121,8 @@ public class PoolSizeInfoPanel extends JPanel {
 	        super("Select", null);
 	    }
 	    public void actionPerformed(ActionEvent e) {
-	    	//Should return
+	    	//Should return the selected column 
+	    	
 	    	
 	    }
 	}

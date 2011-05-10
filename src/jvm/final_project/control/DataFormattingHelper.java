@@ -29,11 +29,11 @@ public class DataFormattingHelper implements Constants {
 	public Object[][] giveSignInPanelInfo() {
 		int numPeople = _dataStore.getPeople().size() - _dataStore.getPeopleForGroup("Spectator").size();
 		Object[][] toReturn = new Object[numPeople][NUM_COLS_SIGN_IN];
-		
+
 		//Making one blank row so that the GUI does not break on empty input
 		for(int i=0; i < NUM_COLS_SIGN_IN; i++)
 			toReturn[0][i] = "";
-		
+
 		int index = 0;
 		for (IPerson i: _dataStore.getPeople()) {
 			if(!i.getGroup().equals("Spectator")){
@@ -71,7 +71,7 @@ public class DataFormattingHelper implements Constants {
 
 				/* ID */
 				toReturn[index][4] = i.getID();
-				
+
 				index++;
 			}
 		}
@@ -90,12 +90,12 @@ public class DataFormattingHelper implements Constants {
 			toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
 		else
 			toReturn = new Object[1][NUM_COLS_SUBSCRIBER_PANEL];
-		
+
 		//TODO WHY DOES THE GUI BREAK ON EMPTY INPUT????
 		//Making one blank row so that the GUI does not break on empty input
 		for(int i=0; i < NUM_COLS_SUBSCRIBER_PANEL; i++)
 			toReturn[0][i] = "";
-		
+
 		int index = 0;
 		for(IPerson i: _dataStore.getPeopleForGroup("Spectator")) {
 			toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
@@ -109,7 +109,7 @@ public class DataFormattingHelper implements Constants {
 				if(followed instanceof IClub) 
 					toReturn[index][2] =  ((IClub) followed).getName() + "";
 			}
-			
+
 			index++;
 		}
 
@@ -117,32 +117,19 @@ public class DataFormattingHelper implements Constants {
 	}
 
 	public Object[][] getPoolSizeInfoTable(int stripRows, int stripCols) {
-		
 		Object[][] toReturn = new Object[NUM_POOL_SIZES_POSSIBLE][NUM_COLS_POOL_SETUP];
-		
-		// TODO Auto-generated method stub
-		/* 			new Object[][] {
-				{"4", null, null, "Select"},
-				{"5", null, null, "Select"},
-				{"6", null, null, "Select"},
-				{"7", null, null, "Select"},
-				{"8", null, null, "Select"},
-			} */
-		for(PoolSizeInfo p: _tournament.getValidPoolSizes()) {
-			System.out.println(p._numBigPools);
-			System.out.println(p._numSmallPools);
-			System.out.println(p._poolSize);
 
-		}
-		
-		for(int i=0; i<NUM_POOL_SIZES_POSSIBLE; i++) {
+		Iterator<PoolSizeInfo> iter = _tournament.getValidPoolSizes().iterator();
+		int i = 0;
+		while(iter.hasNext()){
 			toReturn[i][0] = i+4; //Pool sizes go from 4-8
-			//toReturn[i][1] = tournament.getBigPools();
-			toReturn[i][1] = "";
-			toReturn[i][2] = "";
+			PoolSizeInfo info = iter.next();
+			toReturn[i][1] = info._numBigPools;
+			toReturn[i][2] = info._numSmallPools;
 			toReturn[i][3] = "Select";
+			i++;
 		}
-		                                 
+
 		return toReturn;
 	}
 

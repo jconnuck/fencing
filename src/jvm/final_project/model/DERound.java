@@ -37,7 +37,7 @@ public class DERound implements IRound {
     public List<Integer> getSeeding() {
         return _seeding;
     }
-    
+
     public void setSeeding(ArrayList<Integer> seeding) {
         _seeding = seeding;
     }
@@ -129,7 +129,7 @@ public class DERound implements IRound {
                               	  currentBracketSize - currentSeed + 1,
                               	  true);
         }
-        
+
     }
 
     /**
@@ -206,12 +206,12 @@ public class DERound implements IRound {
     		_stripsInUse.put(firstMatch, strip);
             _refsInUse.put(firstMatch, ref);
             _smsController.sendMatchNotifications(firstMatch, ref, strip);
-            
+
             System.out.println("YO:" + firstMatch.getPlayer1() + " and " + firstMatch.getPlayer2() + " are fencing on strip: " + strip + " with referee: " + ref);
     	}
     	// Not exactly sure what to do if there is no strip (or referee??) to use for the first match.
     }
-    
+
     /**
      * Returns the next match to be played if there is one.  Returns null if there is not.
      * @return IncompleteResult that represents the next match to be fenced.
@@ -347,20 +347,19 @@ public class DERound implements IRound {
             super(message);
         }
     }
-    
+
     public void setStripController(StripController sc) {
     	_stripController = sc;
     }
-    
+
     public void setDataStore(IDataStore ds) {
     	_dataStore = ds;
     }
     
-    
     public int getRefMapSize(){
     	return _refsInUse.size();
     }
-    
+
     public int getStripMapSize() {
     	return _stripsInUse.size();
     }
