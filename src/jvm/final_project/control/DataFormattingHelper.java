@@ -133,25 +133,12 @@ public class DataFormattingHelper implements Constants {
 	}
 
 	public Object[][] getPoolRefListTable(Pool pool) {
-		/* new Object[][] {
-					{"John Connuck", "NY Knicks", "1"},
-					{"Landry Fields", "NY Knicks", "2"},
-					{"Lebron James", "Miami Heat", "3"},
-					{"Kobe Bryant", "LA Lakers", "4"},
-				},
-				new String[] {
-					"Name", "Club", "Seed"
-				}
-			)); */
 		Object[][] toReturn = new Object[pool.getPlayers().size()][NUM_COLS_POOL_REF_LIST];
-		
-		//Quickly initializing one row to be empty, to handle empty input
-		//for (int i=0; i<NUM_COLS_POOL_REF_LIST; i==)
-		//	toReturn[0][i] = "";
 		
 		int i = 0;
 		for(int p: pool.getPlayers()) {
-			toReturn[i][0] = _dataStore.getPerson(p).getFirstName() + " " + _dataStore.getPerson(p).getLastName(); //TODO: null ptrs?
+			//Not checking for data store null ptrs but whatever.
+			toReturn[i][0] = _dataStore.getPerson(p).getFirstName() + " " + _dataStore.getPerson(p).getLastName();
 			
 			toReturn[i][1] = "";
 			Iterator<Integer> clubs = _dataStore.getPlayer(p).getClubs().iterator();

@@ -76,7 +76,6 @@ public class MainWindow {
 		checkInPanel = new CheckInPanel(tournamentController);
 		splitPane.setRightComponent(checkInPanel);
 
-
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
