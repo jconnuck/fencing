@@ -59,6 +59,7 @@ public abstract class Pool {
 	public void addStrip(Integer toAdd) {
 		_strips.add(toAdd);
 	}
+	
 	public void clearStrips() {
 		_strips.clear();
 	}

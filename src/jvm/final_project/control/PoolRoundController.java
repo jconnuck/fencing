@@ -51,6 +51,8 @@ public class PoolRoundController {
         _poolRound.assignReferees(availableRefs);
         _poolRound.createAllIncompleteResult();
         System.out.println("made it to end of createPools. num pools: " + _poolRound.getPools().size());
+        for (Pool p : getPools())
+            System.out.println(p.getIncompleteResults().size());
         return true;
 	}
 
