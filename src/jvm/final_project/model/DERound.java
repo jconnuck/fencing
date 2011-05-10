@@ -35,7 +35,15 @@ public class DERound implements IRound {
     public List<Integer> getSeeding() {
         return _seeding;
     }
-
+    
+    public void setDataStore(IDataStore ds) {
+    	_dataStore = ds;
+    }
+    
+    public void setStripController(StripController sc) {
+    	_stripController = sc;
+    }
+    
     public void setSeeding(ArrayList<Integer> seeding) {
         _seeding = seeding;
     }
@@ -200,10 +208,11 @@ public class DERound implements IRound {
     	if(_stripController.availableStrip()) {
     		int strip = _stripController.checkOutStrip();
     		int ref = _dataStore.getNextReferee();
-            int firstMatch =computeRoundHead(_bracketSize /2);
-    		_stripsInUse.put((IncompleteResult) _matches[firstMatch], strip);
-            _refsInUse.put((IncompleteResult) _matches[firstMatch], ref);
+            IncompleteResult firstMatch = (IncompleteResult) _matches[computeRoundHead(_bracketSize /2)];
+    		_stripsInUse.put(firstMatch, strip);
+            _refsInUse.put(firstMatch, ref);
             // Notify fencers and ref
+            System.out.println("YO:" + firstMatch.getPlayer1() + " and " + firstMatch.getPlayer2() + " are fencing on strip: " + strip + " with referee: " + ref);
     	}
     	// Not exactly sure what to do if there is no strip (or referee??) to use for the first match.
     }
