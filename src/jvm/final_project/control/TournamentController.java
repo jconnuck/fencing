@@ -4,8 +4,6 @@ import java.util.*;
 import final_project.model.*;
 import final_project.model.store.*;
 import final_project.model.DERound.NoSuchMatchException;
-import final_project.view.Collection;
-import final_project.view.Pool;
 import final_project.input.*;
 
 //Created in the main method.
