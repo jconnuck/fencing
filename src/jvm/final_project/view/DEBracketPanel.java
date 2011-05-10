@@ -24,6 +24,7 @@ public class DEBracketPanel extends JPanel {
 	
 	//TODO when a result is texted in, it should be added and a new DEBracketPanel should be created and displayed
 	public DEBracketPanel(TournamentController tournament) {
+		setBounds(new Rectangle(0, 0, 300, 300));
 		setAutoscrolls(true);
 		setLayout(null);
 		
