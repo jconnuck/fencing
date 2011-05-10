@@ -17,9 +17,10 @@ public class EventController {
 	private List<Integer> _players;
 	private int _eventID;
 	private StripController _stripController;
+	private SMSController _smsController;
 
-	public EventController(int id, IDataStore dataStore, String weapon, StripController stripController){
-        this(id,dataStore,weapon,new LinkedList<Integer>(), stripController);
+	public EventController(int id, IDataStore dataStore, String weapon, StripController stripController, SMSController smsController){
+        this(id,dataStore,weapon,new LinkedList<Integer>(), stripController, smsController);
 	}
 
 	public void clearPlayers() {
@@ -30,7 +31,7 @@ public class EventController {
 		return _deController.getMatches();
 	}
 
-	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs, StripController stripController){
+	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs, StripController stripController, SMSController smsController){
 		_state = State.REGISTRATION;
 		_refs = new HashSet<Integer>();
 		_eventID = id;
@@ -39,6 +40,7 @@ public class EventController {
 		_stripArrangement = new int[2];
 		_stripController = stripController;
         _dataStore = dataStore;
+        _smsController = smsController;
 	}
 
 	public void addPlayer(int id){
@@ -83,7 +85,7 @@ public class EventController {
 	public boolean startPoolRound(int poolSize) {
 		if(_state != State.REGISTRATION)
 			return false;
-		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController);
+		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController, _smsController);
 		boolean createPoolSuccess = _poolController.createPools(poolSize);
 		if(!createPoolSuccess){
 			_poolController = null;

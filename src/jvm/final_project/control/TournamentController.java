@@ -35,7 +35,7 @@ public class TournamentController implements Constants{
 	public int addEvent(String weapon){
 		System.out.println("add event called"); //TODO println
 		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon, _stripController));
+		_events.add(new EventController(id, _dataStore, weapon, _stripController, _smsController));
 		return id;
 	}
 
@@ -253,7 +253,8 @@ public class TournamentController implements Constants{
 			EventController e = iter.next();
 			e.clearPlayers();
 			for(IPlayer i: _dataStore.getPlayers()) {
-				e.addPlayer(i.getID());
+				if(i.getCheckedIn()) //Only adding players that have been checked in
+					e.addPlayer(i.getID());
 			}
 			return;
 		}

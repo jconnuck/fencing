@@ -2,10 +2,11 @@ package final_project.model;
 
 import java.util.*;
 
+import final_project.control.SMSController;
 import final_project.control.StripController;
 
 public class FencerPoolRound extends PoolRound{
-	public FencerPoolRound(List<Integer> initialSeeding, int numPools, int poolSize, StripController stripController) {
+	public FencerPoolRound(List<Integer> initialSeeding, int numPools, int poolSize, StripController stripController, SMSController smsController) {
 		_stripControl = stripController;
         _initialSeeding = initialSeeding;
 		_poolSize = poolSize;
@@ -15,6 +16,7 @@ public class FencerPoolRound extends PoolRound{
 			newPool = new FencerPool();
 			_pools.add(newPool);
 		}
+		_smsController = smsController;
 	}
 
 }
