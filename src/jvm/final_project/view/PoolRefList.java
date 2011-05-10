@@ -91,8 +91,12 @@ public class PoolRefList extends JPanel {
 		
 		private int id;
 		private String[] columnNames = {"Pool Size", "Big Pools", "Small Pools", ""};
-		private Object[][] data = tournament.getPoolRefListTable(id);
+		private Object[][] data;
 
+		public PoolRefTable(Pool pool) {
+			data = tournament.getPoolRefListTable(pool);
+		}
+		
 		public PoolRefTable(int id_param) {
 			id = id_param;
 		}

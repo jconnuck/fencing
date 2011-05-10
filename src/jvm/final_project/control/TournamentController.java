@@ -236,8 +236,8 @@ public class TournamentController implements Constants{
 		return toReturn;
 	}
 
-	public Object[][] getPoolRefListTable(int poolID) {
-		return _dataHelper.getPoolRefListTable(poolID);
+	public Object[][] getPoolRefListTable(Pool pool) {
+		return _dataHelper.getPoolRefListTable(pool);
 	}
 
 	public List<Pool> getPools(int eventId) {
