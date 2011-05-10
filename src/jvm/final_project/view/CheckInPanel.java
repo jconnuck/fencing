@@ -344,8 +344,9 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	        	System.out.println("Changed: " + data);
 	        	signInSelectedPlayer((Boolean)data);
 	        }
-	        
+	        //Fix for weird sorting
 	        sorter.sort();
+	        table.clearSelection();
 			
 		}
 	}
