@@ -92,7 +92,7 @@ public class DERoundTest {
 		
 		StripController sc = new StripController(1);
 		IDataStore ds = new DataStore();
-		
+		int theRef = ds.createReferee(null, null, null, null, null).getID();
 		
 		round1.setStripController(sc);
 		round1.setDataStore(ds);
