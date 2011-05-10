@@ -232,4 +232,8 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 			model.setData(newData);
 		}
 	}
+	
+	public void hideAllBalloons() {
+		addNewSubscriberTip.setVisible(false);
+	}
 }
