@@ -28,7 +28,7 @@ public class ScoreView extends JPanel {
 		gbc_panel_1.gridx = 1;
 		gbc_panel_1.gridy = 0;
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{200, 30, 50, 25, 200, 0};
+		gridBagLayout.columnWidths = new int[]{200, 30, 30, 30, 200, 0};
 		gridBagLayout.rowHeights = new int[]{19, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};

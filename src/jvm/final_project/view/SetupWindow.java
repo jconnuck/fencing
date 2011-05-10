@@ -118,6 +118,7 @@ public class SetupWindow {
 		gbc_textField.gridy = 0;
 		smsLoginPanel.add(textField, gbc_textField);
 		textField.setColumns(10);
+        textField.setText("cs032fencing");
 		
 		JLabel lblPassword = new JLabel("Password:");
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
@@ -133,6 +134,7 @@ public class SetupWindow {
 		gbc_passwordField.gridx = 1;
 		gbc_passwordField.gridy = 1;
 		smsLoginPanel.add(passwordField, gbc_passwordField);
+        passwordField.setText("F3ncing!");
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Tournament Info", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -222,6 +224,16 @@ public class SetupWindow {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+                String message = "";
+                if (xmlFile == null && textField_2.getText().equals(""))
+                    message += "Please provide either a weapon or a .frd file\n";
+                if (textField.getText().isEmpty()||passwordField.getText().isEmpty())
+                    message += "Please provide SMS login information\n";
+                if (!message.isEmpty()){
+                    System.out.println(message);
+                    //TODO: Pop up error message
+                    return;
+                }
                 ITournamentInfo i;
                 if (xmlFile != null) {
                     IDataInput in = new XmlReader();
@@ -248,7 +260,9 @@ public class SetupWindow {
                         });
                     i = new TournamentInfo(store,events);  
                 }
-                MainWindow mainWindow = new MainWindow(i); 
+
+				MainWindow mainWindow = new MainWindow(i,textField.getText(),passwordField.getText());
+
 
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);

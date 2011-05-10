@@ -81,12 +81,15 @@ public class DERoundTest {
 		round3 = new DERound(null, null, seeding3, 0);
 	}
 
-	/**
-	 * Test method for {@link final_project.model.DERound#setupRound()}.
-	 */
+
 	@Test
-	public void testSetupRound() {
-		fail("Not yet implemented");
+	public void testAddCompleteResult() {
+		round1.setupRound();
+		round2.setupRound();
+		round3.setupRound();
+		
+		//CompleteResult newResult = new CompleteResult();
+		//round1.addCompleteResult(newResult);
 	}
 
 	/**
@@ -103,7 +106,7 @@ public class DERoundTest {
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
 		tearDown();
-		
+	
 		round1.setCut(20);
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
@@ -174,12 +177,10 @@ public class DERoundTest {
 		round1.populateBracket();
 		round2.populateBracket();
 		round3.populateBracket();
+		
 		Result[] round1Matches = round1.getMatches();
 		Result[] round2Matches = round2.getMatches();
 		Result[] round3Matches = round3.getMatches();
-		
-		System.out.println("Version: proper");
-		System.out.println(Arrays.deepToString(round2Matches));
 		
 		assertNull(round1Matches[0]);
 		assertNull(round1Matches[1]);
@@ -195,7 +196,6 @@ public class DERoundTest {
 		assertEquals(round1Matches[6].getPlayer2(), 60);
 
 		assertNull(round2Matches[0]);
-		assertNull(round2Matches[1]);
 		// These players could be in the opposite order, so it might fail because of that and have to be switched
 		assertEquals(round2Matches[1].getPlayer1(), 10);
 		assertEquals(round2Matches[1].getPlayer2(), -1);
@@ -224,16 +224,16 @@ public class DERoundTest {
 		assertEquals(round3Matches[6].getPlayer2(), -1);
 		assertEquals(round3Matches[7].getPlayer1(), 80);
 		assertEquals(round3Matches[7].getPlayer2(), -1);
-		assertEquals(round3Matches[8].getPlayer1(), 29);
-		assertEquals(round3Matches[8].getPlayer2(), 20);
+		assertEquals(round3Matches[8].getPlayer1(), 20);
+		assertEquals(round3Matches[8].getPlayer2(), 29);
 		assertEquals(round3Matches[9].getPlayer1(), 40);
 		assertEquals(round3Matches[9].getPlayer2(), -1);
 		assertEquals(round3Matches[10].getPlayer1(), 90);
 		assertEquals(round3Matches[10].getPlayer2(), -1);
 		assertEquals(round3Matches[11].getPlayer1(), 50);
 		assertEquals(round3Matches[11].getPlayer2(), -1);
-		assertEquals(round3Matches[12].getPlayer1(), 43);
-		assertEquals(round3Matches[12].getPlayer2(), 30);
+		assertEquals(round3Matches[12].getPlayer1(), 39);
+		assertEquals(round3Matches[12].getPlayer2(), 43);
 		assertEquals(round3Matches[13].getPlayer1(), 60);
 		assertEquals(round3Matches[13].getPlayer2(), 69);
 		assertEquals(round3Matches[14].getPlayer1(), 70);
