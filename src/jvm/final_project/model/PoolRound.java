@@ -96,8 +96,11 @@ public abstract class PoolRound implements IRound{
 	}
 
 	public void createAllIncompleteResult(){
-		for(Pool p : _pools)
+		for(Pool p : _pools){
 			((FencerPool) p).createIncompleteResults();
+			System.out.println("incomplete results size after createion " + ((FencerPool) p).getIncompleteResults().size());
+		}
+
 	}
 
 	/**

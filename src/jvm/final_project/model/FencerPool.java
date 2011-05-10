@@ -231,5 +231,6 @@ public class FencerPool extends Pool{
 			temp = new IncompleteResult(_players.get(0), _players.get(2), 5);
 			_incompleteResults.add(20, temp);
 		}
+		System.out.println("incomplete results size " + _incompleteResults.size()) ;
 	}
 }
