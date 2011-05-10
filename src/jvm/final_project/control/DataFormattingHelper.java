@@ -145,6 +145,10 @@ public class DataFormattingHelper implements Constants {
 			)); */
 		Object[][] toReturn = new Object[pool.getPlayers().size()][NUM_COLS_POOL_REF_LIST];
 		
+		//Quickly initializing one row to be empty, to handle empty input
+		//for (int i=0; i<NUM_COLS_POOL_REF_LIST; i==)
+		//	toReturn[0][i] = "";
+		
 		int i = 0;
 		for(int p: pool.getPlayers()) {
 			toReturn[i][0] = _dataStore.getPerson(p).getFirstName() + " " + _dataStore.getPerson(p).getLastName(); //TODO: null ptrs?
@@ -160,7 +164,7 @@ public class DataFormattingHelper implements Constants {
 			i++;
 		}
 		
-		return null;
+		return toReturn;
 	}
 
 }

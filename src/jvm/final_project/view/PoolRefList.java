@@ -13,6 +13,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import final_project.control.TournamentController;
+import final_project.model.FencerPool;
 import final_project.model.Pool;
 import final_project.model.store.IClub;
 import final_project.model.store.IDataStore;
@@ -52,9 +53,18 @@ public class PoolRefList extends JPanel {
 		add(lblReferee, gbc_lblReferee);
 		
 		String club = "Club: ";
-		for(Integer i: pool.getRefs()) {
-			//for(Integer c: store.getReferee(i).getClubs()) TODO work here
-				//refName += store.getClub(c);
+		Iterator<Integer> refIter = pool.getRefs().iterator();
+		while(refIter.hasNext()) {
+			int refID = refIter.next();
+			Iterator<Integer> clubIter = store.getReferee(refID).getClubs().iterator();
+			while(clubIter.hasNext()) {
+				club += store.getClub(clubIter.next()).getName();
+				if(clubIter.hasNext())
+					club += ", ";
+			}
+			if(refIter.hasNext())
+				club += "; ";
+			
 		}
 		
 		JLabel lblClubMiamiHeat = new JLabel(club);
@@ -99,7 +109,7 @@ public class PoolRefList extends JPanel {
 			)); */
 		
 		private String[] columnNames = {"Name", "Club", "Position"};
-		private Object[][] data;
+		private Object[][] data = tournament.getPoolRefListTable(new FencerPool());
 
 		public PoolRefTable(Pool pool) {
 			data = tournament.getPoolRefListTable(pool);

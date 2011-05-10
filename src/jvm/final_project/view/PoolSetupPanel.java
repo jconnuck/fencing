@@ -42,7 +42,6 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		// Generating PoolRefLists from pool information
 		PoolRefList lastPool = new PoolRefList(t, new FencerPool());
 		if(!t.getPools(EVENT_ID).isEmpty()) {
-		
 			for(Pool p: t.getPools(EVENT_ID)) {
 				lastPool = new PoolRefList(t, p);
 				panel_1.add(lastPool);
