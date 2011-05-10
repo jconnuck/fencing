@@ -89,7 +89,6 @@ public class EventController {
 	public boolean startDERound(double cut){
 		if(_state != State.POOLS)
 			return false;
-		//_deController = new DERoundController(_dataStore, )
 		return true;
 	}
 
@@ -97,7 +96,7 @@ public class EventController {
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
 		if(_players.size()==0)
 			return toReturn;
-		
+
 		PoolSizeCalculator poolSizeCalc;
 		for(int i = 4; i < 9; i++){
 			try{
