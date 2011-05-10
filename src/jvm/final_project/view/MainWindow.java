@@ -20,6 +20,7 @@ public class MainWindow {
 	private CheckInPanel checkInPanel;
 	private TournamentController tournamentController;
 	private IDataStore dataStore;
+	private JSplitPane splitPane;
 
 	/**
 	 * Create the application.
@@ -53,7 +54,7 @@ public class MainWindow {
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frmFencingManager.getContentPane().setLayout(gridBagLayout);
 
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(true);
 
 		GridBagConstraints gbc_splitPane = new GridBagConstraints();
@@ -76,5 +77,9 @@ public class MainWindow {
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
+	}
+	
+	public void loadRightPanel(JPanel panel) {
+		splitPane.setRightComponent(panel);
 	}
 }
