@@ -106,7 +106,7 @@ public class DERoundTest {
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
 		tearDown();
-		
+	
 		round1.setCut(20);
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());

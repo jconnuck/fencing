@@ -152,8 +152,10 @@ public class TournamentController implements Constants{
 
 	//Checks in all players as the boolean parameter
 	public Object[][] checkInAll(boolean checkAs) {
+		System.out.println("check in all called");
 		for (IPlayer i: _dataStore.getPlayers()){
 			final IPlayer temp = i.setCheckedIn(checkAs);
+			System.out.println("Player " + temp.getID() + " checked in? " + temp.getCheckedIn());
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
 					_dataStore.putData(temp);
@@ -171,7 +173,7 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
-	public Object[][] registerSpectator(String number, String firstName, String lastName) {		
+	public Object[][] registerSpectator(String number, String firstName, String lastName) {
 		final IPerson temp =  _dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
@@ -216,8 +218,24 @@ public class TournamentController implements Constants{
 		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
 		return toReturn;
 	}
-	
+
 	public String getNameFromId(int playerId) {
-		return _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
+		String toReturn = "";
+		if(_dataStore.getPlayer(playerId) != null)
+			toReturn = _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
+		return toReturn;
+	}
+
+	public Object[][] getPoolRefListTable(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Collection<Pool> getPools(int eventId) {
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			return iter.next().getPools();
+		}
+		throw new IllegalStateException("No event created.");
 	}
 }
