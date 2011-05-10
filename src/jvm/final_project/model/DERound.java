@@ -356,6 +356,7 @@ public class DERound implements IRound {
     	_dataStore = ds;
     }
     
+    
     public int getRefMapSize(){
     	return _refsInUse.size();
     }
