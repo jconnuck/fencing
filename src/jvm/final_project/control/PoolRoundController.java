@@ -55,6 +55,5 @@ public class PoolRoundController {
 
 	public List<Pool> getPools() {
 		return _poolRound.getPools();
-
 	}
 }
