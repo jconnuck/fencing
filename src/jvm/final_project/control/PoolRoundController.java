@@ -52,4 +52,9 @@ public class PoolRoundController {
 		_numSmallPools = poolSizeCalc.getNumSmallPools();
 		_numPools = _numBigPools + _numSmallPools;
 	}
+
+	public Collection<Pool> getPools() {
+		return _poolRound.getPools();
+
+	}
 }

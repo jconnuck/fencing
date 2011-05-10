@@ -17,6 +17,7 @@ public class FencerPoolTest extends TestCase {
 		p = new FencerPool();
 		for(int i = 0; i < 6; i++)
 			p.addPlayer(i);
+		p.createIncompleteResults();
 	}
 
 	protected void tearDown() throws Exception {
