@@ -101,6 +101,9 @@ public class MainWindow {
 		
 		PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournamentController, 1);
 		tabbedPane.addTab("Pool Observer TEST", null, poolObserverPanel, null);
+		
+		DEBracketUnitPanel deBracketUnitPanel = new DEBracketUnitPanel(tournamentController);
+		tabbedPane.addTab("DE Bracket Unit TEST", null, deBracketUnitPanel, null);
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
