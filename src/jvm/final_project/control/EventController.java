@@ -83,6 +83,7 @@ public class EventController {
 	 * @return
 	 */
 	public boolean startPoolRound(int poolSize) {
+		System.out.println("pool round started in eventController.");
 		if(_state != State.REGISTRATION)
 			return false;
 		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController, _smsController, poolSize);

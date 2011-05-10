@@ -29,6 +29,7 @@ public class PoolRoundController {
 	}
 
 	public boolean createPools(int poolSize) {
+		System.out.println("createPools method ." + poolSize);
 		//Try to calculate the pool size. If unable to do so, return false
 		try {
 			calcPoolSize(poolSize);
@@ -49,7 +50,7 @@ public class PoolRoundController {
 
         _poolRound.assignStrips();
         _poolRound.assignReferees(availableRefs);
-
+        System.out.println("made it to end of createPools");
         return true;
 	}
 
