@@ -250,7 +250,8 @@ public class TournamentController implements Constants{
 			EventController e = iter.next();
 			e.clearPlayers();
 			for(IPlayer i: _dataStore.getPlayers()) {
-				e.addPlayer(i.getID());
+				if(i.getCheckedIn()) //Only adding players that have been checked in
+					e.addPlayer(i.getID());
 			}
 			return;
 		}
