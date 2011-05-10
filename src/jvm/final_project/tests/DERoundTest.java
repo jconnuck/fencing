@@ -81,12 +81,15 @@ public class DERoundTest {
 		round3 = new DERound(null, null, seeding3, 0);
 	}
 
-	/**
-	 * Test method for {@link final_project.model.DERound#setupRound()}.
-	 */
+
 	@Test
-	public void testSetupRound() {
-		fail("Not yet implemented");
+	public void testAddCompleteResult() {
+		round1.setupRound();
+		round2.setupRound();
+		round3.setupRound();
+		
+		//CompleteResult newResult = new CompleteResult();
+		//round1.addCompleteResult(newResult);
 	}
 
 	/**
@@ -172,18 +175,12 @@ public class DERoundTest {
 		assertEquals(round3.getMatches().length, 15);
 
 		round1.populateBracket();
-		System.out.println("Bracket one done");
 		round2.populateBracket();
-		System.out.println("Bracket two done");
 		round3.populateBracket();
-		System.out.println("Bracket three done");
 		
 		Result[] round1Matches = round1.getMatches();
 		Result[] round2Matches = round2.getMatches();
 		Result[] round3Matches = round3.getMatches();
-		
-		System.out.println("Version: proper");
-		System.out.println(Arrays.deepToString(round2Matches));
 		
 		assertNull(round1Matches[0]);
 		assertNull(round1Matches[1]);
