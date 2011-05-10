@@ -33,12 +33,14 @@ public class FencerPoolTest extends TestCase {
 	public void testGetNextResult() {
 		IncompleteResult temp = p.getNextResult();
 		assertEquals(0, temp.getPlayer1());
-		System.out.println(temp.getPlayer1());
-		for(IncompleteResult ir : p.getIncompleteResults()){
-			System.out.println(ir.getPlayer1());
-		}
-		assertEquals(1, temp.getPlayer1());
+//		System.out.println(p.getIncompleteResults().size());
+//		for(IncompleteResult ir : p.getIncompleteResults())
+//			System.out.println(ir.getPlayer1() + " , " +  ir.getPlayer2());
 
+		assertEquals(1, temp.getPlayer2());
+		assertEquals(3, p.getIncompleteResults().get(1).getPlayer1());
+		assertEquals(4, p.getIncompleteResults().get(1).getPlayer2());
+		assertEquals(15, p.getIncompleteResults().size());
 	}
 
 	//also does minor testing of createIncompleteResults()
@@ -69,6 +71,8 @@ public class FencerPoolTest extends TestCase {
 		}
 		assertEquals(15, p.getIncompleteResults().size());
 		p.addCompletedResult(new CompleteResult(new PlayerResult(0, 12), new PlayerResult(1, 12)));
+		p.addCompletedResult(new CompleteResult(new PlayerResult(3, 12), new PlayerResult(4, 13)));
+		p.addCompletedResult(new CompleteResult(new PlayerResult(1, 12), new PlayerResult(2, 12)));
 		assertTrue(true);
 	}
 }
