@@ -55,7 +55,7 @@ public abstract class PoolRound implements IRound{
 								newPoolReady = true;
 							}
 							if(!hasNoRef && hasNoStrip &&
-									        extraStrip) {
+                               extraStrip) {
 								toCheck.addStrip(stripIter.next());
 								stripIter.remove();
 								newPoolReady = true;
@@ -72,10 +72,10 @@ public abstract class PoolRound implements IRound{
 					while(refIter.hasNext()){
 						final Integer temp = refIter.next();
 						_dataStore.runTransaction(new Runnable(){
-							public void run(){
-								_dataStore.putData(_dataStore.getReferee(temp).setReffing(false));
-							}
-						});
+                                public void run(){
+                                    _dataStore.putData(_dataStore.getReferee(temp).setReffing(false));
+                                }
+                            });
 					}
 					p.clearRefs();
 				}
@@ -142,23 +142,23 @@ public abstract class PoolRound implements IRound{
         		p.clearRefs();
         	}else{
 
-        	int temp = -1;
-        	iter = refs.iterator();
-        	while(iter.hasNext()){
-        		temp = iter.next();
-        		if(!haveConflict(p, temp)){
-        			p.addRef(temp);
-        			iter.remove();
-        			break;
-        		}
-        	}
-        	if(temp == -1){
-        		//this should never be -1, (notice that if refs is empty we break, so temp must be initialized to something other than -1)
-        		throw new IllegalStateException("Structural error.  Must terminate.");//TODO: make this error message better
-        	}
-        	p.addRef(temp);
-        	iter.remove();
-        	toReturn = false;
+                int temp = -1;
+                iter = refs.iterator();
+                while(iter.hasNext()){
+                    temp = iter.next();
+                    if(!haveConflict(p, temp)){
+                        p.addRef(temp);
+                        iter.remove();
+                        break;
+                    }
+                }
+                if(temp == -1){
+                    //this should never be -1, (notice that if refs is empty we break, so temp must be initialized to something other than -1)
+                    throw new IllegalStateException("Structural error.  Must terminate.");//TODO: make this error message better
+                }
+                p.addRef(temp);
+                iter.remove();
+                toReturn = false;
         	}
         }
         return toReturn;
