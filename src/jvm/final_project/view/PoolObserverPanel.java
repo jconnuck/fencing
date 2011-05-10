@@ -171,6 +171,8 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
         setCurrentBout();
+
+        System.out.println("from poolobserver: "+pool.getIncompleteResults());
         for (IncompleteResult res : pool.getIncompleteResults())
             addIncompleteResult(res);
         for (CompleteResult res : pool.getResults())

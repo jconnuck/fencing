@@ -22,6 +22,7 @@ public class PoolRoundController {
         _initialSeeding = initialSeeding;
         _smsController = smsController;
         createPools(_poolSize);
+        _poolRound.createAllIncompleteResult();
 	}
 
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
@@ -29,7 +30,7 @@ public class PoolRoundController {
 	}
 
 	public boolean createPools(int poolSize) {
-		System.out.println("createPools method ." + poolSize);
+		System.out.println("createPools method : " + poolSize);
 		//Try to calculate the pool size. If unable to do so, return false
 		try {
 			calcPoolSize(poolSize);
@@ -50,7 +51,7 @@ public class PoolRoundController {
 
         _poolRound.assignStrips();
         _poolRound.assignReferees(availableRefs);
-        System.out.println("made it to end of createPools");
+        System.out.println("made it to end of createPools. num pools: " + _poolRound.getPools().size());
         return true;
 	}
 

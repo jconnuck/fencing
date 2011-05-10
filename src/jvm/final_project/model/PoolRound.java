@@ -62,7 +62,7 @@ public abstract class PoolRound implements IRound{
 							}
 							if(newPoolReady) {
 								for(Integer fencer : toCheck.getPlayers()) {
-									
+
 								}
 								//TODO: Notify newly ready pool(ref and fencers) that their pool has now begun
 							}
@@ -93,6 +93,11 @@ public abstract class PoolRound implements IRound{
 	//return true if the given pool p has the given CompleteResult as one of its matches
 	private boolean poolHasResult(Pool p, CompleteResult result){
 		return  p.getPlayers().contains(result.getLoser()) && p.getPlayers().contains(result.getWinner());
+	}
+
+	public void createAllIncompleteResult(){
+		for(Pool p : _pools)
+			((FencerPool) p).createIncompleteResults();
 	}
 
 	/**
@@ -222,11 +227,17 @@ public abstract class PoolRound implements IRound{
 	}
 
 	public void populatePools() {
-		for (int i = 0; i < _numPlayers; ++i)
+		System.out.println("populatePools");
+		for (int i = 0; i < _initialSeeding.size(); ++i){
+			System.out.println("adding  " + i + " to pool");
 			_pools.get(i % _pools.size()).addPlayer(_initialSeeding.get(i));
+<<<<<<< HEAD
 		for (Pool p: _pools)
 			p.shufflePlayers();
 	
+=======
+		}
+>>>>>>> 282ee37d03deade45a1e84af000e05fe166fa8a3
 	}
 
 	public List<Pool> getPools() {
