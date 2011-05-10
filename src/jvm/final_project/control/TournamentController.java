@@ -66,6 +66,7 @@ public class TournamentController implements Constants{
 	}
 
 	public void startPoolRound(int eventID, int poolSize) throws IllegalStateException{
+		System.out.println("pool round started in TournamentController.");
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
 			if(!iter.next().startPoolRound(poolSize)){
@@ -260,7 +261,7 @@ public class TournamentController implements Constants{
 		}
 		throw new IllegalStateException("No event created.");
 	}
-	
+
 	public MainWindow getMainWindow() {
 		return _mainWindow;
 	}

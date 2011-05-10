@@ -23,5 +23,4 @@ public class TournamentControllerTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
 }
