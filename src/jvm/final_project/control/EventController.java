@@ -116,14 +116,3 @@ public class EventController {
 		});
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
