@@ -230,7 +230,6 @@ public class TournamentController implements Constants{
 
 	public Collection<Pool> getPools(int eventId) {
 		// TODO Auto-generated method stub
-		
 		return new LinkedList<Pool>();
 	}
 }
