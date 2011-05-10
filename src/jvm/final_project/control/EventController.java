@@ -92,14 +92,17 @@ public class EventController {
 	}
 
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
+		System.out.println("get valid pool sizes called in event controller");
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
 		PoolSizeCalculator poolSizeCalc;
 		for(int i = 4; i < 9; i++){
 			try{
 				poolSizeCalc = new PoolSizeCalculator(_players.size(), i);
+				System.out.println("big pools: " + poolSizeCalc.getNumBigPools() + " small: " + poolSizeCalc.getNumSmallPools());
 				toReturn.add(new PoolSizeInfo(i, poolSizeCalc.getNumBigPools(), poolSizeCalc.getNumSmallPools()));
+				
 			}catch(IllegalArgumentException e){
-
+				e.printStackTrace();
 			}
 		}
 		return toReturn;

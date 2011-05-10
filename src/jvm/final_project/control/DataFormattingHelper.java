@@ -14,9 +14,11 @@ import final_project.model.store.*;
 public class DataFormattingHelper implements Constants {
 
 	private IDataStore _dataStore;
+	private TournamentController _tournament;
 
-	public DataFormattingHelper(IDataStore s) {
+	public DataFormattingHelper(IDataStore s, TournamentController t) {
 		_dataStore = s;
+		_tournament = t;
 	}
 
 	/**
@@ -126,7 +128,13 @@ public class DataFormattingHelper implements Constants {
 				{"7", null, null, "Select"},
 				{"8", null, null, "Select"},
 			} */
-		                           
+		for(PoolSizeInfo p: _tournament.getValidPoolSizes()) {
+			System.out.println(p._numBigPools);
+			System.out.println(p._numSmallPools);
+			System.out.println(p._poolSize);
+
+		}
+		
 		for(int i=0; i<NUM_POOL_SIZES_POSSIBLE; i++) {
 			toReturn[i][0] = i+4; //Pool sizes go from 4-8
 			//toReturn[i][1] = tournament.getBigPools();
@@ -136,6 +144,11 @@ public class DataFormattingHelper implements Constants {
 		}
 		                                 
 		return toReturn;
+	}
+
+	public Object[][] getPoolRefListTable(int poolID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

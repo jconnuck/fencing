@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
+import final_project.model.IncompleteResult;
 import final_project.model.store.*;
 
 public class SMSSender implements Constants {
@@ -37,7 +38,7 @@ public class SMSSender implements Constants {
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;
-		
+
 		try {
 			//Constructing the data
 			String data = "";
@@ -65,7 +66,7 @@ public class SMSSender implements Constants {
 			 * 0|IN_PROGRESS|274166347
 			 * where the 0 is the status code (all we care about).
 			 */
-	
+
 			Scanner s = new Scanner(output);
 			s.useDelimiter("\\|");
 			if(!s.hasNext() || !s.hasNextInt()) {
@@ -154,6 +155,27 @@ public class SMSSender implements Constants {
 		}
 
 		return this.sendMessage(message, number);
+	}
+
+	public boolean sendMatchNotifications(IncompleteResult result, int refID, int stripID) {
+		int p1 = result.getPlayer1();
+		int p2 = result.getPlayer2();
+
+		boolean toReturn = false;
+		String message = "You are now fencing " + _store.getPerson(p2).getFirstName() + " " +
+			_store.getPerson(p2).getLastName() + " on strip " + stripID + ".";
+		toReturn = this.sendMessage(message, _store.getPerson(p1).getPhoneNumber());
+
+		message = "You are now fencing " + _store.getPerson(p1).getFirstName() + " " +
+			_store.getPerson(p1).getLastName() + " on strip " + stripID + ".";
+		toReturn = this.sendMessage(message, _store.getPerson(p2).getPhoneNumber());
+		
+		message = "You are reffing " + _store.getPerson(p1).getFirstName() + " " +
+			_store.getPerson(p1).getLastName() + "(id: " + p1 + ") and " + _store.getPerson(p2).getFirstName() + " " +
+			_store.getPerson(p2).getLastName() + "(id: " + p2 + ") on strip " + stripID + ".";
+		toReturn = this.sendMessage(message, _store.getPerson(refID).getPhoneNumber());
+		
+		return toReturn;
 	}
 
 }

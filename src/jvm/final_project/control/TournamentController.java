@@ -22,23 +22,23 @@ public class TournamentController implements Constants{
 		_dataStore = info.getDataStore();
 		_stripController = new StripController();
 
-        for (IEventInfo e : info.getEvents())
-            addEvent(e.getWeaponType(),e.getPreregs());
+		for (IEventInfo e : info.getEvents())
+			addEvent(e.getWeaponType(),e.getPreregs());
 
-		_dataHelper = new DataFormattingHelper(_dataStore);
+		_dataHelper = new DataFormattingHelper(_dataStore, this);
 		_smsController = new SMSController(_dataStore, this, username, password);
 	}
 
 	public int addEvent(String weapon){
-        int id = ++_currentEventID;
+		int id = ++_currentEventID;
 		_events.add(new EventController(id, _dataStore, weapon));
-        return id;
+		return id;
 	}
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
-        int id = ++_currentEventID;
+		int id = ++_currentEventID;
 		_events.add(new EventController(id, _dataStore, weapon, preregs));
-        return id;
+		return id;
 	}
 
 	public int[] getStripSizes(int eventID) {
@@ -182,7 +182,7 @@ public class TournamentController implements Constants{
 		});
 		//Should text new spectator that they were registered, so they'll have a phone number to respond to
 		//_smsController.sendMessage("Thank you for registering with our system! Please respond " +
-			 //"to this phone number with your follower requests.", number);
+		//"to this phone number with your follower requests.", number);
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
@@ -207,11 +207,11 @@ public class TournamentController implements Constants{
 		});
 	}
 
-    public Collection<PoolSizeInfo> getValidPoolSizes() {
-        if (!_events.isEmpty())
-            return _events.iterator().next().getValidPoolSizes();
-        return new ArrayList<PoolSizeInfo>();
-    }
+	public Collection<PoolSizeInfo> getValidPoolSizes() {
+		if (!_events.isEmpty())
+			return _events.iterator().next().getValidPoolSizes();
+		return new ArrayList<PoolSizeInfo>();
+	}
 
 	public Object[][] getPoolSizeInfoTable() {
 		int[] stripSizes = this.getStripSizes(EVENT_ID);
@@ -226,9 +226,8 @@ public class TournamentController implements Constants{
 		return toReturn;
 	}
 
-	public Object[][] getPoolRefListTable(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object[][] getPoolRefListTable(int poolID) {
+		return _dataHelper.getPoolRefListTable(poolID);
 	}
 
 	public Collection<Pool> getPools(int eventId) {
@@ -237,5 +236,16 @@ public class TournamentController implements Constants{
 			return iter.next().getPools();
 		}
 		throw new IllegalStateException("No event created.");
+	}
+
+	public void addAllPlayersToEvent(int eventId) {
+		System.out.println("Fencer group size: " + _dataStore.getPeopleForGroup("Fencer").size());
+		for(IPlayer i: _dataStore.getPlayers()) {
+			Iterator<EventController> iter = _events.iterator();
+			if(iter.hasNext()){
+				iter.next().addPlayer(i.getID());
+			}
+			throw new IllegalStateException("No event created.");
+		}		
 	}
 }

@@ -22,7 +22,7 @@ import java.awt.Dimension;
 public class PoolSizeInfoPanel extends JPanel {
 	private JTable table;
 	private TournamentController tournament;
-	
+	private PoolSizeInfoTable poolSizeInfoTable;
 	/**
 	 * Create the panel.
 	 */
@@ -58,11 +58,17 @@ public class PoolSizeInfoPanel extends JPanel {
 		table.setRowSelectionAllowed(false);
 		table.setRowHeight(24);
 		scrollPane.setViewportView(table);
-		table.setModel(new PoolSizeInfoTable());
+		
+		poolSizeInfoTable = new PoolSizeInfoTable();
+		table.setModel(poolSizeInfoTable);
 		table.setCellSelectionEnabled(false);
 		
 		//Make last column buttons
 		ButtonColumn buttonColumn = new ButtonColumn(table, new SelectAction(), 3);
+	}
+	
+	public void setData(Object[][] newData) {
+		poolSizeInfoTable.setData(newData);
 	}
 	
 	public class PoolSizeInfoTable extends AbstractTableModel {
@@ -109,12 +115,14 @@ public class PoolSizeInfoPanel extends JPanel {
 			fireTableCellUpdated(row, col);
 		}
 	}
-	
+
 	class SelectAction extends AbstractAction {
 	    public SelectAction() {
 	        super("Select", null);
 	    }
 	    public void actionPerformed(ActionEvent e) {
+	    	//Should return
+	    	
 	    }
 	}
 

@@ -418,7 +418,13 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			int col = (Integer) stripSetupPane.getColSpinner().getValue();
 			tournament.setStripSizes(EVENT_ID, row, col);
 
+			//Registering all of the current players into the event
+			tournament.addAllPlayersToEvent(EVENT_ID);
+			
 			poolSizeTip.setVisible(true);
+			Object[][] newData = tournament.getPoolSizeInfoTable();
+			poolSizeInfoPane.setData(newData);
+			this.repaint();
 		}
 	}
 
