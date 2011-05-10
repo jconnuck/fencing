@@ -20,10 +20,11 @@ import javax.swing.border.EmptyBorder;
 
 public class DEBracketUnitPanel extends JPanel {
 
+	private JLabel lblPlayer1Name, lblPlayer2Name;
 	/**
 	 * Create the panel.
 	 */
-	public DEBracketUnitPanel(TournamentController tournament) {
+	public DEBracketUnitPanel(TournamentController tournament, String player1Name, String player2Name) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{100, 0};
@@ -61,21 +62,25 @@ public class DEBracketUnitPanel extends JPanel {
 		gbl_panel.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblPlayerName = new JLabel("Player 1 Name");
+		lblPlayer1Name = new JLabel(player1Name);
 		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
 		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 0);
 		gbc_lblPlayerName.gridx = 0;
 		gbc_lblPlayerName.gridy = 0;
-		panel.add(lblPlayerName, gbc_lblPlayerName);
+		panel.add(lblPlayer1Name, gbc_lblPlayerName);
 		
-		JLabel lblPlayerName_1 = new JLabel("Player 2 Name");
+		lblPlayer2Name = new JLabel(player2Name);
 		GridBagConstraints gbc_lblPlayerName_1 = new GridBagConstraints();
 		gbc_lblPlayerName_1.gridx = 0;
 		gbc_lblPlayerName_1.gridy = 2;
-		panel.add(lblPlayerName_1, gbc_lblPlayerName_1);
+		panel.add(lblPlayer2Name, gbc_lblPlayerName_1);
 
 	}
 	
+	public void setPlayerNames(String player1Name, String player2Name) {
+		lblPlayer1Name.setText(player1Name);
+		lblPlayer2Name.setText(player2Name);
+	}
 	
 
 }
