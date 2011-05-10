@@ -244,10 +244,14 @@
   (get-type (.store this) IReferee))
 
 (defn -getPeopleForGroup [this group]
-  (get-predicate #(= group (.getGroup %)) (.store this)))
+  (get-predicate #(and (isa? (class %) IPerson)
+                       (= group (.getGroup %)))
+                 (.store this)))
 
 (defn -getPeopleWithoutGroup [this group]
-  (get-predicate #(not= group (.getGroup %)) (.store this)))
+  (get-predicate #(and (isa? (class %) IPerson)
+                       (not= group (.getGroup %)))
+                 (.store this)))
 
 (defn -getPerson [this id]
   (get-datum-type (.store this) id IPerson))

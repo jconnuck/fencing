@@ -258,9 +258,11 @@ public class SetupWindow {
                                                                     "","Spectator"));
                             }
                         });
-                    i = new TournamentInfo(store,events); 
+                    i = new TournamentInfo(store,events);  
                 }
+
 				MainWindow mainWindow = new MainWindow(i,textField.getText(),passwordField.getText());
+
 
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);

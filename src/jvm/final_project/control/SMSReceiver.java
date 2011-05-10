@@ -33,8 +33,10 @@ public class SMSReceiver extends TimerTask implements Constants{
 	 * Calls on the API to get all of the messages not previously
 	 */
 	public boolean getInbox() {
-		if(!_flushed)
+		if(!_flushed) {
 			this.flushInbox();
+			return false;
+		}
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;

@@ -10,13 +10,14 @@ import java.awt.Dimension;
 
 import final_project.control.*;
 import final_project.input.*;
+import final_project.model.store.IDataStore;
 
 public class MainWindow {
 
 	private JFrame frmFencingManager;
 	private TournamentController tournamentController;
-
-
+	private IDataStore dataStore;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -47,8 +48,10 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow(ITournamentInfo info,String username, String password) {
+
+	public MainWindow(ITournamentInfo info, String username, String password) {
 		tournamentController = new TournamentController(username,password,info);
+		dataStore = info.getDataStore();
 		initialize();
 		frmFencingManager.setVisible(true);
 	}
@@ -94,16 +97,18 @@ public class MainWindow {
 		splitPane.setRightComponent(tabbedPane);
 
 		CheckInPanel checkInPanel = new CheckInPanel(tournamentController);
+
 		tabbedPane.addTab("Check In", null, checkInPanel, null);
 
-		PoolSetupPanel poolSetupPanel = new PoolSetupPanel();
+		PoolSetupPanel poolSetupPanel = new PoolSetupPanel(tournamentController, dataStore);
 		tabbedPane.addTab("Pool Setup TEST", null, poolSetupPanel, null);
 		
 		PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournamentController, 1);
 		tabbedPane.addTab("Pool Observer TEST", null, poolObserverPanel, null);
 		
-		DEBracketUnitPanel deBracketUnitPanel = new DEBracketUnitPanel(tournamentController);
-		tabbedPane.addTab("DE Bracket Unit TEST", null, deBracketUnitPanel, null);
+		DEBracketPanel bracketPanel = new DEBracketPanel();
+		tabbedPane.addTab("New tab", null, bracketPanel, null);
+
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);

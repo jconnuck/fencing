@@ -18,42 +18,47 @@ import javax.swing.AbstractListModel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.Component;
+import java.util.Collection;
 
-public class PoolSetupPanel extends JPanel {
+import final_project.control.*;
+import final_project.model.FencerPool;
+import final_project.model.Pool;
+import final_project.model.store.IDataStore;
+
+public class PoolSetupPanel extends JPanel implements Constants {
 
 	/**
 	 * Create the panel.
 	 */
-	public PoolSetupPanel() {
+	public PoolSetupPanel(TournamentController t, IDataStore store) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
-		
+
 		JPanel panel_1 = new JPanel();
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+
+		// Generating PoolRefLists from pool information
+		PoolRefList lastPool = new PoolRefList(t, new FencerPool(), store);
+		if(!t.getPools(EVENT_ID).isEmpty()) {
 		
-		//TODO Replace with for-loop of generated PoolRefLists from pool information
-		
-		PoolRefList poolRefList = new PoolRefList();
-		panel_1.add(poolRefList);
-		
-		PoolRefList poolRefList_1 = new PoolRefList();
-		panel_1.add(poolRefList_1);
-		
-		PoolRefList poolRefList_2 = new PoolRefList();
-		panel_1.add(poolRefList_2);
-		
-		PoolRefList poolRefList_3 = new PoolRefList();
-		panel_1.add(poolRefList_3);
-		
-		GridBagLayout gridBagLayout = (GridBagLayout) poolRefList_3.getLayout();
+			for(Pool p: t.getPools(EVENT_ID)) {
+				lastPool = new PoolRefList(t, p, store);
+				panel_1.add(lastPool);
+			}
+		}
+		else {
+			panel_1.add(lastPool);
+		}
+
+		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0};
 		gridBagLayout.columnWidths = new int[]{111, 0, 0, 0, 0};
-		
+
 		JPanel panel = new JPanel();
 		panel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		add(panel);
@@ -63,7 +68,7 @@ public class PoolSetupPanel extends JPanel {
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
+
 		JButton btnReassignReferees = new JButton("Re-assign Referees");
 		GridBagConstraints gbc_btnReassignReferees = new GridBagConstraints();
 		gbc_btnReassignReferees.anchor = GridBagConstraints.NORTHWEST;
@@ -71,7 +76,7 @@ public class PoolSetupPanel extends JPanel {
 		gbc_btnReassignReferees.gridx = 1;
 		gbc_btnReassignReferees.gridy = 0;
 		panel.add(btnReassignReferees, gbc_btnReassignReferees);
-		
+
 		JButton btnAcceptSeeding = new JButton("Accept Assignments");
 		GridBagConstraints gbc_btnAcceptSeeding = new GridBagConstraints();
 		gbc_btnAcceptSeeding.anchor = GridBagConstraints.NORTHWEST;
