@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
 import final_project.control.*;
 import final_project.input.*;
@@ -15,6 +17,7 @@ import final_project.model.store.IDataStore;
 public class MainWindow {
 
 	private JFrame frmFencingManager;
+	private CheckInPanel checkInPanel;
 	private TournamentController tournamentController;
 	private IDataStore dataStore;
 
@@ -66,7 +69,7 @@ public class MainWindow {
 		subscriberAdminPanel.setMinimumSize(new Dimension(0, 58));
 		splitPane.setLeftComponent(subscriberAdminPanel);
 
-		CheckInPanel checkInPanel = new CheckInPanel(tournamentController);
+		checkInPanel = new CheckInPanel(tournamentController);
 		splitPane.setRightComponent(checkInPanel);
 
 
