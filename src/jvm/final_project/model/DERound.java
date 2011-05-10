@@ -55,6 +55,7 @@ public class DERound implements IRound {
         makeCut();
         calcBracketSize();
         populateBracket();
+        startFirstMatch();
     }
 
     /**
@@ -88,7 +89,6 @@ public class DERound implements IRound {
         }
         populateBracketHelper(0, 2, 1, false);
         Arrays.fill(_matches, 0, computeRoundHead(_bracketSize /2), null);
-        System.out.println(Arrays.deepToString(getMatches()));
         switchSeedsForCompetitors();
     }
 
@@ -196,6 +196,18 @@ public class DERound implements IRound {
         return _cut;
     }
 
+    private void startFirstMatch() {
+    	if(_stripController.availableStrip()) {
+    		int strip = _stripController.checkOutStrip();
+    		int ref = _dataStore.getNextReferee();
+            int firstMatch =computeRoundHead(_bracketSize /2);
+    		_stripsInUse.put((IncompleteResult) _matches[firstMatch], strip);
+            _refsInUse.put((IncompleteResult) _matches[firstMatch], ref);
+            // Notify fencers and ref
+    	}
+    	// Not exactly sure what to do if there is no strip (or referee??) to use for the first match.
+    }
+    
     /**
      * Returns the next match to be played if there is one.  Returns null if there is not.
      * @return IncompleteResult that represents the next match to be fenced.
