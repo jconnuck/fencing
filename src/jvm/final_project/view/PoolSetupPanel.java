@@ -23,14 +23,13 @@ import java.util.Collection;
 import final_project.control.*;
 import final_project.model.FencerPool;
 import final_project.model.Pool;
-import final_project.model.store.IDataStore;
 
 public class PoolSetupPanel extends JPanel implements Constants {
 
 	/**
 	 * Create the panel.
 	 */
-	public PoolSetupPanel(TournamentController t, IDataStore store) {
+	public PoolSetupPanel(TournamentController t) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -41,11 +40,11 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
 		// Generating PoolRefLists from pool information
-		PoolRefList lastPool = new PoolRefList(t, new FencerPool(), store);
+		PoolRefList lastPool = new PoolRefList(t, new FencerPool());
 		if(!t.getPools(EVENT_ID).isEmpty()) {
 		
 			for(Pool p: t.getPools(EVENT_ID)) {
-				lastPool = new PoolRefList(t, p, store);
+				lastPool = new PoolRefList(t, p);
 				panel_1.add(lastPool);
 			}
 		}

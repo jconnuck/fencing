@@ -265,4 +265,8 @@ public class TournamentController implements Constants{
 	public MainWindow getMainWindow() {
 		return _mainWindow;
 	}
+
+	public IDataStore getDataStore() {
+		return _dataStore;
+	}
 }

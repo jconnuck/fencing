@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JCheckBox;
 import java.awt.Insets;
+import java.util.Iterator;
+
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
@@ -22,8 +24,9 @@ public class PoolRefList extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PoolRefList(TournamentController t, Pool pool, IDataStore store) {
+	public PoolRefList(TournamentController t, Pool pool) {
 		tournament = t;
+		IDataStore store = t.getDataStore();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{111, 0, 0, 0, 0, 0};
@@ -32,9 +35,14 @@ public class PoolRefList extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		String refName = "Referee: ";
-		for(Integer i: pool.getRefs())
-			refName += store.getReferee(i).getFirstName() + " " + store.getReferee(i).getLastName();
+		String refName = "Referee: ";	
+		Iterator<Integer> iter = pool.getRefs().iterator();
+		while(iter.hasNext()) {
+			int refID = iter.next();
+			refName += store.getReferee(refID).getFirstName() + " " + store.getReferee(refID).getLastName();
+			if(iter.hasNext())
+				refName += ", ";
+		}
 		
 		JLabel lblReferee = new JLabel(refName);
 		GridBagConstraints gbc_lblReferee = new GridBagConstraints();
@@ -48,7 +56,6 @@ public class PoolRefList extends JPanel {
 			//for(Integer c: store.getReferee(i).getClubs()) TODO work here
 				//refName += store.getClub(c);
 		}
-		
 		
 		JLabel lblClubMiamiHeat = new JLabel(club);
 		GridBagConstraints gbc_lblClubMiamiHeat = new GridBagConstraints();
@@ -65,17 +72,7 @@ public class PoolRefList extends JPanel {
 		add(chckbxConflict, gbc_chckbxConflict);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"John Connuck", "NY Knicks", "1"},
-				{"Landry Fields", "NY Knicks", "2"},
-				{"Lebron James", "Miami Heat", "3"},
-				{"Kobe Bryant", "LA Lakers", "4"},
-			},
-			new String[] {
-				"Name", "Club", "Seed"
-			}
-		));
+		table.setModel(new PoolRefTable(pool));
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
 		gbc_table.gridwidth = 5;
@@ -89,16 +86,23 @@ public class PoolRefList extends JPanel {
 	public class PoolRefTable extends AbstractTableModel {
 		//Where to get people from?
 		
-		private int id;
-		private String[] columnNames = {"Pool Size", "Big Pools", "Small Pools", ""};
+		/*new DefaultTableModel(
+				new Object[][] {
+					{"John Connuck", "NY Knicks", "1"},
+					{"Landry Fields", "NY Knicks", "2"},
+					{"Lebron James", "Miami Heat", "3"},
+					{"Kobe Bryant", "LA Lakers", "4"},
+				},
+				new String[] {
+					"Name", "Club", "Seed"
+				}
+			)); */
+		
+		private String[] columnNames = {"Name", "Club", "Position"};
 		private Object[][] data;
 
 		public PoolRefTable(Pool pool) {
 			data = tournament.getPoolRefListTable(pool);
-		}
-		
-		public PoolRefTable(int id_param) {
-			id = id_param;
 		}
 		
 		public void setData(Object[][] newData) {

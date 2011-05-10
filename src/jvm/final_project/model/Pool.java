@@ -33,6 +33,9 @@ public abstract class Pool {
 		return _players.size();
 	}
 
+	public void shufflePlayers() {
+		Collections.shuffle(_players);
+	}
 	/**
 	 * Returns the Collection of all completed matches.
 	 * @return Collection<CompletResult> All matches currently completed.
