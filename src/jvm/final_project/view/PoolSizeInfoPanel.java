@@ -121,9 +121,11 @@ public class PoolSizeInfoPanel extends JPanel {
 	        super("Select", null);
 	    }
 	    public void actionPerformed(ActionEvent e) {
-	    	//Should return the selected column 
-	    	
-	    	
+            int row = Integer.parseInt(e.getActionCommand());
+            System.out.println(row);
+            tournament.startPoolRound(0,row+4);
+            System.out.println("MOVE TO POOL ROUND");
+            //TODO: Make gui move to pool round
 	    }
 	}
 
