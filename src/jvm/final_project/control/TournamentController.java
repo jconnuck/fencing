@@ -229,7 +229,6 @@ public class TournamentController implements Constants{
 	}
 
 	public Collection<Pool> getPools(int eventId) {
-
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
 			return iter.next().getPools();

@@ -26,33 +26,35 @@ import final_project.model.Pool;
 import final_project.model.store.IDataStore;
 
 public class PoolSetupPanel extends JPanel implements Constants {
-	
+
 	/**
 	 * Create the panel.
 	 */
 	public PoolSetupPanel(TournamentController t, IDataStore store) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
-		
+
 		JPanel panel_1 = new JPanel();
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-		
+
 		//TODO Replace with for-loop of generated PoolRefLists from pool information
 		PoolRefList lastPool = new PoolRefList(t, new FencerPool(), store);
-		for(Pool p: t.getPools(EVENT_ID)) {
-			panel_1.add(lastPool);
-			lastPool = new PoolRefList(t, p, store);
+		if(t.getPools(EVENT_ID) != null) {
+			for(Pool p: t.getPools(EVENT_ID)) {
+				panel_1.add(lastPool);
+				lastPool = new PoolRefList(t, p, store);
+			}
 		}
-		
+
 		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0};
 		gridBagLayout.columnWidths = new int[]{111, 0, 0, 0, 0};
-		
+
 		JPanel panel = new JPanel();
 		panel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		add(panel);
@@ -62,7 +64,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
+
 		JButton btnReassignReferees = new JButton("Re-assign Referees");
 		GridBagConstraints gbc_btnReassignReferees = new GridBagConstraints();
 		gbc_btnReassignReferees.anchor = GridBagConstraints.NORTHWEST;
@@ -70,7 +72,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbc_btnReassignReferees.gridx = 1;
 		gbc_btnReassignReferees.gridy = 0;
 		panel.add(btnReassignReferees, gbc_btnReassignReferees);
-		
+
 		JButton btnAcceptSeeding = new JButton("Accept Assignments");
 		GridBagConstraints gbc_btnAcceptSeeding = new GridBagConstraints();
 		gbc_btnAcceptSeeding.anchor = GridBagConstraints.NORTHWEST;
