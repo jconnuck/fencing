@@ -308,6 +308,9 @@ public class TournamentController implements Constants{
 				if(i.getCheckedIn()) //Only adding players that have been checked in
 					e.addPlayer(i.getID());
 			}
+			for(IReferee i: _dataStore.getReferees())
+				e.addRef(i.getID());
+			
 			return;
 		}
 		throw new IllegalStateException("No event created.");
