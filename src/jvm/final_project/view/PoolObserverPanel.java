@@ -25,10 +25,8 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 	Collection<ScoreView> incompleteResults, completeResults;
     Pool pool;
     JLabel currentBout;
-    IDataStore store;
 	
-	public PoolObserverPanel(TournamentController tournament, int poolNumber, IDataStore store) {
-        this.store = store;
+	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
 		this.tournament = tournament;
         this.pool = this.tournament.getPools(0).get(poolNumber);
         this.pool.addObserver(this);
@@ -271,11 +269,11 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
         if (next==null)
             currentBout.setText("No Bout");
         else {
-            IPlayer player1 = store.getPlayer(next.getPlayer1());
-            IPlayer player2 = store.getPlayer(next.getPlayer2());
-            currentBout.setText(player1.getFirstName()+" "+player1.getLastName()+
+            String player1Name = tournament.getNameFromId(next.getPlayer1());
+            String player2Name = tournament.getNameFromId(next.getPlayer2());
+            currentBout.setText(player1Name +
                                 " vs "+
-                                player2.getFirstName()+" "+player2.getLastName());
+                                player2Name);
         }
 	}
 
