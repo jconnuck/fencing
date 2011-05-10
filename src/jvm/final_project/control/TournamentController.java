@@ -31,13 +31,13 @@ public class TournamentController implements Constants{
 
 	public int addEvent(String weapon){
 		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon));
+		_events.add(new EventController(id, _dataStore, weapon, _stripController));
 		return id;
 	}
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
 		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon, preregs));
+		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController));
 		return id;
 	}
 
@@ -246,6 +246,6 @@ public class TournamentController implements Constants{
 				iter.next().addPlayer(i.getID());
 			}
 			throw new IllegalStateException("No event created.");
-		}		
+		}
 	}
 }
