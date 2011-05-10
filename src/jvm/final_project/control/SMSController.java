@@ -41,7 +41,8 @@ public class SMSController implements Constants, ISMSController {
 
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
-		_sender.sendMessage(message, number);
+		System.out.println("Send message called: " + message + " to " + number);
+		//_sender.sendMessage(message, number);
 	}
 
 	public void sendAllMessage(String message) {
@@ -57,7 +58,8 @@ public class SMSController implements Constants, ISMSController {
 	}
 
 	public void sendMatchNotifications(IncompleteResult result, int refID, int stripID) {
-		_sender.sendMatchNotifications(result, refID, stripID);
+		System.out.println("Send match notifications called: ");
+		//_sender.sendMatchNotifications(result, refID, stripID);
 	}
 
 	public void parseOutput(String received, String number) {

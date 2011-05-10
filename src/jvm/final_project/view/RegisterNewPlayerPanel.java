@@ -185,5 +185,8 @@ public class RegisterNewPlayerPanel extends JPanel {
 	public JTextField getRankField() {
 		return rankField;
 	}
+	public JTextField getTeamField() {
+		return textField;
+	}
 }
 

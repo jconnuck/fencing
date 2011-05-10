@@ -193,17 +193,71 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
-	public Object[][] registerAndCheckInPerson(String number, String firstName, String lastName, int rank, String group) {
-		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", group, rank).setCheckedIn(true);
+	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank, final String club) {
+		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(true);
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
 				_dataStore.putData(p);
+				
+				//Searching through the data store for a team
+				boolean found = false;
+				for(IClub c: _dataStore.getClubs()) {
+					if (c.getName().equals(club)) {
+						found = true;
+						IPlayer newP = p.addClub(c.getID());
+						_dataStore.putData(newP);
+					}
+				}
+				if(!found) {
+					IClub newClub = _dataStore.createClub(club);
+					_dataStore.putData(newClub);
+					IPlayer newP = p.addClub(newClub.getID());
+					_dataStore.putData(newP);
+				}
 			}
 		});
 		return _dataHelper.giveSignInPanelInfo();
 	}
+	
+	public Object[][] registerNonFencer(String number, String firstName, String lastName, final String club, String group) {
+		if(group.equals("Referee")) {
+			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group);
+			_dataStore.runTransaction(new Runnable(){
+				public void run(){
+					_dataStore.putData(ref);
+					//Searching through the data store for a team
+					boolean found = false;
+					for(IClub c: _dataStore.getClubs()) {
+						if (c.getName().equals(club)) {
+							found = true;
+							IReferee newRef = ref.addClub(c.getID());
+							_dataStore.putData(newRef);
+						}
+					}
+					if(!found) {
+						IClub newClub = _dataStore.createClub(club);
+						_dataStore.putData(newClub);
+						IReferee newRef = ref.addClub(newClub.getID());
+						_dataStore.putData(newRef);
+					}
+					
+				}
+			});
+		}
+		else {
+			final IPerson p = _dataStore.createSpectator(number, firstName, lastName, "", group);
+			_dataStore.runTransaction(new Runnable(){
+				public void run(){
+					
+					_dataStore.putData(p);
+				}
+			});
+		}
+		return _dataHelper.giveSignInPanelInfo();
+	}
+	
 
-	public void registerFencer(String number, String firstName, String lastName, int rank) {
+	/**public void registerFencer(String number, String firstName, String lastName, int rank) {
 		//Concatenating a 1 to the beginning of the phone number
 		number = "1" + number;
 		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank);
@@ -213,7 +267,7 @@ public class TournamentController implements Constants{
 			}
 		});
 	}
-
+	*/
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
 		if (!_events.isEmpty())
 			return _events.iterator().next().getValidPoolSizes();

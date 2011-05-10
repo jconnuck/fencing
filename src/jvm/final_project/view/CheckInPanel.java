@@ -392,12 +392,22 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 				firstName = name;
 				lastName = "";
 			}
-			int rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
+			int rank = 0;
+			if(!registerNewPlayerPane.getRankField().getText().equals(""))
+				rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
+			//TODO: If a fencer and rank == 0, ALERT GUI
 			String group = (String)registerNewPlayerPane.getGroup().getSelectedItem();
-			//TODO: Need to make it impossible to click done unless all fields are filled out
-			
+			String club = registerNewPlayerPane.getTeamField().getText();
+			System.out.println("Club: " + club);
+
 			/* Registering player and resetting the data in the table */
-			Object[][] newData = tournament.registerAndCheckInPerson(number, firstName, lastName, rank, group);
+			Object[][] newData = null;
+			if(group.equals("Fencer"))
+				newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);
+			else
+				newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
+			
+			System.out.println("new data: " + newData);
 			model.setData(newData);
 			this.getSearchField().setText("");
 			//Making sure the table is updated nicely
