@@ -73,7 +73,6 @@ public class DataFormattingHelper implements Constants {
 				index++;
 			}
 		}
-		
 		return toReturn;
 	}
 
@@ -84,7 +83,11 @@ public class DataFormattingHelper implements Constants {
 	 */
 	public Object[][] giveSubscriberTableInfo() {
 		//Making the object array with as many rows as spectators in the data store
-		Object[][] toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
+		Object[][] toReturn = null;
+		if(_dataStore.getPeopleForGroup("Spectator").size()!=0)
+			toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
+		else
+			toReturn = new Object[1][NUM_COLS_SUBSCRIBER_PANEL];
 		
 		//TODO WHY DOES THE GUI BREAK ON EMPTY INPUT????
 		//Making one blank row so that the GUI does not break on empty input
