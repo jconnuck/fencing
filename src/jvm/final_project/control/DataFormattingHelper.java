@@ -59,7 +59,6 @@ public class DataFormattingHelper implements Constants {
 					toReturn[index][1] = "";
 
 				/* GROUP */
-				System.out.println("Instance of club? " + (toReturn[index][2] instanceof IClub));
 				toReturn[index][2] = i.getGroup();
 
 				/* SIGNED IN (if player) */

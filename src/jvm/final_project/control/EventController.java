@@ -21,6 +21,10 @@ public class EventController {
         this(id,dataStore,weapon,new LinkedList<Integer>());
 	}
 
+	public void clearPlayers() {
+		_players.clear();
+	}
+	
 	public Result[] getDEMatches(){
 		return _deController.getMatches();
 	}

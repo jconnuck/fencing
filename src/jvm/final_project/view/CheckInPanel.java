@@ -28,7 +28,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
 	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
-	private Component verticalStrut;
 	private Collection<BalloonTip> balloons;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip;
 	private CheckInPlayerPanel signInPlayerPane;
@@ -154,27 +153,29 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					signInSelectedPlayer();
+					signInSelectedPlayer(true);
 				}
 			}
 		});
 	}
 	
-	private void signInSelectedPlayer() {
+	private void signInSelectedPlayer(boolean checkAs) {
 		hideAllBalloons();
-//			int id = Integer.parseInt((String) (table.getValueAt(table.getSelectedRow(), 4))); //Getting the ID DOES THIS WORK??
+
 		//changed to table.convertColumIndexToView to prevent bug where user rearranges column ordering
 		int id = (Integer)table.getValueAt(table.getSelectedRow(), table.convertColumnIndexToView(4)); //Getting the ID DOES THIS WORK??
-		System.out.println("ID parsed from table: " + id);  //TODO delete after testing
 		//Checking in the fencer as the checkAs boolean
-		Object[][] newData = tournament.checkInFencer(id, signInPlayerPane.getSignInButton().isEnabled());
+		System.out.println("ID and boolean: " + id + " " + checkAs);
+		Object[][] newData = tournament.checkInFencer(id, checkAs);
 		model.setData(newData);
 		searchField.setText("");
+		this.repaint();
 	}
 
 	private void initializeTable() {
 		//Set up table with custom sorter
 		model = new SignInTableModel();
+		model.addTableModelListener(model);
 		sorter = new TableRowSorter<SignInTableModel>(model);
 		table = new JTable(model);
 		table.setRowSorter(sorter);
@@ -285,7 +286,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		}
 	}
 
-	class SignInTableModel extends AbstractTableModel{
+	class SignInTableModel extends AbstractTableModel implements TableModelListener {
 		private static final long serialVersionUID = 1L;
 
 		private  String[] columnNames = {"Name", "Team", "Group", "Signed In", "ID"};
@@ -331,6 +332,20 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
+
+		@Override
+		public void tableChanged(TableModelEvent e) {
+	        int row = e.getFirstRow();
+			int column = e.getColumn();
+	        TableModel model = (TableModel)e.getSource();
+	        Object data = model.getValueAt(row, column); //TODO TOTALLY broken
+
+	        if(column == 3){ //If the column is the signedIn button col
+	        	System.out.println("Changed: " + data);
+	        	signInSelectedPlayer((Boolean)data);
+	        }
+			
+		}
 	}
 
 	@Override
@@ -353,7 +368,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			hideAllBalloons();
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
-			signInSelectedPlayer();
+			signInSelectedPlayer(true);
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
 			hideAllBalloons();

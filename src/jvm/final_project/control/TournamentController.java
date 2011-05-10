@@ -247,6 +247,7 @@ public class TournamentController implements Constants{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
 			EventController e = iter.next();
+			e.clearPlayers();
 			for(IPlayer i: _dataStore.getPlayers()) {
 				e.addPlayer(i.getID());
 			}
