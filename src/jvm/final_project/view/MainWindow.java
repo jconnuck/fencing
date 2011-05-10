@@ -21,6 +21,7 @@ public class MainWindow {
 	private TournamentController tournamentController;
 	private IDataStore dataStore;
 	private JSplitPane splitPane;
+	private SubscriberAdminPanel subscriberAdminPanel;
 
 	/**
 	 * Create the application.
@@ -64,7 +65,7 @@ public class MainWindow {
 		gbc_splitPane.gridy = 0;
 		frmFencingManager.getContentPane().add(splitPane, gbc_splitPane);
 
-		SubscriberAdminPanel subscriberAdminPanel = new SubscriberAdminPanel(tournamentController);
+		subscriberAdminPanel = new SubscriberAdminPanel(tournamentController);
 		subscriberAdminPanel.setOpaque(true);
 		subscriberAdminPanel.setSize(new Dimension(273, 58));
 		subscriberAdminPanel.setMinimumSize(new Dimension(0, 58));
@@ -81,5 +82,10 @@ public class MainWindow {
 	
 	public void loadRightPanel(JPanel panel) {
 		splitPane.setRightComponent(panel);
+	}
+	
+	public void hideAllBalloons() {
+		checkInPanel.hideAllBalloons();
+		subscriberAdminPanel.hideAllBalloons();
 	}
 }

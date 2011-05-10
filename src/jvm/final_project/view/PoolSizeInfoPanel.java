@@ -127,6 +127,7 @@ public class PoolSizeInfoPanel extends JPanel {
             System.out.println("MOVE TO POOL ROUND");
             //TODO: Make gui move to pool round
             tournament.getMainWindow().loadRightPanel(new PoolRoundObserverPanel(tournament));
+            tournament.getMainWindow().hideAllBalloons();
 	    }
 	}
 
