@@ -30,12 +30,15 @@ public class TournamentController implements Constants{
 	}
 
 	public int addEvent(String weapon){
+		System.out.println("add event called"); //TODO println
 		int id = ++_currentEventID;
 		_events.add(new EventController(id, _dataStore, weapon, _stripController));
 		return id;
 	}
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
+		System.out.println("add event called"); //TODO println
+
 		int id = ++_currentEventID;
 		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController));
 		return id;
@@ -87,11 +90,13 @@ public class TournamentController implements Constants{
 	}
 
 	public Collection<PoolSizeInfo> getValidPoolSizes(int eventID){
-		Iterator<EventController> iter = _events.iterator();
-		if(iter.hasNext()){
-			return iter.next().getValidPoolSizes();
-		}
-		throw new IllegalStateException("No event created.");
+		if(_events.isEmpty())
+			throw new IllegalStateException("No event created.");
+
+		for (EventController e: _events)
+			return e.getValidPoolSizes();
+
+		return new LinkedList<PoolSizeInfo>();
 	}
 
 	/**
@@ -239,13 +244,14 @@ public class TournamentController implements Constants{
 	}
 
 	public void addAllPlayersToEvent(int eventId) {
-		System.out.println("Fencer group size: " + _dataStore.getPeopleForGroup("Fencer").size());
-		for(IPlayer i: _dataStore.getPlayers()) {
-			Iterator<EventController> iter = _events.iterator();
-			if(iter.hasNext()){
-				iter.next().addPlayer(i.getID());
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			EventController e = iter.next();
+			for(IPlayer i: _dataStore.getPlayers()) {
+				e.addPlayer(i.getID());
 			}
-			throw new IllegalStateException("No event created.");
+			return;
 		}
+		throw new IllegalStateException("No event created.");
 	}
 }
