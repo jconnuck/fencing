@@ -260,4 +260,8 @@ public class TournamentController implements Constants{
 		}
 		throw new IllegalStateException("No event created.");
 	}
+	
+	public MainWindow getMainWindow() {
+		return _mainWindow;
+	}
 }
