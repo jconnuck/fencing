@@ -26,7 +26,7 @@ public class MainWindow {
 	 */
 
 	public MainWindow(ITournamentInfo info, String username, String password) {
-		tournamentController = new TournamentController(username,password,info);
+		tournamentController = new TournamentController(username,password,info, this);
 		dataStore = info.getDataStore();
 		initialize();
 		frmFencingManager.setVisible(true);
