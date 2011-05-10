@@ -19,17 +19,20 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.Component;
 import java.util.Collection;
+import java.awt.event.*;
 
 import final_project.control.*;
 import final_project.model.FencerPool;
 import final_project.model.Pool;
 
 public class PoolSetupPanel extends JPanel implements Constants {
-
+    TournamentController tournament;
+    
 	/**
 	 * Create the panel.
 	 */
 	public PoolSetupPanel(TournamentController t) {
+        tournament = t;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -81,6 +84,12 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbc_btnAcceptSeeding.gridx = 2;
 		gbc_btnAcceptSeeding.gridy = 0;
 		panel.add(btnAcceptSeeding, gbc_btnAcceptSeeding);
+
+        btnAcceptSeeding.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    tournament.getMainWindow().loadRightPanel(new PoolRoundObserverPanel(tournament));                    
+                }
+            });
 
 	}
 }
