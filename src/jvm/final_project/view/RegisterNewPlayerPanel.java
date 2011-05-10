@@ -12,19 +12,21 @@ public class RegisterNewPlayerPanel extends JPanel {
 	private JTextField rankField;
 	private JButton doneButton;
 	private JComboBox comboBox;
+	private JTextField textField;
+	private JLabel lblTeam;
 
 	/**
 	 * Create the panel.
 	 */
 	public RegisterNewPlayerPanel() {
 		setOpaque(false);
-		setPreferredSize(new Dimension(301, 200));
+		setPreferredSize(new Dimension(299, 240));
 		setSize(new Dimension(270, 200));
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{87, 55, 143, 0, 0};
-		gridBagLayout.rowHeights = new int[]{26, 0, 32, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{87, 55, 89, 0, 0};
+		gridBagLayout.rowHeights = new int[]{26, 0, 32, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		lblNoResultsFound = new JLabel("<html><i>No Results Found</i></html>");
@@ -62,12 +64,30 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_nameTextField.gridy = 2;
 		add(nameTextField, gbc_nameTextField);
 		
+		lblTeam = new JLabel("Team:");
+		GridBagConstraints gbc_lblTeam = new GridBagConstraints();
+		gbc_lblTeam.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTeam.anchor = GridBagConstraints.EAST;
+		gbc_lblTeam.gridx = 0;
+		gbc_lblTeam.gridy = 3;
+		add(lblTeam, gbc_lblTeam);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 3;
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 3;
+		add(textField, gbc_textField);
+		
 		JLabel lblPhoneNumber = new JLabel("Phone #:");
 		GridBagConstraints gbc_lblPhoneNumber = new GridBagConstraints();
 		gbc_lblPhoneNumber.anchor = GridBagConstraints.EAST;
 		gbc_lblPhoneNumber.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPhoneNumber.gridx = 0;
-		gbc_lblPhoneNumber.gridy = 3;
+		gbc_lblPhoneNumber.gridy = 4;
 		add(lblPhoneNumber, gbc_lblPhoneNumber);
 		
 		MaskFormatter formatter = null;
@@ -82,7 +102,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_phoneNumberTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_phoneNumberTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_phoneNumberTextField.gridx = 1;
-		gbc_phoneNumberTextField.gridy = 3;
+		gbc_phoneNumberTextField.gridy = 4;
 		add(phoneNumberTextField, gbc_phoneNumberTextField);
 		
 		JLabel lblGroup = new JLabel("Group:");
@@ -90,7 +110,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_lblGroup.anchor = GridBagConstraints.EAST;
 		gbc_lblGroup.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGroup.gridx = 0;
-		gbc_lblGroup.gridy = 4;
+		gbc_lblGroup.gridy = 5;
 		add(lblGroup, gbc_lblGroup);
 
 		comboBox = new JComboBox();
@@ -100,7 +120,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 4;
+		gbc_comboBox.gridy = 5;
 		add(comboBox, gbc_comboBox);
 		
 		JLabel rank = new JLabel("Rank:");
@@ -108,7 +128,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_rank.anchor = GridBagConstraints.EAST;
 		gbc_rank.insets = new Insets(0, 0, 5, 5);
 		gbc_rank.gridx = 0;
-		gbc_rank.gridy = 5;
+		gbc_rank.gridy = 6;
 		add(rank, gbc_rank);
 		
 		rankField = new JTextField();
@@ -117,7 +137,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_rankField.insets = new Insets(0, 0, 5, 0);
 		gbc_rankField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_rankField.gridx = 1;
-		gbc_rankField.gridy = 5;
+		gbc_rankField.gridy = 6;
 		add(rankField, gbc_rankField);
 		rankField.setColumns(10);
 		
@@ -126,14 +146,14 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_doneButton.insets = new Insets(0, 0, 0, 5);
 		gbc_doneButton.anchor = GridBagConstraints.EAST;
 		gbc_doneButton.gridx = 2;
-		gbc_doneButton.gridy = 6;
+		gbc_doneButton.gridy = 7;
 		add(doneButton, gbc_doneButton);
 		
 		cancelButton = new JButton("Cancel");
 		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
 		gbc_cancelButton.anchor = GridBagConstraints.EAST;
 		gbc_cancelButton.gridx = 3;
-		gbc_cancelButton.gridy = 6;
+		gbc_cancelButton.gridy = 7;
 		add(cancelButton, gbc_cancelButton);
 
 	}
