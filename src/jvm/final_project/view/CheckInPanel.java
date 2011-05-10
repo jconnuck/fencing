@@ -85,7 +85,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 				registerNewPlayerPane.getNameTextField().requestFocusInWindow();
 				registerNewPlayerPane.getNameTextField().setText("");
 				registerNewPlayerPane.getPhoneNumberTextField().setText("");
-				hideAllBalloons();
+				tournament.getMainWindow().hideAllBalloons();
 				registerNewPlayerTip.setVisible(true);
 			}
 		});
@@ -161,7 +161,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	}
 	
 	private void signInSelectedPlayer(boolean checkAs) {
-		hideAllBalloons();
+		tournament.getMainWindow().hideAllBalloons();
 
 		//changed to table.convertColumIndexToView to prevent bug where user rearranges column ordering
 		int id = (Integer)table.getValueAt(table.getSelectedRow(), table.convertColumnIndexToView(4)); //Getting the ID DOES THIS WORK??
@@ -240,7 +240,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		balloons.add(unsignInAllTip);
 		balloons.add(stripSetupTip);
 		balloons.add(poolSizeTip);
-		hideAllBalloons();
+		tournament.getMainWindow().hideAllBalloons();
 	}
 
 	private void filter() {
@@ -254,7 +254,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		sorter.setRowFilter(rf);
 		if (table.getRowCount() == 0) {
 			//Hide other tooltips
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			//Make tooltip visible
 			registerNewPlayerTip.setVisible(true);
 			//Clear any old text
@@ -280,11 +280,11 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			//Make tooltip visible
 			signInPlayerPane.getResultLabel().setText("<html><i>Exact Match Found:</i> <b>" + table.getValueAt(0, 0) + "</b></html>");
 			searchField.setNextFocusableComponent(signInPlayerPane.getSignInButton());
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			signInPlayerTip.setVisible(true);
 		}
 		else {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 		}
 	}
 
@@ -366,20 +366,20 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			}
 		}
 		else if (e.getSource() == startPoolRound) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			stripSetupTip.setVisible(true);
 		}
 		else if (e.getSource() == signInPlayerPane.getCancelButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			signInSelectedPlayer(true);
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 		}
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			//Getting the info out of the registerNewPlayerPane
 			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
 			String name = registerNewPlayerPane.getNameTextField().getText();
@@ -400,27 +400,27 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			model.setData(newData);
 			this.getSearchField().setText("");
 			//Making sure the table is updated nicely
-			//model.modelStructureChanged();
+			sorter.modelStructureChanged();
 			sorter.sort();
 			table.clearSelection();
 			this.repaint();
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			signInAllTip.setVisible(true);
 
 		}
 		else if (e.getSource() == unsignInAll) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			unsignInAllTip.setVisible(true);
 
 		}
 		else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 		}
 		else if (e.getSource() == signInAllPane.getYesButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			//Checking in all as true!
 			Object[][] newData = tournament.checkInAll(true);
 			model.setData(newData);
@@ -431,7 +431,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 
 		}
 		else if (e.getSource() == unsignInAllPane.getYesButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 			//Checking in all as false
 			Object[][] newData = tournament.checkInAll(false);
 			model.setData(newData);
@@ -442,10 +442,10 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 
 		}
 		else if (e.getSource() == stripSetupPane.getCancelButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 		}
 		else if (e.getSource() == stripSetupPane.getDoneButton()) {
-			hideAllBalloons();
+			tournament.getMainWindow().hideAllBalloons();
 
 			//Getting the strip arrangement from the editor
 			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
@@ -470,7 +470,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		return registerPersonButton;
 	}
 
-	private void hideAllBalloons() {
+	public void hideAllBalloons() {
 		for (BalloonTip b : balloons)
 			b.setVisible(false);
 	}
