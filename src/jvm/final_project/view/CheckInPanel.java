@@ -400,8 +400,8 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			model.setData(newData);
 			this.getSearchField().setText("");
 			//Making sure the table is updated nicely
-			//model.modelStructureChanged();
-			sorter.sort();
+			sorter.modelStructureChanged();
+			//sorter.sort();
 			table.clearSelection();
 			this.repaint();
 		}
