@@ -15,8 +15,8 @@ public class MainWindow {
 
 	private JFrame frmFencingManager;
 	private TournamentController tournamentController;
-
-
+	private IDataStore dataStore;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -49,6 +49,7 @@ public class MainWindow {
 	 */
 	public MainWindow(ITournamentInfo info) {
 		tournamentController = new TournamentController("cs032fencing", "F3ncing!",info);
+		dataStore = info.getDataStore();
 		initialize();
 		frmFencingManager.setVisible(true);
 	}
@@ -94,13 +95,13 @@ public class MainWindow {
 		splitPane.setRightComponent(tabbedPane);
 
 		CheckInPanel checkInPanel = new CheckInPanel(tournamentController);
-		tabbedPane.addTab("New tab", null, checkInPanel, null);
+		tabbedPane.addTab("Registration", null, checkInPanel, null);
 
 		PoolSetupPanel poolSetupPanel = new PoolSetupPanel();
-		tabbedPane.addTab("New tab", null, poolSetupPanel, null);
+		tabbedPane.addTab("Pool Setup", null, poolSetupPanel, null);
 		
 		PoolObservererPanel poolObservererPanel = new PoolObservererPanel(tournamentController, 1);
-		tabbedPane.addTab("New tab", null, poolObservererPanel, null);
+		tabbedPane.addTab("Pools", null, poolObservererPanel, null);
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);

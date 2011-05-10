@@ -4,6 +4,8 @@ import java.util.*;
 import final_project.model.*;
 import final_project.model.store.*;
 import final_project.model.DERound.NoSuchMatchException;
+import final_project.view.Collection;
+import final_project.view.Pool;
 import final_project.input.*;
 
 //Created in the main method.
@@ -26,7 +28,7 @@ public class TournamentController implements Constants{
             addEvent(e.getWeaponType(),e.getPreregs());
 
 		_dataHelper = new DataFormattingHelper(_dataStore);
-		_smsController = new SMSController(_dataStore, this, username, password);
+		_smsController = new SMSController(_dataStore, this, username, password); 
 	}
 
 	public int addEvent(String weapon){
@@ -152,8 +154,10 @@ public class TournamentController implements Constants{
 
 	//Checks in all players as the boolean parameter
 	public Object[][] checkInAll(boolean checkAs) {
+		System.out.println("check in all called");
 		for (IPlayer i: _dataStore.getPlayers()){
 			final IPlayer temp = i.setCheckedIn(checkAs);
+			System.out.println("Player " + temp.getID() + " checked in? " + temp.getCheckedIn());
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
 					_dataStore.putData(temp);
@@ -219,5 +223,15 @@ public class TournamentController implements Constants{
 	
 	public String getNameFromId(int playerId) {
 		return _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
+	}
+
+	public Object[][] getPoolRefListTable(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Collection<Pool> getPools(int eventId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -246,9 +246,9 @@ public class SetupWindow {
                                                                     "","Spectator"));
                             }
                         });
-                    i = new TournamentInfo(store,events); 
+                    i = new TournamentInfo(store,events);  
                 }
-				MainWindow mainWindow = new MainWindow(i);
+                MainWindow mainWindow = new MainWindow(i); 
 
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);

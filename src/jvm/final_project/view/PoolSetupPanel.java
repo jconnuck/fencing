@@ -18,13 +18,18 @@ import javax.swing.AbstractListModel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.Component;
+import java.util.Collection;
 
-public class PoolSetupPanel extends JPanel {
+import final_project.control.*;
+import final_project.model.Pool;
+import final_project.model.store.IDataStore;
 
+public class PoolSetupPanel extends JPanel implements Constants {
+	
 	/**
 	 * Create the panel.
 	 */
-	public PoolSetupPanel() {
+	public PoolSetupPanel(TournamentController t, IDataStore store) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -35,20 +40,13 @@ public class PoolSetupPanel extends JPanel {
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
 		//TODO Replace with for-loop of generated PoolRefLists from pool information
+		PoolRefList lastPool = null;
+		for(Pool p: t.getPools(EVENT_ID)) {
+			lastPool = new PoolRefList(t, p, store);
+			panel_1.add(lastPool);
+		}
 		
-		PoolRefList poolRefList = new PoolRefList();
-		panel_1.add(poolRefList);
-		
-		PoolRefList poolRefList_1 = new PoolRefList();
-		panel_1.add(poolRefList_1);
-		
-		PoolRefList poolRefList_2 = new PoolRefList();
-		panel_1.add(poolRefList_2);
-		
-		PoolRefList poolRefList_3 = new PoolRefList();
-		panel_1.add(poolRefList_3);
-		
-		GridBagLayout gridBagLayout = (GridBagLayout) poolRefList_3.getLayout();
+		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0};
