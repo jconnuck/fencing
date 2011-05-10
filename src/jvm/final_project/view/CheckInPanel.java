@@ -1,6 +1,7 @@
 package final_project.view;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -386,7 +387,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			int nameSplit = name.lastIndexOf(' ');
 			if (nameSplit > 0) {
 				firstName = name.substring(0, nameSplit);
-				lastName = name.substring(nameSplit, name.length());
+				lastName = name.substring(nameSplit+1, name.length());
 			} else {
 				firstName = name;
 				lastName = "";
@@ -398,7 +399,11 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			Object[][] newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank);
 			model.setData(newData);
 			this.getSearchField().setText("");
-			//this.repaint();
+			//Making sure the table is updated nicely
+			//model.modelStructureChanged();
+			sorter.sort();
+			table.clearSelection();
+			this.repaint();
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip

@@ -4,6 +4,7 @@ import java.util.*;
 import final_project.model.*;
 import final_project.model.store.*;
 import final_project.model.DERound.NoSuchMatchException;
+import final_project.view.*;
 import final_project.input.*;
 
 //Created in the main method.
@@ -15,12 +16,14 @@ public class TournamentController implements Constants{
 	private StripController _stripController;
 	private SMSController _smsController;
 	private DataFormattingHelper _dataHelper;
+	private MainWindow _mainWindow;
 
-	public TournamentController(String username, String password, ITournamentInfo info) {
+	public TournamentController(String username, String password, ITournamentInfo info, MainWindow mainWindow) {
 		_currentEventID = 0;
 		_events = new LinkedList<EventController>();
 		_dataStore = info.getDataStore();
 		_stripController = new StripController();
+		_mainWindow = mainWindow;
 
 		for (IEventInfo e : info.getEvents())
 			addEvent(e.getWeaponType(),e.getPreregs());
@@ -250,7 +253,8 @@ public class TournamentController implements Constants{
 			EventController e = iter.next();
 			e.clearPlayers();
 			for(IPlayer i: _dataStore.getPlayers()) {
-				e.addPlayer(i.getID());
+				if(i.getCheckedIn()) //Only adding players that have been checked in
+					e.addPlayer(i.getID());
 			}
 			return;
 		}
