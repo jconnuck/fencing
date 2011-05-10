@@ -33,15 +33,12 @@ public class TournamentController implements Constants{
 	}
 
 	public int addEvent(String weapon){
-		System.out.println("add event called"); //TODO println
 		int id = ++_currentEventID;
 		_events.add(new EventController(id, _dataStore, weapon, _stripController, _smsController));
 		return id;
 	}
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
-		System.out.println("add event called"); //TODO println
-
 		int id = ++_currentEventID;
 		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController, _smsController));
 		return id;
@@ -196,8 +193,8 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
-	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank) {
-		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(true);
+	public Object[][] registerAndCheckInPerson(String number, String firstName, String lastName, int rank, String group) {
+		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", group, rank).setCheckedIn(true);
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
 				_dataStore.putData(p);
