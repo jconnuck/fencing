@@ -52,7 +52,7 @@ public class FencerPool extends Pool{
 	 * @throws IllegalStateException
 	 */
 	public void createIncompleteResults() throws IllegalStateException{
-		System.out.println("beginning hell method.");
+		System.out.println("beginning hell method." + " players size " + _players.size());
 		if(_players.size() > 8  || _players.size() < 4) {
 			throw new IllegalStateException("Illegal pool size (>8 or <4");
 		}
