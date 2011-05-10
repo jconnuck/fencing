@@ -22,6 +22,7 @@ public class PoolRoundController {
         _initialSeeding = initialSeeding;
         _smsController = smsController;
         createPools(_poolSize);
+        _poolRound.createAllIncompleteResult();
 	}
 
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
