@@ -102,8 +102,19 @@ public class DERoundTest {
 		} catch (NoSuchMatchException e) {
 			e.printStackTrace();
 		}
+		assertEquals(round1.getRefMapSize(), 1);
+		assertEquals(round1.getStripMapSize(), 1);
+		assertTrue(round1.getMatches()[3] instanceof CompleteResult);
+		assertFalse(round1.getMatches()[2] instanceof CompleteResult);
+		newResult = new CompleteResult(new PlayerResult(39, 15), new PlayerResult(50, 4));
+		try {
+			round1.addCompleteResult(newResult);
+		} catch (NoSuchMatchException e) {
+			
+		}
 		
-				
+		assertEquals(round1.getRefMapSize(), 1);
+		assertEquals(round1.getStripMapSize(), 1);
 	}
 
 	/**

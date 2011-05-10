@@ -10,8 +10,10 @@ public class PoolRoundController {
 	private int _numPools, _numBigPools, _numSmallPools;
 	private IDataStore _dataStore;
     private List<Integer> _initialSeeding;
+    private StripController _stripController;
 
-	public PoolRoundController(IDataStore ds, List<Integer> initialSeeding) {
+	public PoolRoundController(IDataStore ds, List<Integer> initialSeeding, StripController stripController) {
+		_stripController = stripController;
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
@@ -29,7 +31,7 @@ public class PoolRoundController {
 			return false;
 		}
 
-		_poolRound = new FencerPoolRound(_initialSeeding, _numPools, poolSize);
+		_poolRound = new FencerPoolRound(_initialSeeding, _numPools, poolSize, _stripController);
         _poolRound.populatePools();
         //_poolRound.assignReferees(refs);
         Collection<IReferee> allRefs = _dataStore.getReferees();
@@ -47,7 +49,7 @@ public class PoolRoundController {
 	}
 
 	private void calcPoolSize(int poolSize) throws IllegalArgumentException{
-		PoolSizeCalculator poolSizeCalc = new PoolSizeCalculator(_poolRound.getNumPlayers(), poolSize);
+		PoolSizeCalculator poolSizeCalc = new PoolSizeCalculator(_initialSeeding.size(), poolSize);
 		_numBigPools = poolSizeCalc.getNumBigPools();
 		_numSmallPools = poolSizeCalc.getNumSmallPools();
 		_numPools = _numBigPools + _numSmallPools;

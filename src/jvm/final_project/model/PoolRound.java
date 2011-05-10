@@ -14,7 +14,7 @@ public abstract class PoolRound implements IRound{
 	protected List<Integer> _initialSeeding;
 	protected int _poolSize;
 	protected int _numPlayers;
-	private StripController _stripControl;
+	protected StripController _stripControl;
 
 	/*
 	 * Adds the given completeResult to the appropriate pool.

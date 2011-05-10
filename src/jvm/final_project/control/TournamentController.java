@@ -32,7 +32,7 @@ public class TournamentController implements Constants{
 	public int addEvent(String weapon){
 		System.out.println("add event called"); //TODO println
 		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon));
+		_events.add(new EventController(id, _dataStore, weapon, _stripController));
 		return id;
 	}
 
@@ -40,7 +40,7 @@ public class TournamentController implements Constants{
 		System.out.println("add event called"); //TODO println
 
 		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon, preregs));
+		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController));
 		return id;
 	}
 
@@ -68,6 +68,7 @@ public class TournamentController implements Constants{
 			if(!iter.next().startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
+            return;
 		}
 		throw new IllegalStateException("No event created.");
 	}
@@ -254,6 +255,5 @@ public class TournamentController implements Constants{
 			return;
 		}
 		throw new IllegalStateException("No event created.");
-
 	}
 }
