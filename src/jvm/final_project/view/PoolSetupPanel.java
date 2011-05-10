@@ -40,13 +40,17 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
-		//TODO Replace with for-loop of generated PoolRefLists from pool information
+		// Generating PoolRefLists from pool information
 		PoolRefList lastPool = new PoolRefList(t, new FencerPool(), store);
-		if(t.getPools(EVENT_ID) != null) {
+		if(!t.getPools(EVENT_ID).isEmpty()) {
+		
 			for(Pool p: t.getPools(EVENT_ID)) {
-				panel_1.add(lastPool);
 				lastPool = new PoolRefList(t, p, store);
+				panel_1.add(lastPool);
 			}
+		}
+		else {
+			panel_1.add(lastPool);
 		}
 
 		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();
