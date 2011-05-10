@@ -22,6 +22,7 @@ public class MainWindow {
 	private IDataStore dataStore;
 	private JSplitPane splitPane;
 	private SubscriberAdminPanel subscriberAdminPanel;
+	private JPanel panel_1;
 
 	/**
 	 * Create the application.
@@ -50,15 +51,16 @@ public class MainWindow {
 		frmFencingManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{200, 200, 200, 0};
-		gridBagLayout.rowHeights = new int[]{258, 0};
+		gridBagLayout.rowHeights = new int[]{258, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		frmFencingManager.getContentPane().setLayout(gridBagLayout);
 
 		splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(true);
 
 		GridBagConstraints gbc_splitPane = new GridBagConstraints();
+		gbc_splitPane.insets = new Insets(0, 0, 5, 0);
 		gbc_splitPane.gridwidth = 3;
 		gbc_splitPane.fill = GridBagConstraints.BOTH;
 		gbc_splitPane.gridx = 0;
@@ -77,6 +79,15 @@ public class MainWindow {
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
+		
+		panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.gridwidth = 2;
+		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 1;
+		gbc_panel_1.gridy = 1;
+		frmFencingManager.getContentPane().add(panel_1, gbc_panel_1);
 	}
 	
 	public void loadRightPanel(JPanel panel) {
