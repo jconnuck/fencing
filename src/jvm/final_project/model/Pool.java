@@ -85,9 +85,8 @@ public abstract class Pool {
 	 * @return a boolean true if all of this pool's matches have been completed.
 	 */
 	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
-		if (isPrematureResult(completeResult)) {
+		if (isPrematureResult(completeResult))
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
-		}
 		else {
 			_results.add(completeResult);
 			_incompleteResults.remove(0);
