@@ -1,6 +1,7 @@
 package final_project.model;
 
 import java.util.*;
+
 import final_project.model.store.*;
 
 import final_project.control.StripController;
@@ -218,5 +219,9 @@ public abstract class PoolRound implements IRound{
 	public void populatePools() {
 		for (int i = 0; i < _numPlayers; ++i)
 			_pools.get(i % _pools.size()).addPlayer(_initialSeeding.get(i));
+	}
+
+	public Collection<Pool> getPools() {
+		return _pools;
 	}
 }

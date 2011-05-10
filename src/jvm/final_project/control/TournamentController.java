@@ -26,7 +26,7 @@ public class TournamentController implements Constants{
             addEvent(e.getWeaponType(),e.getPreregs());
 
 		_dataHelper = new DataFormattingHelper(_dataStore);
-		_smsController = new SMSController(_dataStore, this, username, password); 
+		_smsController = new SMSController(_dataStore, this, username, password);
 	}
 
 	public int addEvent(String weapon){
@@ -173,7 +173,7 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
-	public Object[][] registerSpectator(String number, String firstName, String lastName) {		
+	public Object[][] registerSpectator(String number, String firstName, String lastName) {
 		final IPerson temp =  _dataStore.createSpectator(number, firstName, lastName, "", "Spectator");
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
@@ -218,7 +218,7 @@ public class TournamentController implements Constants{
 		Object[][] toReturn = _dataHelper.getPoolSizeInfoTable(stripSizes[0], stripSizes[1]);
 		return toReturn;
 	}
-	
+
 	public String getNameFromId(int playerId) {
 		return _dataStore.getPlayer(playerId).getFirstName() + " " + _dataStore.getPlayer(playerId).getLastName();
 	}
@@ -229,7 +229,11 @@ public class TournamentController implements Constants{
 	}
 
 	public Collection<Pool> getPools(int eventId) {
-		// TODO Auto-generated method stub
-		return new LinkedList<Pool>();
+
+		Iterator<EventController> iter = _events.iterator();
+		if(iter.hasNext()){
+			return iter.next().getPools();
+		}
+		throw new IllegalStateException("No event created.");
 	}
 }

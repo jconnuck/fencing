@@ -115,4 +115,9 @@ public class EventController {
 			}
 		});
 	}
+
+	public Collection<Pool> getPools() {
+		return _poolController.getPools();
+	}
 }
+
