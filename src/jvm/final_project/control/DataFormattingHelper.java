@@ -66,7 +66,7 @@ public class DataFormattingHelper implements Constants {
 					toReturn[index][3] = ((IPlayer)i).getCheckedIn();
 				}
 				else
-					toReturn[index][3] = null;
+					toReturn[index][3] = true;
 
 				/* ID */
 				toReturn[index][4] = i.getID();

@@ -63,7 +63,7 @@ public class EventController {
 	public void addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
 			_poolController.addCompleteResult(result);
-		}else if(_state.equals(State.DE)){
+		} else if(_state.equals(State.DE)){
 			_deController.addCompleteResult(result);
 		}
 	}
@@ -90,6 +90,8 @@ public class EventController {
 		boolean createPoolSuccess = _poolController.createPools(poolSize);
 		if(!createPoolSuccess){
 			_poolController = null;
+		}else{
+			_state = State.POOLS;
 		}
 		return createPoolSuccess;
 	}
@@ -99,6 +101,7 @@ public class EventController {
 			return false;
 		convertPlayersListToSortedSeeding();
 		_deController = new DERoundController(_dataStore, _stripController, _players, cut);
+		_state = State.DE;
 		return true;
 	}
 
@@ -114,7 +117,7 @@ public class EventController {
 				System.out.println("big pools: " + poolSizeCalc.getNumBigPools() + " small: " + poolSizeCalc.getNumSmallPools());
 				toReturn.add(new PoolSizeInfo(i, poolSizeCalc.getNumBigPools(), poolSizeCalc.getNumSmallPools()));
 
-			}catch(IllegalArgumentException e){
+			}catch(Exception e){
 				System.out.println("big pools: " + 0 + " small: " + 0);
 				toReturn.add(new PoolSizeInfo(i, 0, 0));
 			}

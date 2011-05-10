@@ -36,7 +36,7 @@ public class PoolRoundController {
 			return false;
 		}
 
-		_poolRound = new FencerPoolRound(_initialSeeding, _numPools, poolSize, _stripController, _smsController);
+		_poolRound = new FencerPoolRound(_dataStore, _initialSeeding, _numPools, poolSize, _stripController, _smsController);
         _poolRound.populatePools();
         //_poolRound.assignReferees(refs);
         Collection<IReferee> allRefs = _dataStore.getReferees();
