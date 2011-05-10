@@ -32,7 +32,7 @@ public class TournamentController implements Constants{
 	public int addEvent(String weapon){
 		System.out.println("add event called"); //TODO println
 		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon, _stripController));
+		_events.add(new EventController(id, _dataStore, weapon, _stripController, _smsController));
 		return id;
 	}
 
