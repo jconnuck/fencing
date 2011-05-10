@@ -90,6 +90,8 @@ public class EventController {
 		boolean createPoolSuccess = _poolController.createPools(poolSize);
 		if(!createPoolSuccess){
 			_poolController = null;
+		}else{
+			_state = State.POOLS;
 		}
 		return createPoolSuccess;
 	}
@@ -99,6 +101,7 @@ public class EventController {
 			return false;
 		convertPlayersListToSortedSeeding();
 		_deController = new DERoundController(_dataStore, _stripController, _players, cut);
+		_state = State.DE;
 		return true;
 	}
 
