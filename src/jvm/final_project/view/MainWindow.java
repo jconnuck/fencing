@@ -17,33 +17,6 @@ public class MainWindow {
 	private JFrame frmFencingManager;
 	private TournamentController tournamentController;
 	private IDataStore dataStore;
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-////		UIManager.put("nimbusBase", new Color(200, 215, 230));
-////		UIManager.put("nimbusBlueGrey",	new Color(200, 215, 230));
-////		UIManager.put("control", new Color(248,248,248));
-////		UIManager.put("nimbusSelection", DefaultBalloonStyle.bottomFillColor);
-////		UIManager.put("controlHighlight", new Color(233,236,242));
-////		UIManager.put("controlLHighlight", new Color(247,248,250));
-//		try {
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		}
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					MainWindow window = new MainWindow();
-//					window.frmFencingManager.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
@@ -93,21 +66,8 @@ public class MainWindow {
 		subscriberAdminPanel.setMinimumSize(new Dimension(0, 58));
 		splitPane.setLeftComponent(subscriberAdminPanel);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		splitPane.setRightComponent(tabbedPane);
-
 		CheckInPanel checkInPanel = new CheckInPanel(tournamentController);
-
-		tabbedPane.addTab("Check In", null, checkInPanel, null);
-
-		PoolSetupPanel poolSetupPanel = new PoolSetupPanel(tournamentController, dataStore);
-		tabbedPane.addTab("Pool Setup TEST", null, poolSetupPanel, null);
-		
-		PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournamentController, 1, dataStore);
-		tabbedPane.addTab("Pool Observer TEST", null, poolObserverPanel, null);
-		
-		DEBracketUnitPanel deBracketUnitPanel = new DEBracketUnitPanel(tournamentController);
-		tabbedPane.addTab("DE Bracket Unit TEST", null, deBracketUnitPanel, null);
+		splitPane.setRightComponent(checkInPanel);
 
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();

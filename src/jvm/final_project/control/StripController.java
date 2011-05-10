@@ -15,6 +15,13 @@ public class StripController {
 		_occupiedStrips = new LinkedList<Integer>();
 	}
 	
+	public StripController(int numStrips) {
+		_availableStrips = new LinkedList<Integer>();
+		_occupiedStrips = new LinkedList<Integer>();
+		for(int s = 0; s < numStrips; s++)
+			_availableStrips.add(s);
+	}
+	
 	public void setUpStrips(int x, int y, boolean grid) {
 		
 	}

@@ -8,7 +8,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import final_project.control.StripController;
 import final_project.model.*;
+import final_project.model.DERound.NoSuchMatchException;
 import final_project.model.store.*;
 
 /**
@@ -88,8 +90,20 @@ public class DERoundTest {
 		round2.setupRound();
 		round3.setupRound();
 		
-		//CompleteResult newResult = new CompleteResult();
-		//round1.addCompleteResult(newResult);
+		StripController sc = new StripController(1);
+		IDataStore ds = new DataStore();
+		int theRef = ds.createReferee(null, null, null, null, null).getID();
+		
+		round1.setStripController(sc);
+		round1.setDataStore(ds);
+		CompleteResult newResult = new CompleteResult(new PlayerResult(80, 15), new PlayerResult(20, 4));
+		try {
+			round1.addCompleteResult(newResult);
+		} catch (NoSuchMatchException e) {
+			e.printStackTrace();
+		}
+		
+				
 	}
 
 	/**

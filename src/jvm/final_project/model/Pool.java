@@ -27,6 +27,11 @@ public abstract class Pool {
         _observers.remove(observer);
     }
 
+	//currently for testing only
+	public int numPlayers(){
+		return _players.size();
+	}
+
 	/**
 	 * Returns the Collection of all completed matches.
 	 * @return Collection<CompletResult> All matches currently completed.
@@ -46,14 +51,14 @@ public abstract class Pool {
 	public Collection<Integer> getStrips() {
 		return _strips;
 	}
-	
+
 	public void addStrip(Integer toAdd) {
 		_strips.add(toAdd);
 	}
 	public void clearStrips() {
 		_strips.clear();
 	}
-	
+
 	public Collection<Integer> getRefs() {
 		return _refs;
 	}
