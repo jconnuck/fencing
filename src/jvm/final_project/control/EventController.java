@@ -89,7 +89,8 @@ public class EventController {
 	public boolean startDERound(double cut){
 		if(_state != State.POOLS)
 			return false;
-		//_deController = new DERoundController(_dataStore, )
+		convertPlayersListToSortedSeeding();
+		_deController = new DERoundController(_dataStore, _stripController, _players, cut);
 		return true;
 	}
 
