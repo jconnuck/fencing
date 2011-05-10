@@ -23,9 +23,7 @@ public class DEBracketPanel extends JPanel {
 	 */
 	
 	//TODO when a result is texted in, it should be added and a new DEBracketPanel should be created and displayed
-	public DEBracketPanel(TournamentController tournament) {
-		setBounds(new Rectangle(0, 0, 300, 300));
-		setAutoscrolls(true);
+	public DEBracketPanel(TournamentController tournament) {	
 		setLayout(null);
 		
 		//TODO delete mock data
@@ -38,7 +36,7 @@ public class DEBracketPanel extends JPanel {
 			matches[z] = mockIncomplete;
 			
 		//Result[] matches = tournament.getDEMatches(Constants.EVENT_ID);
-		int k = 0, startx, starty, width = 150, height;
+		int k = 0, startx = 0, starty = 0, width = 150, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {
 			startx = 150 * i;
@@ -57,6 +55,7 @@ public class DEBracketPanel extends JPanel {
 				temp.setBounds(startx, starty, width, height + 1);
 				add(temp);
 			}
-		}	
+		}
+		setPreferredSize(new Dimension(startx + width + 10, (int)(160 * (Math.pow(2, log - 1)))));
 	}
 }
