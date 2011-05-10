@@ -28,7 +28,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 	
 	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
 		this.tournament = tournament;
-        this.pool = this.tournament.getPools(0).get(poolNumber);
+        System.out.println(this.tournament.getPools(0));
+        System.out.println(poolNumber);
+        this.pool = this.tournament.getPools(0).get(poolNumber-1);
         this.pool.addObserver(this);
         incompleteResults = new LinkedList<ScoreView>();
         completeResults = new LinkedList<ScoreView>();

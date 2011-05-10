@@ -17,6 +17,7 @@ public abstract class Pool {
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 		_results = new HashSet<CompleteResult>();
+        _observers = new LinkedList<PoolObserver>();
 	}
 
     public void addObserver(PoolObserver observer) {
