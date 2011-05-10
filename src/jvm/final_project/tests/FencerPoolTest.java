@@ -1,6 +1,7 @@
 package final_project.tests;
 
 import java.util.Collection;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -30,6 +31,7 @@ public class FencerPoolTest extends TestCase {
 		assertEquals(6, seedings.size());
 	}
 
+	@Test
 	public void testGetNextResult() {
 		IncompleteResult temp = p.getNextResult();
 		assertEquals(0, temp.getPlayer1());
@@ -41,6 +43,136 @@ public class FencerPoolTest extends TestCase {
 		assertEquals(3, p.getIncompleteResults().get(1).getPlayer1());
 		assertEquals(4, p.getIncompleteResults().get(1).getPlayer2());
 		assertEquals(15, p.getIncompleteResults().size());
+	}
+
+	@Test
+	public void testgetSeeds(){
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(0, 0),
+				new PlayerResult(1, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(3, 0),
+				new PlayerResult(4, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(1, 0),
+				new PlayerResult(2, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(4, 0),
+				new PlayerResult(5, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(2, 0),
+				new PlayerResult(0, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(5, 0),
+				new PlayerResult(3, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(1, 0),
+				new PlayerResult(4, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(0, 0),
+				new PlayerResult(3, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(4, 0),
+				new PlayerResult(2, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(0, 0),
+				new PlayerResult(5, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(3, 0),
+				new PlayerResult(1, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(2, 5),
+				new PlayerResult(5, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(4, 0),
+				new PlayerResult(0, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(2, 0),
+				new PlayerResult(3, 0)));
+
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(5, 0),
+				new PlayerResult(1, 0)));
+		List<FencerSeed> seeding = p.getSeeds();
+		assertEquals(p.numPlayers(), seeding.size());
+	}
+
+	@Test
+	public void testisDone(){
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(0, 0),
+				new PlayerResult(1, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(3, 0),
+				new PlayerResult(4, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(1, 0),
+				new PlayerResult(2, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(4, 0),
+				new PlayerResult(5, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(2, 0),
+				new PlayerResult(0, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(5, 0),
+				new PlayerResult(3, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(1, 0),
+				new PlayerResult(4, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(0, 0),
+				new PlayerResult(3, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(4, 0),
+				new PlayerResult(2, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(0, 0),
+				new PlayerResult(5, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(3, 0),
+				new PlayerResult(1, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(2, 5),
+				new PlayerResult(5, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(4, 0),
+				new PlayerResult(0, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(2, 0),
+				new PlayerResult(3, 0)));
+		assertTrue(!p.isDone());
+		p.addCompletedResult(new CompleteResult(
+				new PlayerResult(5, 0),
+				new PlayerResult(1, 0)));
+		assertTrue(p.isDone());
 	}
 
 	//also tests createIncompleteResults()
