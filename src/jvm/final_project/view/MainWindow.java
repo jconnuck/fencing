@@ -103,7 +103,7 @@ public class MainWindow {
 		PoolSetupPanel poolSetupPanel = new PoolSetupPanel(tournamentController, dataStore);
 		tabbedPane.addTab("Pool Setup TEST", null, poolSetupPanel, null);
 		
-		PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournamentController, 1);
+		PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournamentController, 1, dataStore);
 		tabbedPane.addTab("Pool Observer TEST", null, poolObserverPanel, null);
 		
 		DEBracketUnitPanel deBracketUnitPanel = new DEBracketUnitPanel(tournamentController);

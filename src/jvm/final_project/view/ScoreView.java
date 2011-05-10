@@ -9,14 +9,15 @@ import final_project.model.*;
 
 public class ScoreView extends JPanel {
 	TournamentController tournament;
+    public final String player1Name, player2Name;
 	/**
 	 * Create the panel.
 	 * @wbp.parser.constructor
 	 */
 	private ScoreView(TournamentController tournament, PlayerResult player1, PlayerResult player2) {
 		this.tournament = tournament;
-		String player1Name = tournament.getNameFromId(player1.getPlayerId());
-		String player2Name = tournament.getNameFromId(player2.getPlayerId());
+		player1Name = tournament.getNameFromId(player1.getPlayerId());
+		player2Name = tournament.getNameFromId(player2.getPlayerId());
 		int player1Score = player1.getPlayerScore();
 		int player2Score = player2.getPlayerScore();
 		
