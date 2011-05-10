@@ -4,6 +4,7 @@ import java.util.*;
 
 import final_project.model.store.*;
 
+import final_project.control.SMSController;
 import final_project.control.StripController;
 
 //also serves as pool controller
@@ -15,6 +16,7 @@ public abstract class PoolRound implements IRound{
 	protected int _poolSize;
 	protected int _numPlayers;
 	protected StripController _stripControl;
+	protected SMSController _smsController;
 
 	/*
 	 * Adds the given completeResult to the appropriate pool.
@@ -59,7 +61,10 @@ public abstract class PoolRound implements IRound{
 								newPoolReady = true;
 							}
 							if(newPoolReady) {
-								//TODO: Notify newly ready pool(ref and fencers) that there pool has now begun
+								for(Integer fencer : toCheck.getPlayers()) {
+									
+								}
+								//TODO: Notify newly ready pool(ref and fencers) that their pool has now begun
 							}
 						}
 
