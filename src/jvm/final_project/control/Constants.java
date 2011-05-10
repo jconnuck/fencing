@@ -21,6 +21,7 @@ public interface Constants {
 	/* GUI CONSTANTS */
 	public static final int NUM_COLS_SIGN_IN = 5;
 	public static final int NUM_COLS_SUBSCRIBER_PANEL = 3;
+	public static final int NUM_COLS_POOL_REF_LIST = 3;
 	public static final int NUM_COLS_POOL_SETUP = 4;
 	public static final int NUM_POOL_SIZES_POSSIBLE = 5;
 }
