@@ -393,6 +393,8 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			/* Registering player and resetting the data in the table */
 			Object[][] newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank);
 			model.setData(newData);
+			this.getSearchField().setText("");
+			this.repaint();
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip
@@ -400,12 +402,15 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			signInAllTip.setVisible(true);
 			Object[][] newData = tournament.checkInAll(true);
 			model.setData(newData);
+			this.repaint();
 		}
 		else if (e.getSource() == unsignInAll) {
 			hideAllBalloons();
 			unsignInAllTip.setVisible(true);
 			Object[][] newData = tournament.checkInAll(false);
 			model.setData(newData);
+			this.repaint();
+
 		}
 		else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {
 			hideAllBalloons();
@@ -415,12 +420,16 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			//Checking in all as true!
 			Object[][] newData = tournament.checkInAll(true);
 			model.setData(newData);
+			this.repaint();
+
 		}
 		else if (e.getSource() == unsignInAllPane.getYesButton()) {
 			hideAllBalloons();
 			//Checking in all as false
 			Object[][] newData = tournament.checkInAll(false);
 			model.setData(newData);
+			this.repaint();
+
 		}
 		else if (e.getSource() == stripSetupPane.getCancelButton()) {
 			hideAllBalloons();
