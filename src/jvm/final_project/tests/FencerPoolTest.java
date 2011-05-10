@@ -43,7 +43,7 @@ public class FencerPoolTest extends TestCase {
 		assertEquals(15, p.getIncompleteResults().size());
 	}
 
-	//also does minor testing of createIncompleteResults()
+	//also tests createIncompleteResults()
 	@Test
 	public void testAddCompletedResult() {
 		try{
