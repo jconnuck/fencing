@@ -56,7 +56,7 @@ public class PoolRoundController {
             System.out.println(p.getIncompleteResults().size());
         return true;
 	}
-	
+
 	public void notifyNewPools() {
 		_poolRound.notifyPools();
 	}

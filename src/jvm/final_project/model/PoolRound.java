@@ -208,7 +208,7 @@ public abstract class PoolRound implements IRound{
 	 * Iterates through all pools in round and all that either do not have a referee or strip are notified
 	 * that they have been flighted and must wait to compete.
 	 */
-	public void notifypPools() {
+	public void notifyPools() {
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
 			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
@@ -234,8 +234,8 @@ public abstract class PoolRound implements IRound{
 					   		firstMatch.getPlayer2() + ")";
 					_smsController.sendMessage("Your first match is between: " + name1 + " and " + name2,
 								 			   refPhone);
-				}	
-			}	
+				}
+			}
 		}
 	}
 
