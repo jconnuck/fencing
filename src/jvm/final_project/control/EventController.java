@@ -122,6 +122,7 @@ public class EventController {
 				toReturn.add(new PoolSizeInfo(i, 0, 0));
 			}
 		}
+        System.out.println("valid pool sizes: "+toReturn);
 		return toReturn;
 	}
 
