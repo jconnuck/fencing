@@ -259,8 +259,8 @@ public class SetupWindow {
                                 store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
                                 for(int x = 0; x < 10; x++)
                                 	store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
-                                for(int refNum = 0; refNum < 2; refNum++)
-                                	store.putData(store.createReferee("1234567890", "ref", ((Integer) refNum).toString(), null, "Referee").setReffing(false));
+                                for(int refNum = 0; refNum < 1; refNum++)
+                                	store.putData(store.createReferee("3155690308", "ref", ((Integer) refNum).toString(), null, "Referee").setReffing(false));
 
                             }
                         });

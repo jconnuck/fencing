@@ -28,10 +28,10 @@ public class SMSSender implements Constants {
 	}
 
 	/**
-	 * This is the main method that handles sending a certain message to 
-	 * a certain phone number. It is called by all of the other, more 
+	 * This is the main method that handles sending a certain message to
+	 * a certain phone number. It is called by all of the other, more
 	 * specialized send methods below.
-	 * 
+	 *
 	 * @param message
 	 * @param number
 	 */
@@ -39,7 +39,7 @@ public class SMSSender implements Constants {
 		System.out.println("Send message called on: " + message + "  " + number);
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
-		boolean toReturn = false;
+		boolean toReturn = true;
 
 		try {
 			//Constructing the data
@@ -54,7 +54,7 @@ public class SMSSender implements Constants {
 			URLConnection conn = url.openConnection();
 			conn.setDoOutput(true);
 			wr = new OutputStreamWriter(conn.getOutputStream());
-			wr.write(data);	//Does this block? 
+			wr.write(data);	//Does this block?
 			wr.flush();
 
 			// Get the response
@@ -105,18 +105,18 @@ public class SMSSender implements Constants {
 	}
 
 	/**
-	 * The following methods are convenience methods that the 
-	 * other classes can call so that they don't have to deal 
-	 * with following our SMS protocol. 
+	 * The following methods are convenience methods that the
+	 * other classes can call so that they don't have to deal
+	 * with following our SMS protocol.
 	 */
 
 	/**
-	 * This method allows the admin to send a message to every person 
+	 * This method allows the admin to send a message to every person
 	 * in the tournament.
 	 */
 	public boolean sendAllMessage(String message) {
 		//concatenating phone numbers
-		String number = ""; 
+		String number = "";
 		for(IPerson i: _store.getPeople()) {
 			if (i!= null)
 				number += i.getPhoneNumber() + ",";
@@ -127,12 +127,12 @@ public class SMSSender implements Constants {
 	/**
 	 * Similar to sendAllMessage, this method also takes a group param,
 	 * meaning that only members of this certain group will be alerted.
-	 * 
+	 *
 	 * @param group
 	 * @param message
 	 * @return
 	 */
-	public boolean sendGroupMessage(String group, String message) { 
+	public boolean sendGroupMessage(String group, String message) {
 		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
 			if (i!=null && !i.getPhoneNumber().equals(""))
@@ -171,12 +171,12 @@ public class SMSSender implements Constants {
 		message = "You are now fencing " + _store.getPerson(p1).getFirstName() + " " +
 			_store.getPerson(p1).getLastName() + " on strip " + stripID + ".";
 		toReturn = this.sendMessage(message, _store.getPerson(p2).getPhoneNumber());
-		
+
 		message = "You are reffing " + _store.getPerson(p1).getFirstName() + " " +
 			_store.getPerson(p1).getLastName() + "(id: " + p1 + ") and " + _store.getPerson(p2).getFirstName() + " " +
 			_store.getPerson(p2).getLastName() + "(id: " + p2 + ") on strip " + stripID + ".";
 		toReturn = this.sendMessage(message, _store.getPerson(refID).getPhoneNumber());
-		
+
 		return toReturn;
 	}
 
