@@ -61,10 +61,12 @@ public abstract class PoolRound implements IRound{
 								newPoolReady = true;
 							}
 							if(newPoolReady) {
-								for(Integer fencer : toCheck.getPlayers()) {
-
-								}
-								//TODO: Notify newly ready pool(ref and fencers) that their pool has now begun
+								Iterator<Integer> s = toCheck.getStrips().iterator();
+								Iterator<Integer> r = toCheck.getRefs().iterator();
+								String stripNum = s.next().toString();
+								_smsController.sendCollectionMessage("Your pool is now ready to start on strip: " + stripNum, toCheck.getPlayers());
+								String refPhone = _dataStore.getPerson(r.next()).getPhoneNumber();
+								_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
 							}
 						}
 
