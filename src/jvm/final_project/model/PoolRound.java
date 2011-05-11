@@ -27,6 +27,11 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
 				if(p.addCompletedResult(result)){
+					String refPhone;
+					for(Integer ref : p.getRefs()) {
+						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
+						_smsController.sendMessage("Your pool is now over.", refPhone);
+					}
 					//code to reassign newly free ref(s) and strip(s) to pools that don't have them.
 					Iterator<Integer> refIter = p.getRefs().iterator();
 					Iterator<Integer> stripIter = p.getStrips().iterator();
@@ -65,7 +70,7 @@ public abstract class PoolRound implements IRound{
 								Iterator<Integer> r = toCheck.getRefs().iterator();
 								String stripNum = s.next().toString();
 								_smsController.sendCollectionMessage("Your pool is now ready to start on strip: " + stripNum, toCheck.getPlayers());
-								String refPhone = _dataStore.getPerson(r.next()).getPhoneNumber();
+								refPhone = _dataStore.getPerson(r.next()).getPhoneNumber();
 								_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
 							}
 						}
@@ -80,6 +85,22 @@ public abstract class PoolRound implements IRound{
                             });
 					}
 					p.clearRefs();
+				}
+				else {
+					IncompleteResult nextMatch;
+					String refPhone, name1, name2;
+					for(Integer ref : p.getRefs()) {
+						nextMatch = p.getNextResult();
+						name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
+							    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
+							    nextMatch.getPlayer1() + ")";
+						name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
+					    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
+					    		nextMatch.getPlayer2() + ")";
+						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
+						_smsController.sendMessage("You next match is between: " + name1 + " and " + name2,
+								 				   refPhone);
+					}
 				}
 				//returns true if all pools have completed, false otherwise
 				for(Pool tempPool : _pools){
