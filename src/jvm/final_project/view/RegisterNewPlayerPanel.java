@@ -73,6 +73,7 @@ public class RegisterNewPlayerPanel extends JPanel {
 		add(lblTeam, gbc_lblTeam);
 		
 		textField = new JTextField();
+		textField.setBackground(Color.WHITE);
 		textField.setColumns(10);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 3;
@@ -156,6 +157,16 @@ public class RegisterNewPlayerPanel extends JPanel {
 		gbc_cancelButton.gridy = 7;
 		add(cancelButton, gbc_cancelButton);
 
+	}
+	
+	public void resetPane() {
+		nameTextField.setText("");
+		phoneNumberTextField.setText("");
+		rankField.setText("");
+		
+		nameTextField.setBackground(Color.WHITE);
+		phoneNumberTextField.setBackground(Color.WHITE);
+		rankField.setBackground(Color.WHITE);
 	}
 	
 	public void setNoResults(boolean noResults) {

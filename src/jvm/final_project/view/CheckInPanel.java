@@ -30,7 +30,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private JSearchTextField searchField;
 	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
 	private Collection<BalloonTip> balloons;
-	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip;
+	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip, blankFieldTip;
 	private CheckInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
 	private ConfirmationPanel signInAllPane, unsignInAllPane;
@@ -82,9 +82,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		registerPersonButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registerNewPlayerPane.setNoResults(false);
-				registerNewPlayerPane.getNameTextField().requestFocusInWindow();
-				registerNewPlayerPane.getNameTextField().setText("");
-				registerNewPlayerPane.getPhoneNumberTextField().setText("");
+				registerNewPlayerPane.resetPane();
 				tournament.getMainWindow().hideAllBalloons();
 				registerNewPlayerTip.setVisible(true);
 			}
@@ -202,37 +200,33 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		//setup tooltips
 		signInPlayerPane = new CheckInPlayerPanel();
 		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
-		signInPlayerTip.setOpacity(0.9f);
 		signInPlayerPane.getCancelButton().addActionListener(this);
 		signInPlayerPane.getSignInButton().addActionListener(this);
 
 		registerNewPlayerPane = new RegisterNewPlayerPanel();
 		registerNewPlayerTip = new BalloonTip(registerPersonButton, registerNewPlayerPane, new DefaultBalloonStyle(), false);
-		registerNewPlayerTip.setOpacity(0.9f);
 		registerNewPlayerPane.getCancelButton().addActionListener(this);
 		registerNewPlayerPane.getDoneButton().addActionListener(this);
 
 		signInAllPane = new ConfirmationPanel("sign in");
 		signInAllTip = new BalloonTip(signInAll, signInAllPane, new DefaultBalloonStyle(), false);
-		signInAllTip.setOpacity(0.9f);
 		signInAllPane.getCancelButton().addActionListener(this);
 		signInAllPane.getYesButton().addActionListener(this);
 
 		unsignInAllPane = new ConfirmationPanel("un-sign in");
 		unsignInAllTip = new BalloonTip(unsignInAll, unsignInAllPane, new DefaultBalloonStyle(), false);
-		unsignInAllTip.setOpacity(0.9f);
 		unsignInAllPane.getCancelButton().addActionListener(this);
 		unsignInAllPane.getYesButton().addActionListener(this);
 
 		stripSetupPane = new StripSetupPanel();
 		stripSetupTip = new BalloonTip(startPoolRound, stripSetupPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
-		stripSetupTip.setOpacity(0.9f);
 		stripSetupPane.getCancelButton().addActionListener(this);
 		stripSetupPane.getDoneButton().addActionListener(this);
 
 		poolSizeInfoPane = new PoolSizeInfoPanel(tournament);
 		poolSizeTip = new BalloonTip(startPoolRound, poolSizeInfoPane, new DefaultBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.ALIGNED, 10, 10, false);
-		poolSizeTip.setOpacity(0.9f);
+		
+		blankFieldTip = new BalloonTip(registerNewPlayerPane.getDoneButton(), new JLabel("Sorry, one or more required field is blank."), new NotificationBalloonStyle(), Orientation.RIGHT_BELOW, AttachLocation.SOUTH, 8, 8, false);
 
 		balloons.add(signInPlayerTip);
 		balloons.add(registerNewPlayerTip);
@@ -240,6 +234,8 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		balloons.add(unsignInAllTip);
 		balloons.add(stripSetupTip);
 		balloons.add(poolSizeTip);
+		balloons.add(blankFieldTip);
+		setBalloonsOpacity(0.9f);
 		hideAllBalloons();
 	}
 
@@ -374,12 +370,12 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		}
 		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
 			signInSelectedPlayer(true);
+			this.searchField.setText("");
 		}
 		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
 			tournament.getMainWindow().hideAllBalloons();
 		}
 		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
-			tournament.getMainWindow().hideAllBalloons();
 			//Getting the info out of the registerNewPlayerPane
 			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
 			String name = registerNewPlayerPane.getNameTextField().getText();
@@ -395,26 +391,54 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			int rank = 0;
 			if(!registerNewPlayerPane.getRankField().getText().equals(""))
 				rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
-			//TODO: If a fencer and rank == 0, ALERT GUI
+			
 			String group = (String)registerNewPlayerPane.getGroup().getSelectedItem();
 			String club = registerNewPlayerPane.getTeamField().getText();
 			System.out.println("Club: " + club);
-
-			/* Registering player and resetting the data in the table */
-			Object[][] newData = null;
-			if(group.equals("Fencer"))
-				newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);
-			else
-				newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
-			
-			System.out.println("new data: " + newData);
-			model.setData(newData);
-			this.getSearchField().setText("");
-			//Making sure the table is updated nicely
-			sorter.modelStructureChanged();
-			sorter.sort();
-			table.clearSelection();
-			this.repaint();
+			//TODO: If a fencer and rank == 0, ALERT GUI
+			if (name.equals("") || number.equals("(***)-***-****") || rank == 0) //||tournament.isUniquePhoneNumber())
+			{
+				//Create tooltip warning user that required fields are blank
+				blankFieldTip.setVisible(true);
+				//Highlight missing fields pink
+				Color highlightColor = new Color(255, 160, 122);
+				if (rank == 0) {
+					registerNewPlayerPane.getRankField().setBackground(highlightColor);
+					registerNewPlayerPane.getRankField().requestFocusInWindow();
+				} else {
+					registerNewPlayerPane.getRankField().setBackground(Color.WHITE);
+				}
+				if (number.equals("")) {
+					registerNewPlayerPane.getPhoneNumberTextField().setBackground(highlightColor);
+					registerNewPlayerPane.getPhoneNumberTextField().requestFocusInWindow();
+				} else {
+					registerNewPlayerPane.getPhoneNumberTextField().setBackground(Color.WHITE);
+				}
+				if (name.equals("")) {
+					registerNewPlayerPane.getNameTextField().setBackground(highlightColor);
+					registerNewPlayerPane.getNameTextField().requestFocusInWindow();
+				} else {
+					registerNewPlayerPane.getNameTextField().setBackground(Color.WHITE);
+				}
+			}
+			else {
+				/* Registering player and resetting the data in the table */
+				Object[][] newData = null;
+				if(group.equals("Fencer"))
+					newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);
+				else
+					newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
+				
+				System.out.println("new data: " + newData);
+				model.setData(newData);
+				this.getSearchField().setText("");
+				//Making sure the table is updated nicely
+				tournament.getMainWindow().hideAllBalloons();
+				sorter.modelStructureChanged();
+				sorter.sort();
+				table.clearSelection();
+				this.repaint();
+			}
 		}
 		else if (e.getSource() == signInAll) {
 			//Make new signInAllTooltip
@@ -484,5 +508,11 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	public void hideAllBalloons() {
 		for (BalloonTip b : balloons)
 			b.setVisible(false);
+	}
+	
+	public void setBalloonsOpacity(float opacity) {
+		for (BalloonTip balloon : balloons) {
+			balloon.setOpacity(opacity);
+		}
 	}
 }
