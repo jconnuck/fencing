@@ -27,6 +27,12 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
 				if(p.addCompletedResult(result)){
+					// Notify the referee(s) that their pool is now completed
+					String refPhone;
+					for(Integer ref : p.getRefs()) {
+						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
+						_smsController.sendMessage("Your pool is now over.", refPhone);
+					}
 					//code to reassign newly free ref(s) and strip(s) to pools that don't have them.
 					Iterator<Integer> refIter = p.getRefs().iterator();
 					Iterator<Integer> stripIter = p.getStrips().iterator();
@@ -61,10 +67,12 @@ public abstract class PoolRound implements IRound{
 								newPoolReady = true;
 							}
 							if(newPoolReady) {
-								for(Integer fencer : toCheck.getPlayers()) {
-
-								}
-								//TODO: Notify newly ready pool(ref and fencers) that their pool has now begun
+								Iterator<Integer> s = toCheck.getStrips().iterator();
+								Iterator<Integer> r = toCheck.getRefs().iterator();
+								String stripNum = s.next().toString();
+								_smsController.sendCollectionMessage("Your pool is now ready to start on strip: " + stripNum, toCheck.getPlayers());
+								refPhone = _dataStore.getPerson(r.next()).getPhoneNumber();
+								_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
 							}
 						}
 
@@ -78,6 +86,23 @@ public abstract class PoolRound implements IRound{
                             });
 					}
 					p.clearRefs();
+				}
+				else {
+					// Notify the referee(s) about their next match
+					IncompleteResult nextMatch;
+					String refPhone, name1, name2;
+					for(Integer ref : p.getRefs()) {
+						nextMatch = p.getNextResult();
+						name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
+							    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
+							    nextMatch.getPlayer1() + ")";
+						name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
+					    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
+					    		nextMatch.getPlayer2() + ")";
+						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
+						_smsController.sendMessage("You next match is between: " + name1 + " and " + name2,
+								 				   refPhone);
+					}
 				}
 				//returns true if all pools have completed, false otherwise
 				for(Pool tempPool : _pools){
@@ -98,9 +123,8 @@ public abstract class PoolRound implements IRound{
 	public void createAllIncompleteResult(){
 		for(Pool p : _pools){
 			((FencerPool) p).createIncompleteResults();
-			System.out.println("incomplete results size after createion " + ((FencerPool) p).getIncompleteResults().size());
+			System.out.println("incomplete results size after creation " + ((FencerPool) p).getIncompleteResults().size());
 		}
-
 	}
 
 	/**
@@ -137,7 +161,6 @@ public abstract class PoolRound implements IRound{
 
         Iterator<Integer> iter;
         for(Pool p : _pools){
-        	//TODO: notify gui and fencers that pool has been flighted
         	if(refs.isEmpty()){
         		p.clearRefs();
         	}else{
@@ -156,7 +179,7 @@ public abstract class PoolRound implements IRound{
                 }
                 p.addRef(temp);
                 iter.remove();
-                toReturn = false;
+                toReturn = haveConflict(p, temp);
         	}
         }
         return toReturn;
@@ -171,10 +194,23 @@ public abstract class PoolRound implements IRound{
 			if(!p.getRefs().isEmpty()){
 				if(_stripControl.availableStrip())
 					p.addStrip(_stripControl.checkOutStrip());
-				else {
-					//TODO: Send message to all the rest of the pools that they have been flighted
+				else
 					return;
-				}
+			}
+		}
+	}
+	
+	/**
+	 * Iterates through all pools in round and all that either do not have a referee or strip are notified
+	 * that they have been flighted and must wait to compete.
+	 */
+	public void notifyFlightedPools() {
+		for(Pool p : _pools) {
+			if(p.getRefs() == null  ||  p.getStrips()  == null ||
+			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
+				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
+				p.clearRefs();
+				p.clearStrips();
 			}
 		}
 	}
@@ -238,11 +274,7 @@ public abstract class PoolRound implements IRound{
 		}
 
 		for (Pool p: _pools) {
-            System.out.println("before shuffle numPlayers: "+p.numPlayers());
-            System.out.println("before shuffle numCollections: "+p.getIncompleteResults().size());
 			p.shufflePlayers();
-            System.out.println("after shuffle numPlayers: "+p.numPlayers());
-            System.out.println("after shuffle numCollections: "+p.getIncompleteResults().size());
         }
 	}
 

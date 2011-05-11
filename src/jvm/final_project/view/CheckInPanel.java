@@ -28,7 +28,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private TableRowSorter<SignInTableModel> sorter;
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
-	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
+	private JButton signInAll, unsignInAll, registerPersonButton, startPoolRound;
 	private Collection<BalloonTip> balloons;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip, blankFieldTip;
 	private CheckInPlayerPanel signInPlayerPane;
@@ -80,13 +80,13 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		gbc_registerPersonButton.gridy = 1;
 		add(registerPersonButton, gbc_registerPersonButton);
 		registerPersonButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				registerNewPlayerPane.setNoResults(false);
-				registerNewPlayerPane.resetPane();
-				tournament.getMainWindow().hideAllBalloons();
-				registerNewPlayerTip.setVisible(true);
-			}
-		});
+                public void actionPerformed(ActionEvent arg0) {
+                    registerNewPlayerPane.setNoResults(false);
+                    registerNewPlayerPane.resetPane();
+                    tournament.getMainWindow().hideAllBalloons();
+                    registerNewPlayerTip.setVisible(true);
+                }
+            });
 
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -98,14 +98,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		add(scrollPane, gbc_scrollPane);
 
 		scrollPane.setViewportView(table);
-
-		importXml = new JButton("Import XML");
-		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
-		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
-		gbc_btnImportXml.gridx = 1;
-		gbc_btnImportXml.gridy = 3;
-		add(importXml, gbc_btnImportXml);
-		importXml.addActionListener(this);
 		
 		fileLabel = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
@@ -128,17 +120,17 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private void initializeSearch() {
 		searchField = new JSearchTextField();
 		searchField.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						filter();
-					}
-					public void insertUpdate(DocumentEvent e) {
-						filter();
-					}
-					public void removeUpdate(DocumentEvent e) {
-						filter();
-					}
-				});
+                                                      new DocumentListener() {
+                                                          public void changedUpdate(DocumentEvent e) {
+                                                              filter();
+                                                          }
+                                                          public void insertUpdate(DocumentEvent e) {
+                                                              filter();
+                                                          }
+                                                          public void removeUpdate(DocumentEvent e) {
+                                                              filter();
+                                                          }
+                                                      });
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.gridwidth = 2;
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
@@ -149,13 +141,13 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		searchField.setColumns(10);
 		
 		searchField.addKeyListener
-		(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					signInSelectedPlayer(true);
-				}
-			}
-		});
+            (new KeyAdapter() {
+                    public void keyPressed(KeyEvent e) {
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                            signInSelectedPlayer(true);
+                        }
+                    }
+                });
 	}
 	
 	private void signInSelectedPlayer(boolean checkAs) {
@@ -296,27 +288,30 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		}
 
 		@Override
-		public int getColumnCount() {
+            public int getColumnCount() {
 			return columnNames.length;
 		}
 		@Override
-		public int getRowCount() {
+            public int getRowCount() {
 			return data.length;
 		}
 		@Override
-		public String getColumnName(int col) {
+            public String getColumnName(int col) {
 			return columnNames[col];
 		}
 		@Override
-		public Object getValueAt(int row, int col) {
+            public Object getValueAt(int row, int col) {
 			return data[row][col];
 		}
 		@Override
-		public Class getColumnClass(int c) {
-			return getValueAt(0, c).getClass();
+            public Class getColumnClass(int c) {
+            if (c==3)
+                return Boolean.FALSE.getClass();
+            else
+                return "".getClass();
 		}
 		@Override
-		public boolean isCellEditable(int row, int col) {
+            public boolean isCellEditable(int row, int col) {
 			if (col < 2) {
 				return false;
 			} else {
@@ -324,7 +319,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			}
 		}
 		@Override
-		public void setValueAt(Object value, int row, int col) {
+            public void setValueAt(Object value, int row, int col) {
 			if(data.length == 0)
 				return;
 			data[row][col] = value;
@@ -332,7 +327,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		}
 
 		@Override
-		public void tableChanged(TableModelEvent e) {
+            public void tableChanged(TableModelEvent e) {
 	        int row = e.getFirstRow();
 			int column = e.getColumn();
 	        TableModel model = (TableModel)e.getSource();
@@ -350,169 +345,157 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == importXml) {
-			//Import xml file
-			JFileChooser fileChooser = new JFileChooser();
-			int returnValue = fileChooser.showOpenDialog(importXml);
-			
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				xmlFile = fileChooser.getSelectedFile();
-				fileLabel.setText(xmlFile.getPath());
-			}
-		}
-		else if (e.getSource() == startPoolRound) {
-			tournament.getMainWindow().hideAllBalloons();
-			stripSetupTip.setVisible(true);
-		}
-		else if (e.getSource() == signInPlayerPane.getCancelButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-		}
-		else if (e.getSource() == signInPlayerPane.getSignInButton()) {
-			signInSelectedPlayer(true);
-			this.searchField.setText("");
-		}
-		else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-		}
-		else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
-			//Getting the info out of the registerNewPlayerPane
-			String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
-			String name = registerNewPlayerPane.getNameTextField().getText();
-			String firstName = "", lastName = "";
-			int nameSplit = name.lastIndexOf(' ');
-			if (nameSplit > 0) {
-				firstName = name.substring(0, nameSplit);
-				lastName = name.substring(nameSplit+1, name.length());
-			} else {
-				firstName = name;
-				lastName = "";
-			}
-			int rank = 0;
-			if(!registerNewPlayerPane.getRankField().getText().equals(""))
-				rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
-			
-			String group = (String)registerNewPlayerPane.getGroup().getSelectedItem();
-			String club = registerNewPlayerPane.getTeamField().getText();
-			System.out.println("Club: " + club);
-			//TODO: If a fencer and rank == 0, ALERT GUI
-			if (name.equals("") || number.equals("(***)-***-****") || rank == 0) //||tournament.isUniquePhoneNumber())
-			{
-				//Create tooltip warning user that required fields are blank
-				blankFieldTip.setVisible(true);
-				//Highlight missing fields pink
-				Color highlightColor = new Color(255, 160, 122);
-				if (rank == 0) {
-					registerNewPlayerPane.getRankField().setBackground(highlightColor);
-					registerNewPlayerPane.getRankField().requestFocusInWindow();
-				} else {
-					registerNewPlayerPane.getRankField().setBackground(Color.WHITE);
-				}
-				if (number.equals("")) {
-					registerNewPlayerPane.getPhoneNumberTextField().setBackground(highlightColor);
-					registerNewPlayerPane.getPhoneNumberTextField().requestFocusInWindow();
-				} else {
-					registerNewPlayerPane.getPhoneNumberTextField().setBackground(Color.WHITE);
-				}
-				if (name.equals("")) {
-					registerNewPlayerPane.getNameTextField().setBackground(highlightColor);
-					registerNewPlayerPane.getNameTextField().requestFocusInWindow();
-				} else {
-					registerNewPlayerPane.getNameTextField().setBackground(Color.WHITE);
-				}
-			}
-			else {
-				/* Registering player and resetting the data in the table */
-				Object[][] newData = null;
-				if(group.equals("Fencer"))
-					newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);
-				else
-					newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
-				
-				System.out.println("new data: " + newData);
-				model.setData(newData);
-				this.getSearchField().setText("");
-				//Making sure the table is updated nicely
-				tournament.getMainWindow().hideAllBalloons();
-				sorter.modelStructureChanged();
-				sorter.sort();
-				table.clearSelection();
-				this.repaint();
-			}
-		}
-		else if (e.getSource() == signInAll) {
-			//Make new signInAllTooltip
-			tournament.getMainWindow().hideAllBalloons();
-			signInAllTip.setVisible(true);
+        public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == startPoolRound) {
+            tournament.getMainWindow().hideAllBalloons();
+            stripSetupTip.setVisible(true);
+        }
+        else if (e.getSource() == signInPlayerPane.getCancelButton()) {
+            tournament.getMainWindow().hideAllBalloons();
+        }
+        else if (e.getSource() == signInPlayerPane.getSignInButton()) {
+            signInSelectedPlayer(true);
+            this.searchField.setText("");
+        }
+        else if (e.getSource() == registerNewPlayerPane.getCancelButton()) {
+            tournament.getMainWindow().hideAllBalloons();
+        }
+        else if (e.getSource() == registerNewPlayerPane.getDoneButton()) {
+            //Getting the info out of the registerNewPlayerPane
+            String number = registerNewPlayerPane.getPhoneNumberTextField().getText();
+            String name = registerNewPlayerPane.getNameTextField().getText();
+            String firstName = "", lastName = "";
+            int nameSplit = name.lastIndexOf(' ');
+            if (nameSplit > 0) {
+                firstName = name.substring(0, nameSplit);
+                lastName = name.substring(nameSplit+1, name.length());
+            } else {
+                firstName = name;
+                lastName = "";
+            }
+            int rank = 0;
+            if(!registerNewPlayerPane.getRankField().getText().equals(""))
+                rank = Integer.parseInt(registerNewPlayerPane.getRankField().getText());
+    
+            String group = (String)registerNewPlayerPane.getGroup().getSelectedItem();
+            String club = registerNewPlayerPane.getTeamField().getText();
+            System.out.println("Club: " + club);
+            //TODO: If a fencer and rank == 0, ALERT GUI
+            if (name.equals("") || number.equals("(***)-***-****") || rank == 0) {
+                //Create tooltip warning user that required fields are blank
+                blankFieldTip.setVisible(true);
+                //Highlight missing fields pink
+                Color highlightColor = new Color(255, 160, 122);
+                if (rank == 0) {
+                    registerNewPlayerPane.getRankField().setBackground(highlightColor);	 	
+                    registerNewPlayerPane.getRankField().requestFocusInWindow();	 	
+                } else {	 	
+                    registerNewPlayerPane.getRankField().setBackground(Color.WHITE);	 	
+                }	 	
+                if (number.equals("")) {	 	
+                    registerNewPlayerPane.getPhoneNumberTextField().setBackground(highlightColor);
+                    registerNewPlayerPane.getPhoneNumberTextField().requestFocusInWindow();	 	
+                } else {	 	
+                    registerNewPlayerPane.getPhoneNumberTextField().setBackground(Color.WHITE);
+                }
+                if (name.equals("")) {
+                    registerNewPlayerPane.getNameTextField().setBackground(highlightColor);	 	
+                    registerNewPlayerPane.getNameTextField().requestFocusInWindow();	 	
+                } else {	 	
+                    registerNewPlayerPane.getNameTextField().setBackground(Color.WHITE);
+                }
+            } else {
+                /* Registering player and resetting the data in the table */
+                Object[][] newData = null;
+                if(group.equals("Fencer"))
+                    newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);	 	
+                else	 	
+                    newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
+                        
+                System.out.println("new data: " + newData);
+                model.setData(newData);
+                this.getSearchField().setText("");
+                //Making sure the table is updated nicely
+                tournament.getMainWindow().hideAllBalloons();
+                sorter.modelStructureChanged();
+                sorter.sort();
+                table.clearSelection();
+                this.repaint();
+            }
+        }
+        else if (e.getSource() == signInAll) {
+            //Make new signInAllTooltip
+            tournament.getMainWindow().hideAllBalloons();
+            signInAllTip.setVisible(true);
+	 	
+        }
+        else if (e.getSource() == unsignInAll) {
+            tournament.getMainWindow().hideAllBalloons();
+            unsignInAllTip.setVisible(true);
+	 	
+        }
+        else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {	 	
+            tournament.getMainWindow().hideAllBalloons();	 	
+        }	 	
+        else if (e.getSource() == signInAllPane.getYesButton()) {	 	
+            tournament.getMainWindow().hideAllBalloons();	 	
+            //Checking in all as true!	 	
+            Object[][] newData = tournament.checkInAll(true);	 	
+            model.setData(newData);	 	
+            //Fix for weird sorting	 	
+            sorter.sort();	 	
+            table.clearSelection();	 	
+            this.repaint();	 	
+	 	
+        }	 	
+        else if (e.getSource() == unsignInAllPane.getYesButton()) {	 	
+            tournament.getMainWindow().hideAllBalloons();	 	
+            //Checking in all as false	 	
+            Object[][] newData = tournament.checkInAll(true);
+            model.setData(newData);
+            //Fix for weird sorting
+            sorter.sort();
+            table.clearSelection();
+            this.repaint();
+            
+        }
+        else if (e.getSource() == stripSetupPane.getCancelButton()) {
+            tournament.getMainWindow().hideAllBalloons();
+        }
+        else if (e.getSource() == stripSetupPane.getDoneButton()) {
+            tournament.getMainWindow().hideAllBalloons();
+            
+            //Getting the strip arrangement from the editor
+            int row = (Integer) stripSetupPane.getRowSpinner().getValue();
+            int col = (Integer) stripSetupPane.getColSpinner().getValue();
+            tournament.setStripSizes(EVENT_ID, row, col);
+            
+            //Registering all of the current players into the event
+            tournament.addAllPlayersToEvent(EVENT_ID);
+    
+            poolSizeTip.setVisible(true);
+            Object[][] newData = tournament.getPoolSizeInfoTable();
+            poolSizeInfoPane.setData(newData);
+            this.repaint();
+        }
+    }
 
-		}
-		else if (e.getSource() == unsignInAll) {
-			tournament.getMainWindow().hideAllBalloons();
-			unsignInAllTip.setVisible(true);
+    public JSearchTextField getSearchField() {
+        return searchField;
+    }
 
-		}
-		else if (e.getSource() == signInAllPane.getCancelButton() || e.getSource() == unsignInAllPane.getCancelButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-		}
-		else if (e.getSource() == signInAllPane.getYesButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-			//Checking in all as true!
-			Object[][] newData = tournament.checkInAll(true);
-			model.setData(newData);
-	        //Fix for weird sorting
-	        sorter.sort();
-	        table.clearSelection();
-			this.repaint();
+    public JButton getAddFencerButton() {
+        return registerPersonButton;
+    }
 
-		}
-		else if (e.getSource() == unsignInAllPane.getYesButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-			//Checking in all as false
-			Object[][] newData = tournament.checkInAll(false);
-			model.setData(newData);
-	        //Fix for weird sorting
-	        sorter.sort();
-	        table.clearSelection();
-			this.repaint();
-
-		}
-		else if (e.getSource() == stripSetupPane.getCancelButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-		}
-		else if (e.getSource() == stripSetupPane.getDoneButton()) {
-			tournament.getMainWindow().hideAllBalloons();
-
-			//Getting the strip arrangement from the editor
-			int row = (Integer) stripSetupPane.getRowSpinner().getValue();
-			int col = (Integer) stripSetupPane.getColSpinner().getValue();
-			tournament.setStripSizes(EVENT_ID, row, col);
-
-			//Registering all of the current players into the event
-			tournament.addAllPlayersToEvent(EVENT_ID);
-			
-			poolSizeTip.setVisible(true);
-			Object[][] newData = tournament.getPoolSizeInfoTable();
-			poolSizeInfoPane.setData(newData);
-			this.repaint();
-		}
-	}
-
-	public JSearchTextField getSearchField() {
-		return searchField;
-	}
-
-	public JButton getAddFencerButton() {
-		return registerPersonButton;
-	}
-
-	public void hideAllBalloons() {
-		for (BalloonTip b : balloons)
-			b.setVisible(false);
-	}
+    public void hideAllBalloons() {
+        for (BalloonTip b : balloons)
+            b.setVisible(false);
+    }
 	
-	public void setBalloonsOpacity(float opacity) {
-		for (BalloonTip balloon : balloons) {
-			balloon.setOpacity(opacity);
-		}
-	}
+    public void setBalloonsOpacity(float opacity) {
+        for (BalloonTip balloon : balloons) {
+            balloon.setOpacity(opacity);
+        }
+    }
 }

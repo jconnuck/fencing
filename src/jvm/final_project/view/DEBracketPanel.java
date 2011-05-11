@@ -50,6 +50,7 @@ public class DEBracketPanel extends JPanel {
 					starty = (int) (((Math.pow(2, i -1) - 1) * 80) + 75 + (2 * j * height));
 				}
 				++k;
+
 				DEBracketUnitPanel temp = new DEBracketUnitPanel(tournament, matches[matches.length - k]);
 				//height must be one greater than the calculated value in order to line up properly
 				temp.setBounds(startx, starty, width, height + 1);

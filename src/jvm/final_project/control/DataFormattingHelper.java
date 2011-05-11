@@ -1,6 +1,6 @@
 package final_project.control;
 
-import java.util.Iterator;
+import java.util.*;
 import final_project.model.*;
 import final_project.model.store.*;
 
@@ -27,53 +27,41 @@ public class DataFormattingHelper implements Constants {
 	 * @return
 	 */
 	public Object[][] giveSignInPanelInfo() {
-		int numPeople = _dataStore.getPeople().size() - _dataStore.getPeopleForGroup("Spectator").size();
+        Collection<IPerson> people = _dataStore.getPeopleWithoutGroup("Spectator");
+		int numPeople = people.size();
 		Object[][] toReturn = new Object[numPeople][NUM_COLS_SIGN_IN];
 
-		//Making one blank row so that the GUI does not break on empty input
-		for(int i=0; i < NUM_COLS_SIGN_IN; i++)
-			toReturn[0][i] = "";
-
 		int index = 0;
-		for (IPerson i: _dataStore.getPeople()) {
-			if(!i.getGroup().equals("Spectator")){
-				/* NAME */
-				toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
+		for (IPerson i: people) {
+            /* NAME */
+            toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
 
-				/* CLUB */
-				if(i instanceof IPlayer) {
-					Iterator<Integer> iter = ((IPlayer) i).getClubs().iterator();
-					if(iter.hasNext()) //Such a mess, just to get out the club name...
-						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
-					else
-						toReturn[index][1] = "";
-				}
-				else if(i instanceof IReferee) {
-					Iterator<Integer> iter = ((IReferee) i).getClubs().iterator();
-					if(iter.hasNext()) //Such a mess, just to get out the club name...
-						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
-					else
-						toReturn[index][1] = "";
-				}
-				else
-					toReturn[index][1] = "";
+            /* CLUB */
+            if(i instanceof IHasClub) {
+                Iterator<Integer> iter = ((IHasClub) i).getClubs().iterator();
+                if(iter.hasNext()) //Such a mess, just to get out the club name...
+                    toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
+                else
+                    toReturn[index][1] = "";
+            }
+            else
+                toReturn[index][1] = "";
 
-				/* GROUP */
-				toReturn[index][2] = i.getGroup();
+            /* GROUP */
+            toReturn[index][2] = i.getGroup();
 
-				/* SIGNED IN (if player) */
-				if(i instanceof IPlayer) {
-					toReturn[index][3] = ((IPlayer)i).getCheckedIn();
-				}
-				else
-					toReturn[index][3] = true;
+            /* SIGNED IN (if player) */
+            if(i instanceof IPlayer) {
+                toReturn[index][3] = ((IPlayer)i).getCheckedIn();
+            }
+            else
+                toReturn[index][3] = true;
 
-				/* ID */
-				toReturn[index][4] = i.getID();
+            /* ID */
+            toReturn[index][4] = i.getID();
 
-				index++;
-			}
-		}
+            index++;
+        }
 		return toReturn;
 	}
 
@@ -85,15 +73,7 @@ public class DataFormattingHelper implements Constants {
 	public Object[][] giveSubscriberTableInfo() {
 		//Making the object array with as many rows as spectators in the data store
 		Object[][] toReturn = null;
-		if(_dataStore.getPeopleForGroup("Spectator").size()!=0)
-			toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
-		else
-			toReturn = new Object[1][NUM_COLS_SUBSCRIBER_PANEL];
-
-		//TODO WHY DOES THE GUI BREAK ON EMPTY INPUT????
-		//Making one blank row so that the GUI does not break on empty input
-		for(int i=0; i < NUM_COLS_SUBSCRIBER_PANEL; i++)
-			toReturn[0][i] = "";
+        toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
 
 		int index = 0;
 		for(IPerson i: _dataStore.getPeopleForGroup("Spectator")) {
@@ -105,7 +85,7 @@ public class DataFormattingHelper implements Constants {
 				int id = ((Integer)(i.getWatched().iterator().next())).intValue();
 				System.out.println("ID in data formatting helper subscribe panel" + id); //TODO println
 				IObservable followed = _dataStore.getObservable(id);
-				if(followed instanceof IClub) 
+				if(followed instanceof IClub)
 					toReturn[index][2] =  ((IClub) followed).getName() + "";
 			}
 
@@ -134,23 +114,23 @@ public class DataFormattingHelper implements Constants {
 
 	public Object[][] getPoolRefListTable(Pool pool) {
 		Object[][] toReturn = new Object[pool.getPlayers().size()][NUM_COLS_POOL_REF_LIST];
-		
+
 		int i = 0;
 		for(int p: pool.getPlayers()) {
 			//Not checking for data store null ptrs but whatever.
 			toReturn[i][0] = _dataStore.getPerson(p).getFirstName() + " " + _dataStore.getPerson(p).getLastName();
-			
+
 			toReturn[i][1] = "";
 			Iterator<Integer> clubs = _dataStore.getPlayer(p).getClubs().iterator();
 			if(clubs.hasNext()) {
 				toReturn[i][1] = _dataStore.getClub(clubs.next()).getName();
 			}
-			
+
 			toReturn[i][2] = i+1;
-			
+
 			i++;
 		}
-		
+
 		return toReturn;
 	}
 

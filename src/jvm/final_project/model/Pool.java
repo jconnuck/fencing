@@ -1,4 +1,3 @@
-//tested
 package final_project.model;
 
 import java.util.*;

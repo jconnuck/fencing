@@ -12,6 +12,8 @@ import java.util.Scanner;
 import final_project.model.IncompleteResult;
 import final_project.model.store.*;
 
+import java.util.*;
+
 public class SMSSender implements Constants {
 
 	private String _username, _password;
@@ -178,4 +180,15 @@ public class SMSSender implements Constants {
 		return toReturn;
 	}
 
+    public void sendCollectionMessage(String message, Collection<Integer> people) {
+        String number = "";
+        for (Integer id : people) {
+            IPerson p = _store.getPerson(id);
+            if (p==null&&p.getPhoneNumber()!=null&&!p.getPhoneNumber().isEmpty())
+                continue;
+            number = number + "," + p.getPhoneNumber();
+        }
+        if (!number.isEmpty())
+            sendMessage(message, number.substring(1));
+    }
 }

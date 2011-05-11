@@ -1,5 +1,6 @@
 package final_project.control;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Timer;
@@ -15,6 +16,7 @@ public class SMSController implements Constants, ISMSController {
 	private TournamentController _tournament;
 	private Timer _timer;
 	private Calendar _cal;
+	private boolean _sendingMessages;
 
 	/**
 	 *  Constructor needs to take the username & password for the BulkSMS API
@@ -24,6 +26,7 @@ public class SMSController implements Constants, ISMSController {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
+		_sendingMessages = false;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -42,7 +45,14 @@ public class SMSController implements Constants, ISMSController {
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
 		System.out.println("Send message called: " + message + " to " + number);
-		//_sender.sendMessage(message, number);
+		System.out.println("Sending actual text messages: " + _sendingMessages);
+		if(_sendingMessages)
+			_sender.sendMessage(message, number);
+	}
+
+	public void sendCollectionMessage(String message, Collection<Integer> people) {
+        System.out.println("sendCollectionMessage "+message+" to "+people);
+		_sender.sendCollectionMessage(message,people);
 	}
 
 	public void sendAllMessage(String message) {
@@ -59,7 +69,9 @@ public class SMSController implements Constants, ISMSController {
 
 	public void sendMatchNotifications(IncompleteResult result, int refID, int stripID) {
 		System.out.println("Send match notifications called: ");
-		//_sender.sendMatchNotifications(result, refID, stripID);
+		System.out.println("Sending actual text messages: " + _sendingMessages);
+		if(_sendingMessages)
+			_sender.sendMatchNotifications(result, refID, stripID);
 	}
 
 	public void parseOutput(String received, String number) {
