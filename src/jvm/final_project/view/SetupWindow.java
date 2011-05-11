@@ -257,6 +257,9 @@ public class SetupWindow {
                                 store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
                                                                     "","Spectator"));
                                 store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
+                                for(int x = 0; x < 10; x++)
+                                	store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
+
                             }
                         });
                     i = new TournamentInfo(store,events);
