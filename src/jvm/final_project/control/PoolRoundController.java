@@ -20,6 +20,7 @@ public class PoolRoundController {
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
+        System.out.println("smsController null in PoolRoundController constructer "+(smsController==null));
         _smsController = smsController;
 	}
 
