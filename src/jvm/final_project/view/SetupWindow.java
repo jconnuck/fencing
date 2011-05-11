@@ -244,7 +244,7 @@ public class SetupWindow {
                     Collection<IEventInfo> events = new ArrayList<IEventInfo>();
                     events.add(e);
                     final IDataStore store = new DataStore();
-/*                    store.runTransaction(new Runnable() {
+                    store.runTransaction(new Runnable() {
                             public void run() {
                                 store.putData(store.createPlayer("1234567891", "Jon", "Leavitt",
                                                                  "","Fencer",1));
@@ -261,7 +261,7 @@ public class SetupWindow {
                                 	store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
 
                             }
-                        });*/
+                        });
                     i = new TournamentInfo(store,events);
                 }
 
