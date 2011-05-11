@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
 import final_project.control.TournamentController;
+import final_project.model.*;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -24,7 +25,7 @@ public class DEBracketUnitPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public DEBracketUnitPanel(TournamentController tournament, String player1Name, String player2Name) {
+	public DEBracketUnitPanel(TournamentController tournament, Result result) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{100, 0};
@@ -62,14 +63,34 @@ public class DEBracketUnitPanel extends JPanel {
 		gbl_panel.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		lblPlayer1Name = new JLabel(player1Name);
+		if (result instanceof CompleteResult) {
+			CompleteResult cr = (CompleteResult) result;
+			//if this was the winner get its score
+			if (result.getPlayer1() == cr.getWinner())
+				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + "(" + cr.getWinnerScore() + ")");
+			else
+				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + "(" + cr.getLoserScore() + ")");
+		} 	
+		else {
+			lblPlayer1Name = new JLabel(tournament.getNameFromId(result.getPlayer1()));
+		}
 		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
 		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 0);
 		gbc_lblPlayerName.gridx = 0;
 		gbc_lblPlayerName.gridy = 0;
 		panel.add(lblPlayer1Name, gbc_lblPlayerName);
 		
-		lblPlayer2Name = new JLabel(player2Name);
+		if (result instanceof CompleteResult) {
+			CompleteResult cr = (CompleteResult) result;
+			//if this was the winner get its score
+			if (result.getPlayer2() == cr.getWinner())
+				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + "(" + cr.getWinnerScore() + ")");
+			else
+				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + "(" + cr.getLoserScore() + ")");
+		} 	
+		else {
+			lblPlayer2Name = new JLabel(tournament.getNameFromId(result.getPlayer2()));
+		}
 		GridBagConstraints gbc_lblPlayerName_1 = new GridBagConstraints();
 		gbc_lblPlayerName_1.gridx = 0;
 		gbc_lblPlayerName_1.gridy = 2;

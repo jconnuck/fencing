@@ -178,45 +178,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
             addIncompleteResult(res);
         for (CompleteResult res : pool.getResults())
             addCompleteResult(res);
-        /*
-		//TODO remove these: Mock incomplete results:
-		IncompleteResult testIncompleteResult1 = new IncompleteResult(0, 1, 5);
-		IncompleteResult testIncompleteResult2 = new IncompleteResult(1, 2, 5);
-		
-		ScoreView scoreView = new ScoreView(tournament, testIncompleteResult1);
-		upcomingBoutsPane.add(scoreView, 1);
-		
-		ScoreView scoreView_1 = new ScoreView(tournament, testIncompleteResult2);
-		upcomingBoutsPane.add(scoreView_1, 1);
-		
-		ScoreView scoreView_2 = new ScoreView(tournament, testIncompleteResult1);
-		upcomingBoutsPane.add(scoreView_2, 1);
-		
-		ScoreView scoreView_3 = new ScoreView(tournament, testIncompleteResult2);
-		upcomingBoutsPane.add(scoreView_3, 1);
-		
-		ScoreView scoreView_4 = new ScoreView(tournament, testIncompleteResult1);
-		upcomingBoutsPane.add(scoreView_4, 1);
-		
-		//TODO remove these: Mock incomplete results:
-		CompleteResult testCompleteResult1 = new CompleteResult(new PlayerResult(0, 5), new PlayerResult(1,3));
-		CompleteResult testCompleteResult2 = new CompleteResult(new PlayerResult(1, 4), new PlayerResult(2,5));
-		
-		ScoreView scoreView_5 = new ScoreView(tournament, testCompleteResult1);
-		completedBoutsPane.add(scoreView_5, 1);
-		
-		ScoreView scoreView_6 = new ScoreView(tournament, testCompleteResult2);
-		completedBoutsPane.add(scoreView_6, 1);
-		
-		ScoreView scoreView_7 = new ScoreView(tournament, testCompleteResult1);
-		completedBoutsPane.add(scoreView_7, 1);
-		
-		ScoreView scoreView_8 = new ScoreView(tournament, testCompleteResult2);
-		completedBoutsPane.add(scoreView_8, 1);
-		
-		ScoreView scoreView_9 = new ScoreView(tournament, testCompleteResult1);
-		completedBoutsPane.add(scoreView_9, 1);
-		*/
+        
 	}
 	
 	public enum Status {
