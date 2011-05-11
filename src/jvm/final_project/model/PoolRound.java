@@ -100,7 +100,7 @@ public abstract class PoolRound implements IRound{
 	public void createAllIncompleteResult(){
 		for(Pool p : _pools){
 			((FencerPool) p).createIncompleteResults();
-			System.out.println("incomplete results size after createion " + ((FencerPool) p).getIncompleteResults().size());
+			System.out.println("incomplete results size after creation " + ((FencerPool) p).getIncompleteResults().size());
 		}
 
 	}
@@ -139,7 +139,6 @@ public abstract class PoolRound implements IRound{
 
         Iterator<Integer> iter;
         for(Pool p : _pools){
-        	//TODO: notify gui and fencers that pool has been flighted
         	if(refs.isEmpty()){
         		p.clearRefs();
         	}else{
@@ -173,10 +172,22 @@ public abstract class PoolRound implements IRound{
 			if(!p.getRefs().isEmpty()){
 				if(_stripControl.availableStrip())
 					p.addStrip(_stripControl.checkOutStrip());
-				else {
-					//TODO: Send message to all the rest of the pools that they have been flighted
+				else
 					return;
-				}
+			}
+		}
+	}
+	
+	/**
+	 * Iterates through all pools in round and all that either do not have a referee or strip are notified
+	 * that they have been flighted and must wait to compete.
+	 */
+	public void notifyFlightedPools() {
+		for(Pool p : _pools) {
+			if(p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
+				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
+				p.clearRefs();
+				p.clearStrips();
 			}
 		}
 	}
