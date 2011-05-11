@@ -383,12 +383,12 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
             String club = registerNewPlayerPane.getTeamField().getText();
             System.out.println("Club: " + club);
             //TODO: If a fencer and rank == 0, ALERT GUI
-            if (name.equals("") || number.equals("(***)-***-****") || rank == 0) {
+            if (name.equals("") || number.equals("(***)-***-****") || (group.equals("Fencer") && rank == 0)) {
                 //Create tooltip warning user that required fields are blank
                 blankFieldTip.setVisible(true);
                 //Highlight missing fields pink
                 Color highlightColor = new Color(255, 160, 122);
-                if (rank == 0) {
+                if (group.equals("Fencer") && rank == 0) {
                     registerNewPlayerPane.getRankField().setBackground(highlightColor);	 	
                     registerNewPlayerPane.getRankField().requestFocusInWindow();	 	
                 } else {	 	
