@@ -1,6 +1,6 @@
 package final_project.control;
 
-import java.util.Iterator;
+import java.util.*;
 import final_project.model.*;
 import final_project.model.store.*;
 
@@ -27,53 +27,41 @@ public class DataFormattingHelper implements Constants {
 	 * @return
 	 */
 	public Object[][] giveSignInPanelInfo() {
-		int numPeople = _dataStore.getPeople().size() - _dataStore.getPeopleForGroup("Spectator").size();
+        Collection<IPerson> people = _dataStore.getPeopleWithoutGroup("Spectator");
+		int numPeople = people.size();
 		Object[][] toReturn = new Object[numPeople][NUM_COLS_SIGN_IN];
 
-		//Making one blank row so that the GUI does not break on empty input
-		for(int i=0; i < NUM_COLS_SIGN_IN; i++)
-			toReturn[0][i] = "";
-
 		int index = 0;
-		for (IPerson i: _dataStore.getPeople()) {
-			if(!i.getGroup().equals("Spectator")){
-				/* NAME */
-				toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
+		for (IPerson i: people) {
+            /* NAME */
+            toReturn[index][0] = i.getFirstName() + " " + i.getLastName();
 
-				/* CLUB */
-				if(i instanceof IPlayer) {
-					Iterator<Integer> iter = ((IPlayer) i).getClubs().iterator();
-					if(iter.hasNext()) //Such a mess, just to get out the club name...
-						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
-					else
-						toReturn[index][1] = "";
-				}
-				else if(i instanceof IReferee) {
-					Iterator<Integer> iter = ((IReferee) i).getClubs().iterator();
-					if(iter.hasNext()) //Such a mess, just to get out the club name...
-						toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
-					else
-						toReturn[index][1] = "";
-				}
-				else
-					toReturn[index][1] = "";
+            /* CLUB */
+            if(i instanceof IHasClub) {
+                Iterator<Integer> iter = ((IHasClub) i).getClubs().iterator();
+                if(iter.hasNext()) //Such a mess, just to get out the club name...
+                    toReturn[index][1] =  _dataStore.getClub(iter.next()).getName();
+                else
+                    toReturn[index][1] = "";
+            }
+            else
+                toReturn[index][1] = "";
 
-				/* GROUP */
-				toReturn[index][2] = i.getGroup();
+            /* GROUP */
+            toReturn[index][2] = i.getGroup();
 
-				/* SIGNED IN (if player) */
-				if(i instanceof IPlayer) {
-					toReturn[index][3] = ((IPlayer)i).getCheckedIn();
-				}
-				else
-					toReturn[index][3] = true;
+            /* SIGNED IN (if player) */
+            if(i instanceof IPlayer) {
+                toReturn[index][3] = ((IPlayer)i).getCheckedIn();
+            }
+            else
+                toReturn[index][3] = true;
 
-				/* ID */
-				toReturn[index][4] = i.getID();
+            /* ID */
+            toReturn[index][4] = i.getID();
 
-				index++;
-			}
-		}
+            index++;
+        }
 		return toReturn;
 	}
 
