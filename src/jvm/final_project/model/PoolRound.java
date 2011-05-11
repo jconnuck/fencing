@@ -157,7 +157,7 @@ public abstract class PoolRound implements IRound{
                 }
                 p.addRef(temp);
                 iter.remove();
-                toReturn = false;
+                toReturn = haveConflict(p, temp);
         	}
         }
         return toReturn;
