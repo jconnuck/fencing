@@ -75,7 +75,7 @@ public class SMSParser {
 		}
 
 		//Message "result id beat id this-that" or "id beat id this to that"
-		else if(firstWord.equals("Result") || firstWord.equals("result")) {
+		else if(firstWord.toLowerCase().equals("result")) {//TODO changed tolower case and then equals
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
 
 			/* Looping through to find the ref ID of this number */
@@ -208,7 +208,7 @@ public class SMSParser {
 				break;
 			}
 		}
-		
+
 		final int finalID = idSpectator;
 		final int finalIDToFollow = idToFollow;
 		_store.runTransaction(new Runnable(){
