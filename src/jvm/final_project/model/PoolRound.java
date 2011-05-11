@@ -27,6 +27,7 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
 				if(p.addCompletedResult(result)){
+					// Notify the referee(s) that their pool is now completed
 					String refPhone;
 					for(Integer ref : p.getRefs()) {
 						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
@@ -87,6 +88,7 @@ public abstract class PoolRound implements IRound{
 					p.clearRefs();
 				}
 				else {
+					// Notify the referee(s) about their next match
 					IncompleteResult nextMatch;
 					String refPhone, name1, name2;
 					for(Integer ref : p.getRefs()) {
@@ -123,7 +125,6 @@ public abstract class PoolRound implements IRound{
 			((FencerPool) p).createIncompleteResults();
 			System.out.println("incomplete results size after creation " + ((FencerPool) p).getIncompleteResults().size());
 		}
-
 	}
 
 	/**
@@ -205,7 +206,8 @@ public abstract class PoolRound implements IRound{
 	 */
 	public void notifyFlightedPools() {
 		for(Pool p : _pools) {
-			if(p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
+			if(p.getRefs() == null  ||  p.getStrips()  == null ||
+			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
 				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
 				p.clearRefs();
 				p.clearStrips();
