@@ -31,10 +31,8 @@ public class DataFormattingHelper implements Constants {
 		Object[][] toReturn = new Object[numPeople][NUM_COLS_SIGN_IN];
 
 		//Making one blank row so that the GUI does not break on empty input
-		for(int i=0; i < NUM_COLS_SIGN_IN; i++){
-			System.out.println(toReturn == null);
+		for(int i=0; i < NUM_COLS_SIGN_IN; i++)
 			toReturn[0][i] = "";
-		}
 
 		int index = 0;
 		for (IPerson i: _dataStore.getPeople()) {
