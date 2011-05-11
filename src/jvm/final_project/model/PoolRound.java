@@ -199,12 +199,12 @@ public abstract class PoolRound implements IRound{
 			}
 		}
 	}
-	
+
 	/**
 	 * Iterates through all pools in round and all that either do not have a referee or strip are notified
 	 * that they have been flighted and must wait to compete.
 	 */
-	public void notifyFlightedPools() {
+	public void notifyPools() {
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
 			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
@@ -212,6 +212,18 @@ public abstract class PoolRound implements IRound{
 				p.clearRefs();
 				p.clearStrips();
 			}
+			else {
+				Iterator<Integer> s = p.getStrips().iterator();
+				String stripNum = s.next().toString();
+				_smsController.sendCollectionMessage("Your pool will start momentarily on strip: " + stripNum, p.getPlayers());
+				String refPhone;
+				for(Integer ref : p.getRefs()) {
+					refPhone = _dataStore.getPerson(ref).getPhoneNumber();
+					_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
+				}
+				
+			}
+				
 		}
 	}
 
