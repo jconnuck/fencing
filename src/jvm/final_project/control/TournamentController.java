@@ -220,7 +220,8 @@ public class TournamentController implements Constants{
 
 	public Object[][] registerNonFencer(String number, String firstName, String lastName, final String club, String group) {
 		if(group.equals("Referee")) {
-			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group);
+			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group).setReffing(true);
+
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
 					_dataStore.putData(ref);
