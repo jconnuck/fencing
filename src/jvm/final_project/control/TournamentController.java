@@ -32,6 +32,13 @@ public class TournamentController implements Constants{
 			addEvent(e.getWeaponType(),e.getPreregs());
 	}
 
+	/**
+	 * @return The number of referees that are in the datastore.
+	 */
+	public int refsAreAvailable() {
+		return _dataStore.getReferees().size();
+	}
+	
 	public int addEvent(String weapon){
         return addEvent(weapon,new LinkedList<Integer>());
 	}
