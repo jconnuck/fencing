@@ -93,15 +93,19 @@ public abstract class PoolRound implements IRound{
 					String refPhone, name1, name2;
 					for(Integer ref : p.getRefs()) {
 						nextMatch = p.getNextResult();
-						name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
-							    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
-							    nextMatch.getPlayer1() + ")";
-						name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
-					    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
-					    		nextMatch.getPlayer2() + ")";
 						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
-						_smsController.sendMessage("You next match is between: " + name1 + " and " + name2,
-								 				   refPhone);
+						if(nextMatch != null) {
+							name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
+								    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
+								    nextMatch.getPlayer1() + ")";
+							name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
+						    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
+						    		nextMatch.getPlayer2() + ")";
+							_smsController.sendMessage("Your next match is between: " + name1 + " and " + name2,
+									 				   refPhone);
+						}
+						else
+							_smsController.sendMessage("Your pool is now done.", refPhone);
 					}
 				}
 				//returns true if all pools have completed, false otherwise
@@ -204,7 +208,7 @@ public abstract class PoolRound implements IRound{
 	 * Iterates through all pools in round and all that either do not have a referee or strip are notified
 	 * that they have been flighted and must wait to compete.
 	 */
-	public void notifyPools() {
+	public void notifypPools() {
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
 			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
@@ -216,14 +220,22 @@ public abstract class PoolRound implements IRound{
 				Iterator<Integer> s = p.getStrips().iterator();
 				String stripNum = s.next().toString();
 				_smsController.sendCollectionMessage("Your pool will start momentarily on strip: " + stripNum, p.getPlayers());
-				String refPhone;
+				String refPhone, name1, name2;
+				IncompleteResult firstMatch;
 				for(Integer ref : p.getRefs()) {
 					refPhone = _dataStore.getPerson(ref).getPhoneNumber();
 					_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
-				}
-				
-			}
-				
+					firstMatch = p.getNextResult();
+					name1 = _dataStore.getPlayer(firstMatch.getPlayer1()).getFirstName() + " " +
+							_dataStore.getPlayer(firstMatch.getPlayer1()).getLastName() + " (" +
+							firstMatch.getPlayer1() + ")";
+					name2 = _dataStore.getPlayer(firstMatch.getPlayer2()).getFirstName() + " " +
+					   		_dataStore.getPlayer(firstMatch.getPlayer2()).getLastName() + " (" +
+					   		firstMatch.getPlayer2() + ")";
+					_smsController.sendMessage("Your first match is between: " + name1 + " and " + name2,
+								 			   refPhone);
+				}	
+			}	
 		}
 	}
 
