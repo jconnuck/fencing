@@ -1,5 +1,6 @@
 package final_project.control;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Timer;
@@ -52,7 +53,7 @@ public class SMSController implements Constants, ISMSController {
 	public void sendCollectionMessage(String message, Collection<Integer> people) {
 		//_sender.sendCollectionMessage();
 	}
-	
+
 	public void sendAllMessage(String message) {
 		_sender.sendAllMessage(message);
 	}
