@@ -11,20 +11,19 @@ public class AddNewSubscriberPanel extends JPanel {
 	JLabel lblNoResultsFound;
 	private JTextField textField;
 	private JButton doneButton;
-	private JComboBox comboBox;
 
 	/**
 	 * Create the panel.
 	 */
 	public AddNewSubscriberPanel() {
-		setPreferredSize(new Dimension(301, 200));
+		setPreferredSize(new Dimension(301, 180));
 		setSize(new Dimension(270, 200));
 		setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{87, 55, 143, 0, 0};
-		gridBagLayout.rowHeights = new int[]{26, 0, 32, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{26, 0, 32, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		lblNoResultsFound = new JLabel("<html><i>No Results Found</i></html>");
@@ -85,30 +84,12 @@ public class AddNewSubscriberPanel extends JPanel {
 		gbc_phoneNumberTextField.gridy = 3;
 		add(phoneNumberTextField, gbc_phoneNumberTextField);
 		
-		JLabel lblGroup = new JLabel("Group:");
-		GridBagConstraints gbc_lblGroup = new GridBagConstraints();
-		gbc_lblGroup.anchor = GridBagConstraints.EAST;
-		gbc_lblGroup.insets = new Insets(0, 0, 5, 5);
-		gbc_lblGroup.gridx = 0;
-		gbc_lblGroup.gridy = 4;
-		add(lblGroup, gbc_lblGroup);
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Fencer", "Referee", "Technician", "Medical", "Generic"}));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 3;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 4;
-		add(comboBox, gbc_comboBox);
-		
 		JLabel lblRegistration = new JLabel("Registration #:");
 		GridBagConstraints gbc_lblRegistration = new GridBagConstraints();
 		gbc_lblRegistration.anchor = GridBagConstraints.EAST;
 		gbc_lblRegistration.insets = new Insets(0, 0, 5, 5);
 		gbc_lblRegistration.gridx = 0;
-		gbc_lblRegistration.gridy = 5;
+		gbc_lblRegistration.gridy = 4;
 		add(lblRegistration, gbc_lblRegistration);
 		
 		textField = new JTextField();
@@ -117,7 +98,7 @@ public class AddNewSubscriberPanel extends JPanel {
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 5;
+		gbc_textField.gridy = 4;
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 		
@@ -126,14 +107,14 @@ public class AddNewSubscriberPanel extends JPanel {
 		gbc_doneButton.insets = new Insets(0, 0, 0, 5);
 		gbc_doneButton.anchor = GridBagConstraints.EAST;
 		gbc_doneButton.gridx = 2;
-		gbc_doneButton.gridy = 6;
+		gbc_doneButton.gridy = 5;
 		add(doneButton, gbc_doneButton);
 		
 		btnCancel = new JButton("Cancel");
 		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
 		gbc_btnCancel.anchor = GridBagConstraints.EAST;
 		gbc_btnCancel.gridx = 3;
-		gbc_btnCancel.gridy = 6;
+		gbc_btnCancel.gridy = 5;
 		add(btnCancel, gbc_btnCancel);
 
 	}
