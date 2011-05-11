@@ -92,6 +92,7 @@ public class EventController {
 			_poolController = null;
 		}else{
 			_state = State.POOLS;
+			_poolController.notifyNewPools();
 		}
 		return createPoolSuccess;
 	}
