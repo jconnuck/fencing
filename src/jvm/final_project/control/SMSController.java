@@ -51,7 +51,8 @@ public class SMSController implements Constants, ISMSController {
 	}
 
 	public void sendCollectionMessage(String message, Collection<Integer> people) {
-		//_sender.sendCollectionMessage();
+        System.out.println("sendCollectionMessage "+message+" to "+people);
+		_sender.sendCollectionMessage(message,people);
 	}
 
 	public void sendAllMessage(String message) {
