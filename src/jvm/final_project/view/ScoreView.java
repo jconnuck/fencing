@@ -42,7 +42,7 @@ public class ScoreView extends JPanel {
 		gbc_player1NameLabel.gridx = 0;
 		gbc_player1NameLabel.gridy = 0;
 		add(player1NameLabel, gbc_player1NameLabel);
-		player1NameLabel.setFont(new Font("Score Board", Font.PLAIN, 18));
+		player1NameLabel.setFont(new Font("Score Board", Font.PLAIN, 17));
 		player1NameLabel.setForeground(Color.WHITE);
 		
 		JLabel player1ScoreLabel = new JLabel("");
@@ -78,7 +78,7 @@ public class ScoreView extends JPanel {
 		
 		JLabel player2NameLabel = new JLabel(player2Name);
 		player2NameLabel.setForeground(Color.WHITE);
-		player2NameLabel.setFont(new Font("Score Board", Font.PLAIN, 16));
+		player2NameLabel.setFont(new Font("Score Board", Font.PLAIN, 17));
 		GridBagConstraints gbc_player2NameLabel = new GridBagConstraints();
 		gbc_player2NameLabel.anchor = GridBagConstraints.WEST;
 		gbc_player2NameLabel.gridx = 4;
