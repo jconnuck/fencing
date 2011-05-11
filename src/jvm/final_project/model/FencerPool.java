@@ -233,4 +233,11 @@ public class FencerPool extends Pool{
 		}
 		System.out.println("incomplete results size " + _incompleteResults.size()) ;
 	}
+	
+	@Override
+	public void addStrip(Integer toAdd) {
+		//IncompleteResult match = 
+        //_smsController.sendMatchNotifications(firstMatch, ref, strip);
+
+	}
 }

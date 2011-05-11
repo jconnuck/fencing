@@ -37,9 +37,9 @@ public class DEBracketPanel extends JPanel {
 			gap = (150 * i) + 10;
 			for (int j = 0; j < matches.length / (2 * (i + 1)); ++j) {
 				++k;
-				DEBracketUnitPanel temp = new DEBracketUnitPanel(tournament, matches[matches.length - k]);
+				/**DEBracketUnitPanel temp = new DEBracketUnitPanel(tournament, matches[matches.length - k]);
 				temp.setBounds((150 * i), startPos + ((height + gap) * j), 150, height + 1);
-				add(temp);
+				add(temp); */
 			}
 			lastPos += startPos;
 			lastHeight = height;

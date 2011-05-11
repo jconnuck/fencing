@@ -238,11 +238,7 @@ public abstract class PoolRound implements IRound{
 		}
 
 		for (Pool p: _pools) {
-            System.out.println("before shuffle numPlayers: "+p.numPlayers());
-            System.out.println("before shuffle numCollections: "+p.getIncompleteResults().size());
 			p.shufflePlayers();
-            System.out.println("after shuffle numPlayers: "+p.numPlayers());
-            System.out.println("after shuffle numCollections: "+p.getIncompleteResults().size());
         }
 	}
 
