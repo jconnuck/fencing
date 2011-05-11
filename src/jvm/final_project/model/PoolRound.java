@@ -199,7 +199,7 @@ public abstract class PoolRound implements IRound{
 			}
 		}
 	}
-	
+
 	/**
 	 * Iterates through all pools in round and all that either do not have a referee or strip are notified
 	 * that they have been flighted and must wait to compete.
