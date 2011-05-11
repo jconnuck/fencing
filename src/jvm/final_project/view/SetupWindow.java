@@ -244,8 +244,8 @@ public class SetupWindow {
                     Collection<IEventInfo> events = new ArrayList<IEventInfo>();
                     events.add(e);
                     final IDataStore store = new DataStore();
-                    store.runTransaction(new Runnable() {
-/*                            public void run() {
+/*                    store.runTransaction(new Runnable() {
+                            public void run() {
                                 store.putData(store.createPlayer("1234567891", "Jon", "Leavitt",
                                                                  "","Fencer",1));
                                 store.putData(store.createPlayer("1234561291", "William", "Zimrin",
