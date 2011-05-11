@@ -198,7 +198,7 @@ public class TournamentController implements Constants{
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
 				_dataStore.putData(p);
-				
+
 				//Searching through the data store for a team
 				boolean found = false;
 				for(IClub c: _dataStore.getClubs()) {
@@ -218,7 +218,7 @@ public class TournamentController implements Constants{
 		});
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 	public Object[][] registerNonFencer(String number, String firstName, String lastName, final String club, String group) {
 		if(group.equals("Referee")) {
 			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group);
@@ -240,7 +240,7 @@ public class TournamentController implements Constants{
 						IReferee newRef = ref.addClub(newClub.getID());
 						_dataStore.putData(newRef);
 					}
-					
+
 				}
 			});
 		}
@@ -248,14 +248,14 @@ public class TournamentController implements Constants{
 			final IPerson p = _dataStore.createSpectator(number, firstName, lastName, "", group);
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
-					
+
 					_dataStore.putData(p);
 				}
 			});
 		}
 		return _dataHelper.giveSignInPanelInfo();
 	}
-	
+
 
 	/**public void registerFencer(String number, String firstName, String lastName, int rank) {
 		//Concatenating a 1 to the beginning of the phone number
@@ -310,7 +310,7 @@ public class TournamentController implements Constants{
 			}
 			for(IReferee i: _dataStore.getReferees())
 				e.addRef(i.getID());
-			
+
 			return;
 		}
 		throw new IllegalStateException("No event created.");
