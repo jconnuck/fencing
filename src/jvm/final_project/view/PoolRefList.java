@@ -38,6 +38,8 @@ public class PoolRefList extends JPanel {
 		
 		String refName = "Referee: ";	
 		Iterator<Integer> iter = pool.getRefs().iterator();
+		System.out.println("pool.getRefs size:" + pool.getRefs().size());
+
 		while(iter.hasNext()) {
 			int refID = iter.next();
 			refName += store.getReferee(refID).getFirstName() + " " + store.getReferee(refID).getLastName();

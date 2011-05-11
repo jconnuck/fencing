@@ -145,7 +145,7 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools){
 			poolToNumConflicts.put(p, 0);
 		}
-		for(Pool pool : _pools){
+		for(Pool pool : _pools) {
 			for(Integer ref : refs){
 				if(haveConflict(pool, ref))
 					poolToNumConflicts.put(pool, poolToNumConflicts.get(pool) + 1);
@@ -195,11 +195,16 @@ public abstract class PoolRound implements IRound{
 	 * the remaining pools that have not been assigned strips are notified that they have been flighted.
 	 */
 	public void assignStrips() {
+		System.out.println("Inside assign strips.");
 		for(Pool p : _pools) {
+			System.out.println("Get refs empty? " + p.getRefs().isEmpty());
 			if(!p.getRefs().isEmpty()){
-				if(_stripControl.availableStrip())
+				System.out.println("Available strip?: " + _stripControl.availableStrip());
+				if(_stripControl.availableStrip()) {
+					System.out.println("p.addStrip called p: " + p);
 					p.addStrip(_stripControl.checkOutStrip());
-				else
+					
+				} else
 					return;
 			}
 		}
@@ -213,9 +218,10 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
 			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
+				System.out.println("ref size: " + p.getRefs().size() + " strip size: " + p.getStrips().size());
 				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
-				p.clearRefs();
-				p.clearStrips();
+				//p.clearRefs(); //EDIT: taking this out
+				//p.clearStrips();
 			}
 			else {
 				Iterator<Integer> s = p.getStrips().iterator();

@@ -72,7 +72,14 @@ public class TournamentController implements Constants{
 		System.out.println("pool round started in TournamentController.");
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
-			if(!iter.next().startPoolRound(poolSize)){
+			EventController e = iter.next();
+			int[] stripArrangement = e.getStripArrangement();
+			//TODO what does grid do????
+			
+			
+			_stripController.setUpStrips(stripArrangement[0], stripArrangement[1], false);
+			
+			if(!e.startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
             return;
@@ -116,7 +123,7 @@ public class TournamentController implements Constants{
 	public boolean addPlayer(int eventID, int playerID){
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
-			iter.next().addPlayer(playerID);
+			iter.next().addPlayer(playerID);			
 			return true;
 		}
 		return false;

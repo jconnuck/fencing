@@ -15,11 +15,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
+import final_project.control.Constants;
 import final_project.control.TournamentController;
 
 import java.awt.Dimension;
 
-public class PoolSizeInfoPanel extends JPanel {
+public class PoolSizeInfoPanel extends JPanel implements Constants {
 	private JTable table;
 	private TournamentController tournament;
 	private PoolSizeInfoTable poolSizeInfoTable;
@@ -126,7 +127,7 @@ public class PoolSizeInfoPanel extends JPanel {
 	    public void actionPerformed(ActionEvent e) {
             int row = Integer.parseInt(e.getActionCommand());
             System.out.println(row);
-            tournament.startPoolRound(0,row+4);
+            tournament.startPoolRound(EVENT_ID,row+4);
             System.out.println("MOVE TO POOL ROUND");
             //TODO: Make gui move to pool round
             tournament.getMainWindow().loadRightPanel(new PoolSetupPanel(tournament));

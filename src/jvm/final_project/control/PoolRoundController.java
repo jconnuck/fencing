@@ -20,7 +20,7 @@ public class PoolRoundController {
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
-        System.out.println("smsController null in PoolRoundController constructer "+(smsController==null));
+        System.out.println("smsController null in PoolRoundController constructor "+(smsController==null));
         _smsController = smsController;
 	}
 
@@ -48,12 +48,14 @@ public class PoolRoundController {
         		availableRefs.add(ref.getID());
         }
         System.out.println("allRefs size: " + allRefs.size() + "\n availableRefs size: " + availableRefs.size());
-        _poolRound.assignStrips();
         _poolRound.assignReferees(availableRefs);
+        _poolRound.assignStrips();
         _poolRound.createAllIncompleteResult();
         System.out.println("made it to end of createPools. num pools: " + _poolRound.getPools().size());
-        for (Pool p : getPools())
-            System.out.println(p.getIncompleteResults().size());
+        for (Pool p : getPools()) {
+            System.out.println( " num incomplete results" + p.getIncompleteResults().size());
+            System.out.println( " num strips inside pool" + p.getStrips().size());
+        }
         return true;
 	}
 
