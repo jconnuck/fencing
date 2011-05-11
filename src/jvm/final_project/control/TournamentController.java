@@ -193,7 +193,7 @@ public class TournamentController implements Constants{
 	}
 
 	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank, final String club) {
-		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(true);
+		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(false);
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
 				_dataStore.putData(p);
@@ -220,7 +220,7 @@ public class TournamentController implements Constants{
 
 	public Object[][] registerNonFencer(String number, String firstName, String lastName, final String club, String group) {
 		if(group.equals("Referee")) {
-			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group).setReffing(true);
+			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group).setReffing(false);
 
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){

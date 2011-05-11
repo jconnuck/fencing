@@ -139,6 +139,7 @@ public abstract class PoolRound implements IRound{
 	 * @return true if there are no potential conflicts of interest, false if there are.
 	 */
 	public boolean assignReferees(List<Integer> refs){
+		System.out.println("refs size in assignreferees " + refs.size());
 		boolean toReturn = true;
 		Map<Pool, Integer> poolToNumConflicts = new HashMap<Pool,Integer>();
 		for(Pool p : _pools){

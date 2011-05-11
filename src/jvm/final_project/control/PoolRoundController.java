@@ -39,15 +39,15 @@ public class PoolRoundController {
 
 		_poolRound = new FencerPoolRound(_dataStore, _initialSeeding, _numPools, poolSize, _stripController, _smsController);
         _poolRound.populatePools();
-        //_poolRound.assignReferees(refs);
         Collection<IReferee> allRefs = _dataStore.getReferees();
         List<Integer> availableRefs = new  LinkedList<Integer>();
 
         for(IReferee ref: allRefs){
+        	System.out.println("ref getReffing()" + ref.getReffing());
         	if(!ref.getReffing())
         		availableRefs.add(ref.getID());
         }
-
+        System.out.println("allRefs size: " + allRefs.size() + "\n availableRefs size: " + availableRefs.size());
         _poolRound.assignStrips();
         _poolRound.assignReferees(availableRefs);
         _poolRound.createAllIncompleteResult();
