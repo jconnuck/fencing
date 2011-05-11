@@ -139,7 +139,4 @@ public class AddNewSubscriberPanel extends JPanel {
 	public JButton getDoneButton() {
 		return doneButton;
 	}
-	public JComboBox getGroup() {
-		return comboBox;
-	}
 }
