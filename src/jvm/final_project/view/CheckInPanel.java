@@ -307,6 +307,8 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
             public Class getColumnClass(int c) {
             if (c==3)
                 return Boolean.FALSE.getClass();
+            else if (c==4)
+                return new Integer(1).getClass();
             else
                 return "".getClass();
 		}
