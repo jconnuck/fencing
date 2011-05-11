@@ -63,7 +63,7 @@ public class ScoreView extends JPanel {
 		gbc_vs.gridy = 0;
 		add(vs, gbc_vs);
 		vs.setFont(new Font("Score Board", Font.PLAIN, 16));
-		vs.setForeground(Color.WHITE);
+		vs.setForeground(Color.RED);
 		
 		JLabel player2ScoreLabel = new JLabel("");
 		player2ScoreLabel.setForeground(Color.ORANGE);

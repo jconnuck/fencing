@@ -56,6 +56,6 @@ public class DEBracketPanel extends JPanel {
 				add(temp);
 			}
 		}
-		setPreferredSize(new Dimension(startx + width + 10, (int)(160 * (Math.pow(2, log - 1)))));
+		setPreferredSize(new Dimension(150 * log, (int)(160 * (Math.pow(2, log - 1)))));
 	}
 }

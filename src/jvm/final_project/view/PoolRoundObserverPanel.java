@@ -20,7 +20,7 @@ public class PoolRoundObserverPanel extends JPanel {
 		JButton btnDeRound = new JButton("DE Round");
 		btnDeRound.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tournament.getMainWindow().loadRightPanel(new DEBracketPanel(tournament));
+				tournament.getMainWindow().loadRightPanel(new DEPanel(tournament));
 			}
 		});
 		add(btnDeRound);
