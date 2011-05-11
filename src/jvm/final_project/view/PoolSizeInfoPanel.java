@@ -96,12 +96,15 @@ public class PoolSizeInfoPanel extends JPanel {
 			return data[row][col];
 		}
 		@Override
-		public Class getColumnClass(int c) {
-			return getValueAt(0, c).getClass();
+		public Class getColumnClass(int col) {
+            if (col <= 2)
+                return new Integer(1).getClass();
+            else
+                return "Select".getClass();
 		}
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			if (col < 2) {
+			if (col <= 2) {
 				return false;
 			} else {
 				return true;

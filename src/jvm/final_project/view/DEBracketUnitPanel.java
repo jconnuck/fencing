@@ -62,8 +62,10 @@ public class DEBracketUnitPanel extends JPanel {
 		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
-		if (result instanceof CompleteResult) {
+
+        if (result==null)
+            lblPlayer1Name = new JLabel();
+        else if (result instanceof CompleteResult) {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
 			if (result.getPlayer1() == cr.getWinner())
@@ -79,8 +81,10 @@ public class DEBracketUnitPanel extends JPanel {
 		gbc_lblPlayerName.gridx = 0;
 		gbc_lblPlayerName.gridy = 0;
 		panel.add(lblPlayer1Name, gbc_lblPlayerName);
-		
-		if (result instanceof CompleteResult) {
+
+        if (result==null)
+            lblPlayer2Name = new JLabel();
+        else if (result instanceof CompleteResult) {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
 			if (result.getPlayer2() == cr.getWinner())

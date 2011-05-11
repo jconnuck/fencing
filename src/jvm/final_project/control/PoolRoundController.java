@@ -20,6 +20,7 @@ public class PoolRoundController {
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
+        System.out.println("smsController null in PoolRoundController constructer "+(smsController==null));
         _smsController = smsController;
 	}
 
@@ -54,6 +55,10 @@ public class PoolRoundController {
         for (Pool p : getPools())
             System.out.println(p.getIncompleteResults().size());
         return true;
+	}
+
+	public void notifyNewPools() {
+		_poolRound.notifyPools();
 	}
 
 	private void calcPoolSize(int poolSize) throws IllegalArgumentException{

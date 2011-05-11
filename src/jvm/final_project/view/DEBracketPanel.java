@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import java.awt.Rectangle;
 import java.awt.Component;
 import java.awt.Dimension;
+import javax.swing.Box;
 
 public class DEBracketPanel extends JPanel {
 	/**
@@ -36,18 +37,18 @@ public class DEBracketPanel extends JPanel {
 			matches[z] = mockIncomplete;
 			
 		//Result[] matches = tournament.getDEMatches(Constants.EVENT_ID);
-		int k = 0, startx = 0, starty = 0, width = 150, height = 0;
+		int k = 0, startx = 0, starty = 20, width = 200, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {
-			startx = 150 * i;
+			startx = 200 * i;
 			for (int j = 0; j < Math.pow(2, log - (i+1)); ++j) {
 				if (i == 0) {
 					height = 150;
-					starty = 160 * j;
+					starty = 200 * j + 20;
 				}
 				else {
-					height = (int) Math.pow(2, i) * 80;
-					starty = (int) (((Math.pow(2, i -1) - 1) * 80) + 75 + (2 * j * height));
+					height = (int) Math.pow(2, i) * 100;
+					starty = (int) (((Math.pow(2, i -1) - 1) * 100) + 75 + (2 * j * height) + 20);
 				}
 				++k;
 
@@ -57,6 +58,6 @@ public class DEBracketPanel extends JPanel {
 				add(temp);
 			}
 		}
-		setPreferredSize(new Dimension(150 * log, (int)(160 * (Math.pow(2, log - 1)))));
+		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
 	}
 }

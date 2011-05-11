@@ -8,4 +8,8 @@ public class PoolSizeInfo {
         _numBigPools = numBigPools;
         _numSmallPools = numSmallPools;
     }
+
+    public String toString() {
+        return "("+_poolSize+" "+_numBigPools+" "+_numSmallPools+")";
+    }
 }

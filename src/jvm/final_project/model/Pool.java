@@ -1,4 +1,3 @@
-//tested
 package final_project.model;
 
 import java.util.*;
@@ -18,6 +17,7 @@ public abstract class Pool {
 		_incompleteResults = new LinkedList<IncompleteResult>();
 		_results = new HashSet<CompleteResult>();
         _observers = new LinkedList<PoolObserver>();
+        _strips = new LinkedList<Integer>();
 	}
 
     public void addObserver(PoolObserver observer) {

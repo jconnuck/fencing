@@ -25,21 +25,20 @@ public class TournamentController implements Constants{
 		_stripController = new StripController();
 		_mainWindow = mainWindow;
 
+		_smsController = new SMSController(_dataStore, this, username, password);
+		_dataHelper = new DataFormattingHelper(_dataStore, this);
+
 		for (IEventInfo e : info.getEvents())
 			addEvent(e.getWeaponType(),e.getPreregs());
-
-		_dataHelper = new DataFormattingHelper(_dataStore, this);
-		_smsController = new SMSController(_dataStore, this, username, password);
 	}
 
 	public int addEvent(String weapon){
-		int id = ++_currentEventID;
-		_events.add(new EventController(id, _dataStore, weapon, _stripController, _smsController));
-		return id;
+        return addEvent(weapon,new LinkedList<Integer>());
 	}
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
 		int id = ++_currentEventID;
+        System.out.println("TournamentController smsController "+(_smsController==null));
 		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController, _smsController));
 		return id;
 	}
@@ -221,7 +220,8 @@ public class TournamentController implements Constants{
 
 	public Object[][] registerNonFencer(String number, String firstName, String lastName, final String club, String group) {
 		if(group.equals("Referee")) {
-			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group);
+			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group).setReffing(true);
+
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
 					_dataStore.putData(ref);
