@@ -451,7 +451,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
         else if (e.getSource() == unsignInAllPane.getYesButton()) {	 	
             tournament.getMainWindow().hideAllBalloons();	 	
             //Checking in all as false	 	
-            Object[][] newData = tournament.checkInAll(true);
+            Object[][] newData = tournament.checkInAll(false);
             model.setData(newData);
             //Fix for weird sorting
             sorter.sort();
