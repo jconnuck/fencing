@@ -101,8 +101,8 @@ public class DataFormattingHelper implements Constants {
 		Iterator<PoolSizeInfo> iter = _tournament.getValidPoolSizes().iterator();
 		int i = 0;
 		while(iter.hasNext()){
-			toReturn[i][0] = i+4; //Pool sizes go from 4-8
 			PoolSizeInfo info = iter.next();
+			toReturn[i][0] = info._poolSize;
 			toReturn[i][1] = info._numBigPools;
 			toReturn[i][2] = info._numSmallPools;
 			toReturn[i][3] = "Select";
