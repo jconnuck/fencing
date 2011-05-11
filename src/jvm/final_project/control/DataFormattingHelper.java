@@ -85,17 +85,7 @@ public class DataFormattingHelper implements Constants {
 	public Object[][] giveSubscriberTableInfo() {
 		//Making the object array with as many rows as spectators in the data store
 		Object[][] toReturn = null;
-		if(_dataStore.getPeopleForGroup("Spectator").size()!=0)
-			toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
-		else {
-			toReturn = new Object[1][NUM_COLS_SUBSCRIBER_PANEL];
-			return toReturn;
-		}
-
-		//TODO WHY DOES THE GUI BREAK ON EMPTY INPUT????
-		//Making one blank row so that the GUI does not break on empty input
-		for(int i=0; i < NUM_COLS_SUBSCRIBER_PANEL; i++)
-			toReturn[0][i] = "";
+        toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
 
 		int index = 0;
 		for(IPerson i: _dataStore.getPeopleForGroup("Spectator")) {

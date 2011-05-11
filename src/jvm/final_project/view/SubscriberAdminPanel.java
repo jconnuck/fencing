@@ -185,11 +185,13 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		}
 		@Override
 		public Object getValueAt(int row, int col) {
+            System.out.println("row: "+row);
+            System.out.println("data: "+data[row][col]);
 			return data[row][col];
 		}
 		@Override
 		public Class getColumnClass(int c) {
-			return getValueAt(0, c).getClass();
+			return "".getClass();
 		}
 		@Override
 		public boolean isCellEditable(int row, int col) {
