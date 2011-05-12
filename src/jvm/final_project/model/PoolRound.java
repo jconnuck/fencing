@@ -222,6 +222,11 @@ public abstract class PoolRound implements IRound{
 				Iterator<Integer> s = p.getStrips().iterator();
 				String stripNum = s.next().toString();
 				_smsController.sendCollectionMessage("Your pool will start momentarily on strip: " + stripNum, p.getPlayers());
+				String name;
+				for(Integer f : p.getPlayers()) {
+					name = _dataStore.getPlayer(f).getFirstName() + " " + _dataStore.getPlayer(f).getLastName();
+					_smsController.sendSubscriberMessage(name + " is about to start his/her pool on strip: " + p.getStrips().iterator().next(), f);
+				}
 				String refPhone, name1, name2;
 				IncompleteResult firstMatch;
 				for(Integer ref : p.getRefs()) {

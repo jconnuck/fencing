@@ -44,7 +44,7 @@ public class SMSController implements Constants, ISMSController {
 
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
-		System.out.println("Send message called: " + message + " to " + number);
+		System.out.println("Send message called in ctrl: " + message + " to " + number);
 		System.out.println("Sending actual text messages: " + _sendingMessages);
 		if(_sendingMessages)
 			_sender.sendMessage(message, number);
@@ -52,8 +52,8 @@ public class SMSController implements Constants, ISMSController {
 
 	public void sendCollectionMessage(String message, Collection<Integer> people) {
 		System.out.println("sendCollectionMessage "+message+" to "+people);
-		if(_sendingMessages)
-			_sender.sendCollectionMessage(message, people);
+		//if(_sendingMessages)
+			//_sender.sendCollectionMessage(message, people);
 	}
 
 	public void sendAllMessage(String message) {
@@ -71,6 +71,10 @@ public class SMSController implements Constants, ISMSController {
 			_sender.sendFencerStripMessage(id, strip);
 	}
 
+	public void sendSubscriberMessage(String message, int fencerID) {
+		if(_sendingMessages)
+			_sender.sendSubscriberMessage(message, fencerID);
+	}
 	public void sendMatchNotifications(IncompleteResult result, int refID, int stripID) {
 		System.out.println("Send match notifications called: ");
 		System.out.println("Sending actual text messages: " + _sendingMessages);
