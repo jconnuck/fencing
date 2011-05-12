@@ -74,10 +74,7 @@ public class TournamentController implements Constants{
 		if(iter.hasNext()){
 			EventController e = iter.next();
 			int[] stripArrangement = e.getStripArrangement();
-			//TODO what does grid do????
-			
-			
-			_stripController.setUpStrips(stripArrangement[0], stripArrangement[1], false);
+			_stripController.setUpStrips(stripArrangement[0], stripArrangement[1], (stripArrangement[1] == 0));
 			
 			if(!e.startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");

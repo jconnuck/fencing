@@ -42,7 +42,14 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblRefereeJoeSmith = new JLabel("Ref: Joe Smith");
+		String refString = "";
+		Iterator<Integer> iter = this.pool.getRefs().iterator();
+		while(iter.hasNext()) {
+			refString += tournament.getNameFromId(iter.next());
+			if(iter.hasNext())
+				refString += ", ";
+		}
+		JLabel lblRefereeJoeSmith = new JLabel(refString);
 		lblRefereeJoeSmith.setForeground(Color.WHITE);
 		lblRefereeJoeSmith.setFont(new Font("Score Board", Font.PLAIN, 17));
 		GridBagConstraints gbc_lblRefereeJoeSmith = new GridBagConstraints();
@@ -61,7 +68,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		gbc_lblPool.gridy = 0;
 		add(lblPool, gbc_lblPool);
 		
-		JLabel lblStrip = new JLabel("Strip: 5");
+		
+		
+		JLabel lblStrip = new JLabel("Strip: " + this.pool.getStrips());
 		lblStrip.setFont(new Font("Score Board", Font.PLAIN, 17));
 		lblStrip.setForeground(Color.WHITE);
 		GridBagConstraints gbc_lblStrip = new GridBagConstraints();

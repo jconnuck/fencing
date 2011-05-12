@@ -114,7 +114,7 @@ public class SMSParser {
 			}
 			if(s.hasNext()) {
 				String next = s.next();
-				if (!next.equals("to") || !next.equals("-")){ //Eating "to"/"-" token
+				if (!next.equals("to") && !next.equals("-")){ //Eating "to"/"-" token
 					_control.sendMessage("We're sorry, this message could not be parsed.", number);
 					return;
 				}
