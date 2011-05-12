@@ -47,7 +47,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 		
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
+		flowLayout.setAlignment(FlowLayout.CENTER);
 		panel.setBackground(Color.BLACK);
 		scrollPane.setViewportView(panel);
 		GridBagConstraints gbc_btnDeRound = new GridBagConstraints();
