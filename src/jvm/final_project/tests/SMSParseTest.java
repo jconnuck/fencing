@@ -48,7 +48,7 @@ public class SMSParseTest {
 	@Test
 	public void test_parseOutput() {
 		//_parser.parseOutput("help fencer at strip 2 broke their leg!!!!!", "8132987766");
-		_parser.parseOutput("result 4 beat 0 5-4", "3155690308");
+		_parser.parseOutput("result 4 beat 0 5 to 4", "3155690308");
 
 	}
 }

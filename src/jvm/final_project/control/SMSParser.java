@@ -97,9 +97,8 @@ public class SMSParser {
 			/* Now, parsing out fencer IDs and score */
 			if(s.hasNextInt())
 				winID = s.nextInt();
-			System.out.println("Win id found");
+
 			if(s.hasNext() && !s.next().equals("beat")) { //Eating "beat" token
-				System.out.println("Beat token not found");
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
@@ -107,17 +106,17 @@ public class SMSParser {
 			if(s.hasNextInt())
 				loseID = s.nextInt();
 			else {
-				System.out.println("loseID not found");
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
+
 			if(s.hasNextInt())
 				winScore = s.nextInt();
 			else {
-				System.out.println("win score not found");
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
+
 			if(s.hasNext()) {
 				String next = s.next();
 				if (!next.equals("to") && !next.equals("-")){ //Eating "to"/"-" token
