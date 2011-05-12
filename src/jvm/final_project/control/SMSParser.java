@@ -133,7 +133,11 @@ public class SMSParser {
 			}
 
 			/* NOW THAT WE'VE PARSED OUT ALL OF THE DATA */
-			_control.returnResults(refID, winID, winScore, loseID, loseScore);
+			try{
+				_control.returnResults(refID, winID, winScore, loseID, loseScore);
+			}catch (IllegalArgumentException e){
+				_control.sendMessage("Result not for current bout. Check fencer id's?", number);
+			}
 		}
 
 		else {
