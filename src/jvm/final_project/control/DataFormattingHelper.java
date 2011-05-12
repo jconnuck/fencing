@@ -73,6 +73,7 @@ public class DataFormattingHelper implements Constants {
 	public Object[][] giveSubscriberTableInfo() {
 		//Making the object array with as many rows as spectators in the data store
 		Object[][] toReturn = null;
+		System.out.println("Data store spectator group size: " + _dataStore.getPeopleForGroup("Spectator").size());
         toReturn = new Object[_dataStore.getPeopleForGroup("Spectator").size()][NUM_COLS_SUBSCRIBER_PANEL];
 
 		int index = 0;
@@ -86,7 +87,6 @@ public class DataFormattingHelper implements Constants {
 			Iterator<Integer> iter = i.getWatched().iterator();
 			while(iter.hasNext()) {
 				int id = ((Integer)(iter.next())).intValue();
-				System.out.println("ID in data formatting helper subscribe panel" + id); //TODO println
 				IObservable followed = _dataStore.getObservable(id);
 				if(followed instanceof IClub)
 					toReturn[index][2] =  ((IClub) followed).getName() + "";

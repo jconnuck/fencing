@@ -71,7 +71,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		String stripString = "";
 		iter = this.pool.getStrips().iterator();
 		while(iter.hasNext()) {
-			stripString += tournament.getNameFromId(iter.next());
+			stripString += iter.next();
 			if(iter.hasNext())
 				stripString += ", ";
 		}

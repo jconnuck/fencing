@@ -267,7 +267,6 @@ public class SetupWindow {
                                 //for(int x = 0; x < 10; x++)
                                 	//store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
 
-
                             }
                         });
                     i = new TournamentInfo(store,events);
