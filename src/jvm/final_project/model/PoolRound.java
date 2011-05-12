@@ -308,6 +308,19 @@ public abstract class PoolRound implements IRound{
 	public void setPoolSize(int newSize){
 		_poolSize = newSize;
 	}
+	
+	public void rescoreLastMatch(int referee, CompleteResult newScore) {
+		for(Pool p : _pools)
+			if(p.getRefs().contains(referee))
+				if (p.rescoreLastMatch(newScore))
+					_smsController.sendMessage("The score of your last match was successfully changed." +
+							                   "  The most recent next bout message you recieved s still accurate.",
+							                   _dataStore.getReferee(referee).getPhoneNumber());
+				else
+					_smsController.sendMessage("The players of the new score you sent in do not match those of your " +
+											   "most recent score submission. Please retry.",
+											   _dataStore.getReferee(referee).getPhoneNumber());
+	}
 
 	public List<Integer> getResults(){
 		if (_resultSeedList == null)

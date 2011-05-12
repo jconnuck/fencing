@@ -6,7 +6,7 @@ import final_project.control.*;
 public abstract class Pool {
 	protected List<Integer> _players;
 	protected Collection<Integer> _refs;
-	protected Collection<CompleteResult> _results;
+	protected List<CompleteResult> _results;
 	protected List<IncompleteResult> _incompleteResults;
 	protected Collection<Integer> _strips;
     protected Collection<PoolObserver> _observers;
@@ -15,7 +15,7 @@ public abstract class Pool {
 		_players = new ArrayList<Integer>();
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
-		_results = new HashSet<CompleteResult>();
+		_results = new ArrayList<CompleteResult>();
         _observers = new LinkedList<PoolObserver>();
         _strips = new LinkedList<Integer>();
 	}
@@ -151,5 +151,17 @@ public abstract class Pool {
                   completeResult.getLoser() == _incompleteResults.get(0).getPlayer2()) ||
                  (completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
                   completeResult.getLoser() == _incompleteResults.get(0).getPlayer1()));
+	}
+
+	public boolean rescoreLastMatch(CompleteResult newScore) {
+		CompleteResult oldScore = _results.get(_results.size()-1);
+		if(oldScore.getPlayer1() == newScore.getPlayer1()  &&  oldScore.getPlayer2() == newScore.getPlayer2()  ||
+		   oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1()) {
+			_results.remove(_results.size()-1);
+			_results.add(newScore);
+			return true;
+		}
+		else
+			return false;
 	}
 }
