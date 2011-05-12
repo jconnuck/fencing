@@ -296,17 +296,15 @@
   [[] (make-store)])
 
 (defn -getNextReferee [this]
-  (.runTransaction this
-                   #(let [refs (filter (complement :isReffing)
-                                       (.getReferees this))]
-                      (println refs)
-                      (if (not (empty? refs))
-                        (let [ref (.setReffing (first refs)
-                                               true)]
-                          (println ref)
-                          (.putData this ref)
-                          (:id ref))
-                        -1))))
+  (dosync
+   (let [refs (filter (complement :isReffing)
+                      (.getReferees this))]
+     (if (not (empty? refs))
+       (let [ref (.setReffing (first refs)
+                              true)]
+         (.putData this ref)
+         (:id ref))
+       -1))))
 
 (comment
   (defn parse-text [str]

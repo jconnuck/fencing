@@ -117,14 +117,16 @@ public abstract class PoolRound implements IRound{
 					}
 					// Notify subscribers of the competitors that are on deck of that fact
 					IncompleteResult onDeck = p.getOnDeckResult();
-					name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
+                    if (onDeck!=null) {
+                        name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
 				    		_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
-					_smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
-														 onDeck.getPlayer1());
-					name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
+                        _smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+                                                             onDeck.getPlayer1());
+                        name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
 		    				_dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
-					_smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
-							 							 onDeck.getPlayer2());
+                        _smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+                                                             onDeck.getPlayer2());
+                    }
 					// If the pool is being double stripped, two bouts will be "on deck," so more subscribers must be notified
 					if(p.getRefs().size() > 1){
 						onDeck = p.getInHoleBout();
