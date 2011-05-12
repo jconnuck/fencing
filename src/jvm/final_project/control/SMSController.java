@@ -26,7 +26,7 @@ public class SMSController implements Constants, ISMSController {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-		_sendingMessages = true;
+		_sendingMessages = false;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -51,20 +51,24 @@ public class SMSController implements Constants, ISMSController {
 	}
 
 	public void sendCollectionMessage(String message, Collection<Integer> people) {
-        System.out.println("sendCollectionMessage "+message+" to "+people);
-		_sender.sendCollectionMessage(message,people);
+		System.out.println("sendCollectionMessage "+message+" to "+people);
+		if(_sendingMessages)
+			_sender.sendCollectionMessage(message, people);
 	}
 
 	public void sendAllMessage(String message) {
-		_sender.sendAllMessage(message);
+		if(_sendingMessages)
+			_sender.sendAllMessage(message);
 	}
 
 	public void sendGroupMessage(String group, String message) {
-		_sender.sendGroupMessage(group, message);
+		if(_sendingMessages)
+			_sender.sendGroupMessage(group, message);
 	}
 
 	public void sendFencerStripMessage(int id,  int strip) {
-		_sender.sendFencerStripMessage(id, strip);
+		if(_sendingMessages)
+			_sender.sendFencerStripMessage(id, strip);
 	}
 
 	public void sendMatchNotifications(IncompleteResult result, int refID, int stripID) {
@@ -90,6 +94,7 @@ public class SMSController implements Constants, ISMSController {
 
 	public void alertGUI(String message, Date time) {
 		//should call some sort of alert method
+		System.out.println("Alert gui called: " + message);
 	}
 
 	public Date getTime() {

@@ -22,13 +22,14 @@ public class ScoreView extends JPanel {
 		player2Name = tournament.getNameFromId(player2.getPlayerId());
 		int player1Score = player1.getPlayerScore();
 		int player2Score = player2.getPlayerScore();
-		Font scoreBoardFont = null;
+/*		Font scoreBoardFont = null;
 		
 		try {
 			scoreBoardFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new java.io.File(ScoreView.class.getResource("/resources/segoescb.ttf").toURI()));
 		} catch (Exception e){
+			e.printStackTrace();
 			System.out.println("Problem loading font");
-		}
+		}*/
 		
 		setBackground(Color.BLACK);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -51,12 +52,12 @@ public class ScoreView extends JPanel {
 		gbc_player1NameLabel.gridx = 0;
 		gbc_player1NameLabel.gridy = 0;
 		add(player1NameLabel, gbc_player1NameLabel);
-		player1NameLabel.setFont(scoreBoardFont.deriveFont(17));
+//		player1NameLabel.setFont(scoreBoardFont.deriveFont(17));
 		player1NameLabel.setForeground(Color.WHITE);
 		
 		JLabel player1ScoreLabel = new JLabel("");
 		player1ScoreLabel.setForeground(Color.CYAN);
-		player1ScoreLabel.setFont(scoreBoardFont.deriveFont(16));
+	//	player1ScoreLabel.setFont(scoreBoardFont.deriveFont(16));
 		if (player1Score != -1)
 			player1ScoreLabel.setText("" + player1Score);
 		GridBagConstraints gbc_player1ScoreLabel = new GridBagConstraints();
@@ -71,12 +72,12 @@ public class ScoreView extends JPanel {
 		gbc_vs.gridx = 2;
 		gbc_vs.gridy = 0;
 		add(vs, gbc_vs);
-		vs.setFont(scoreBoardFont.deriveFont(16));
+	//	vs.setFont(scoreBoardFont.deriveFont(16));
 		vs.setForeground(Color.RED);
 		
 		JLabel player2ScoreLabel = new JLabel("");
 		player2ScoreLabel.setForeground(Color.ORANGE);
-		player2ScoreLabel.setFont(scoreBoardFont.deriveFont(16));
+	//	player2ScoreLabel.setFont(scoreBoardFont.deriveFont(16));
 		if (player2Score != -1)
 			player2ScoreLabel.setText("" + player2Score);
 		GridBagConstraints gbc_player2ScoreLabel1 = new GridBagConstraints();
@@ -87,7 +88,7 @@ public class ScoreView extends JPanel {
 		
 		JLabel player2NameLabel = new JLabel(player2Name);
 		player2NameLabel.setForeground(Color.WHITE);
-		player2NameLabel.setFont(scoreBoardFont.deriveFont(17));
+//		player2NameLabel.setFont(scoreBoardFont.deriveFont(17));
 		GridBagConstraints gbc_player2NameLabel = new GridBagConstraints();
 		gbc_player2NameLabel.anchor = GridBagConstraints.WEST;
 		gbc_player2NameLabel.gridx = 4;

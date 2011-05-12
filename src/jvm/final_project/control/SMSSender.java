@@ -182,13 +182,19 @@ public class SMSSender implements Constants {
 
     public void sendCollectionMessage(String message, Collection<Integer> people) {
         String number = "";
-        for (Integer id : people) {
+        Iterator<Integer> iter = people.iterator();
+        while(iter.hasNext()) {
+        	Integer id = iter.next();
             IPerson p = _store.getPerson(id);
             if (p==null || p.getPhoneNumber()==null || p.getPhoneNumber().isEmpty())
-                continue;
-            number = number + ",1" + p.getPhoneNumber();
+            	continue;
+            
+            number += p.getPhoneNumber();
+            if (iter.hasNext())
+            	number += ",1";
         }
+        System.out.println("Number: " + number);
         if (!number.isEmpty())
-            sendMessage(message, number.substring(2));
+            sendMessage(message, number);
     }
 }
