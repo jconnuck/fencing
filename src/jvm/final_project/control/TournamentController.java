@@ -102,6 +102,7 @@ public class TournamentController implements Constants{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
 			iter.next().startDERound(cut);
+			this.getMainWindow().loadRightPanel(new DEPanel(this));
 		}
 		throw new IllegalStateException("No event created.");
 	}

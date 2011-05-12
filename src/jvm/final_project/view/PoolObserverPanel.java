@@ -76,7 +76,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 				stripString += ", ";
 		}
 		
-		JLabel lblStrip = new JLabel("Strip: " + this.pool.getStrips());
+		JLabel lblStrip = new JLabel("Strip: " + stripString);
 		lblStrip.setFont(new Font("Score Board", Font.PLAIN, 17));
 		lblStrip.setForeground(Color.WHITE);
 		GridBagConstraints gbc_lblStrip = new GridBagConstraints();
@@ -233,8 +233,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
         setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
 	}
-
-            
 	
 	public void setCurrentBout() {
         IncompleteResult next = pool.getNextResult();
