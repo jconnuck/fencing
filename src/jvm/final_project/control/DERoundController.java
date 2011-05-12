@@ -20,5 +20,6 @@ public class DERoundController {
 
 	public DERoundController(IDataStore dataStore, StripController stripController, List<Integer> players, double cut){
 		_deRound = new DERound(dataStore, stripController, players, cut);
+		_deRound.setupRound();
 	}
 }
