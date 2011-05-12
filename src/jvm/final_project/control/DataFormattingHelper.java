@@ -96,19 +96,16 @@ public class DataFormattingHelper implements Constants {
 	}
 
 	public Object[][] getPoolSizeInfoTable(int stripRows, int stripCols) {
-		Object[][] toReturn = new Object[NUM_POOL_SIZES_POSSIBLE][NUM_COLS_POOL_SETUP];
-
-		Iterator<PoolSizeInfo> iter = _tournament.getValidPoolSizes().iterator();
+		Collection<PoolSizeInfo> sizes = _tournament.getValidPoolSizes();
+		Object[][] toReturn = new Object[sizes.size()][NUM_COLS_POOL_SETUP];
 		int i = 0;
-		while(iter.hasNext()){
-			PoolSizeInfo info = iter.next();
+		for (PoolSizeInfo info : sizes) {
 			toReturn[i][0] = info._poolSize;
 			toReturn[i][1] = info._numBigPools;
 			toReturn[i][2] = info._numSmallPools;
 			toReturn[i][3] = "Select";
 			i++;
 		}
-
 		return toReturn;
 	}
 

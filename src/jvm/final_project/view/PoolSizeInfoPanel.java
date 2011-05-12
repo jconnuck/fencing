@@ -77,6 +77,7 @@ public class PoolSizeInfoPanel extends JPanel {
 
 		public void setData(Object[][] newData) {
 			data = newData;
+            fireTableDataChanged();
 		}
 		
 		@Override
@@ -117,6 +118,9 @@ public class PoolSizeInfoPanel extends JPanel {
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
+        public int getPoolSize(int row) {
+            return ((Integer)data[row][0]).intValue();
+        }
 	}
 
 	class SelectAction extends AbstractAction {
@@ -125,8 +129,8 @@ public class PoolSizeInfoPanel extends JPanel {
 	    }
 	    public void actionPerformed(ActionEvent e) {
             int row = Integer.parseInt(e.getActionCommand());
-            System.out.println(row);
-            tournament.startPoolRound(0,row+4);
+            int poolSize = poolSizeInfoTable.getPoolSize(row);
+            tournament.startPoolRound(0,poolSize);
             System.out.println("MOVE TO POOL ROUND");
             //TODO: Make gui move to pool round
             tournament.getMainWindow().loadRightPanel(new PoolSetupPanel(tournament));

@@ -107,6 +107,7 @@ public class EventController {
 
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
+        System.out.println("Players: "+_players.size());
 		if(_players.size()==0)
 			return toReturn;
 
@@ -118,8 +119,6 @@ public class EventController {
 				toReturn.add(new PoolSizeInfo(i, poolSizeCalc.getNumBigPools(), poolSizeCalc.getNumSmallPools()));
 
 			}catch(Exception e){
-				System.out.println("big pools: " + 0 + " small: " + 0);
-				toReturn.add(new PoolSizeInfo(i, 0, 0));
 			}
 		}
         System.out.println("valid pool sizes: "+toReturn);
