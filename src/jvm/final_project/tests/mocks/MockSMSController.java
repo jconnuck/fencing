@@ -51,4 +51,10 @@ public class MockSMSController implements ISMSController {
 		_cal.getTime();
 		return null;
 	}
+
+	@Override
+	public void updateSubscriberGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -32,7 +32,9 @@ public class TournamentController implements Constants{
 
 		for (IEventInfo e : info.getEvents())
 			addEvent(e.getWeaponType(),e.getPreregs());
-		_runnerThread = new Thread(_runner = new TournamentRunner(_smsController));
+		
+		_runnerThread = new Thread(_runner = new TournamentRunner(_smsController,System.in));
+		_runnerThread.start();
 
 	}
 
