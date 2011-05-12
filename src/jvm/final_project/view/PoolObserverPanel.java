@@ -234,8 +234,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		completedBoutsPane.add(newBout, 1);
 	}
 
-            
-	
 	public void setCurrentBout() {
         IncompleteResult next = pool.getNextResult();
         if (next==null)
