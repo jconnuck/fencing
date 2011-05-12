@@ -30,8 +30,6 @@ public class MessageRefPanel extends JPanel {
 		
 		btnCancel = new JButton("Cancel");
 		add(btnCancel);
-		
-
 	}
 
 	public JButton getSendButton() {

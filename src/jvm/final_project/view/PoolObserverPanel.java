@@ -239,7 +239,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			tournament.getMainWindow().hideAllBalloons();
 		}
 		else if(e.getSource() == messageRefPanel.getCancelButton()) {
-			System.out.println("cancel button pressed");
 			tournament.getMainWindow().hideAllBalloons();
 		}
 	}

@@ -26,7 +26,7 @@ public class SMSController implements Constants, ISMSController {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-		_sendingMessages = false;
+		_sendingMessages = true;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -52,8 +52,8 @@ public class SMSController implements Constants, ISMSController {
 
 	public void sendCollectionMessage(String message, Collection<Integer> people) {
 		System.out.println("sendCollectionMessage "+message+" to "+people);
-		//if(_sendingMessages)
-			//_sender.sendCollectionMessage(message, people);
+		if(_sendingMessages)
+			_sender.sendCollectionMessage(message, people);
 	}
 
 	public void sendAllMessage(String message) {
