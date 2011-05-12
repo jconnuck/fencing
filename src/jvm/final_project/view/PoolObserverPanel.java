@@ -230,16 +230,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 	public void addCompleteResult(CompleteResult completeResult) {
 		ScoreView newBout = new ScoreView(tournament, completeResult);
         completeResults.add(newBout);
-        for (Iterator<ScoreView> itr = incompleteResults.iterator(); itr.hasNext();) {
-            ScoreView v = itr.next();
-            if ((v.player1Name.equals(newBout.player1Name) &&
-                 v.player2Name.equals(newBout.player2Name)) ||
-                (v.player1Name.equals(newBout.player2Name) &&
-                 v.player2Name.equals(newBout.player1Name))) {
-                upcomingBoutsPane.remove(v);
-                itr.remove();
-            }
-        }
         setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
 	}
@@ -256,6 +246,17 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
             currentBout.setText(player1Name +
                                 " vs "+
                                 player2Name);
+            for (Iterator<ScoreView> itr = incompleteResults.iterator(); itr.hasNext();) {
+                ScoreView v = itr.next();
+                if ((v.player1Name.equals(player1Name) &&
+                     v.player2Name.equals(player2Name)) ||
+                    (v.player1Name.equals(player2Name) &&
+                     v.player2Name.equals(player1Name))) {
+                    upcomingBoutsPane.remove(v);
+                    itr.remove();
+                    break;
+                }
+            }
         }
 	}
 
