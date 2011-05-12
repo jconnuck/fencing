@@ -272,7 +272,7 @@
   (replace-person (.store this) person))
 
 (defn -removeData [this person]
-  (.removeID (.getID person)))
+  (.removeID this (.getID person)))
 
 (defn -removeID [this id]
   (remove-person (.store this) id))
