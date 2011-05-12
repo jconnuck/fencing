@@ -262,7 +262,7 @@ public class SetupWindow {
                                 //for(int x = 0; x < 10; x++)
                                 	//store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
                                 for(int refNum = 0; refNum < 1; refNum++)
-                                	store.putData(store.createReferee("8132987766", "Katya Potkin", ((Integer) refNum).toString(), null, "Referee").setReffing(false));
+                                	store.putData(store.createReferee("3155690308", "Jon", "Leavitt" + ((Integer) refNum).toString(), null, "Referee").setReffing(false));
 
                             }
                         });

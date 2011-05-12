@@ -38,7 +38,7 @@ public class TournamentController implements Constants{
 	public int refsAreAvailable() {
 		return _dataStore.getReferees().size();
 	}
-	
+
 	public int addEvent(String weapon){
         return addEvent(weapon,new LinkedList<Integer>());
 	}
@@ -60,6 +60,11 @@ public class TournamentController implements Constants{
 		return null;
 	}
 
+	public void notifyPools(int eventID){
+		for (EventController e: _events)
+			e.notifyPools();
+	}
+
 	public void setStripSizes(int eventID, int stripRows, int stripCols) {
 		if(_events.isEmpty())
 			throw new IllegalStateException("No event created.");
@@ -75,7 +80,7 @@ public class TournamentController implements Constants{
 			EventController e = iter.next();
 			int[] stripArrangement = e.getStripArrangement();
 			_stripController.setUpStrips(stripArrangement[0], stripArrangement[1], (stripArrangement[1] == 0));
-			
+
 			if(!e.startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
@@ -120,7 +125,7 @@ public class TournamentController implements Constants{
 	public boolean addPlayer(int eventID, int playerID){
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
-			iter.next().addPlayer(playerID);			
+			iter.next().addPlayer(playerID);
 			return true;
 		}
 		return false;
