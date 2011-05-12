@@ -71,6 +71,10 @@ public class SMSController implements Constants, ISMSController {
 			_sender.sendFencerStripMessage(id, strip);
 	}
 
+	public void sendSubscriberMessage(String message, int fencerID) {
+		if(_sendingMessages)
+			_sender.sendSubscriberMessage(message, fencerID);
+	}
 	public void sendMatchNotifications(IncompleteResult result, int refID, int stripID) {
 		System.out.println("Send match notifications called: ");
 		System.out.println("Sending actual text messages: " + _sendingMessages);

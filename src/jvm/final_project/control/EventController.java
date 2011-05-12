@@ -63,7 +63,7 @@ public class EventController {
 	public void addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
 			if(_poolController.addCompleteResult(result)) {
-				startDERound(20); //TODO make this come from GUI!!!
+				startDERound(20); //TODO make cut come from GUI!!!
 			}
 		} else if(_state.equals(State.DE)){
 			_deController.addCompleteResult(result);
