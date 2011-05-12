@@ -124,8 +124,8 @@ public abstract class Pool {
 
 	private boolean isPrematureResult(CompleteResult completeResult) {
 		return !((completeResult.getWinner() == _incompleteResults.get(0).getPlayer1() &&
-				completeResult.getLoser() == _incompleteResults.get(0).getPlayer2())) ||
-				(completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
-	    		completeResult.getLoser() == _incompleteResults.get(0).getPlayer1());
+                  completeResult.getLoser() == _incompleteResults.get(0).getPlayer2()) ||
+                 (completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
+                  completeResult.getLoser() == _incompleteResults.get(0).getPlayer1()));
 	}
 }
