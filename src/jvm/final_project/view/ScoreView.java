@@ -22,10 +22,10 @@ public class ScoreView extends JPanel {
 		player2Name = tournament.getNameFromId(player2.getPlayerId());
 		int player1Score = player1.getPlayerScore();
 		int player2Score = player2.getPlayerScore();
-		Font scoreBoardFont = null;
+		Font scoreBoardFont = new Font("Score Board", Font.PLAIN, 17);
 		
 		try {
-			scoreBoardFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new java.io.File(ScoreView.class.getResource("/resources/segoescb.ttf").toURI()));
+			scoreBoardFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new java.io.File(ScoreView.class.getResource("final_project/resources/scoreboard.ttf").toURI()));
 		} catch (Exception e){
 			System.out.println("Problem loading font");
 		}
