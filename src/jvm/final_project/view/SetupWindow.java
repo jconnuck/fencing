@@ -253,11 +253,9 @@ public class SetupWindow {
 
                             	store.putData(store.createPlayer("8132987766", "Wow", "cs32", "", "Fencer", 4));
 */
-                             store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
+                                store.putData(store.createPlayer("4103408093", "William", "Zimrin",
                                                                  "","Fencer",1));
-                                store.putData(store.createPlayer("4103708093", "William", "Zimrin",
-                                                                 "","Fencer",1));
-                                store.putData(store.createPlayer("4103708093", "Josh", "Grill",
+                                store.putData(store.createPlayer("5433333030", "Josh", "Grill",
                                                                  "","Fencer",1));
                                 store.putData(store.createPlayer("8132987766", "John", "Connuck",
                                                                  "","Fencer",1));
