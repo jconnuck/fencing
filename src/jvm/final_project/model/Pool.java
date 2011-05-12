@@ -125,8 +125,8 @@ public abstract class Pool {
 		System.out.println("Player 1: " + _incompleteResults.get(0).getPlayer1() + " 2: " + _incompleteResults.get(0).getPlayer2());
 		
 		return !((completeResult.getWinner() == _incompleteResults.get(0).getPlayer1() &&
-				completeResult.getLoser() == _incompleteResults.get(0).getPlayer2())) ||
-				(completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
-	    		completeResult.getLoser() == _incompleteResults.get(0).getPlayer1());
+                  completeResult.getLoser() == _incompleteResults.get(0).getPlayer2()) ||
+                 (completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
+                  completeResult.getLoser() == _incompleteResults.get(0).getPlayer1()));
 	}
 }
