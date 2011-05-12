@@ -314,6 +314,14 @@ public class DERound implements IRound {
 	                    throw new NoSuchMatchException("This bout has already been completed");
 	                }
 	                _matches[i] = newResult;
+		            String name1, name2, score;
+		            name1 = _dataStore.getPlayer(newResult.getLoser()).getFirstName() + " " +
+		            		_dataStore.getPlayer(newResult.getLoser()).getLastName();
+		            name2 = _dataStore.getPlayer(newResult.getWinner()).getFirstName() + " " +
+            				_dataStore.getPlayer(newResult.getWinner()).getLastName();
+		            score = " with a score of: " + newResult.getWinnerScore() + "-" + newResult.getLoserScore();
+		            _smsController.sendSubscriberMessage(name1 + "just lost a DE match to " + name2 + score, newResult.getLoser());
+		            _smsController.sendSubscriberMessage(name2 + "just won a DE match against " + name1 + score, newResult.getWinner());
 	                if(i == 0) {
 	                	// maybe announce winner of the event to all spectators and fencers
 	                	return;
@@ -339,7 +347,6 @@ public class DERound implements IRound {
 		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
 		            }
 		            IncompleteResult onDeck = getOnDeck();
-		            String name1, name2;
 		            name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " 
 		            		+ _dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
 		            name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " "
