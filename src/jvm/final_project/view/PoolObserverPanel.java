@@ -68,7 +68,13 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		gbc_lblPool.gridy = 0;
 		add(lblPool, gbc_lblPool);
 		
-		
+		String stripString = "";
+		iter = this.pool.getStrips().iterator();
+		while(iter.hasNext()) {
+			stripString += tournament.getNameFromId(iter.next());
+			if(iter.hasNext())
+				stripString += ", ";
+		}
 		
 		JLabel lblStrip = new JLabel("Strip: " + this.pool.getStrips());
 		lblStrip.setFont(new Font("Score Board", Font.PLAIN, 17));
