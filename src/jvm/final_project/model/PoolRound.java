@@ -94,7 +94,8 @@ public abstract class PoolRound implements IRound{
 					for(Pool tempPool : _pools){
 						if(!tempPool.isDone())
 							return false;
-					}					
+					}
+                    return true;
 				}
 				else { // If pool is not done
 					// Notify the referee(s) about their next match
@@ -136,8 +137,8 @@ public abstract class PoolRound implements IRound{
 						_smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
 						 							 		 onDeck.getPlayer2());
 					}
+                    return false;
 				}
-				return true;
 			}
 		}
 		throw new IllegalArgumentException("No pools have given result.");
