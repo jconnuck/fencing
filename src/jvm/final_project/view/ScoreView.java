@@ -22,14 +22,16 @@ public class ScoreView extends JPanel {
 		player2Name = tournament.getNameFromId(player2.getPlayerId());
 		int player1Score = player1.getPlayerScore();
 		int player2Score = player2.getPlayerScore();
-		Font scoreBoardFont = new Font("Score Board", Font.PLAIN, 17);
 		
+		Font scoreBoardFont = new Font("Score Board", Font.PLAIN, 17);
+
 		try {
 			scoreBoardFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new java.io.File(ScoreView.class.getResource("final_project/resources/scoreboard.ttf").toURI()));
 		} catch (Exception e){
+			e.printStackTrace();
 			System.out.println("Problem loading font");
 		}
-		
+
 		setBackground(Color.BLACK);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.anchor = GridBagConstraints.NORTHWEST;
@@ -43,7 +45,7 @@ public class ScoreView extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+
 		JLabel player1NameLabel = new JLabel(player1Name);
 		GridBagConstraints gbc_player1NameLabel = new GridBagConstraints();
 		gbc_player1NameLabel.anchor = GridBagConstraints.EAST;
@@ -53,7 +55,7 @@ public class ScoreView extends JPanel {
 		add(player1NameLabel, gbc_player1NameLabel);
 		player1NameLabel.setFont(scoreBoardFont.deriveFont(17));
 		player1NameLabel.setForeground(Color.WHITE);
-		
+
 		JLabel player1ScoreLabel = new JLabel("");
 		player1ScoreLabel.setForeground(Color.CYAN);
 		player1ScoreLabel.setFont(scoreBoardFont.deriveFont(16));
@@ -64,7 +66,7 @@ public class ScoreView extends JPanel {
 		gbc_player1ScoreLabel.gridx = 1;
 		gbc_player1ScoreLabel.gridy = 0;
 		add(player1ScoreLabel, gbc_player1ScoreLabel);
-		
+
 		JLabel vs = new JLabel("vs");
 		GridBagConstraints gbc_vs = new GridBagConstraints();
 		gbc_vs.insets = new Insets(0, 0, 0, 5);
@@ -73,7 +75,7 @@ public class ScoreView extends JPanel {
 		add(vs, gbc_vs);
 		vs.setFont(scoreBoardFont.deriveFont(16));
 		vs.setForeground(Color.RED);
-		
+
 		JLabel player2ScoreLabel = new JLabel("");
 		player2ScoreLabel.setForeground(Color.ORANGE);
 		player2ScoreLabel.setFont(scoreBoardFont.deriveFont(16));
@@ -84,7 +86,7 @@ public class ScoreView extends JPanel {
 		gbc_player2ScoreLabel1.gridx = 3;
 		gbc_player2ScoreLabel1.gridy = 0;
 		add(player2ScoreLabel, gbc_player2ScoreLabel1);
-		
+
 		JLabel player2NameLabel = new JLabel(player2Name);
 		player2NameLabel.setForeground(Color.WHITE);
 		player2NameLabel.setFont(scoreBoardFont.deriveFont(17));
@@ -98,7 +100,7 @@ public class ScoreView extends JPanel {
 	public ScoreView(TournamentController tournament, IncompleteResult result) {
 		this(tournament, new PlayerResult(result.getPlayer1(), -1), new PlayerResult(result.getPlayer2(), -1));
 	}
-	
+
 	public ScoreView(TournamentController tournament, CompleteResult result) {
 		this(tournament, new PlayerResult(result.getWinner(), result.getWinnerScore()), new PlayerResult(result.getLoser(), result.getLoserScore()));
 	}

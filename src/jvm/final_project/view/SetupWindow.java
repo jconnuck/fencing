@@ -246,7 +246,14 @@ public class SetupWindow {
                     final IDataStore store = new DataStore();
                     store.runTransaction(new Runnable() {
                             public void run() {
-                                store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
+                            	store.putData(store.createPlayer("3155690308", "Jon", "Leavitt", "", "Fencer", 1));
+                            	store.putData(store.createPlayer("8132987766", "Miranda", "Steele", "", "Fencer", 2));
+
+                            	store.putData(store.createPlayer("8132987766", "Miranda", "Steele2", "", "Referee", 3));
+
+                            	store.putData(store.createPlayer("8132987766", "Miranda", "Steele3", "", "Referee", 4));
+
+/*                                store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
                                                                  "","Fencer",1));
                                 store.putData(store.createPlayer("4103708093", "William", "Zimrin",
                                                                  "","Fencer",1));
@@ -257,7 +264,7 @@ public class SetupWindow {
                                 //store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
                                   //                                  "","Spectator"));
                                 store.putData(store.createPlayer("8132987766", "Miranda", "Steele",
-                                        						"","Fencer", 1));
+                                        						"","Fencer", 1));*/
                               //  store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
                                 //for(int x = 0; x < 10; x++)
                                 	//store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
@@ -270,7 +277,6 @@ public class SetupWindow {
                 }
 
 				MainWindow mainWindow = new MainWindow(i,textField.getText(),passwordField.getText());
-
 
 				frame.setVisible(false);
 				//mainWindow.setVisible(true);
