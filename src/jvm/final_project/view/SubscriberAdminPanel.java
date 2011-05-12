@@ -172,6 +172,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		
 		public void setData(Object[][] newData) {
 			data = newData;
+			this.fireTableDataChanged();
 		}
 		@Override
 		public int getColumnCount() {
@@ -197,11 +198,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		}
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			if (col < 2) {
-				return false;
-			} else {
-				return true;
-			}
+			return false;
 		}
 		@Override
 		public void setValueAt(Object value, int row, int col) {
@@ -229,7 +226,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	                if (phoneNumber.equals("(***)-****-***")) {	 	
 	                    addNewSubscriberPane.getPhoneNumberTextField().setBackground(highlightColor);
 	                    addNewSubscriberPane.getPhoneNumberTextField().requestFocusInWindow();	 	
-	                } else {	 	
+	                } else {
 	                    addNewSubscriberPane.getPhoneNumberTextField().setBackground(Color.WHITE);
 	                }
 	            } else {
@@ -238,12 +235,13 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 					int nameSplit = name.lastIndexOf(' ');
 					if (nameSplit > 0) {
 						firstName = name.substring(0, nameSplit);
-						lastName = name.substring(nameSplit, name.length());
+						lastName = name.substring(nameSplit +1, name.length());
 					} else {
 						firstName = name;
 						lastName = "";
 					}
 					//Registering this new spectator and updating the model table to reflect the new subscriber
+					phoneNumber = phoneNumber.replaceAll("\\D", "");
 					Object[][] newData = tournament.registerSpectator(phoneNumber, firstName, lastName);
 					model.setData(newData);
 	            }

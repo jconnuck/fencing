@@ -81,13 +81,17 @@ public class DataFormattingHelper implements Constants {
 			toReturn[index][1] = i.getPhoneNumber();
 
 			toReturn[index][2] = "";
-			System.out.println("--Before iterator in data formatting helper give Subscriber info");
-			while(i.getWatched().iterator().hasNext()) {
-				int id = ((Integer)(i.getWatched().iterator().next())).intValue();
+			System.out.println("--Before iterator in data formatting helper give Subscriber info " + i.getID());
+			System.out.println("--Watched size " + i.getWatched().size());
+			Iterator<Integer> iter = i.getWatched().iterator();
+			while(iter.hasNext()) {
+				int id = ((Integer)(iter.next())).intValue();
 				System.out.println("ID in data formatting helper subscribe panel" + id); //TODO println
 				IObservable followed = _dataStore.getObservable(id);
 				if(followed instanceof IClub)
 					toReturn[index][2] =  ((IClub) followed).getName() + "";
+				else
+					toReturn[index][2] = ((IPlayer) followed).getFirstName() + " " + ((IPlayer) followed).getLastName();
 			}
 
 			index++;

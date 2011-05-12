@@ -111,7 +111,7 @@ public class MainWindow {
 		for (BalloonTip b : balloons)
 			b.setVisible(false);
 	}
-
+	
 	public void updateSubscriberGUI() {
 		subscriberAdminPanel.updateSubscriberTable();
 	}

@@ -153,10 +153,12 @@ public class SMSParser {
 		if(_store == null)
 			return false;
 
+		int idSpectator = -1;
 		for (IPerson i: _store.getPeople()) {
 			System.out.println(i.getPhoneNumber());
 			if(i.getPhoneNumber().equals(number)) {
 				found = true;
+				idSpectator = i.getID();
 				break;
 			}
 		}
@@ -207,29 +209,24 @@ public class SMSParser {
 			return false;
 		}
 		System.out.println("Subscribing");
+		System.out.println("Phone number from text: " + number);
+		
 		/* ACTUALLY SUBSCRIBING USER */
-		found = false;
-		int idSpectator = 0;
-		for (IPerson i: _store.getPeopleForGroup("Spectator")) {
-			if (i.getPhoneNumber().equals(number)) {
-				found = true;
-				idSpectator = i.getID();
-				break;
-			}
-		}
-
 		final int finalID = idSpectator;
 		final int finalIDToFollow = idToFollow;
 		_store.runTransaction(new Runnable(){
 			public void run(){
+				System.out.println("before watched size" + _store.getPerson(finalID).getWatched().size() + " \n final id: " + finalID);
 				IPerson spect = _store.getPerson(finalID).addWatched(finalIDToFollow);
 				_store.putData(spect);
+				System.out.println("spect " + spect);
+				System.out.println("Watched size" + _store.getPerson(finalID).getWatched().size());
 			}
 		});
 		_control.updateSubscriberGUI();
 		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + " " + lastNameToSubscribeTo + "!", number);
 		return true;
-	}
+	} 
 
 	public boolean unsubscribeUserToObservable(String firstToUnsubscribe, String lastToUnsubscribe, String number) {
 		//Finding the spectator at this phone number
