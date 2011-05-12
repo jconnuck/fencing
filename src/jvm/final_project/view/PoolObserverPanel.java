@@ -185,15 +185,14 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		gbc_btnMessageReferee.gridy = 7;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
-        setCurrentBout();
-
         System.out.println("from poolobserver: "+pool.getIncompleteResults());
         System.out.println("numPlayers: "+pool.numPlayers());
         for (IncompleteResult res : pool.getIncompleteResults())
             addIncompleteResult(res);
         for (CompleteResult res : pool.getResults())
             addCompleteResult(res);
-        
+
+        setCurrentBout();
 	}
 	
 	public enum Status {

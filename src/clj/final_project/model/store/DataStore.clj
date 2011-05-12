@@ -299,7 +299,7 @@
   (.runTransaction this
                    #(let [refs (filter (complement :isReffing)
                                        (.getReferees this))]
-                      (if (not (empty refs))
+                      (if (not (empty? refs))
                         (let [ref (.setReffing (first refs)
                                                true)]
                           (.putData this ref)
