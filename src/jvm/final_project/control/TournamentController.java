@@ -352,4 +352,8 @@ public class TournamentController implements Constants{
 		_mainWindow.updateSubscriberGUI();
 
 	}
+	
+	public void sendRefMessage(String message, Collection<Integer> refs) {
+		
+	}
 }

@@ -107,6 +107,9 @@ public class EventController {
 		if(_state != State.POOLS)
 			return false;
 		convertPlayersListToSortedSeeding();
+		System.out.println("Converted players: ");
+		for(Integer i: _players)
+			System.out.println(" -" + _dataStore.getPlayer(i).getFirstName());
 		_deController = new DERoundController(_dataStore, _stripController, _players, cut);
 		_state = State.DE;
 		return true;
