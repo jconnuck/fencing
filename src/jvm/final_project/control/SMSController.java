@@ -44,7 +44,7 @@ public class SMSController implements Constants, ISMSController {
 
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
-		System.out.println("Send message called: " + message + " to " + number);
+		System.out.println("Send message called in ctrl: " + message + " to " + number);
 		System.out.println("Sending actual text messages: " + _sendingMessages);
 		if(_sendingMessages)
 			_sender.sendMessage(message, number);

@@ -40,12 +40,12 @@ public class TournamentController implements Constants{
 	}
 
 	public int addEvent(String weapon){
-        return addEvent(weapon,new LinkedList<Integer>());
+		return addEvent(weapon,new LinkedList<Integer>());
 	}
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
 		int id = ++_currentEventID;
-        System.out.println("TournamentController smsController "+(_smsController==null));
+		System.out.println("TournamentController smsController "+(_smsController==null));
 		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController, _smsController));
 		return id;
 	}
@@ -84,7 +84,7 @@ public class TournamentController implements Constants{
 			if(!e.startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
-            return;
+			return;
 		}
 		throw new IllegalStateException("No event created.");
 	}
@@ -162,13 +162,16 @@ public class TournamentController implements Constants{
 	}
 
 	/* METHODS TO MAKE IT POSSIBLE FOR THE GUI TO GET INFORMATION FROM THE DATA STORE */
-	public Object[][] checkInFencer(int playerID, boolean checkAs) {
-		final IPlayer temp = _dataStore.getPlayer(playerID).setCheckedIn(checkAs);
-		_dataStore.runTransaction(new Runnable(){
-			public void run(){
-				_dataStore.putData(temp);
-			}
-		});
+	public Object[][] checkInFencer(int playerID, final boolean checkAs) {
+		final IPlayer p = _dataStore.getPlayer(playerID);
+		if(p!=null) {
+			_dataStore.runTransaction(new Runnable(){
+				public void run(){
+					final IPlayer checkedInP = p.setCheckedIn(checkAs);
+					_dataStore.putData(checkedInP);
+				}
+			});
+		}
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
@@ -203,8 +206,8 @@ public class TournamentController implements Constants{
 			}
 		});
 		//Should text new spectator that they were registered, so they'll have a phone number to respond to
-		//_smsController.sendMessage("Thank you for registering with our system! Please respond " +
-		//"to this phone number with your follower requests.", number);
+		_smsController.sendMessage("Thank you for registering with our system! Please respond " +
+				"to this phone number with your follower requests.", number);
 		return _dataHelper.giveSubscriberTableInfo();
 	}
 
@@ -283,7 +286,7 @@ public class TournamentController implements Constants{
 			}
 		});
 	}
-	*/
+	 */
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
 		if (!_events.isEmpty())
 			return _events.iterator().next().getValidPoolSizes();
