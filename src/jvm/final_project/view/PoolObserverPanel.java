@@ -37,9 +37,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		setBackground(Color.BLACK);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{151, 80, 80, 150, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 24, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 24, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		String refString = "";
@@ -76,7 +76,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 				stripString += ", ";
 		}
 		
-		JLabel lblStrip = new JLabel("Strip: " + this.pool.getStrips());
+		JLabel lblStrip = new JLabel("Strip: " + stripString);
 		lblStrip.setFont(new Font("Score Board", Font.PLAIN, 17));
 		lblStrip.setForeground(Color.WHITE);
 		GridBagConstraints gbc_lblStrip = new GridBagConstraints();
@@ -166,10 +166,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		
 		JProgressBar progressBar = new JProgressBar();
 		GridBagConstraints gbc_progressBar = new GridBagConstraints();
-		gbc_progressBar.gridwidth = 2;
+		gbc_progressBar.gridwidth = 4;
 		gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
-		gbc_progressBar.insets = new Insets(0, 0, 0, 5);
-		gbc_progressBar.gridx = 1;
+		gbc_progressBar.insets = new Insets(0, 0, 5, 0);
+		gbc_progressBar.gridx = 0;
 		gbc_progressBar.gridy = 6;
 		add(progressBar, gbc_progressBar);
 		
@@ -182,7 +182,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
 		});
 		GridBagConstraints gbc_btnMessageReferee = new GridBagConstraints();
 		gbc_btnMessageReferee.gridx = 3;
-		gbc_btnMessageReferee.gridy = 6;
+		gbc_btnMessageReferee.gridy = 7;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
         setCurrentBout();
@@ -233,8 +233,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver {
         setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
 	}
-
-            
 	
 	public void setCurrentBout() {
         IncompleteResult next = pool.getNextResult();

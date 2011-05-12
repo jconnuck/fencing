@@ -197,4 +197,19 @@ public class SMSSender implements Constants {
         if (!number.isEmpty())
             sendMessage(message, number);
     }
+
+	public boolean sendSubscriberMessage(String message, int fencerID) {
+		//Getting the observers for this fencer
+		Collection<Integer> subscribers = _store.getPlayer(fencerID).getObservers();
+		
+		boolean toReturn = true;
+		for(Integer id: subscribers) {
+			IPerson p = _store.getPerson(id);
+			if(toReturn)
+				toReturn = this.sendMessage(message, p.getPhoneNumber());
+			else
+				this.sendMessage(message, p.getPhoneNumber());
+		}
+		return toReturn;
+	}
 }
