@@ -29,7 +29,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
 	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
-	private Collection<BalloonTip> balloons;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip, blankFieldTip;
 	private CheckInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
@@ -195,8 +194,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	}
 
 	private void initializeBalloons() {
-		balloons = new ArrayList<BalloonTip>();
-
 		//setup tooltips
 		signInPlayerPane = new CheckInPlayerPanel();
 		signInPlayerTip = new BalloonTip(registerPersonButton, signInPlayerPane, new DefaultBalloonStyle(), false);
@@ -228,15 +225,15 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		
 		blankFieldTip = new BalloonTip(registerNewPlayerPane.getDoneButton(), new JLabel("Sorry, one or more required field is blank."), new NotificationBalloonStyle(), Orientation.RIGHT_BELOW, AttachLocation.SOUTH, 8, 8, false);
 
-		balloons.add(signInPlayerTip);
-		balloons.add(registerNewPlayerTip);
-		balloons.add(signInAllTip);
-		balloons.add(unsignInAllTip);
-		balloons.add(stripSetupTip);
-		balloons.add(poolSizeTip);
-		balloons.add(blankFieldTip);
-		setBalloonsOpacity(0.9f);
-		hideAllBalloons();
+		tournament.getMainWindow().registerBalloon(signInPlayerTip);
+		tournament.getMainWindow().registerBalloon(registerNewPlayerTip);
+		tournament.getMainWindow().registerBalloon(signInAllTip);
+		tournament.getMainWindow().registerBalloon(unsignInAllTip);
+		tournament.getMainWindow().registerBalloon(stripSetupTip);
+		tournament.getMainWindow().registerBalloon(poolSizeTip);
+		tournament.getMainWindow().registerBalloon(blankFieldTip);
+		tournament.getMainWindow().setBalloonsOpacity(0.9f);
+		tournament.getMainWindow().hideAllBalloons();
 	}
 
 	private void filter() {
@@ -495,16 +492,5 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 
     public JButton getAddFencerButton() {
         return registerPersonButton;
-    }
-
-    public void hideAllBalloons() {
-        for (BalloonTip b : balloons)
-            b.setVisible(false);
-    }
-	
-    public void setBalloonsOpacity(float opacity) {
-        for (BalloonTip balloon : balloons) {
-            balloon.setOpacity(opacity);
-        }
     }
 }

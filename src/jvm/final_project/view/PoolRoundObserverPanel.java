@@ -11,14 +11,20 @@ import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JScrollPane;
+
+import net.java.balloontip.BalloonTip;
+
 import java.awt.Insets;
+import java.awt.FlowLayout;
 
-public class PoolRoundObserverPanel extends JPanel {
-
+public class PoolRoundObserverPanel extends JPanel implements ActionListener{
+	private JButton btnDeRound;
+	private TournamentController tournament;
 	/**
 	 * Create the panel.
 	 */
 	public PoolRoundObserverPanel(final TournamentController tournament) {
+		this.tournament = tournament;
 		setBackground(Color.BLACK);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -28,12 +34,7 @@ public class PoolRoundObserverPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JButton btnDeRound = new JButton("DE Round");
-		btnDeRound.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tournament.getMainWindow().loadRightPanel(new DEPanel(tournament));
-			}
-		});
+		btnDeRound = new JButton("DE Round");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -45,6 +46,8 @@ public class PoolRoundObserverPanel extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		JPanel panel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.setBackground(Color.BLACK);
 		scrollPane.setViewportView(panel);
 		GridBagConstraints gbc_btnDeRound = new GridBagConstraints();
@@ -52,6 +55,7 @@ public class PoolRoundObserverPanel extends JPanel {
 		gbc_btnDeRound.gridx = 0;
 		gbc_btnDeRound.gridy = 9;
 		add(btnDeRound, gbc_btnDeRound);
+		btnDeRound.addActionListener(this);
 		
 		//TODO make a for loop, making anew PoolObserverPanel for each pool and add it
         int i=1;
@@ -59,6 +63,15 @@ public class PoolRoundObserverPanel extends JPanel {
             PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournament, i++);
             panel.add(poolObserverPanel);
         }
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//TODO Replace string with new JPanel that has option to enter text
+		BalloonTip selectCutTip = new BalloonTip(btnDeRound, "Select how many to cut", new DefaultBalloonStyle(), false);
+		tournament.getMainWindow().registerBalloon(selectCutTip);
+		//TODO This should be moved to the actionListener on the button in the new panel
+		tournament.getMainWindow().loadRightPanel(new DEPanel(tournament));
 	}
 
 }

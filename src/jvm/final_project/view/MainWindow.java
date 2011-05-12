@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.*;
-
 import java.awt.*;
-
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.util.*;
+
+import net.java.balloontip.BalloonTip;
 
 import final_project.control.*;
 import final_project.input.*;
@@ -22,6 +22,7 @@ public class MainWindow {
 	private IDataStore dataStore;
 	private JSplitPane splitPane;
 	private SubscriberAdminPanel subscriberAdminPanel;
+	private Collection<BalloonTip> balloons;
 	private JPanel panel_1;
 
 	/**
@@ -39,6 +40,8 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		//initialize balloon collection
+		balloons = new LinkedList<BalloonTip>();
 		//Override key bindings to make enter press buttons
 		InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
 		im.put(KeyStroke.getKeyStroke( "ENTER" ), "pressed");
@@ -94,9 +97,19 @@ public class MainWindow {
 		splitPane.setRightComponent(panel);
 	}
 	
+	public void registerBalloon(BalloonTip balloon) {
+		balloons.add(balloon);
+	}
+	
+    public void setBalloonsOpacity(float opacity) {
+        for (BalloonTip balloon : balloons) {
+            balloon.setOpacity(opacity);
+        }
+    }
+	
 	public void hideAllBalloons() {
-		checkInPanel.hideAllBalloons();
-		subscriberAdminPanel.hideAllBalloons();
+		for (BalloonTip b : balloons)
+			b.setVisible(false);
 	}
 
 	public void updateSubscriberGUI() {
