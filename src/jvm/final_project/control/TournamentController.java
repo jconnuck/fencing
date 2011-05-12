@@ -17,6 +17,8 @@ public class TournamentController implements Constants{
 	private SMSController _smsController;
 	private DataFormattingHelper _dataHelper;
 	private MainWindow _mainWindow;
+	private TournamentRunner _runner;
+	private Thread _runnerThread;
 
 	public TournamentController(String username, String password, ITournamentInfo info, MainWindow mainWindow) {
 		_currentEventID = 0;
@@ -30,6 +32,8 @@ public class TournamentController implements Constants{
 
 		for (IEventInfo e : info.getEvents())
 			addEvent(e.getWeaponType(),e.getPreregs());
+		_runnerThread = new Thread(_runner = new TournamentRunner(_smsController));
+
 	}
 
 	/**
@@ -84,6 +88,7 @@ public class TournamentController implements Constants{
 			if(!e.startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
+			_runnerThread.start();
 			return;
 		}
 		throw new IllegalStateException("No event created.");
@@ -274,29 +279,6 @@ public class TournamentController implements Constants{
 			});
 		}
 		return _dataHelper.giveSignInPanelInfo();
-	}
-
-	
-	public boolean subscribeObserverToString(String number){
-		boolean found = false;
-		int idSpectator = 0;
-		for (IPerson i: _dataStore.getPeopleForGroup("Spectator")) {
-			if (i.getPhoneNumber().equals(number)) {
-				found = true;
-				idSpectator = i.getID();
-				break;
-			}
-		}
-
-		final int finalID = idSpectator;
-		final int finalIDToFollow = idToFollow;
-		_dataStore.runTransaction(new Runnable(){
-			public void run(){
-				IPerson spect = _dataStore.getPerson(finalID).addWatched(finalIDToFollow);
-				_dataStore.putData(spect);
-			}
-		});
-		_control.updateSubscriberGUI();
 	}
 
 	/**public void registerFencer(String number, String firstName, String lastName, int rank) {

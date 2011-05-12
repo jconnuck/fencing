@@ -206,7 +206,6 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		@Override
 		public void setValueAt(Object value, int row, int col) {
             data[row][col] = value;
-            tournament.addSubscriber();
             fireTableCellUpdated(row, col);
         }
 	}

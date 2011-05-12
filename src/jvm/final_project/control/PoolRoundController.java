@@ -56,11 +56,13 @@ public class PoolRoundController {
             System.out.println( " num incomplete results" + p.getIncompleteResults().size());
             System.out.println( " num strips inside pool" + p.getStrips().size());
         }
+
         return true;
 	}
 
 	public void notifyNewPools() {
 		_poolRound.notifyPools();
+        Thread thread = new Thread(new TournamentRunner(_smsController));
 	}
 
 	private void calcPoolSize(int poolSize) throws IllegalArgumentException{

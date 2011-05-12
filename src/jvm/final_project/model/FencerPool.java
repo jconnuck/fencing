@@ -232,6 +232,8 @@ public class FencerPool extends Pool{
 			_incompleteResults.add(20, temp);
 		}
 		System.out.println("incomplete results size " + _incompleteResults.size()) ;
+		for(IncompleteResult ir : _incompleteResults)
+			System.out.println(ir.getPlayer1() + " fights " + ir.getPlayer2());
 	}
-	
+
 }
