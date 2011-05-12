@@ -60,7 +60,7 @@ public abstract class Pool {
 		System.out.println("Add strips called in pool");
 		_strips.add(toAdd);
 	}
-	
+
 	public void clearStrips() {
 		_strips.clear();
 	}
@@ -110,6 +110,7 @@ public abstract class Pool {
 	 * @return a boolean true if all of this pool's matches have been completed.
 	 */
 	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
+		System.out.println("Player 1: " + _incompleteResults.get(0).getPlayer1() + " 2: " + _incompleteResults.get(0).getPlayer2());
 		if (isPrematureResult(completeResult))
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		else {
