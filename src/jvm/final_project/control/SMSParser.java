@@ -223,7 +223,7 @@ public class SMSParser {
 			}
 		});
 		_control.updateSubscriberGUI();
-		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + lastNameToSubscribeTo + " !", number);
+		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + " " + lastNameToSubscribeTo + "!", number);
 		return true;
 	}
 
