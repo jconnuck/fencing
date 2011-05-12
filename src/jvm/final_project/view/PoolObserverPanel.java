@@ -27,6 +27,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	JLabel currentBout;
 	private JButton btnMessageReferee;
 	private MessageRefPanel messageRefPanel;
+	private BalloonTip messageRefTip;
 
 	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
 		this.tournament = tournament;
@@ -221,14 +222,24 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.btnMessageReferee) {
-			messageRefPanel = new MessageRefPanel(tournament, pool.getRefs());
-			BalloonTip messageRefTip = new BalloonTip(btnMessageReferee, messageRefPanel, new DefaultBalloonStyle(), false);
+			if(messageRefPanel == null) {
+				messageRefPanel = new MessageRefPanel();
+				messageRefPanel.getCancelButton().addActionListener(this);
+				messageRefPanel.getSendButton().addActionListener(this);
+				messageRefTip = new BalloonTip(btnMessageReferee, messageRefPanel, new DefaultBalloonStyle(), false);
+				tournament.getMainWindow().registerBalloon(messageRefTip);
+			}
+			else {
+				messageRefTip.setVisible(true);
+			}
+
 		}
 		else if(e.getSource() == messageRefPanel.getSendButton()) {
-			tournament.sendRefMessage(messageRefPanel.getTextField().getText(), pool.getRefs());
+			tournament.getSMSController().sendCollectionMessage(messageRefPanel.getTextField().getText(), pool.getRefs());
 			tournament.getMainWindow().hideAllBalloons();
 		}
-		if(e.getSource() == messageRefPanel.getCancelButton()) {
+		else if(e.getSource() == messageRefPanel.getCancelButton()) {
+			System.out.println("cancel button pressed");
 			tournament.getMainWindow().hideAllBalloons();
 		}
 	}

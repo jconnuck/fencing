@@ -41,7 +41,7 @@ public class MessageRefPanel extends JPanel {
 		return btnCancel;
 	}
 	
-	public JButton getTextField() {
+	public JTextField getTextField() {
 		return textField;
 	}
 }

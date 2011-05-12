@@ -353,7 +353,8 @@ public class TournamentController implements Constants{
 
 	}
 	
-	public void sendRefMessage(String message, Collection<Integer> refs) {
-		
+	public SMSController getSMSController() {
+		return _smsController;
 	}
+	
 }
