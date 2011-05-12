@@ -226,7 +226,7 @@ public class SMSParser {
 				_store.putData(spect);
 			}
 		});
-		System.out.println("Finishing subscribe should be texting user");
+		_control.updateSubscriberGUI();
 		_control.sendMessage("You were successfully subscribed to " + firstNameToSubscribeTo + lastNameToSubscribeTo + " !", number);
 		return true;
 	}

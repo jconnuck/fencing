@@ -37,6 +37,7 @@ public class SMSSender implements Constants {
 	 */
 	public boolean sendMessage(String message, String number) {
 		System.out.println("Send message called on: " + message + "  " + number);
+		
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		boolean toReturn = false;

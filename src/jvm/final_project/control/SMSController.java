@@ -26,7 +26,7 @@ public class SMSController implements Constants, ISMSController {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-		_sendingMessages = false;
+		_sendingMessages = true;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -103,5 +103,10 @@ public class SMSController implements Constants, ISMSController {
 
 	public Date getTime() {
 		return _cal.getTime();
+	}
+
+	@Override
+	public void updateSubscriberGUI() {
+		_tournament.updateSubscriberGUI();
 	}
 }

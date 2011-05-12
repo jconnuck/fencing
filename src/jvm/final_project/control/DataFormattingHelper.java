@@ -81,6 +81,7 @@ public class DataFormattingHelper implements Constants {
 			toReturn[index][1] = i.getPhoneNumber();
 
 			toReturn[index][2] = "";
+			System.out.println("--Before iterator in data formatting helper give Subscriber info");
 			while(i.getWatched().iterator().hasNext()) {
 				int id = ((Integer)(i.getWatched().iterator().next())).intValue();
 				System.out.println("ID in data formatting helper subscribe panel" + id); //TODO println

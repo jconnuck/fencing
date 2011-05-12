@@ -281,7 +281,6 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
-
 	/**public void registerFencer(String number, String firstName, String lastName, int rank) {
 		//Concatenating a 1 to the beginning of the phone number
 		number = "1" + number;
@@ -347,5 +346,10 @@ public class TournamentController implements Constants{
 
 	public IDataStore getDataStore() {
 		return _dataStore;
+	}
+
+	public void updateSubscriberGUI() {
+		_mainWindow.updateSubscriberGUI();
+		
 	}
 }
