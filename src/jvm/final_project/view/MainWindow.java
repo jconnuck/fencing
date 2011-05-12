@@ -98,4 +98,8 @@ public class MainWindow {
 		checkInPanel.hideAllBalloons();
 		subscriberAdminPanel.hideAllBalloons();
 	}
+
+	public void updateSubscriberGUI() {
+		subscriberAdminPanel.updateSubscriberTable();
+	}
 }

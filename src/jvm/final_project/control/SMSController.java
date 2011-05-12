@@ -104,4 +104,9 @@ public class SMSController implements Constants, ISMSController {
 	public Date getTime() {
 		return _cal.getTime();
 	}
+
+	@Override
+	public void updateSubscriberGUI() {
+		_tournament.updateSubscriberGUI();
+	}
 }

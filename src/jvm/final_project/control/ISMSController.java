@@ -19,4 +19,5 @@ public interface ISMSController {
 	abstract void swapRefs(int oldRefID, int newRefID);
 	abstract void alertGUI(String message, java.util.Date time);
 	abstract java.util.Date getTime();
+	abstract void updateSubscriberGUI();
 }

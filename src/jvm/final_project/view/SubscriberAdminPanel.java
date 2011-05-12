@@ -157,6 +157,11 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
         }
 	}
 
+	public void updateSubscriberTable() {
+		Object[][] newData = tournament.giveSubscriberTableInfo();
+		model.setData(newData);
+	}
+	
 	class SubscriberTableModel extends AbstractTableModel{
 		private static final long serialVersionUID = 1L;
 		
@@ -165,11 +170,6 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		private Object[][] data = tournament.giveSubscriberTableInfo();
 		
 		public void setData(Object[][] newData) {
-			/*for(int i=0; i < newData.length; i++) {
-				for(int j=0; j<newData[i].length; j++) {
-					setValueAt(newData[i][j], i, j);
-				}
-			}*/
 			data = newData;
 		}
 		@Override
@@ -205,6 +205,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		@Override
 		public void setValueAt(Object value, int row, int col) {
             data[row][col] = value;
+            tournament.addSubscriber();
             fireTableCellUpdated(row, col);
         }
 	}

@@ -276,6 +276,28 @@ public class TournamentController implements Constants{
 		return _dataHelper.giveSignInPanelInfo();
 	}
 
+	
+	public boolean subscribeObserverToString(String number){
+		boolean found = false;
+		int idSpectator = 0;
+		for (IPerson i: _dataStore.getPeopleForGroup("Spectator")) {
+			if (i.getPhoneNumber().equals(number)) {
+				found = true;
+				idSpectator = i.getID();
+				break;
+			}
+		}
+
+		final int finalID = idSpectator;
+		final int finalIDToFollow = idToFollow;
+		_dataStore.runTransaction(new Runnable(){
+			public void run(){
+				IPerson spect = _dataStore.getPerson(finalID).addWatched(finalIDToFollow);
+				_dataStore.putData(spect);
+			}
+		});
+		_control.updateSubscriberGUI();
+	}
 
 	/**public void registerFencer(String number, String firstName, String lastName, int rank) {
 		//Concatenating a 1 to the beginning of the phone number
@@ -342,5 +364,10 @@ public class TournamentController implements Constants{
 
 	public IDataStore getDataStore() {
 		return _dataStore;
+	}
+
+	public void updateSubscriberGUI() {
+		_mainWindow.updateSubscriberGUI();
+		
 	}
 }
