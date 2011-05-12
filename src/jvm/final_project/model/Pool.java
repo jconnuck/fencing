@@ -87,9 +87,31 @@ public abstract class Pool {
 	 * @return IncompleteResult The next match to be fenced.
 	 */
 	public IncompleteResult getNextResult() {
-        if (_incompleteResults.isEmpty())
+        if(_incompleteResults.isEmpty())
             return null;
 		return _incompleteResults.get(0);
+	}
+	
+	/**
+	 * @return IncompleteResult The on deck match (the second element of _incompleteResult
+	 * because the first one should already be in progress).
+	 */
+	public IncompleteResult getOnDeckResult() {
+		if(_incompleteResults.size() > 1)
+			return null;
+		return
+			_incompleteResults.get(1);
+	}
+	
+	/**
+	 * @return IncompleteResult The match that is in the hole (the third element of _incompleteResults
+	 * because the first one should already be in progress.
+	 */
+	public IncompleteResult getInHoleBout() {
+		if(_incompleteResults.size() > 2)
+			return null;
+		return
+			_incompleteResults.get(2);
 	}
 
 	//currently for testing only

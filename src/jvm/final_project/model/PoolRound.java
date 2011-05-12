@@ -26,12 +26,17 @@ public abstract class PoolRound implements IRound{
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
-				if(p.addCompletedResult(result)){
+				if(p.addCompletedResult(result)){  // If pool is now over
 					// Notify the referee(s) that their pool is now completed
 					String refPhone;
 					for(Integer ref : p.getRefs()) {
 						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
 						_smsController.sendMessage("Your pool is now over.", refPhone);
+					}
+					for(Integer athlete : p.getPlayers()) {
+						_smsController.sendSubscriberMessage(_dataStore.getPlayer(athlete).getFirstName() + 
+															 _dataStore.getPlayer(athlete).getLastName() +
+															 " has finished his/her pool", athlete);
 					}
 					//code to reassign newly free ref(s) and strip(s) to pools that don't have them.
 					Iterator<Integer> refIter = p.getRefs().iterator();
@@ -75,7 +80,6 @@ public abstract class PoolRound implements IRound{
 								_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
 							}
 						}
-
 					}
 					while(refIter.hasNext()){
 						final Integer temp = refIter.next();
@@ -86,8 +90,13 @@ public abstract class PoolRound implements IRound{
                             });
 					}
 					p.clearRefs();
+					//returns true if all pools have completed, false otherwise
+					for(Pool tempPool : _pools){
+						if(!tempPool.isDone())
+							return false;
+					}					
 				}
-				else {
+				else { // If pool is not done
 					// Notify the referee(s) about their next match
 					IncompleteResult nextMatch;
 					String refPhone, name1, name2;
@@ -103,15 +112,30 @@ public abstract class PoolRound implements IRound{
 						    		nextMatch.getPlayer2() + ")";
 							_smsController.sendMessage("Your next match is between: " + name1 + " and " + name2,
 									 				   refPhone);
-						}
-						else
-							_smsController.sendMessage("Your pool is now done.", refPhone);
+						}							
 					}
-				}
-				//returns true if all pools have completed, false otherwise
-				for(Pool tempPool : _pools){
-					if(!tempPool.isDone())
-						return false;
+					// Notify subscribers of the competitors that are on deck of that fact
+					IncompleteResult onDeck = p.getOnDeckResult();
+					name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
+				    		_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
+					_smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+														 onDeck.getPlayer1());
+					name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
+		    				_dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
+					_smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+							 							 onDeck.getPlayer2());
+					// If the pool is being double stripped, two bouts will be "on deck," so more subscribers must be notified
+					if(p.getRefs().size() > 1){
+						onDeck = p.getInHoleBout();
+						name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
+			    				_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
+						_smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+													 		 onDeck.getPlayer1());
+						name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
+	    											 _dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
+						_smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+						 							 		 onDeck.getPlayer2());
+					}
 				}
 				return true;
 			}
@@ -223,6 +247,7 @@ public abstract class PoolRound implements IRound{
 				String stripNum = s.next().toString();
 				_smsController.sendCollectionMessage("Your pool will start momentarily on strip: " + stripNum, p.getPlayers());
 				String name;
+				// Notify followers of the competitor that they are about to start their pool.
 				for(Integer f : p.getPlayers()) {
 					name = _dataStore.getPlayer(f).getFirstName() + " " + _dataStore.getPlayer(f).getLastName();
 					_smsController.sendSubscriberMessage(name + " is about to start his/her pool on strip: " + p.getStrips().iterator().next(), f);
