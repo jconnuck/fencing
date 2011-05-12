@@ -63,6 +63,7 @@ public class PoolRoundController {
 	public void notifyNewPools() {
 		_poolRound.notifyPools();
         Thread thread = new Thread(new TournamentRunner(_smsController));
+        thread.start();
 	}
 
 	private void calcPoolSize(int poolSize) throws IllegalArgumentException{
