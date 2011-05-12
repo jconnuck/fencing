@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 
-import final_project.control.TournamentController;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -14,12 +13,11 @@ public class MessageRefPanel extends JPanel {
 	private JTextField textField;
 	private JButton btnSend;
 	private JButton btnCancel;
-	private TournamentController tournament;
-	private Collection<Integer> refs;
+
 	/**
 	 * Create the panel.
 	 */
-	public MessageRefPanel(TournamentController t, Collection<Integer> r) {
+	public MessageRefPanel() {
 		JLabel lblMessage = new JLabel("Message:");
 		add(lblMessage);
 		

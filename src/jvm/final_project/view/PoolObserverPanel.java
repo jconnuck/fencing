@@ -183,15 +183,14 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_btnMessageReferee.gridy = 7;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
-		setCurrentBout();
+        System.out.println("from poolobserver: "+pool.getIncompleteResults());
+        System.out.println("numPlayers: "+pool.numPlayers());
+        for (IncompleteResult res : pool.getIncompleteResults())
+            addIncompleteResult(res);
+        for (CompleteResult res : pool.getResults())
+            addCompleteResult(res);
 
-		System.out.println("from poolobserver: "+pool.getIncompleteResults());
-		System.out.println("numPlayers: "+pool.numPlayers());
-		for (IncompleteResult res : pool.getIncompleteResults())
-			addIncompleteResult(res);
-		for (CompleteResult res : pool.getResults())
-			addCompleteResult(res);
-
+        setCurrentBout();
 	}
 
 	public enum Status {
@@ -233,7 +232,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			tournament.getMainWindow().hideAllBalloons();
 		}
 	}
-
 
 
 	public void addIncompleteResult(IncompleteResult incompleteResult) {

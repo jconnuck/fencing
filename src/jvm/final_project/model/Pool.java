@@ -133,6 +133,7 @@ public abstract class Pool {
 	 */
 	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
 		System.out.println("Player 1: " + _incompleteResults.get(0).getPlayer1() + " 2: " + _incompleteResults.get(0).getPlayer2());
+        System.out.println("Before adding, incompleteResults: "+_incompleteResults);
 		if (isPrematureResult(completeResult))
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		else {
@@ -140,6 +141,7 @@ public abstract class Pool {
 			_incompleteResults.remove(0);
             for (PoolObserver obs : _observers)
                 obs.addCompleteResult(completeResult);
+            System.out.println("After adding, incompleteResults: "+_incompleteResults);
 			return _incompleteResults.isEmpty();
 		}
 	}
