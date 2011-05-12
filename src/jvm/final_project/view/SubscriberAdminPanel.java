@@ -46,6 +46,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		addNewSubscriberPane = new AddNewSubscriberPanel();
 		addNewSubscriberTip = new BalloonTip(addSubscriber, addNewSubscriberPane, new DefaultBalloonStyle(), false);
 		addNewSubscriberTip.setOpacity(0.9f);
+		tournament.getMainWindow().registerBalloon(addNewSubscriberTip);
 		addNewSubscriberTip.setVisible(false);
 		addNewSubscriberPane.getCancelButton().addActionListener(this);
 		addNewSubscriberPane.getDoneButton().addActionListener(this);
@@ -247,9 +248,5 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 					model.setData(newData);
 	            }
 		}
-	}
-	
-	public void hideAllBalloons() {
-		addNewSubscriberTip.setVisible(false);
 	}
 }
