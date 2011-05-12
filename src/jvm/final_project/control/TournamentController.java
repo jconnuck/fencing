@@ -146,7 +146,9 @@ public class TournamentController implements Constants{
 		for(EventController event : _events){
 			if(event.hasRef(ref)){
 				try {
-					event.addCompletedResult(result);
+					if (event.addCompletedResult(result) &&
+                        event.getState().equals(EventController.State.POOLS))
+                        startDERound(0,20);
 					//_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
 					return;
 				} catch (NoSuchMatchException e) {

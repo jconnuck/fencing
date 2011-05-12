@@ -60,14 +60,13 @@ public class EventController {
 		return _refs.contains(ref);
 	}
 
-	public void addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
+	public boolean addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
-			if(_poolController.addCompleteResult(result)) {
-				startDERound(20); //TODO make cut come from GUI!!!
-			}
+			return _poolController.addCompleteResult(result);
 		} else if(_state.equals(State.DE)){
-			_deController.addCompleteResult(result);
+			 _deController.addCompleteResult(result);
 		}
+        return false;
 	}
 
 	public void setStripArrangement(int rows, int cols) {
@@ -155,5 +154,9 @@ public class EventController {
 			return new LinkedList<Pool>(); //TODO tossing empty list
 		return _poolController.getPools();
 	}
+
+    public State getState() {
+        return _state;
+    }
 }
 
