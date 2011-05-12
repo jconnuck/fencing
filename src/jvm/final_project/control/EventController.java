@@ -92,8 +92,13 @@ public class EventController {
 			_poolController = null;
 		}else{
 			_state = State.POOLS;
+			//_poolController.notifyNewPools();
 		}
 		return createPoolSuccess;
+	}
+
+	public void notifyPools(){
+		_poolController.notifyNewPools();
 	}
 
 	public boolean startDERound(double cut){

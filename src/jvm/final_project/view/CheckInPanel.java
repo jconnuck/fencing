@@ -28,7 +28,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private TableRowSorter<SignInTableModel> sorter;
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
-	private JButton signInAll, unsignInAll, registerPersonButton, startPoolRound;
+	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
 	private Collection<BalloonTip> balloons;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip, blankFieldTip;
 	private CheckInPlayerPanel signInPlayerPane;
@@ -98,6 +98,14 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		add(scrollPane, gbc_scrollPane);
 
 		scrollPane.setViewportView(table);
+
+		importXml = new JButton("Import XML");
+		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
+		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
+		gbc_btnImportXml.gridx = 1;
+		gbc_btnImportXml.gridy = 3;
+		add(importXml, gbc_btnImportXml);
+		importXml.addActionListener(this);
 		
 		fileLabel = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
@@ -346,7 +354,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		}
 	}
 
-	@Override
         public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startPoolRound) {
             tournament.getMainWindow().hideAllBalloons();
@@ -383,12 +390,12 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
             String club = registerNewPlayerPane.getTeamField().getText();
             System.out.println("Club: " + club);
             //TODO: If a fencer and rank == 0, ALERT GUI
-            if (name.equals("") || number.equals("(***)-***-****") || rank == 0) {
+            if (name.equals("") || number.equals("(***)-***-****") || (group.equals("Fencer") && rank == 0)) {
                 //Create tooltip warning user that required fields are blank
                 blankFieldTip.setVisible(true);
                 //Highlight missing fields pink
                 Color highlightColor = new Color(255, 160, 122);
-                if (rank == 0) {
+                if (group.equals("Fencer") && rank == 0) {
                     registerNewPlayerPane.getRankField().setBackground(highlightColor);	 	
                     registerNewPlayerPane.getRankField().requestFocusInWindow();	 	
                 } else {	 	

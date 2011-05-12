@@ -38,6 +38,7 @@ public class StripController {
 			throw new IllegalStateException("No available strips.");
 		Integer toCheckOut = _availableStrips.remove(0);
 		_occupiedStrips.add(toCheckOut);
+		System.out.println("To check out in checkOutStrip: " + toCheckOut);
 		return toCheckOut;
 	}
 

@@ -93,15 +93,19 @@ public abstract class PoolRound implements IRound{
 					String refPhone, name1, name2;
 					for(Integer ref : p.getRefs()) {
 						nextMatch = p.getNextResult();
-						name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
-							    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
-							    nextMatch.getPlayer1() + ")";
-						name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
-					    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
-					    		nextMatch.getPlayer2() + ")";
 						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
-						_smsController.sendMessage("You next match is between: " + name1 + " and " + name2,
-								 				   refPhone);
+						if(nextMatch != null) {
+							name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
+								    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
+								    nextMatch.getPlayer1() + ")";
+							name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
+						    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
+						    		nextMatch.getPlayer2() + ")";
+							_smsController.sendMessage("Your next match is between: " + name1 + " and " + name2,
+									 				   refPhone);
+						}
+						else
+							_smsController.sendMessage("Your pool is now done.", refPhone);
 					}
 				}
 				//returns true if all pools have completed, false otherwise
@@ -135,12 +139,13 @@ public abstract class PoolRound implements IRound{
 	 * @return true if there are no potential conflicts of interest, false if there are.
 	 */
 	public boolean assignReferees(List<Integer> refs){
+		System.out.println("refs size in assignreferees " + refs.size());
 		boolean toReturn = true;
 		Map<Pool, Integer> poolToNumConflicts = new HashMap<Pool,Integer>();
 		for(Pool p : _pools){
 			poolToNumConflicts.put(p, 0);
 		}
-		for(Pool pool : _pools){
+		for(Pool pool : _pools) {
 			for(Integer ref : refs){
 				if(haveConflict(pool, ref))
 					poolToNumConflicts.put(pool, poolToNumConflicts.get(pool) + 1);
@@ -190,11 +195,16 @@ public abstract class PoolRound implements IRound{
 	 * the remaining pools that have not been assigned strips are notified that they have been flighted.
 	 */
 	public void assignStrips() {
+		System.out.println("Inside assign strips.");
 		for(Pool p : _pools) {
+			System.out.println("Get refs empty? " + p.getRefs().isEmpty());
 			if(!p.getRefs().isEmpty()){
-				if(_stripControl.availableStrip())
+				System.out.println("Available strip?: " + _stripControl.availableStrip());
+				if(_stripControl.availableStrip()) {
+					System.out.println("p.addStrip called p: " + p);
 					p.addStrip(_stripControl.checkOutStrip());
-				else
+					
+				} else
 					return;
 			}
 		}
@@ -208,22 +218,31 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
 			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
+				System.out.println("ref size: " + p.getRefs().size() + " strip size: " + p.getStrips().size());
 				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
-				p.clearRefs();
-				p.clearStrips();
+				//p.clearRefs(); //EDIT: taking this out
+				//p.clearStrips();
 			}
 			else {
 				Iterator<Integer> s = p.getStrips().iterator();
 				String stripNum = s.next().toString();
 				_smsController.sendCollectionMessage("Your pool will start momentarily on strip: " + stripNum, p.getPlayers());
-				String refPhone;
+				String refPhone, name1, name2;
+				IncompleteResult firstMatch;
 				for(Integer ref : p.getRefs()) {
 					refPhone = _dataStore.getPerson(ref).getPhoneNumber();
 					_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
+					firstMatch = p.getNextResult();
+					name1 = _dataStore.getPlayer(firstMatch.getPlayer1()).getFirstName() + " " +
+							_dataStore.getPlayer(firstMatch.getPlayer1()).getLastName() + " (" +
+							firstMatch.getPlayer1() + ")";
+					name2 = _dataStore.getPlayer(firstMatch.getPlayer2()).getFirstName() + " " +
+					   		_dataStore.getPlayer(firstMatch.getPlayer2()).getLastName() + " (" +
+					   		firstMatch.getPlayer2() + ")";
+					_smsController.sendMessage("Your first match is between: " + name1 + " and " + name2,
+								 			   refPhone);
 				}
-				
 			}
-				
 		}
 	}
 

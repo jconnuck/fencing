@@ -20,7 +20,7 @@ public class PoolRoundController {
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
-        System.out.println("smsController null in PoolRoundController constructer "+(smsController==null));
+        System.out.println("smsController null in PoolRoundController constructor "+(smsController==null));
         _smsController = smsController;
 	}
 
@@ -39,24 +39,26 @@ public class PoolRoundController {
 
 		_poolRound = new FencerPoolRound(_dataStore, _initialSeeding, _numPools, poolSize, _stripController, _smsController);
         _poolRound.populatePools();
-        //_poolRound.assignReferees(refs);
         Collection<IReferee> allRefs = _dataStore.getReferees();
         List<Integer> availableRefs = new  LinkedList<Integer>();
 
         for(IReferee ref: allRefs){
+        	System.out.println("ref getReffing()" + ref.getReffing());
         	if(!ref.getReffing())
         		availableRefs.add(ref.getID());
         }
-
-        _poolRound.assignStrips();
+        System.out.println("allRefs size: " + allRefs.size() + "\n availableRefs size: " + availableRefs.size());
         _poolRound.assignReferees(availableRefs);
+        _poolRound.assignStrips();
         _poolRound.createAllIncompleteResult();
         System.out.println("made it to end of createPools. num pools: " + _poolRound.getPools().size());
-        for (Pool p : getPools())
-            System.out.println(p.getIncompleteResults().size());
+        for (Pool p : getPools()) {
+            System.out.println( " num incomplete results" + p.getIncompleteResults().size());
+            System.out.println( " num strips inside pool" + p.getStrips().size());
+        }
         return true;
 	}
-	
+
 	public void notifyNewPools() {
 		_poolRound.notifyPools();
 	}

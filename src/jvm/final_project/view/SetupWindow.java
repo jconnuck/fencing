@@ -246,19 +246,23 @@ public class SetupWindow {
                     final IDataStore store = new DataStore();
                     store.runTransaction(new Runnable() {
                             public void run() {
-                                store.putData(store.createPlayer("1234567891", "Jon", "Leavitt",
+                                store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
                                                                  "","Fencer",1));
-                                store.putData(store.createPlayer("1234561291", "William", "Zimrin",
+                                store.putData(store.createPlayer("4103708093", "William", "Zimrin",
                                                                  "","Fencer",1));
-                                store.putData(store.createPlayer("1235467892", "Josh", "Grill",
+                                store.putData(store.createPlayer("4103708093", "Josh", "Grill",
                                                                  "","Fencer",1));
-                                store.putData(store.createPlayer("5432167893", "John", "Connuck",
+                                store.putData(store.createPlayer("8132987766", "John", "Connuck",
                                                                  "","Fencer",1));
-                                store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
-                                                                    "","Spectator"));
-                                store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
-                                for(int x = 0; x < 10; x++)
-                                	store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
+                                //store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
+                                  //                                  "","Spectator"));
+                                store.putData(store.createPlayer("8132987766", "Miranda", "Steele",
+                                        						"","Fencer", 1));
+                              //  store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
+                                //for(int x = 0; x < 10; x++)
+                                	//store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
+                                for(int refNum = 0; refNum < 1; refNum++)
+                                	store.putData(store.createReferee("3155690308", "Jon", "Leavitt" + ((Integer) refNum).toString(), null, "Referee").setReffing(false));
 
                             }
                         });

@@ -15,11 +15,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
+import final_project.control.Constants;
 import final_project.control.TournamentController;
 
 import java.awt.Dimension;
 
-public class PoolSizeInfoPanel extends JPanel {
+public class PoolSizeInfoPanel extends JPanel implements Constants {
 	private JTable table;
 	private TournamentController tournament;
 	private PoolSizeInfoTable poolSizeInfoTable;

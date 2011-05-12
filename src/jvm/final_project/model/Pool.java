@@ -57,6 +57,7 @@ public abstract class Pool {
 	}
 
 	public void addStrip(Integer toAdd) {
+		System.out.println("Add strips called in pool");
 		_strips.add(toAdd);
 	}
 	
@@ -73,9 +74,11 @@ public abstract class Pool {
 	}
 
 	public void addRef(int id){
+		System.out.println("add ref called in pool");
 		_refs.add(id);
 	}
 	public void clearRefs(){
+		System.out.println("clear refs called");
 		_refs.clear();
 	}
 

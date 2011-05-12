@@ -8,6 +8,7 @@ import javax.swing.table.*;
 
 import final_project.control.TournamentController;
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.*;
 
 public class SubscriberAdminPanel extends JPanel implements ActionListener {
 
@@ -214,24 +215,37 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 			addNewSubscriberTip.setVisible(false);
 		}
 		else if (e.getSource() == addNewSubscriberPane.getDoneButton()) {
-			addNewSubscriberTip.setVisible(false);
-			//TODO add new subscriber
 			String phoneNumber = addNewSubscriberPane.getPhoneNumberTextField().getText();
 			String name = addNewSubscriberPane.getNameTextField().getText();
-			String firstName = "", lastName = "";
-			int nameSplit = name.lastIndexOf(' ');
-			if (nameSplit > 0) {
-				firstName = name.substring(0, nameSplit);
-				lastName = name.substring(nameSplit, name.length());
-			} else {
-				firstName = name;
-				lastName = "";
-			}
-
-			String group = (String) addNewSubscriberPane.getGroup().getSelectedItem(); //?? Isn't group spectator?
-			//Registering this new spectator and updating the model table to reflect the new subscriber
-			Object[][] newData = tournament.registerSpectator(phoneNumber, firstName, lastName);
-			model.setData(newData);
+			String firstName = "", lastName = ""; 
+			//TODO validate phone number properly, including a check for repeat in database
+			if (phoneNumber.equals("(***)-***-****")) {
+	                //Create tooltip warning user that required fields are blank
+	                BalloonTip blankFieldTip = new BalloonTip(addNewSubscriberPane.getDoneButton(), new JLabel("Sorry, one or more required field is blank."), new NotificationBalloonStyle(), Orientation.RIGHT_BELOW, AttachLocation.SOUTH, 8, 8, false);
+	                blankFieldTip.setVisible(true);
+	                //Highlight missing fields pink
+	                Color highlightColor = new Color(255, 160, 122); 	
+	                if (phoneNumber.equals("(***)-****-***")) {	 	
+	                    addNewSubscriberPane.getPhoneNumberTextField().setBackground(highlightColor);
+	                    addNewSubscriberPane.getPhoneNumberTextField().requestFocusInWindow();	 	
+	                } else {	 	
+	                    addNewSubscriberPane.getPhoneNumberTextField().setBackground(Color.WHITE);
+	                }
+	            } else {
+					addNewSubscriberTip.setVisible(false);
+					//TODO add new subscriber
+					int nameSplit = name.lastIndexOf(' ');
+					if (nameSplit > 0) {
+						firstName = name.substring(0, nameSplit);
+						lastName = name.substring(nameSplit, name.length());
+					} else {
+						firstName = name;
+						lastName = "";
+					}
+					//Registering this new spectator and updating the model table to reflect the new subscriber
+					Object[][] newData = tournament.registerSpectator(phoneNumber, firstName, lastName);
+					model.setData(newData);
+	            }
 		}
 	}
 	

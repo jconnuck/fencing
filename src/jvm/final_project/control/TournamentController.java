@@ -32,6 +32,13 @@ public class TournamentController implements Constants{
 			addEvent(e.getWeaponType(),e.getPreregs());
 	}
 
+	/**
+	 * @return The number of referees that are in the datastore.
+	 */
+	public int refsAreAvailable() {
+		return _dataStore.getReferees().size();
+	}
+
 	public int addEvent(String weapon){
         return addEvent(weapon,new LinkedList<Integer>());
 	}
@@ -53,6 +60,11 @@ public class TournamentController implements Constants{
 		return null;
 	}
 
+	public void notifyPools(int eventID){
+		for (EventController e: _events)
+			e.notifyPools();
+	}
+
 	public void setStripSizes(int eventID, int stripRows, int stripCols) {
 		if(_events.isEmpty())
 			throw new IllegalStateException("No event created.");
@@ -65,7 +77,11 @@ public class TournamentController implements Constants{
 		System.out.println("pool round started in TournamentController.");
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
-			if(!iter.next().startPoolRound(poolSize)){
+			EventController e = iter.next();
+			int[] stripArrangement = e.getStripArrangement();
+			_stripController.setUpStrips(stripArrangement[0], stripArrangement[1], (stripArrangement[1] == 0));
+
+			if(!e.startPoolRound(poolSize)){
 				throw new IllegalStateException("Not correct time to create pool round.");
 			}
             return;
@@ -193,7 +209,7 @@ public class TournamentController implements Constants{
 	}
 
 	public Object[][] registerAndCheckInFencer(String number, String firstName, String lastName, int rank, final String club) {
-		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(true);
+		final IPlayer p = _dataStore.createPlayer(number, firstName, lastName, "", "Fencer", rank).setCheckedIn(false);
 		_dataStore.runTransaction(new Runnable(){
 			public void run(){
 				_dataStore.putData(p);
@@ -220,7 +236,8 @@ public class TournamentController implements Constants{
 
 	public Object[][] registerNonFencer(String number, String firstName, String lastName, final String club, String group) {
 		if(group.equals("Referee")) {
-			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group);
+			final IReferee ref = _dataStore.createReferee(number, firstName, lastName, "", group).setReffing(false);
+
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
 					_dataStore.putData(ref);
