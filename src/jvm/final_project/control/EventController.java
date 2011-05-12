@@ -115,7 +115,11 @@ public class EventController {
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
         System.out.println("Players: "+_players.size());
-		if(_players.size()==0)
+        boolean refFound = false;
+        for (IReferee ref : _dataStore.getReferees())
+            if (!ref.getReffing())
+                refFound = true;
+		if(_players.size()==0 || !refFound)
 			return toReturn;
 
 		PoolSizeCalculator poolSizeCalc;
