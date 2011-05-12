@@ -195,16 +195,11 @@ public abstract class PoolRound implements IRound{
 	 * the remaining pools that have not been assigned strips are notified that they have been flighted.
 	 */
 	public void assignStrips() {
-		System.out.println("Inside assign strips.");
 		for(Pool p : _pools) {
-			System.out.println("Get refs empty? " + p.getRefs().isEmpty());
 			if(!p.getRefs().isEmpty()){
-				System.out.println("Available strip?: " + _stripControl.availableStrip());
-				if(_stripControl.availableStrip()) {
-					System.out.println("p.addStrip called p: " + p);
+				if(_stripControl.availableStrip())
 					p.addStrip(_stripControl.checkOutStrip());
-					
-				} else
+				else
 					return;
 			}
 		}
