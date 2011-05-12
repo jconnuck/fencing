@@ -27,6 +27,8 @@ import final_project.model.Pool;
 
 public class PoolSetupPanel extends JPanel implements Constants {
     TournamentController tournament;
+    private JButton btnAcceptSeeding;
+    private JButton btnReassignReferees;
     
 	/**
 	 * Create the panel.
@@ -70,7 +72,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
-		JButton btnReassignReferees = new JButton("Re-assign Referees");
+		btnReassignReferees = new JButton("Re-assign Referees");
 		GridBagConstraints gbc_btnReassignReferees = new GridBagConstraints();
 		gbc_btnReassignReferees.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnReassignReferees.insets = new Insets(0, 0, 0, 5);
@@ -78,7 +80,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbc_btnReassignReferees.gridy = 0;
 		panel.add(btnReassignReferees, gbc_btnReassignReferees);
 
-		JButton btnAcceptSeeding = new JButton("Accept Assignments");
+		btnAcceptSeeding = new JButton("Accept Assignments");
 		GridBagConstraints gbc_btnAcceptSeeding = new GridBagConstraints();
 		gbc_btnAcceptSeeding.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnAcceptSeeding.gridx = 2;
@@ -87,9 +89,16 @@ public class PoolSetupPanel extends JPanel implements Constants {
 
         btnAcceptSeeding.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                	tournament.notifyPools(EVENT_ID);
                     tournament.getMainWindow().loadRightPanel(new PoolRoundObserverPanel(tournament));                    
                 }
             });
 
+	}
+	public JButton getAcceptSeeding() {
+		return btnAcceptSeeding;
+	}
+	public JButton getReassignReferees() {
+		return btnReassignReferees;
 	}
 }
