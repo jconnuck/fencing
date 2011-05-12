@@ -188,8 +188,6 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 		}
 		@Override
 		public Object getValueAt(int row, int col) {
-            System.out.println("row: "+row);
-            System.out.println("data: "+data[row][col]);
 			return data[row][col];
 		}
 		@Override
@@ -231,7 +229,6 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 	                }
 	            } else {
 					addNewSubscriberTip.setVisible(false);
-					//TODO add new subscriber
 					int nameSplit = name.lastIndexOf(' ');
 					if (nameSplit > 0) {
 						firstName = name.substring(0, nameSplit);
@@ -244,6 +241,7 @@ public class SubscriberAdminPanel extends JPanel implements ActionListener {
 					phoneNumber = phoneNumber.replaceAll("\\D", "");
 					Object[][] newData = tournament.registerSpectator(phoneNumber, firstName, lastName);
 					model.setData(newData);
+					searchField.setText("");
 	            }
 		}
 	}

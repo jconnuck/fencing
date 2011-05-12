@@ -413,6 +413,8 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
             } else {
                 /* Registering player and resetting the data in the table */
                 Object[][] newData = null;
+                number = number.replaceAll("\\D", "");
+                System.out.println("Number added: " + number);
                 if(group.equals("Fencer"))
                     newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);	 	
                 else	 	

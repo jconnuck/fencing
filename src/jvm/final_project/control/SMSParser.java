@@ -149,7 +149,6 @@ public class SMSParser {
 	public boolean subscribeUserToObservable(String firstNameToSubscribeTo, String lastNameToSubscribeTo, String number) {
 		//Checking to see that the person is registered in the database -- linear search through all people.
 		boolean found = false;
-		System.out.println("Gets into subscribeUser " + number);
 		if(_store == null)
 			return false;
 
@@ -163,21 +162,17 @@ public class SMSParser {
 			}
 		}
 
-		System.out.println("person found? " + found);
 		if (!found) {
 			return false;
 		}
-		System.out.println("gets before checking person/club exists");
 
 		/* Checking to see that the person/club to be followed exists */
 		found = false;
 		int counter = 0; //To make sure that we don't get duplicates
 		int idToFollow = 0;
 		if(lastNameToSubscribeTo.equals("")) { // Last name empty, this is a club.
-			System.out.println("inside club");
-
 			for (IClub i: _store.getClubs()) {
-				if(i.getName().equals(firstNameToSubscribeTo)) {
+				if(i.getName().toLowerCase().equals(firstNameToSubscribeTo.toLowerCase())) {
 					idToFollow = i.getID();
 					found = true;
 					counter++;
@@ -186,9 +181,7 @@ public class SMSParser {
 		}
 		else {
 			for (IPlayer i: _store.getPlayers()) {
-				System.out.println("inside player");
-
-				if(i.getFirstName().equals(firstNameToSubscribeTo)) {
+				if(i.getFirstName().toLowerCase().equals(firstNameToSubscribeTo.toLowerCase())) {
 					if (i.getLastName().equals(lastNameToSubscribeTo)) {
 						idToFollow = i.getID();
 						found = true;
