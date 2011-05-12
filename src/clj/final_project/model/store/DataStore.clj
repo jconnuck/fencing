@@ -299,9 +299,11 @@
   (.runTransaction this
                    #(let [refs (filter (complement :isReffing)
                                        (.getReferees this))]
+                      (println refs)
                       (if (not (empty? refs))
                         (let [ref (.setReffing (first refs)
                                                true)]
+                          (println ref)
                           (.putData this ref)
                           (:id ref))
                         -1))))

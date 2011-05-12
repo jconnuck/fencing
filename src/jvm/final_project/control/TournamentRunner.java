@@ -33,6 +33,7 @@ public class TournamentRunner implements Runnable {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+                line = in.readLine();
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
