@@ -141,6 +141,7 @@ public class TournamentController implements Constants{
 			if(event.hasRef(ref)){
 				try {
 					event.addCompletedResult(result);
+					//_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
 					return;
 				} catch (NoSuchMatchException e) {
 					_smsController.sendMessage("Error: result could not be processed", _dataStore.getReferee(ref).getPhoneNumber());
