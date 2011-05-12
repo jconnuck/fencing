@@ -32,7 +32,7 @@ public class TournamentController implements Constants{
 
 		for (IEventInfo e : info.getEvents())
 			addEvent(e.getWeaponType(),e.getPreregs());
-		
+
 		_runnerThread = new Thread(_runner = new TournamentRunner(_smsController,System.in));
 		_runnerThread.start();
 
@@ -52,7 +52,7 @@ public class TournamentController implements Constants{
 	public int addEvent(String weapon, Collection<Integer> preregs){
 		int id = ++_currentEventID;
 		System.out.println("TournamentController smsController "+(_smsController==null));
-		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController, _smsController));
+		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController, _smsController, this));
 		return id;
 	}
 
@@ -110,6 +110,7 @@ public class TournamentController implements Constants{
 		if(iter.hasNext()){
 			iter.next().startDERound(cut);
 			this.getMainWindow().loadRightPanel(new DEPanel(this));
+			return;
 		}
 		throw new IllegalStateException("No event created.");
 	}
@@ -356,9 +357,9 @@ public class TournamentController implements Constants{
 		_mainWindow.updateSubscriberGUI();
 
 	}
-	
+
 	public SMSController getSMSController() {
 		return _smsController;
 	}
-	
+
 }

@@ -9,6 +9,7 @@ import final_project.model.Result;
 
 public class DERoundController {
 	private DERound _deRound;
+	private TournamentController _tournamentController;
 
 	public void addCompleteResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		_deRound.addCompleteResult(result);
@@ -18,8 +19,9 @@ public class DERoundController {
 		return _deRound.getMatches();
 	}
 
-	public DERoundController(IDataStore dataStore, StripController stripController, List<Integer> players, double cut){
-		_deRound = new DERound(dataStore, stripController, players, cut);
+	public DERoundController(IDataStore dataStore, StripController stripController, List<Integer> players, double cut, TournamentController tc){
+		_tournamentController = tc;
+		_deRound = new DERound(dataStore, stripController, players, cut, _tournamentController);
 		_deRound.setupRound();
 	}
 }

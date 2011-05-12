@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import final_project.control.StripController;
+import final_project.control.TournamentController;
 import final_project.model.*;
 import final_project.model.DERound.NoSuchMatchException;
 import final_project.model.store.*;
@@ -37,7 +38,7 @@ public class DERoundTest {
 		seeding1.add(39);
 		seeding1.add(60);
 		seeding1.add(20);
-		round1 = new DERound(null, null, seeding1, 0);
+		round1 = new DERound(null, null, seeding1, 30.0,  new TournamentController(null, null, null, null));
 
 		ArrayList<Integer> seeding2 = new ArrayList<Integer>();
 		seeding2.add(10);
@@ -45,19 +46,19 @@ public class DERoundTest {
 		seeding2.add(17);
 		seeding2.add(42);
 		seeding2.add(73);
-		round2 = new DERound(null, null, seeding2, 0);
+		round2 = new DERound(null, null, seeding2, 30.0,  new TournamentController(null, null, null, null));
 
 		ArrayList<Integer> seeding3 = new ArrayList<Integer>(seeding1);
 		seeding3.add(29);
 		seeding3.add(69);
 		seeding3.add(43);
-		round3 = new DERound(null, null, seeding3, 0);
+		round3 = new DERound(null, null, seeding3, 30.0,  new TournamentController(null, null, null, null));
 	}
 
 
 	@After
 	public void tearDown() {
-		ArrayList<Integer> seeding1 = new ArrayList<Integer>();
+	/*	ArrayList<Integer> seeding1 = new ArrayList<Integer>();
 		seeding1.add(80);
 		seeding1.add(70);
 		seeding1.add(50);
@@ -80,7 +81,7 @@ public class DERoundTest {
 		seeding3.add(29);
 		seeding3.add(69);
 		seeding3.add(43);
-		round3 = new DERound(null, null, seeding3, 0);
+		round3 = new DERound(null, null, seeding3, 0);*/
 	}
 
 
@@ -89,11 +90,11 @@ public class DERoundTest {
 		round1.setupRound();
 		round2.setupRound();
 		round3.setupRound();
-		
+
 		StripController sc = new StripController(1);
 		IDataStore ds = new DataStore();
 		int theRef = ds.createReferee(null, null, null, null, null).getID();
-		
+
 		round1.setStripController(sc);
 		round1.setDataStore(ds);
 		CompleteResult newResult = new CompleteResult(new PlayerResult(80, 15), new PlayerResult(20, 4));
@@ -110,9 +111,9 @@ public class DERoundTest {
 		try {
 			round1.addCompleteResult(newResult);
 		} catch (NoSuchMatchException e) {
-			
+
 		}
-		
+
 		assertEquals(round1.getRefMapSize(), 1);
 		assertEquals(round1.getStripMapSize(), 1);
 	}
@@ -131,57 +132,57 @@ public class DERoundTest {
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
 		tearDown();
-	
+
 		round1.setCut(20);
 		round1.makeCut();
 		assertEquals(7, round1.getSeeding().size());
 		tearDown();
-		
+
 		round1.setCut(25);
 		round1.makeCut();
 		assertEquals(6, round1.getSeeding().size());
 		tearDown();
-		
+
 		round1.setCut(30);
 		round1.makeCut();
 		assertEquals(6, round1.getSeeding().size());
 		tearDown();
-		
+
 		round2.setCut(15);
 		round2.makeCut();
 		assertEquals(5, round2.getSeeding().size());
 		tearDown();
-		
+
 		round2.setCut(20);
 		round2.makeCut();
 		assertEquals(4, round2.getSeeding().size());
 		tearDown();
-		
+
 		round2.setCut(25);
 		round2.makeCut();
 		assertEquals(4, round2.getSeeding().size());
 		tearDown();
-		
+
 		round2.setCut(30);
 		round2.makeCut();
 		assertEquals(4, round2.getSeeding().size());
 		tearDown();
-		
+
 		round3.setCut(15);
 		round3.makeCut();
 		assertEquals(10, round3.getSeeding().size());
 		tearDown();
-		
+
 		round3.setCut(20);
 		round3.makeCut();
 		assertEquals(9, round3.getSeeding().size());
 		tearDown();
-		
+
 		round3.setCut(25);
 		round3.makeCut();
 		assertEquals(9, round3.getSeeding().size());
 		tearDown();
-		
+
 		round3.setCut(30);
 		round3.makeCut();
 		assertEquals(8, round3.getSeeding().size());
@@ -202,11 +203,11 @@ public class DERoundTest {
 		round1.populateBracket();
 		round2.populateBracket();
 		round3.populateBracket();
-		
+
 		Result[] round1Matches = round1.getMatches();
 		Result[] round2Matches = round2.getMatches();
 		Result[] round3Matches = round3.getMatches();
-		
+
 		assertNull(round1Matches[0]);
 		assertNull(round1Matches[1]);
 		assertNull(round1Matches[2]);

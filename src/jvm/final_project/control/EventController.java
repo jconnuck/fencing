@@ -18,9 +18,10 @@ public class EventController {
 	private int _eventID;
 	private StripController _stripController;
 	private SMSController _smsController;
+	private TournamentController _tournamentController;
 
-	public EventController(int id, IDataStore dataStore, String weapon, StripController stripController, SMSController smsController){
-        this(id,dataStore,weapon,new LinkedList<Integer>(), stripController, smsController);
+	public EventController(int id, IDataStore dataStore, String weapon, StripController stripController, SMSController smsController, TournamentController tc){
+        this(id,dataStore,weapon,new LinkedList<Integer>(), stripController, smsController, tc);
 	}
 
 	public void clearPlayers() {
@@ -31,7 +32,8 @@ public class EventController {
 		return _deController.getMatches();
 	}
 
-	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs, StripController stripController, SMSController smsController){
+	public EventController(int id, IDataStore dataStore, String weapon, Collection<Integer> preregs, StripController stripController, SMSController smsController, TournamentController tc){
+		_tournamentController = tc;
 		_state = State.REGISTRATION;
 		_refs = new HashSet<Integer>();
 		_eventID = id;
@@ -109,7 +111,7 @@ public class EventController {
 		System.out.println("Converted players: ");
 		for(Integer i: _players)
 			System.out.println(" -" + _dataStore.getPlayer(i).getFirstName());
-		_deController = new DERoundController(_dataStore, _stripController, _players, cut);
+		_deController = new DERoundController(_dataStore, _stripController, _players, cut, _tournamentController);
 		_state = State.DE;
 		return true;
 	}

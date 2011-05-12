@@ -255,17 +255,18 @@ public class SetupWindow {
 */
                             	store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
                                                                  "","Fencer",1));
-                                store.putData(store.createPlayer("5433333030", "Josh", "Grill",
+                                store.putData(store.createPlayer("3155690308", "Josh", "Grill",
                                                                  "","Fencer",1));
-                                store.putData(store.createPlayer("8132987766", "John", "Connuck",
+                                store.putData(store.createPlayer("2123007360", "John", "Connuck",
                                                                  "","Fencer",1));
                                 //store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
                                   //                                  "","Spectator"));
-                                store.putData(store.createPlayer("8132987766", "Miranda", "Steele",
+                                store.putData(store.createPlayer("2123007360", "Miranda", "Steele",
                                         						"","Fencer", 1));
                               //  store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
                                 //for(int x = 0; x < 10; x++)
                                 	//store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
+
 
                             }
                         });

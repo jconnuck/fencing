@@ -6,6 +6,7 @@ import final_project.model.store.*;
 
 import final_project.control.SMSController;
 import final_project.control.StripController;
+import final_project.control.TournamentController;
 
 public class DERound implements IRound {
     private List<Integer> _seeding;  /*!< The seeding of fencers based on pool results. */
@@ -17,6 +18,7 @@ public class DERound implements IRound {
     private Map<IncompleteResult, Integer> _stripsInUse; //Correlates currently fencing bouts with the strips that they are using
     private Map<IncompleteResult, Integer> _refsInUse; //Correlates currently fencing bouts with the referees that they are using
     private IDataStore _dataStore;
+    private TournamentController _tournamentController;
     private SMSController _smsController;
 
     //WHY DO WE NEED THIS CONSTRUCTOR?
@@ -24,14 +26,16 @@ public class DERound implements IRound {
         this(store,sc,new ArrayList<Integer>());
     }*/
 
-    public DERound(IDataStore store, StripController sc, List<Integer> seeding, double cut) {
+    public DERound(IDataStore store, StripController sc, List<Integer> seeding, double cut, TournamentController tc) {
     	this._cut = cut;
+    	_tournamentController = tc;
         _dataStore = store;
     	_seeding = seeding;
         POINTS_TO_WIN = 15;
         _stripController = sc;
         _stripsInUse = new HashMap<IncompleteResult, Integer>();
         _refsInUse = new HashMap<IncompleteResult, Integer>();
+        _smsController = _tournamentController.getSMSController();
     }
 
     public List<Integer> getSeeding() {
@@ -205,6 +209,7 @@ public class DERound implements IRound {
             IncompleteResult firstMatch = (IncompleteResult) _matches[computeRoundHead(_bracketSize /2)];
     		_stripsInUse.put(firstMatch, strip);
             _refsInUse.put(firstMatch, ref);
+            System.out.println("smscont null in startfirst match " + (_smsController == null));
             _smsController.sendMatchNotifications(firstMatch, ref, strip);
 
             System.out.println("YO:" + firstMatch.getPlayer1() + " and " + firstMatch.getPlayer2() + " are fencing on strip: " + strip + " with referee: " + ref);
@@ -221,6 +226,7 @@ public class DERound implements IRound {
     	int currentRoundHead = computeRoundHead(currentRoundSize);
     	int i = currentRoundHead;
     	while(true){
+    		System.out.println("matches length " + _matches.length);
     		if(_matches[i] == null){
     			return null;
     		}
@@ -244,7 +250,7 @@ public class DERound implements IRound {
     			i++;
     	}
     }
-    
+
     private IncompleteResult getOnDeck() {
     	int currentRoundSize = _bracketSize /2;   // currentRoundSize is the number of matches in the current round.
     	int currentRoundHead = computeRoundHead(currentRoundSize);
@@ -347,7 +353,7 @@ public class DERound implements IRound {
 		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
 		            }
 		            IncompleteResult onDeck = getOnDeck();
-		            name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " 
+		            name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " "
 		            		+ _dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
 		            name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " "
 		            		+ _dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
@@ -403,7 +409,7 @@ public class DERound implements IRound {
     public void setDataStore(IDataStore ds) {
     	_dataStore = ds;
     }
-    
+
     public int getRefMapSize(){
     	return _refsInUse.size();
     }
