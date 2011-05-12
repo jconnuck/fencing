@@ -244,6 +244,40 @@ public class DERound implements IRound {
     			i++;
     	}
     }
+    
+    private IncompleteResult getOnDeck() {
+    	int currentRoundSize = _bracketSize /2;   // currentRoundSize is the number of matches in the current round.
+    	int currentRoundHead = computeRoundHead(currentRoundSize);
+    	int i = currentRoundHead;
+    	boolean foundFirst = false;
+    	while(true){
+    		if(_matches[i] == null){
+    			return null;
+    		}
+    		else if(_matches[i] instanceof IncompleteResult  &&  // If the current match is an IncompleteResult and
+    				_stripsInUse.get(_matches[i]) == null) {     // the match is not currently being fenced.
+    			if(_matches[i].getPlayer1() == -1 ||      // If either of the players is not yet known.
+    			   _matches[i].getPlayer2() == -1) {
+    				return null;
+    			}
+    			else {
+    				if(foundFirst)
+    					return (IncompleteResult) _matches[i];
+    				else
+    					foundFirst = true;
+    			}
+    		}
+    		if(currentRoundSize == 1)  // If method got to final.  This should only happen if all matches in the round have been completed.
+    			return null;
+    		if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
+    			currentRoundSize /= 2;
+    			currentRoundHead = computeRoundHead(currentRoundSize);
+    			i = currentRoundHead;
+    		}
+    		else
+    			i++;
+    	}
+    }
 
     /**
      * Computes the index in _matches that is the first element in _matches for the round in the DE that has roundSize
@@ -304,8 +338,15 @@ public class DERound implements IRound {
 		            while(hasNextBout){
 		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
 		            }
+		            IncompleteResult onDeck = getOnDeck();
+		            String name1, name2;
+		            name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " 
+		            		+ _dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
+		            name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " "
+		            		+ _dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
+		            _smsController.sendSubscriberMessage(name1 + " is now on deck for his/her DE match", onDeck.getPlayer1());
+		            _smsController.sendSubscriberMessage(name2 + " is now on deck for his/her DE match", onDeck.getPlayer2());
 	            }
-
             }
         }
         throw new NoSuchMatchException("No match was found that corresponded to the CompleteResult you attempted to add");
