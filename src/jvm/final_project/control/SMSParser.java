@@ -76,6 +76,7 @@ public class SMSParser {
 
 		//Message "result id beat id this-that" or "id beat id this to that"
 		else if(firstWord.toLowerCase().equals("result")) {//TODO changed tolower case and then equals
+			System.out.println("Result else if entered");
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
 
 			/* Looping through to find the ref ID of this number */
@@ -88,6 +89,7 @@ public class SMSParser {
 				}
 			}
 			if(!found) {
+				System.out.println("Ref not found");
 				_control.sendMessage("We're sorry, this number is not registered as a referee.", number);
 				return;
 			}
@@ -95,7 +97,9 @@ public class SMSParser {
 			/* Now, parsing out fencer IDs and score */
 			if(s.hasNextInt())
 				winID = s.nextInt();
+			System.out.println("Win id found");
 			if(s.hasNext() && !s.next().equals("beat")) { //Eating "beat" token
+				System.out.println("Beat token not found");
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
@@ -103,12 +107,14 @@ public class SMSParser {
 			if(s.hasNextInt())
 				loseID = s.nextInt();
 			else {
+				System.out.println("loseID not found");
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
 			if(s.hasNextInt())
 				winScore = s.nextInt();
 			else {
+				System.out.println("win score not found");
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
