@@ -97,7 +97,7 @@ public abstract class Pool {
 	 * because the first one should already be in progress).
 	 */
 	public IncompleteResult getOnDeckResult() {
-		if(_incompleteResults.size() > 1)
+		if(_incompleteResults.size() < 1)
 			return null;
 		return
 			_incompleteResults.get(1);
