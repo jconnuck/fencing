@@ -343,4 +343,9 @@ public class TournamentController implements Constants{
 	public IDataStore getDataStore() {
 		return _dataStore;
 	}
+
+	public void updateSubscriberGUI() {
+		_mainWindow.updateSubscriberGUI();
+		
+	}
 }
