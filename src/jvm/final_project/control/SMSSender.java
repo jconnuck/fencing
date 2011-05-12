@@ -119,7 +119,7 @@ public class SMSSender implements Constants {
 		String number = "";
 		for(IPerson i: _store.getPeople()) {
 			if (i!= null)
-				number += i.getPhoneNumber() + ",";
+				number += i.getPhoneNumber() + ",1";
 		}
 		return this.sendMessage(message, number);
 	}
@@ -136,7 +136,7 @@ public class SMSSender implements Constants {
 		String number = "";
 		for(IPerson i: _store.getPeopleForGroup(group)) {
 			if (i!=null && !i.getPhoneNumber().equals(""))
-				number += i.getPhoneNumber() + ",";
+				number += i.getPhoneNumber() + ",1";
 		}
 		return this.sendMessage(message, number);
 	}
@@ -184,11 +184,11 @@ public class SMSSender implements Constants {
         String number = "";
         for (Integer id : people) {
             IPerson p = _store.getPerson(id);
-            if (p==null&&p.getPhoneNumber()!=null&&!p.getPhoneNumber().isEmpty())
+            if (p==null || p.getPhoneNumber()==null || p.getPhoneNumber().isEmpty())
                 continue;
-            number = number + "," + p.getPhoneNumber();
+            number = number + ",1" + p.getPhoneNumber();
         }
         if (!number.isEmpty())
-            sendMessage(message, number.substring(1));
+            sendMessage(message, number.substring(2));
     }
 }
