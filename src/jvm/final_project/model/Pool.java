@@ -154,10 +154,10 @@ public abstract class Pool {
 	}
 
 	public boolean rescoreLastMatch(CompleteResult newScore) {
-		CompleteResult oldScore = _results.get(_results.size()-1);
-		if(oldScore.getPlayer1() == newScore.getPlayer1()  &&  oldScore.getPlayer2() == newScore.getPlayer2()  ||
-		   oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1()) {
-			_results.remove(_results.size()-1);
+		CompleteResult oldScore = _results.get(_results.size() - 1);
+		if((oldScore.getPlayer1() == newScore.getPlayer1()  &&  oldScore.getPlayer2() == newScore.getPlayer2())  ||
+                   ( oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1())) {
+			_results.remove(_results.size() - 1);
 			_results.add(newScore);
 			return true;
 		}
