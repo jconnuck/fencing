@@ -64,8 +64,6 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
             panel.add(poolObserverPanel);
         }
 	}
-
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

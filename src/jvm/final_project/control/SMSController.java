@@ -120,7 +120,6 @@ public class SMSController implements Constants {
 
 	public void setGUIStatusLabel(Status medical, int id) {
 		_tournament.setStatusLabel(medical, id);
-		
 	}
 
 

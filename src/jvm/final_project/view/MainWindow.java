@@ -120,6 +120,7 @@ public class MainWindow {
 	public void setStatusLabel(Status medical, int id) {
 		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
 			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
+			
 		}
 	}
 }
