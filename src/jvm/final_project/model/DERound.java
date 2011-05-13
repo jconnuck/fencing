@@ -226,11 +226,6 @@ public class DERound implements IRound {
     	int currentRoundHead = computeRoundHead(currentRoundSize);
     	int i = currentRoundHead;
     	while(true){
-    		System.out.println("matches length " + _matches.length);
-    		System.out.println(Arrays.deepToString(_matches));
-            System.out.println("i: "+i);
-            System.out.println("currentRoundHead: "+currentRoundHead);
-            System.out.println("currentRoundSize: "+currentRoundSize);
     		if(_matches[i] == null){
     			return null;
     		} else {
@@ -245,15 +240,9 @@ public class DERound implements IRound {
     		}
     		if(currentRoundSize == 1)  // If method got to final.  This should only happen if all matches in the round have been completed.
     			return null;
-            System.out.println("final i: "+i);
-            System.out.println("final currentRoundHead: "+currentRoundHead);
-            System.out.println("final currentRoundSize: "+currentRoundSize); 
             i++;
             if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
-                System.out.println("currentRoundSize before edit: "+currentRoundSize);
-                System.out.println("currentRoundSize/2: "+(currentRoundSize/2));
     			currentRoundSize /= 2;
-                System.out.println("currentRoundSize after edit: "+currentRoundSize);
     			currentRoundHead = computeRoundHead(currentRoundSize);
     			i = currentRoundHead;
     		}
