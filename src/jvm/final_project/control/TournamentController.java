@@ -370,8 +370,8 @@ public class TournamentController implements Constants{
 		return _smsController;
 	}
 
-	public void setStatusLabel(Status medical, int id) {
-		// TODO Auto-generated method stub
+	public void setStatusLabel(Status status, int id) {
+		this.getMainWindow().setStatusLabel(status, id);
 		
 	}
 

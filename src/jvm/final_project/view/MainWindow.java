@@ -118,8 +118,8 @@ public class MainWindow {
 	}
 
 	public void setStatusLabel(Status medical, int id) {
-		// TODO Auto-generated method stub
-		splitPane.getRightComponent();
-		
+		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
+			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
+		}
 	}
 }
