@@ -256,6 +256,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
 	}
+	
+	public void changeMatchResult(CompleteResult completeResult) {
+		//TODO
+	}
 
 	public void setCurrentBout() {
 		IncompleteResult next = pool.getNextResult();

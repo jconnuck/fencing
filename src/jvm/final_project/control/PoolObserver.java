@@ -4,4 +4,5 @@ import final_project.model.*;
 
 public interface PoolObserver {
     void addCompleteResult(CompleteResult result);
+    void changeMatchResult(CompleteResult result);
 }

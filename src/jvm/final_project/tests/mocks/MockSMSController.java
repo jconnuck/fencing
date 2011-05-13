@@ -3,9 +3,7 @@ package final_project.tests.mocks;
 import java.util.Calendar;
 import java.util.Date;
 
-import final_project.control.ISMSController;
-
-public class MockSMSController implements ISMSController {
+public class MockSMSController {
 
 	java.util.Calendar _cal;
 
@@ -52,7 +50,6 @@ public class MockSMSController implements ISMSController {
 		return null;
 	}
 
-	@Override
 	public void updateSubscriberGUI() {
 		// TODO Auto-generated method stub
 		

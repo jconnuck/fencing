@@ -7,8 +7,9 @@ import java.util.Timer;
 import java.io.Serializable;
 import final_project.model.store.*;
 import final_project.model.*;
+import final_project.view.PoolObserverPanel.Status;
 
-public class SMSController implements Constants, ISMSController {
+public class SMSController implements Constants {
 
 	private SMSSender _sender;
 	private SMSParser _parser;
@@ -26,7 +27,7 @@ public class SMSController implements Constants, ISMSController {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-                _sendingMessages = false;
+        _sendingMessages = true;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -91,6 +92,14 @@ public class SMSController implements Constants, ISMSController {
 		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), new PlayerResult(loserID, loserScore));
 		_tournament.addCompletedResult(cr, refID);
 	}
+	
+	public void rescoreLastMatch(int refID, int winnerID, int winnerScore,
+			int loserID, int loserScore) {
+		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), 
+				new PlayerResult(loserID, loserScore));
+		_tournament.rescoreLastMatch(refID, cr);
+		
+	}
 
 	public void swapRefs(int oldRefID, int newRefID) {
 		_tournament.swapRef(0, oldRefID, newRefID);
@@ -105,8 +114,14 @@ public class SMSController implements Constants, ISMSController {
 		return _cal.getTime();
 	}
 
-	@Override
 	public void updateSubscriberGUI() {
 		_tournament.updateSubscriberGUI();
 	}
+
+	public void setGUIStatusLabel(Status medical, int id) {
+		_tournament.getPoolForID(id).setStatusLabel(medical);
+		
+	}
+
+
 }
