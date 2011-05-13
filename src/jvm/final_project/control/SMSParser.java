@@ -49,7 +49,7 @@ public class SMSParser {
 				}
 				else if(groupToAlert.equals("technical") || groupToAlert.equals("Technical")) {
 					_control.sendGroupMessage("Technical", received);
-					//_control.sentGUIStatusLabel(PoolObserverPanel.Status.TECHNICAL, id);
+					_control.setGUIStatusLabel(PoolObserverPanel.Status.TECHNICAL, id);
 				}
 			}
 		}
