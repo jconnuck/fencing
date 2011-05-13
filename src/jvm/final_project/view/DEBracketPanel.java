@@ -28,15 +28,15 @@ public class DEBracketPanel extends JPanel {
 		setLayout(null);
 		
 		//TODO delete mock data
-		Result[] matches = new Result[15];
+		/*Result[] matches = new Result[15];
 		CompleteResult mockComplete = new CompleteResult(new PlayerResult(1, 5), new PlayerResult(2, 3));
 		for (int z = 0; z < (matches.length)/2; ++z)
 			matches[z] = mockComplete;
 		IncompleteResult mockIncomplete = new IncompleteResult(0, 1, 5);
 		for (int z = (matches.length)/2; z < matches.length; ++z)
-			matches[z] = mockIncomplete;
+        matches[z] = mockIncomplete;*/
 			
-		//Result[] matches = tournament.getDEMatches(Constants.EVENT_ID);
+		Result[] matches = tournament.getDEMatches(Constants.EVENT_ID);
 		int k = 0, startx = 0, starty = 20, width = 200, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {

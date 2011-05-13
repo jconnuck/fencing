@@ -11,7 +11,7 @@ public class Result {
 	
 	@Override
 	public String toString() {
-		return("(" + _player1 + ", " + _player2 + ")");
+		return("(" + getPlayer1() + ", " + getPlayer2() + ")");
 	}
 
 	//Where is this used?

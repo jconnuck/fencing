@@ -228,27 +228,35 @@ public class DERound implements IRound {
     	while(true){
     		System.out.println("matches length " + _matches.length);
     		System.out.println(Arrays.deepToString(_matches));
+            System.out.println("i: "+i);
+            System.out.println("currentRoundHead: "+currentRoundHead);
+            System.out.println("currentRoundSize: "+currentRoundSize);
     		if(_matches[i] == null){
     			return null;
-    		}
-    		else if(_matches[i] instanceof IncompleteResult  &&  // If the current match is an IncompleteResult and
-    				_stripsInUse.get(_matches[i]) == null) {     // the match is not currently being fenced.
-    			if(_matches[i].getPlayer1() == -1 ||      // If either of the players is not yet known.
-    			   _matches[i].getPlayer2() == -1) {
-    				return null;
-    			}
-    			else
-    				return (IncompleteResult) _matches[i];
+    		} else {
+                if(_matches[i] instanceof IncompleteResult  &&  // If the current match is an IncompleteResult and
+                   _stripsInUse.get(_matches[i]) == null) {     // the match is not currently being fenced.
+                    if(_matches[i].getPlayer1() == -1 ||      // If either of the players is not yet known.
+                       _matches[i].getPlayer2() == -1) {
+                        return null;
+                    } else
+                        return (IncompleteResult) _matches[i];
+                }
     		}
     		if(currentRoundSize == 1)  // If method got to final.  This should only happen if all matches in the round have been completed.
     			return null;
-    		if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
+            System.out.println("final i: "+i);
+            System.out.println("final currentRoundHead: "+currentRoundHead);
+            System.out.println("final currentRoundSize: "+currentRoundSize); 
+            i++;
+            if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
+                System.out.println("currentRoundSize before edit: "+currentRoundSize);
+                System.out.println("currentRoundSize/2: "+(currentRoundSize/2));
     			currentRoundSize /= 2;
+                System.out.println("currentRoundSize after edit: "+currentRoundSize);
     			currentRoundHead = computeRoundHead(currentRoundSize);
     			i = currentRoundHead;
     		}
-    		else
-    			i++;
     	}
     }
 
@@ -293,13 +301,7 @@ public class DERound implements IRound {
      * @return int the index of the head of the round that has roundSize Results in it in _matches.
      */
     private int computeRoundHead(int roundSize) {
-    	int curRoundSize = 1;
-    	int toReturn =0;
-    	while(curRoundSize < roundSize) {
-    		toReturn += curRoundSize;
-    		curRoundSize *= 2;
-    	}
-    	return toReturn;
+        return roundSize - 1;
     }
 
     /**
