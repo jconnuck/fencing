@@ -227,6 +227,7 @@ public class DERound implements IRound {
     	int i = currentRoundHead;
     	while(true){
     		System.out.println("matches length " + _matches.length);
+    		System.out.println(Arrays.deepToString(_matches));
     		if(_matches[i] == null){
     			return null;
     		}
