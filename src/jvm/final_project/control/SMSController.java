@@ -36,11 +36,13 @@ public class SMSController implements Constants {
 		_parser = new SMSParser(s, this);
 		_receiver = new SMSReceiver(this, username, password);
 
-		/* Starting the timer to continuously check the inbox */
-		_timer = new Timer(true);
-		_timer.scheduleAtFixedRate(_receiver, RECIEVE_START_DELAY, RECEIVE_TIMER_STEP);
+        if (_sendingMessages) {
+            /* Starting the timer to continuously check the inbox */
+            _timer = new Timer(true);
+            _timer.scheduleAtFixedRate(_receiver, RECIEVE_START_DELAY, RECEIVE_TIMER_STEP);
 
-		_receiver.flushInbox(); //Flushing the inbox to make sure that it's empty
+            _receiver.flushInbox(); //Flushing the inbox to make sure that it's empty
+        }
 	}
 
 	/* TODO: How to handle the booleans that the sender methods return? */
@@ -121,6 +123,5 @@ public class SMSController implements Constants {
 	public void setGUIStatusLabel(Status medical, int id) {
 		_tournament.setStatusLabel(medical, id);
 	}
-
 
 }
