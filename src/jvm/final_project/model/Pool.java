@@ -159,6 +159,9 @@ public abstract class Pool {
                    ( oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1())) {
 			_results.remove(_results.size() - 1);
 			_results.add(newScore);
+            for (PoolObserver obs : _observers)
+                obs.changeMatchResult(newScore);
+			
 			return true;
 		}
 		else

@@ -27,6 +27,10 @@ public class PoolRoundController {
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
         return _poolRound.addCompleteResult(result);
 	}
+	
+	public boolean rescoreLastMatch(int ref, CompleteResult result) {
+		return _poolRound.rescoreLastMatch(ref, result);
+	}
 
 	public boolean createPools(int poolSize) {
 		System.out.println("createPools method : " + poolSize);
@@ -74,4 +78,6 @@ public class PoolRoundController {
 	public List<Pool> getPools() {
 		return _poolRound.getPools();
 	}
+
+
 }

@@ -22,7 +22,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	JLabel statusLabel;
 	JPanel upcomingBoutsPane;
 	JPanel completedBoutsPane;
-	Collection<ScoreView> incompleteResults, completeResults;
+	java.util.List<ScoreView> incompleteResults, completeResults;
 	Pool pool;
 	JLabel currentBout;
 	private JButton btnMessageReferee;
@@ -256,6 +256,25 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
 	}
+	
+	public void changeMatchResult(CompleteResult completeResult) {
+        String player1Name = tournament.getNameFromId(completeResult.getPlayer1());
+        String player2Name = tournament.getNameFromId(completeResult.getPlayer2());
+		for (ListIterator<ScoreView> itr = completeResults.listIterator(); itr.hasNext();) {
+            ScoreView v = itr.next();
+            if ((v.player1Name.equals(player1Name) &&
+                 v.player2Name.equals(player2Name)) ||
+                (v.player1Name.equals(player2Name) &&
+                 v.player2Name.equals(player1Name))) {
+                ScoreView n = new ScoreView(tournament,completeResult);
+                itr.remove();
+                itr.add(n);
+                completedBoutsPane.remove(v);
+                completedBoutsPane.add(n);
+                break;
+            }
+        }
+	}
 
 	public void setCurrentBout() {
 		IncompleteResult next = pool.getNextResult();
@@ -270,9 +289,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			for (Iterator<ScoreView> itr = incompleteResults.iterator(); itr.hasNext();) {
 				ScoreView v = itr.next();
 				if ((v.player1Name.equals(player1Name) &&
-						v.player2Name.equals(player2Name)) ||
-						(v.player1Name.equals(player2Name) &&
-								v.player2Name.equals(player1Name))) {
+                     v.player2Name.equals(player2Name)) ||
+                    (v.player1Name.equals(player2Name) &&
+                     v.player2Name.equals(player1Name))) {
 					upcomingBoutsPane.remove(v);
 					itr.remove();
 					break;

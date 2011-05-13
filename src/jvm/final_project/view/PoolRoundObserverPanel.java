@@ -57,7 +57,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 		add(btnDeRound, gbc_btnDeRound);
 		btnDeRound.addActionListener(this);
 		
-		//TODO make a for loop, making anew PoolObserverPanel for each pool and add it
+		//Making anew PoolObserverPanel for each pool and add it
         int i=1;
         for (Pool p : tournament.getPools(0)) {
             PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournament, i++);
@@ -65,6 +65,8 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
         }
 	}
 
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO Replace string with new JPanel that has option to enter text

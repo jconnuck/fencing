@@ -35,8 +35,8 @@ public abstract class PoolRound implements IRound{
 					}
 					for(Integer athlete : p.getPlayers()) {
 						_smsController.sendSubscriberMessage(_dataStore.getPlayer(athlete).getFirstName() + 
-															 _dataStore.getPlayer(athlete).getLastName() +
-															 " has finished his/her pool", athlete);
+								_dataStore.getPlayer(athlete).getLastName() +
+								" has finished his/her pool", athlete);
 					}
 					//code to reassign newly free ref(s) and strip(s) to pools that don't have them.
 					Iterator<Integer> refIter = p.getRefs().iterator();
@@ -52,7 +52,7 @@ public abstract class PoolRound implements IRound{
 							extraRef = refIter.hasNext();
 							extraStrip = stripIter.hasNext();
 							if(hasNoRef && hasNoStrip &&
-							   extraRef && extraStrip){
+									extraRef && extraStrip){
 								toCheck.addRef(refIter.next());
 								refIter.remove();
 								toCheck.addStrip(stripIter.next());
@@ -60,13 +60,13 @@ public abstract class PoolRound implements IRound{
 								newPoolReady = true;
 							}
 							if(hasNoRef && !hasNoStrip &&
-							   extraRef) {
+									extraRef) {
 								toCheck.addRef(refIter.next());
 								refIter.remove();
 								newPoolReady = true;
 							}
 							if(!hasNoRef && hasNoStrip &&
-                               extraStrip) {
+									extraStrip) {
 								toCheck.addStrip(stripIter.next());
 								stripIter.remove();
 								newPoolReady = true;
@@ -84,10 +84,10 @@ public abstract class PoolRound implements IRound{
 					while(refIter.hasNext()){
 						final Integer temp = refIter.next();
 						_dataStore.runTransaction(new Runnable(){
-                                public void run(){
-                                    _dataStore.putData(_dataStore.getReferee(temp).setReffing(false));
-                                }
-                            });
+							public void run(){
+								_dataStore.putData(_dataStore.getReferee(temp).setReffing(false));
+							}
+						});
 					}
 					p.clearRefs();
 					//returns true if all pools have completed, false otherwise
@@ -95,7 +95,7 @@ public abstract class PoolRound implements IRound{
 						if(!tempPool.isDone())
 							return false;
 					}
-                    return true;
+					return true;
 				}
 				else { // If pool is not done
 					// Notify the referee(s) about their next match
@@ -106,40 +106,40 @@ public abstract class PoolRound implements IRound{
 						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
 						if(nextMatch != null) {
 							name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
-								    _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
-								    nextMatch.getPlayer1() + ")";
+							_dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
+							nextMatch.getPlayer1() + ")";
 							name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
-						    		_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
-						    		nextMatch.getPlayer2() + ")";
+							_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
+							nextMatch.getPlayer2() + ")";
 							_smsController.sendMessage("Your next match is between: " + name1 + " and " + name2,
-									 				   refPhone);
+									refPhone);
 						}							
 					}
 					// Notify subscribers of the competitors that are on deck of that fact
 					IncompleteResult onDeck = p.getOnDeckResult();
-                    if (onDeck!=null) {
-                        name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
-				    		_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
-                        _smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
-                                                             onDeck.getPlayer1());
-                        name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
-		    				_dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
-                        _smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
-                                                             onDeck.getPlayer2());
-                    }
+					if (onDeck!=null) {
+						name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
+						_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
+						_smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+								onDeck.getPlayer1());
+						name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
+						_dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
+						_smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
+								onDeck.getPlayer2());
+					}
 					// If the pool is being double stripped, two bouts will be "on deck," so more subscribers must be notified
 					if(p.getRefs().size() > 1){
 						onDeck = p.getInHoleBout();
 						name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " " +
-			    				_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
+						_dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
 						_smsController.sendSubscriberMessage(name1 + " is now on deck on strip: " + p.getStrips().iterator().next(),
-													 		 onDeck.getPlayer1());
+								onDeck.getPlayer1());
 						name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " " +
-	    											 _dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
+						_dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
 						_smsController.sendSubscriberMessage(name2 + " is now on deck on strip: " + p.getStrips().iterator().next(),
-						 							 		 onDeck.getPlayer2());
+								onDeck.getPlayer2());
 					}
-                    return false;
+					return false;
 				}
 			}
 		}
@@ -180,41 +180,41 @@ public abstract class PoolRound implements IRound{
 		}
 
 		//Standard Insertion Sort
-        for(int i = 1; i < _pools.size(); i++){
-            Pool tmp = _pools.get(i);
-            int k = i;
-            //TODO: check if this comparison is correct (might be > instead??)
-            while((k>0) && poolToNumConflicts.get(_pools.get(k - 1)) <  poolToNumConflicts.get(tmp)){
-                _pools.set(k, _pools.get(k-1));
-                k--;
-            }
-            _pools.set(k, tmp);
-        }
+		for(int i = 1; i < _pools.size(); i++){
+			Pool tmp = _pools.get(i);
+			int k = i;
+			//TODO: check if this comparison is correct (might be > instead??)
+			while((k>0) && poolToNumConflicts.get(_pools.get(k - 1)) <  poolToNumConflicts.get(tmp)){
+				_pools.set(k, _pools.get(k-1));
+				k--;
+			}
+			_pools.set(k, tmp);
+		}
 
-        Iterator<Integer> iter;
-        for(Pool p : _pools){
-        	if(refs.isEmpty()){
-        		p.clearRefs();
-        	}else{
+		Iterator<Integer> iter;
+		for(Pool p : _pools){
+			if(refs.isEmpty()){
+				p.clearRefs();
+			}else{
 
-                int temp = -1;
-                iter = refs.iterator();
-                while(iter.hasNext()){
-                    temp = iter.next();
-                    if(!haveConflict(p, temp)){
-                        break;
-                    }
-                }
-                if(temp == -1){
-                    //this should never be -1, (notice that if refs is empty we break, so temp must be initialized to something other than -1)
-                    throw new IllegalStateException("Structural error.  Must terminate.");//TODO: make this error message better
-                }
-                p.addRef(temp);
-                iter.remove();
-                toReturn = haveConflict(p, temp);
-        	}
-        }
-        return toReturn;
+				int temp = -1;
+				iter = refs.iterator();
+				while(iter.hasNext()){
+					temp = iter.next();
+					if(!haveConflict(p, temp)){
+						break;
+					}
+				}
+				if(temp == -1){
+					//this should never be -1, (notice that if refs is empty we break, so temp must be initialized to something other than -1)
+					throw new IllegalStateException("Structural error.  Must terminate.");//TODO: make this error message better
+				}
+				p.addRef(temp);
+				iter.remove();
+				toReturn = haveConflict(p, temp);
+			}
+		}
+		return toReturn;
 	}
 
 	/**
@@ -239,7 +239,7 @@ public abstract class PoolRound implements IRound{
 	public void notifyPools() {
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
-			   p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
+					p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
 				System.out.println("ref size: " + p.getRefs().size() + " strip size: " + p.getStrips().size());
 				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
 				//p.clearRefs(); //EDIT: taking this out
@@ -262,13 +262,13 @@ public abstract class PoolRound implements IRound{
 					_smsController.sendMessage("Your pool is ready to start on strip: " + stripNum, refPhone);
 					firstMatch = p.getNextResult();
 					name1 = _dataStore.getPlayer(firstMatch.getPlayer1()).getFirstName() + " " +
-							_dataStore.getPlayer(firstMatch.getPlayer1()).getLastName() + " (" +
-							firstMatch.getPlayer1() + ")";
+					_dataStore.getPlayer(firstMatch.getPlayer1()).getLastName() + " (" +
+					firstMatch.getPlayer1() + ")";
 					name2 = _dataStore.getPlayer(firstMatch.getPlayer2()).getFirstName() + " " +
-					   		_dataStore.getPlayer(firstMatch.getPlayer2()).getLastName() + " (" +
-					   		firstMatch.getPlayer2() + ")";
+					_dataStore.getPlayer(firstMatch.getPlayer2()).getLastName() + " (" +
+					firstMatch.getPlayer2() + ")";
 					_smsController.sendMessage("Your first match is between: " + name1 + " and " + name2,
-								 			   refPhone);
+							refPhone);
 				}
 			}
 		}
@@ -308,18 +308,23 @@ public abstract class PoolRound implements IRound{
 	public void setPoolSize(int newSize){
 		_poolSize = newSize;
 	}
-	
-	public void rescoreLastMatch(int referee, CompleteResult newScore) {
-		for(Pool p : _pools)
-			if(p.getRefs().contains(referee))
-				if (p.rescoreLastMatch(newScore))
+
+	public boolean rescoreLastMatch(int referee, CompleteResult newScore) {
+		for(Pool p : _pools) {
+			if(p.getRefs().contains(referee)) {
+				if (p.rescoreLastMatch(newScore)) {
 					_smsController.sendMessage("The score of your last match was successfully changed." +
-							                   "  The most recent next bout message you recieved s still accurate.",
-							                   _dataStore.getReferee(referee).getPhoneNumber());
-				else
-					_smsController.sendMessage("The players of the new score you sent in do not match those of your " +
-											   "most recent score submission. Please retry.",
-											   _dataStore.getReferee(referee).getPhoneNumber());
+							"  The most recent next bout message you recieved s still accurate.",
+							_dataStore.getReferee(referee).getPhoneNumber());
+					return true;
+				}
+			}
+		}
+
+		_smsController.sendMessage("The players of the new score you sent in do not match those of your " +
+				"most recent score submission. Please retry.",
+				_dataStore.getReferee(referee).getPhoneNumber());
+		return false; 		
 	}
 
 	public List<Integer> getResults(){
@@ -347,7 +352,7 @@ public abstract class PoolRound implements IRound{
 
 		for (Pool p: _pools) {
 			p.shufflePlayers();
-        }
+		}
 	}
 
 	public List<Pool> getPools() {

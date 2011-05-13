@@ -3,16 +3,17 @@ package final_project.control;
 import java.util.Scanner;
 import java.util.Calendar;
 import final_project.model.store.*;
+import final_project.view.PoolObserverPanel;
 
 //import mocks.*;
 
 public class SMSParser {
 
 	private IDataStore _store;
-	private ISMSController _control;
+	private SMSController _control;
 	private Calendar _cal;
 
-	public SMSParser(IDataStore s, ISMSController ctrl) {
+	public SMSParser(IDataStore s, SMSController ctrl) {
 		_store = s;
 		_control = ctrl;
 		_cal = Calendar.getInstance();
@@ -31,14 +32,25 @@ public class SMSParser {
 
 		//Message: "help string"
 		if (firstWord.equals("Help") || firstWord.equals("help")) {
+			int id = -1;
+			for(IPerson p: _store.getPeople()) {
+				if(p.getPhoneNumber().equals(number))
+					id = p.getID();
+			}
+			if(id == -1)
+				return;
 			_control.alertGUI("Help message received! Message: " + received, _cal.getTime());
 			/* Alerting the proper group for help (either technical or medical) */
 			if(s.hasNext()) {
 				String groupToAlert = s.next();
-				if(groupToAlert.equals("medical") || groupToAlert.equals("Medical"))
+				if(groupToAlert.equals("medical") || groupToAlert.equals("Medical")) {
 					_control.sendGroupMessage("Medical", received);
-				else if(groupToAlert.equals("technical") || groupToAlert.equals("Technical"))
+					_control.setGUIStatusLabel(PoolObserverPanel.Status.MEDICAL, id);
+				}
+				else if(groupToAlert.equals("technical") || groupToAlert.equals("Technical")) {
 					_control.sendGroupMessage("Technical", received);
+					_control.setGUIStatusLabel(PoolObserverPanel.Status.TECHNICAL, id);
+				}
 			}
 		}
 
@@ -75,7 +87,7 @@ public class SMSParser {
 		}
 
 		//Message "result id beat id this-that" or "id beat id this to that"
-		else if(firstWord.toLowerCase().equals("result")) {//TODO changed tolower case and then equals
+		else if(firstWord.toLowerCase().equals("result") || firstWord.toLowerCase().equals("rescore")) {//TODO changed tolower case and then equals
 			System.out.println("Result else if entered");
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
 
@@ -133,10 +145,15 @@ public class SMSParser {
 			}
 
 			/* NOW THAT WE'VE PARSED OUT ALL OF THE DATA */
-			try{
-				_control.returnResults(refID, winID, winScore, loseID, loseScore);
-			}catch (IllegalArgumentException e){
-				_control.sendMessage("Result not for current bout. Check fencer id's?", number);
+			if(firstWord.toLowerCase().equals("rescore")) { //changing the mistaken results
+				_control.rescoreLastMatch(refID, winID, winScore, loseID, loseScore);
+			}
+			else {
+				try{
+					_control.returnResults(refID, winID, winScore, loseID, loseScore);
+				}catch (IllegalArgumentException e){
+					_control.sendMessage("Result not for current bout. Check fencer id's?", number);
+				}
 			}
 		}
 
@@ -203,7 +220,7 @@ public class SMSParser {
 		}
 		System.out.println("Subscribing");
 		System.out.println("Phone number from text: " + number);
-		
+
 		/* ACTUALLY SUBSCRIBING USER */
 		final int finalID = idSpectator;
 		final int finalIDToFollow = idToFollow;

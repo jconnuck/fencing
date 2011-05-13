@@ -5,6 +5,7 @@ import final_project.model.*;
 import final_project.model.store.*;
 import final_project.model.DERound.NoSuchMatchException;
 import final_project.view.*;
+import final_project.view.PoolObserverPanel.Status;
 import final_project.input.*;
 
 //Created in the main method.
@@ -150,8 +151,8 @@ public class TournamentController implements Constants{
 			if(event.hasRef(ref)){
 				try {
 					if (event.addCompletedResult(result) &&
-                        event.getState().equals(EventController.State.POOLS))
-                        startDERound(0,20);
+							event.getState().equals(EventController.State.POOLS))
+						startDERound(0,20);
 					//_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
 					return;
 				} catch (NoSuchMatchException e) {
@@ -159,6 +160,13 @@ public class TournamentController implements Constants{
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+
+	public void rescoreLastMatch(int ref, CompleteResult result) {
+		for(EventController event : _events){
+			if(event.hasRef(ref))
+				event.rescoreLastMatch(ref, result);
 		}
 	}
 
@@ -360,6 +368,11 @@ public class TournamentController implements Constants{
 
 	public SMSController getSMSController() {
 		return _smsController;
+	}
+
+	public void setStatusLabel(Status status, int id) {
+		this.getMainWindow().setStatusLabel(status, id);
+		
 	}
 
 }

@@ -18,9 +18,9 @@ public class SMSSender implements Constants {
 
 	private String _username, _password;
 	private IDataStore _store;
-	private ISMSController _control; //Needed to alert when there are no more credits, etc.
+	private SMSController _control; //Needed to alert when there are no more credits, etc.
 
-	public SMSSender(IDataStore s, ISMSController ctrl, String username, String password) {
+	public SMSSender(IDataStore s, SMSController ctrl, String username, String password) {
 		_store = s;
 		_control = ctrl;
 		_username = username;

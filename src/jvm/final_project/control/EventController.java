@@ -71,6 +71,12 @@ public class EventController {
         return false;
 	}
 
+	public boolean rescoreLastMatch(int ref, CompleteResult result) {
+		if(_state.equals(State.POOLS))
+			return _poolController.rescoreLastMatch(ref, result);
+		return false;
+	}
+	
 	public void setStripArrangement(int rows, int cols) {
 		_stripArrangement[0] = rows;
 		_stripArrangement[1] = cols;
@@ -160,5 +166,7 @@ public class EventController {
     public State getState() {
         return _state;
     }
+
+
 }
 
