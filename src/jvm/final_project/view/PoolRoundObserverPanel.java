@@ -68,8 +68,8 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO Replace string with new JPanel that has option to enter text
-		BalloonTip selectCutTip = new BalloonTip(btnDeRound, "Select how many to cut", new DefaultBalloonStyle(), false);
-		tournament.getMainWindow().registerBalloon(selectCutTip);
+//		BalloonTip selectCutTip = new BalloonTip(btnDeRound, "Select how many to cut", new DefaultBalloonStyle(), false);
+//		tournament.getMainWindow().registerBalloon(selectCutTip);
 		//TODO This should be moved to the actionListener on the button in the new panel
 		tournament.getMainWindow().loadRightPanel(new DEPanel(tournament));
 	}
