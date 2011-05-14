@@ -79,15 +79,15 @@ public class SMSSender implements Constants {
 					toReturn = true; //SMS in progress
 				}
 				else if(status_code == 23) { //Authentication failure
-					_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
+					_control.alertGUI(null, "Authentication failure: SMS send could not go through", _control.getTime());
 					toReturn = false;
 				}
 				else if(status_code == 25) {
-					_control.alertGUI("SMS API needs more credits! Send failure!", _control.getTime());
+					_control.alertGUI(null, "SMS API needs more credits! Send failure!", _control.getTime());
 					toReturn = false;
 				}
 				else {
-					_control.alertGUI("Send SMS Failure", _control.getTime());
+					_control.alertGUI(null, "Send SMS Failure", _control.getTime());
 					toReturn = false;
 				}
 			}

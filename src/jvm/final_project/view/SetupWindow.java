@@ -32,6 +32,7 @@ import java.awt.*;
 import javax.swing.border.*;
 
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.*;
 
 import java.awt.event.*;
 import java.io.*;
@@ -80,13 +81,13 @@ public class SetupWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 379, 300);
+		frame.setBounds(100, 100, 379, 317);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{315, 0, 0};
-		gridBagLayout.rowHeights = new int[]{97, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{97, 167, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 
 		JPanel smsLoginPanel = new JPanel();
@@ -152,7 +153,7 @@ public class SetupWindow {
 		gbl_panel.columnWidths = new int[]{85, 315, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
 		JLabel lblTournamentName = new JLabel("Name:");
@@ -234,7 +235,8 @@ public class SetupWindow {
                     if (textField.getText().isEmpty()||passwordField.getText().isEmpty())
                         message += "Please provide SMS login information\n";
                     if (!message.isEmpty()){
-                        BalloonTip noSMSLogin = new BalloonTip(btnStart, new ConfirmationPanel(message), new NotificationBalloonStyle(), false);
+                        BalloonTip noSMSLogin = new BalloonTip(btnStart, new JLabel(message), new NotificationBalloonStyle(), Orientation.RIGHT_ABOVE, AttachLocation.WEST, 10, 10, false);
+                        noSMSLogin.setOpacity(0.9f);
                         return;
                     }
                     ITournamentInfo i;

@@ -16,6 +16,7 @@ import java.awt.Insets;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ScrollPaneConstants;
 
 public class PoolRoundObserverPanel extends JPanel implements ActionListener, Constants{
 	private JButton btnDeRound;
@@ -31,16 +32,16 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener, Co
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{179, 0};
-		gridBagLayout.rowHeights = new int[]{29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{29, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		btnDeRound = new JButton("DE Round");
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridheight = 9;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
@@ -49,14 +50,13 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener, Co
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.CENTER);
 		panel.setBackground(Color.BLACK);
 		scrollPane.setViewportView(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		GridBagConstraints gbc_btnDeRound = new GridBagConstraints();
 		gbc_btnDeRound.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnDeRound.gridx = 0;
-		gbc_btnDeRound.gridy = 9;
+		gbc_btnDeRound.gridy = 1;
 		add(btnDeRound, gbc_btnDeRound);
 		btnDeRound.addActionListener(this);
         btnDeRound.setEnabled(false);
