@@ -180,6 +180,13 @@ public class SMSSender implements Constants {
 	}
 
     public void sendCollectionMessage(String message, Collection<Integer> people) {
+    	for(Integer i: people) {
+    		if(!_store.getPerson(i).getPhoneNumber().equals(""))
+    			this.sendMessage(message, _store.getPerson(i).getPhoneNumber());
+    	}
+    		
+    	
+    	/*
         String number = "";
         Iterator<Integer> iter = people.iterator();
         while(iter.hasNext()) {
@@ -193,7 +200,7 @@ public class SMSSender implements Constants {
             	number += ",1";
         }
         if (!number.isEmpty())
-            sendMessage(message, number);
+            sendMessage(message, number); */
     }
 
 	public boolean sendSubscriberMessage(String message, int fencerID) {

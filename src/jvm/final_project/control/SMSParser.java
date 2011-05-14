@@ -307,6 +307,20 @@ public class SMSParser {
 
 		/* UNSUBSCRIBING */
 		final IPerson spect = _store.getPerson(idToFind);
+		found = false;
+		for(Object o: spect.getWatched()) {
+			Integer i = (Integer) o;
+			if(i == idToFind) {
+				found = true;
+				break;
+			}
+		}
+		
+		if(!found) {
+			_control.sendMessage("We're sorry, it does not appear that you are subscribed to this fencer", number);
+			return false;
+		}
+		
 		if (spect == null || spect.removeWatched(idToUnfollow) == null) {
 			_control.sendMessage("Error: unsubscription not successful", number);
 			return false;
