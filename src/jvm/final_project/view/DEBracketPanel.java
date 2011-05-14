@@ -64,11 +64,11 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
 		}
         //My failed attempt to add a label for the overall winner of the tournament
 
-        int extraWidth = 150;
+        int extraWidth = 0;
         if (matches[0] != null && matches[0] instanceof CompleteResult) {
-            JLabel winnerLabel = new JLabel(_tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
+            JLabel winnerLabel = new JLabel("Winner: " + _tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
             starty = (int) (((Math.pow(2, log -1) - 1) * 100) + 75 + 20);
-            winnerLabel.setBounds(startx+width, starty - (height/2), 100, 100);
+            winnerLabel.setBounds(startx+width, starty - (height/4), winnerLabel.getPreferredSize().width, 100);
             add(winnerLabel);
             extraWidth = winnerLabel.getPreferredSize().width + 20;
         }
