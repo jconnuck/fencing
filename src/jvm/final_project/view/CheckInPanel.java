@@ -28,7 +28,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private TableRowSorter<SignInTableModel> sorter;
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
-	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
+	private JButton signInAll, unsignInAll, registerPersonButton, startPoolRound;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip, blankFieldTip;
 	private CheckInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
@@ -97,14 +97,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		add(scrollPane, gbc_scrollPane);
 
 		scrollPane.setViewportView(table);
-
-		importXml = new JButton("Import XML");
-		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
-		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
-		gbc_btnImportXml.gridx = 1;
-		gbc_btnImportXml.gridy = 3;
-		add(importXml, gbc_btnImportXml);
-		importXml.addActionListener(this);
 
 		fileLabel = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
