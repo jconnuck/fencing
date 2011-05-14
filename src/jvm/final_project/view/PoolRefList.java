@@ -1,5 +1,6 @@
 package final_project.view;
 
+import java.util.*;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -21,12 +22,15 @@ import final_project.model.store.IDataStore;
 public class PoolRefList extends JPanel {
 	private JTable table;
 	private TournamentController tournament;
+    private JCheckBox checkBox;
+    private Pool pool;
 
 	/**
 	 * Create the panel.
 	 */
-	public PoolRefList(TournamentController t, Pool pool) {
+	public PoolRefList(TournamentController t, Pool p) {
 		tournament = t;
+        pool = p;
 		IDataStore store = t.getDataStore();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -74,14 +78,15 @@ public class PoolRefList extends JPanel {
 		gbc_lblClubMiamiHeat.gridx = 2;
 		gbc_lblClubMiamiHeat.gridy = 0;
 		add(lblClubMiamiHeat, gbc_lblClubMiamiHeat);
-		
-		JCheckBox chckbxConflict = new JCheckBox("Conflict");
+
+        JCheckBox chckbxConflict = new JCheckBox("Conflict");
+        checkBox = chckbxConflict;
 		GridBagConstraints gbc_chckbxConflict = new GridBagConstraints();
 		gbc_chckbxConflict.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxConflict.gridx = 4;
 		gbc_chckbxConflict.gridy = 0;
 		add(chckbxConflict, gbc_chckbxConflict);
-		
+
 		table = new JTable();
 		table.setModel(new PoolRefTable(pool));
 		GridBagConstraints gbc_table = new GridBagConstraints();
@@ -157,5 +162,12 @@ public class PoolRefList extends JPanel {
 		}
 		
 	}
-	
+
+    public boolean needsNewRef() {
+        return checkBox.isSelected();
+    }
+    
+    public Collection<Integer> getRefs() {
+        return pool.getRefs();
+    }
 }

@@ -18,7 +18,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.Component;
-import java.util.Collection;
+import java.util.*;
 import java.awt.event.*;
 
 import final_project.control.*;
@@ -29,6 +29,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
     TournamentController tournament;
     private JButton btnAcceptSeeding;
     private JButton btnReassignReferees;
+    private JPanel panel_1;
     
 	/**
 	 * Create the panel.
@@ -40,28 +41,12 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
 
-		JPanel panel_1 = new JPanel();
+        panel_1 = new JPanel();
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
-		// Generating PoolRefLists from pool information
-		PoolRefList lastPool = new PoolRefList(t, new FencerPool());
-		if(!t.getPools(EVENT_ID).isEmpty()) {
-			for(Pool p: t.getPools(EVENT_ID)) {
-				lastPool = new PoolRefList(t, p);
-				panel_1.add(lastPool);
-			}
-		}
-		else {
-			panel_1.add(lastPool);
-		}
-
-		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0};
-		gridBagLayout.rowHeights = new int[]{0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0};
-		gridBagLayout.columnWidths = new int[]{111, 0, 0, 0, 0};
-
+        resetRefs();
+        
 		JPanel panel = new JPanel();
 		panel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		add(panel);
@@ -80,6 +65,20 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbc_btnReassignReferees.gridy = 0;
 		panel.add(btnReassignReferees, gbc_btnReassignReferees);
 
+        btnReassignReferees.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Collection<Integer> changes = new LinkedList<Integer>();
+                    Component[] components = getComponents();
+                    for (int i = 0; i < components.length; i++) {
+                        PoolRefList c = (PoolRefList) components[i];
+                        if (c.needsNewRef())
+                            changes.addAll(c.getRefs());
+                    }
+                    tournament.changeRefs(0,changes);
+                    resetRefs();
+                }
+            });
+
 		btnAcceptSeeding = new JButton("Accept Assignments");
 		GridBagConstraints gbc_btnAcceptSeeding = new GridBagConstraints();
 		gbc_btnAcceptSeeding.anchor = GridBagConstraints.NORTHWEST;
@@ -90,7 +89,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
         btnAcceptSeeding.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	tournament.notifyPools(EVENT_ID);
-                    tournament.getMainWindow().loadRightPanel(new PoolRoundObserverPanel(tournament));                    
+                    tournament.getMainWindow().loadRightPanel(new PoolRoundObserverPanel(tournament));
                 }
             });
 
@@ -98,7 +97,26 @@ public class PoolSetupPanel extends JPanel implements Constants {
 	public JButton getAcceptSeeding() {
 		return btnAcceptSeeding;
 	}
+    
 	public JButton getReassignReferees() {
 		return btnReassignReferees;
 	}
+    
+    public void resetRefs() {
+        panel_1.removeAll();
+		// Generating PoolRefLists from pool information
+		PoolRefList lastPool = new PoolRefList(tournament, new FencerPool());
+        for(Pool p: tournament.getPools(EVENT_ID)) {
+            lastPool = new PoolRefList(tournament, p);
+            panel_1.add(lastPool);
+        }
+        
+		GridBagLayout gridBagLayout = (GridBagLayout) lastPool.getLayout();
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0};
+		gridBagLayout.rowHeights = new int[]{0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0};
+		gridBagLayout.columnWidths = new int[]{111, 0, 0, 0, 0};
+
+        panel_1.validate();
+    }
 }

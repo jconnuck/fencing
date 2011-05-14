@@ -15,6 +15,7 @@ import net.java.balloontip.BalloonTip;
 import java.awt.Insets;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
+import javax.swing.border.EmptyBorder;
 
 public class PoolRoundObserverPanel extends JPanel implements ActionListener, Constants{
 	private JButton btnDeRound;
@@ -47,6 +48,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener, Co
 		add(scrollPane, gbc_scrollPane);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.CENTER);
 		panel.setBackground(Color.BLACK);

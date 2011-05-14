@@ -362,4 +362,24 @@ public abstract class PoolRound implements IRound{
 	public List<Pool> getPools() {
 		return _pools;
 	}
+
+	/**
+	 * Visits each pool that has a ref in the argument and if there are other refs available
+	 * they are swapped for the ref in that pool.
+	 * @param refs The refs that the method attempts to swap out for other excess referees.
+	 */
+	public void changeRefs(Collection<Integer> refs) {
+		for(Integer r : refs) {
+			for(Pool p : _pools){
+				if(p.getRefs().contains(r)) {
+					Integer newRef = _dataStore.getNextReferee();
+					if(newRef != -1) {
+						p.clearRefs();
+						p.addRef(newRef);
+					}
+				}
+			}
+		}
+		
+	}
 }

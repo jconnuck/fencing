@@ -32,24 +32,14 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
         tournament.addDEObserver(this,0);
 		
         drawBracket();
-        repaint();
     }
 
     public void bracketUpdated() {
-        drawBracket();
+    	drawBracket();
     }
 
     public void drawBracket() {
-        removeAll();
-		//TODO delete mock data
-		/*Result[] matches = new Result[15];
-		CompleteResult mockComplete = new CompleteResult(new PlayerResult(1, 5), new PlayerResult(2, 3));
-		for (int z = 0; z < (matches.length)/2; ++z)
-			matches[z] = mockComplete;
-		IncompleteResult mockIncomplete = new IncompleteResult(0, 1, 5);
-		for (int z = (matches.length)/2; z < matches.length; ++z)
-        matches[z] = mockIncomplete;*/
-			
+    	removeAll();
 		Result[] matches = _tournament.getDEMatches(Constants.EVENT_ID);
 		int k = 0, startx = 0, starty = 20, width = 200, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
@@ -72,20 +62,22 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
 				add(temp);
 			}
 		}
-        /*My failed attempt to add a label for the overall winner of the tournament
+        //My failed attempt to add a label for the overall winner of the tournament
 
-          int extraWidth = 0;
-        if (matches[0] != null &&
-            matches[0] instanceof CompleteResult) {
-            JLabel winnerLabel = new JLabel(_tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
-            winnerLabel.setLocation(startx+width, starty-(height/2));
+        int extraWidth = 0;
+        if (matches[0] != null && matches[0] instanceof CompleteResult) {
+            JLabel winnerLabel = new JLabel("Winner: " + _tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
+            starty = (int) (((Math.pow(2, log -1) - 1) * 100) + 75 + 20);
+            winnerLabel.setBounds(startx+width, starty - (height/4), winnerLabel.getPreferredSize().width, 100);
             add(winnerLabel);
             extraWidth = winnerLabel.getPreferredSize().width + 20;
         }
-		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));*/
-		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
+		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));
+		
+		//setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
         //the repaint call here makes everything disappear until the window is resized
         
-        repaint();
+       revalidate();
+       repaint();
 	}
 }

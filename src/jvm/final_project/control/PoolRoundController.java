@@ -75,4 +75,8 @@ public class PoolRoundController {
     public List<Integer> getResults() {
         return _poolRound.getResults();
     }
+
+	public void changeRefs(Collection<Integer> refs) {
+		_poolRound.changeRefs(refs);
+	}
 }
