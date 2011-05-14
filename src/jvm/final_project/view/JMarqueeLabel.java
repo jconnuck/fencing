@@ -35,6 +35,14 @@ public class JMarqueeLabel extends JPanel {
         			resize = false;
         			startTime = System.currentTimeMillis();
         		}
+        		if (-5 < this.getLocation().getX() || this.getLocation().getX() < 5) {
+        			try {
+						wait(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        		}
         		g.translate(getWidth() - (int)((((System.currentTimeMillis() - startTime) / MARQUEE_SPEED_DIV) + getWidth())% (parent.getSize().getWidth() * 2)), 0);
         	} else {
         		resize = true;
