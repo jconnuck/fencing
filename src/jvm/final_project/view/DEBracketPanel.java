@@ -32,6 +32,7 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
         tournament.addDEObserver(this,0);
 		
         drawBracket();
+        repaint();
     }
 
     public void bracketUpdated() {
