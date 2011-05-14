@@ -28,7 +28,7 @@ public class SMSController implements Constants {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-        _sendingMessages = true;
+            _sendingMessages = true;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -92,13 +92,13 @@ public class SMSController implements Constants {
 		System.out.println("Return results called: complete result " + cr);
 		_tournament.addCompletedResult(cr, refID);
 	}
-	
+
 	public void rescoreLastMatch(int refID, int winnerID, int winnerScore,
 			int loserID, int loserScore) {
-		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), 
+		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore),
 				new PlayerResult(loserID, loserScore));
 		_tournament.rescoreLastMatch(refID, cr);
-		
+
 	}
 
 	public void swapRefs(int oldRefID, int newRefID) {
