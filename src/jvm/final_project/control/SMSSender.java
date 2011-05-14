@@ -87,7 +87,7 @@ public class SMSSender implements Constants {
 					toReturn = false;
 				}
 				else {
-					_control.alertGUI(null, "Send SMS Failure", _control.getTime());
+					//_control.alertGUI(null, "Send SMS Failure", _control.getTime());
 					toReturn = false;
 				}
 			}
