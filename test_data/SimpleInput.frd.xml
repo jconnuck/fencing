@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FencingData  Version="4.0" Context="PreReg" xmlns="http://www.askfred.net" xmlns:ft="http://www.fencingtime.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<FencerDatabase>
+		<Fencer FencerID="3315" FirstName="John" LastName="Connuck" ClubID1="136"  DivisionID="64" BirthYear="1987"  Gender="M" >
+			<Rating Org="USFA" Weapon="Epee">E2008</Rating>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+		<Fencer FencerID="15074" FirstName="Jon" LastName="Leavitt" ClubID1="1"  DivisionID="69" BirthYear="1986"  Gender="M" >
+			<Membership Org='USFA'>100085706</Membership>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Epee">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+		<Fencer FencerID="16181" FirstName="Josh" LastName="Grill" ClubID1="1"  DivisionID="29" BirthYear="1985"  Gender="M" >
+			<Rating Org="USFA" Weapon="Foil">E2007</Rating>
+			<Rating Org="USFA" Weapon="Epee">B2007</Rating>
+			<Rating Org="USFA" Weapon="Saber">E2006</Rating>
+		</Fencer>
+		<Fencer FencerID="18641" FirstName="Miranda" LastName="Steele" ClubID1="945"  DivisionID="62" BirthYear="1988"  Gender="M" >
+			<Rating Org="USFA" Weapon="Saber">D2007</Rating>
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Epee">U</Rating>
+		</Fencer>
+		<Fencer FencerID="29029" FirstName="William" LastName="Zimrin" ClubID1="698"  DivisionID="55" BirthYear="1987"  Gender="M" >
+			<Rating Org="USFA" Weapon="Foil">U</Rating>
+			<Rating Org="USFA" Weapon="Epee">U</Rating>
+			<Rating Org="USFA" Weapon="Saber">U</Rating>
+		</Fencer>
+    </FencerDatabase>
+	<TeamDatabase>
+		<Team TeamID="66061" Name="Team1" ClubID="2180" DivisionID="90" >
+			<Fencer FencerID="18641" />
+			<Fencer FencerID="15074" />
+			<Fencer FencerID="16181" />
+			<Fencer FencerID="3315" />
+		</Team>
+		<Team TeamID="66062" Name="Team2" ClubID="2180" DivisionID="90" >
+			<Fencer FencerID="29029" />
+			<Fencer FencerID="45980" />
+			<Fencer FencerID="34420" />
+			<Fencer FencerID="42052" />
+		</Team>
+	</TeamDatabase>
+	<ClubDatabase>
+		<Club ClubID="2180" Name="Bladeworks Fencing Club" DivisionID="90" Abbreviation="BFC" City="Etobicoke" State="ON"  />
+		<Club ClubID="136" Name="Knights of Trapani" DivisionID="64" Abbreviation="KOT" City="Kingwood" State="TX"  />
+		<Club ClubID="1" Name="Unattached (or unknown)" DivisionID="69" Abbreviation="UNAT" City="" State=""  />
+		<Club ClubID="945" Name="University of Virginia Fencing Club" DivisionID="62" Abbreviation="VFC" City="" State=""  />
+		<Club ClubID="698" Name="University of South Florida" DivisionID="55" Abbreviation="USF" City="" State=""  />
+		<Club ClubID="793" Name="Grand Valley Sport Fencing" DivisionID="48" Abbreviation="GVSF" City="Grand Junction" State="colorado"  />
+		<Club ClubID="1527" Name="My Fencing Center" DivisionID="5" Abbreviation="MFC" City="orland" State="ca"  />
+		<Club ClubID="1723" Name="New Paltz Fencing Club" DivisionID="40" Abbreviation="NEW PALTZ" City="" State=""  />
+	</ClubDatabase>
+	<Tournament TournamentID="12240" Name="Bladeworks Fencing Club's Tournament" Location="Bladeworks Fencing Club" StartDate="2013-12-12" EndDate="2013-12-13" Fee="35.00" FeeCurrency="USD" >
+		<Event EventID="52173" EventDateTime="2013-12-12 10:00:00" Weapon="Saber" Gender="Men" EnforceGender="True" AgeLimitMin="Senior" AgeLimitMax="Senior" EnforceAge="True" RatingLimit="Open" EnforceRating="False" Description="" IsTeam="False" Fee="0.00" FeeCurrency="USD" >
+			<PreReg CompetitorID="18641" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="15074" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="16181" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="3315" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="29029" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="45980" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="34420" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+			<PreReg CompetitorID="42052" EventFeePaid="0.00" TournamentFeePaid="35.00" />
+		</Event>
+	</Tournament>
+</FencingData>   
