@@ -21,12 +21,15 @@ import final_project.model.store.IDataStore;
 public class PoolRefList extends JPanel {
 	private JTable table;
 	private TournamentController tournament;
+    private JCheckBox checkBox;
+    private Pool pool;
 
 	/**
 	 * Create the panel.
 	 */
-	public PoolRefList(TournamentController t, Pool pool) {
+	public PoolRefList(TournamentController t, Pool p) {
 		tournament = t;
+        pool = p;
 		IDataStore store = t.getDataStore();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -75,13 +78,13 @@ public class PoolRefList extends JPanel {
 		gbc_lblClubMiamiHeat.gridy = 0;
 		add(lblClubMiamiHeat, gbc_lblClubMiamiHeat);
 		
-		JCheckBox chckbxConflict = new JCheckBox("Conflict");
+        chckbxConflict = new JCheckBox("Conflict");
 		GridBagConstraints gbc_chckbxConflict = new GridBagConstraints();
 		gbc_chckbxConflict.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxConflict.gridx = 4;
 		gbc_chckbxConflict.gridy = 0;
 		add(chckbxConflict, gbc_chckbxConflict);
-		
+
 		table = new JTable();
 		table.setModel(new PoolRefTable(pool));
 		GridBagConstraints gbc_table = new GridBagConstraints();
@@ -157,5 +160,12 @@ public class PoolRefList extends JPanel {
 		}
 		
 	}
-	
+
+    public boolean needsNewRef() {
+        checkBox.isSelected();
+    }
+    
+    public Collection<Integer> getRefs() {
+        return pool.getRefs();
+    }
 }
