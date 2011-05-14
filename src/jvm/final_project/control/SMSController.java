@@ -28,7 +28,7 @@ public class SMSController implements Constants {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-        _sendingMessages = false;
+        _sendingMessages = true;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -105,8 +105,8 @@ public class SMSController implements Constants {
 		_tournament.swapRef(0, oldRefID, newRefID);
 	}
 
-	public void alertGUI(String message, Date time) {
-		//should call some sort of alert method
+	public void alertGUI(Status status, String message, Date time) {
+		_tournament.getMainWindow().sendNotification(status, message, time.getTime());
 	}
 
 	public Date getTime() {

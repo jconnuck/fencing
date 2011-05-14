@@ -153,4 +153,8 @@ public class MainWindow {
 		}
 		splitPane.getRightComponent().validate();
 	}
+
+	public void sendNotification(Status status, String message, long time) {
+		notificationPanel.sendNotification(status, message, time);
+	}
 }

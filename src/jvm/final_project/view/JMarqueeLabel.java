@@ -24,6 +24,7 @@ public class JMarqueeLabel extends JPanel implements MouseListener, ActionListen
     private JButton btnClose;
 
     public JMarqueeLabel(String text) {
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     	Component horizontalStrut = Box.createHorizontalStrut(20);
     	horizontalStrut.setPreferredSize(new Dimension(5, 0));
     	horizontalStrut.setMinimumSize(new Dimension(5, 0));
@@ -46,7 +47,6 @@ public class JMarqueeLabel extends JPanel implements MouseListener, ActionListen
     	label.setFont(new Font("Score Board", Font.PLAIN, 17));
         label.addMouseListener(this);
         add(label);
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     }
     
     private class MLabel extends JLabel {

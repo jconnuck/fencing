@@ -31,7 +31,7 @@ public class SMSParser {
 		String firstWord = s.next();
 		System.out.println("First word: " + firstWord);
 		//Message: "help string"
-		if (firstWord.equals("Help") || firstWord.equals("help")) {
+		if (firstWord.equalsIgnoreCase("help")) {
 			int id = -1;
 			for(IPerson p: _store.getPeople()) {
 				if(p.getPhoneNumber().equals(number)) {
@@ -41,15 +41,16 @@ public class SMSParser {
 			}
 			if(id == -1)
 				return;
-			_control.alertGUI(received, _cal.getTime());
 			/* Alerting the proper group for help (either technical or medical) */
 			if(s.hasNext()) {
 				String groupToAlert = s.next();
-				if(groupToAlert.equals("medical") || groupToAlert.equals("Medical")) {
+				if(groupToAlert.equalsIgnoreCase("medical")) {
+					_control.alertGUI(PoolObserverPanel.Status.MEDICAL, received, _cal.getTime());
 					_control.sendGroupMessage("Medical", received);
 					_control.setGUIStatusLabel(PoolObserverPanel.Status.MEDICAL, id);
 				}
-				else if(groupToAlert.equals("technical") || groupToAlert.equals("Technical")) {
+				else if(groupToAlert.equalsIgnoreCase("technical")) {
+					_control.alertGUI(PoolObserverPanel.Status.TECHNICAL, received, _cal.getTime());
 					_control.sendGroupMessage("Technical", received);
 					_control.setGUIStatusLabel(PoolObserverPanel.Status.TECHNICAL, id);
 				}
@@ -57,7 +58,7 @@ public class SMSParser {
 		}
 
 		// Message: "Follow first last" or "follow clubName"
-		else if(firstWord.equals("Follow") || firstWord.equals("follow")) {
+		else if(firstWord.equalsIgnoreCase("follow")) {
 			String firstName = "", lastName = "";
 			if(s.hasNext())
 				firstName = s.next();
@@ -68,7 +69,7 @@ public class SMSParser {
 		}
 
 		// Message: "unsubscribe first last" or "Unsubscribe clubName"
-		else if(firstWord.equals("Unsubscribe") || firstWord.equals("unsubscribe")) {
+		else if(firstWord.equalsIgnoreCase("unsubscribe")) {
 			String firstName = "", lastName = "";
 			if(s.hasNext())
 				firstName = s.next();
@@ -79,7 +80,7 @@ public class SMSParser {
 		}
 
 		//Message: "refswap number"
-		else if(firstWord.equals("Refswap") || firstWord.equals("refswap")) {
+		else if(firstWord.equalsIgnoreCase("Refswap")) {
 			String newRefNumber = "";
 			if(s.hasNext())
 				newRefNumber = s.next();
@@ -88,7 +89,7 @@ public class SMSParser {
 		}
 
 		//Message "result id beat id this-that" or "id beat id this to that"
-		else if(firstWord.toLowerCase().equals("result") || firstWord.toLowerCase().equals("rescore")) {//TODO changed tolower case and then equals
+		else if(firstWord.equalsIgnoreCase("result") || firstWord.equalsIgnoreCase("rescore")) {
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
 
 			/* Looping through to find the ref ID of this number */
@@ -109,7 +110,7 @@ public class SMSParser {
 			if(s.hasNextInt())
 				winID = s.nextInt();
 
-			if(s.hasNext() && !s.next().equals("beat")) { //Eating "beat" token
+			if(s.hasNext() && !s.next().equalsIgnoreCase("beat")) { //Eating "beat" token
 				_control.sendMessage("We're sorry, this message could not be parsed.", number);
 				return;
 			}
@@ -130,7 +131,7 @@ public class SMSParser {
 
 			if(s.hasNext()) {
 				String next = s.next();
-				if (!next.equals("to") && !next.equals("-")){ //Eating "to"/"-" token
+				if (!next.equalsIgnoreCase("to") && !next.equalsIgnoreCase("-")){ //Eating "to"/"-" token
 					_control.sendMessage("We're sorry, this message could not be parsed.", number);
 					return;
 				}
@@ -144,7 +145,7 @@ public class SMSParser {
 			}
 
 			/* NOW THAT WE'VE PARSED OUT ALL OF THE DATA */
-			if(firstWord.toLowerCase().equals("rescore")) { //changing the mistaken results
+			if(firstWord.toLowerCase().equalsIgnoreCase("rescore")) { //changing the mistaken results
 				_control.rescoreLastMatch(refID, winID, winScore, loseID, loseScore);
 			}
 			else {
@@ -187,7 +188,7 @@ public class SMSParser {
 		int idToFollow = 0;
 		if(lastNameToSubscribeTo.equals("")) { // Last name empty, this is a club.
 			for (IClub i: _store.getClubs()) {
-				if(i.getName().toLowerCase().equals(firstNameToSubscribeTo.toLowerCase())) {
+				if(i.getName().equalsIgnoreCase(firstNameToSubscribeTo.toLowerCase())) {
 					idToFollow = i.getID();
 					found = true;
 					counter++;
@@ -196,8 +197,8 @@ public class SMSParser {
 		}
 		else {
 			for (IPlayer i: _store.getPlayers()) {
-				if(i.getFirstName().toLowerCase().equals(firstNameToSubscribeTo.toLowerCase())) {
-					if (i.getLastName().equals(lastNameToSubscribeTo)) {
+				if(i.getFirstName().equalsIgnoreCase(firstNameToSubscribeTo.toLowerCase())) {
+					if (i.getLastName().equalsIgnoreCase(lastNameToSubscribeTo)) {
 						idToFollow = i.getID();
 						found = true;
 						counter++;
@@ -252,7 +253,7 @@ public class SMSParser {
 		int idToUnfollow = 0;
 		if(lastToUnsubscribe.equals("")) { // Last name empty, this is a club.
 			for (IClub i: _store.getClubs()) {
-				if(i.getName().equals(firstToUnsubscribe)) {
+				if(i.getName().equalsIgnoreCase(firstToUnsubscribe)) {
 					idToUnfollow = i.getID();
 					found = true;
 					counter++;
@@ -261,8 +262,8 @@ public class SMSParser {
 		}
 		else {
 			for (IPlayer i: _store.getPlayers()) {
-				if(i.getFirstName().equals(firstToUnsubscribe)) {
-					if (i.getLastName().equals(lastToUnsubscribe)) {
+				if(i.getFirstName().equalsIgnoreCase(firstToUnsubscribe)) {
+					if (i.getLastName().equalsIgnoreCase(lastToUnsubscribe)) {
 						idToUnfollow = i.getID();
 						found = true;
 						counter++;

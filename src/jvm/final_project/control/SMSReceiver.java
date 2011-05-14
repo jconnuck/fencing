@@ -76,17 +76,17 @@ public class SMSReceiver extends TimerTask implements Constants{
 						toReturn = true; //SMS in progress
 					}
 					else if(status_code == 23) { //Authentication failure
-						_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
+						_control.alertGUI(null, "Authentication failure: SMS send could not go through", _control.getTime());
 						toReturn = false;
 						break;
 					}
 					else if(status_code == 25) {
-						_control.alertGUI("SMS API needs more credits! Send failure!", _control.getTime());
+						_control.alertGUI(null, "SMS API needs more credits! Send failure!", _control.getTime());
 						toReturn = false;
 						break;
 					}
 					else {
-						_control.alertGUI("Send SMS Failure", _control.getTime());
+						_control.alertGUI(null, "Send SMS Failure", _control.getTime());
 						toReturn = false;
 						break;
 					}
@@ -128,7 +128,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 			toReturn = true; //Input successfully processed
 		} catch (UnknownHostException e) {
 			//Letting the GUI know it ain't got no internet
-			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
+			_control.alertGUI(null, "You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
 		} catch (Exception e) {
 			e.printStackTrace(); //What to do with these??
 		}
@@ -185,15 +185,15 @@ public class SMSReceiver extends TimerTask implements Constants{
 						//Do nothing --> no error
 					}
 					else if(status_code == 23) { //Authentication failure
-						_control.alertGUI("Authentication failure: SMS send could not go through", _control.getTime());
+						_control.alertGUI(null, "Authentication failure: SMS send could not go through", _control.getTime());
 						break;
 					}
 					else if(status_code == 25) {
-						_control.alertGUI("SMS API needs more credits! Send failure!", _control.getTime());
+						_control.alertGUI(null, "SMS API needs more credits! Send failure!", _control.getTime());
 						break;
 					}
 					else {
-						_control.alertGUI("Send SMS Failure", _control.getTime());
+						_control.alertGUI(null, "Send SMS Failure", _control.getTime());
 						break;
 					}
 
@@ -216,7 +216,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 			}
 		} catch (UnknownHostException e) {
 			//Letting the GUI know it ain't got no internet
-			_control.alertGUI("You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
+			_control.alertGUI(null, "You are not currently connected to the internet. SMS notification system disabled", _control.getTime());
 		} catch (Exception e) {
 			e.printStackTrace(); //What to do with these??
 		}

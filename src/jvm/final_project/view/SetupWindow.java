@@ -30,6 +30,9 @@ import final_project.input.*;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.*;
+
+import net.java.balloontip.BalloonTip;
+
 import java.awt.event.*;
 import java.io.*;
 
@@ -222,7 +225,7 @@ public class SetupWindow {
 		gbc_fileLabel.gridy = 4;
 		panel.add(fileLabel, gbc_fileLabel);
 
-		JButton btnStart = new JButton("Start");
+		final JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
                     String message = "";
@@ -231,8 +234,7 @@ public class SetupWindow {
                     if (textField.getText().isEmpty()||passwordField.getText().isEmpty())
                         message += "Please provide SMS login information\n";
                     if (!message.isEmpty()){
-                        System.out.println(message);
-                        //TODO: Pop up error message
+                        BalloonTip noSMSLogin = new BalloonTip(btnStart, new ConfirmationPanel(message), new NotificationBalloonStyle(), false);
                         return;
                     }
                     ITournamentInfo i;
