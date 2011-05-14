@@ -40,12 +40,12 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane);
 
-		JPanel panel_1 = new JPanel();
+		final JPanel panel_1 = new JPanel();
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
 		// Generating PoolRefLists from pool information
-		PoolRefList lastPool = new PoolRefList(t, new FencerPool());
+		PoolRefList lastPool;
 		if(!t.getPools(EVENT_ID).isEmpty()) {
 			for(Pool p: t.getPools(EVENT_ID)) {
 				lastPool = new PoolRefList(t, p);
@@ -79,6 +79,17 @@ public class PoolSetupPanel extends JPanel implements Constants {
 		gbc_btnReassignReferees.gridx = 1;
 		gbc_btnReassignReferees.gridy = 0;
 		panel.add(btnReassignReferees, gbc_btnReassignReferees);
+
+        btnReassignReferees.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Collection<Integer> changes = new LinkedList<Integer>();
+                    Component[] components = getComponents();
+                    for (int i = 0; i < components.length; i++)
+                        if (components[i].needsNewRef())
+                            changes.addAll(components[i].getRefs);
+                    tournament.changeRefs(0,changes);
+                }
+            });
 
 		btnAcceptSeeding = new JButton("Accept Assignments");
 		GridBagConstraints gbc_btnAcceptSeeding = new GridBagConstraints();
