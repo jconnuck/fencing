@@ -12,12 +12,14 @@ import final_project.model.*;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Panel;
 import java.awt.Insets;
 import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
 public class DEBracketUnitPanel extends JPanel {
 
@@ -32,23 +34,35 @@ public class DEBracketUnitPanel extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		lblPlayer1Name = new JLabel();
+		lblPlayer1Name.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblPlayer2Name = new JLabel();
+		lblPlayer2Name.setHorizontalTextPosition(SwingConstants.LEFT);
 		
 		JPanel panel = new JPanel() {
 			public void paintComponent(Graphics graphics) {
 				Graphics2D g = (Graphics2D)graphics;
-				g.setColor(Color.BLACK);
+				g.setColor(Color.WHITE);
 				//player 1 horizontal bar
-				g.drawLine(0, 0, (this.getWidth() * 2) / 3, 0);
+				g.drawLine(0, 0, (this.getWidth() * 4) / 5, 0);
 				//player 2 horizontal bar
-				g.drawLine(0, this.getHeight() - 1, (this.getWidth() * 2) / 3, this.getHeight() - 1);
+				g.drawLine(0, this.getHeight() - 1, (this.getWidth() * 4) / 5, this.getHeight() - 1);
 				//vertical connecting bar
-				g.drawLine((this.getWidth() * 2) / 3, 0, (this.getWidth() * 2) / 3, this.getHeight());
+				g.drawLine((this.getWidth() * 4) / 5, 0, (this.getWidth() * 4) / 5, this.getHeight());
 				//horizontal connecting bar
-				g.drawLine((this.getWidth() * 2) / 3, (this.getHeight()) / 2, this.getWidth(), (this.getHeight()) / 2);
+				g.drawLine((this.getWidth() * 4) / 5, (this.getHeight()) / 2, this.getWidth(), (this.getHeight()) / 2);
 			}
 		};
+		
+		panel.setBackground(Color.WHITE);
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panel.repaint();
+		
+		lblPlayer1Name.setFont(new Font("Score Board", Font.PLAIN, 15));
+		lblPlayer1Name.setForeground(Color.WHITE);
+		lblPlayer2Name.setFont(new Font("Score Board", Font.PLAIN, 15));
+		lblPlayer2Name.setForeground(Color.WHITE);
+		
 		
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 2;
@@ -64,18 +78,23 @@ public class DEBracketUnitPanel extends JPanel {
 		panel.setLayout(gbl_panel);
 
         if (result==null)
-            lblPlayer1Name = new JLabel();
+            lblPlayer1Name.setText("");
         else if (result instanceof CompleteResult) {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
-			if (result.getPlayer1() == cr.getWinner())
-				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
-			else
-				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
+			if (result.getPlayer1() == cr.getWinner()) {
+				lblPlayer1Name.setText(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
+				lblPlayer1Name.setForeground(Color.CYAN);
+			}
+			else {
+				lblPlayer1Name.setText(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
+				lblPlayer1Name.setForeground(Color.ORANGE);
+			}
 		} 	
 		else {
-			lblPlayer1Name = new JLabel(tournament.getNameFromId(result.getPlayer1()));
+			lblPlayer1Name.setText(tournament.getNameFromId(result.getPlayer1()));
 		}
+        
 		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
 		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 0);
 		gbc_lblPlayerName.gridx = 0;
@@ -83,17 +102,21 @@ public class DEBracketUnitPanel extends JPanel {
 		panel.add(lblPlayer1Name, gbc_lblPlayerName);
 
         if (result==null)
-            lblPlayer2Name = new JLabel();
+            lblPlayer2Name.setText("");
         else if (result instanceof CompleteResult) {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
-			if (result.getPlayer2() == cr.getWinner())
-				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
-			else
-				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
+			if (result.getPlayer2() == cr.getWinner()) {
+				lblPlayer2Name.setText(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
+				lblPlayer1Name.setForeground(Color.CYAN);
+			}
+			else {
+				lblPlayer2Name.setText(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
+				lblPlayer2Name.setForeground(Color.ORANGE);
+			}
 		} 	
 		else {
-			lblPlayer2Name = new JLabel(tournament.getNameFromId(result.getPlayer2()));
+			lblPlayer2Name.setText(tournament.getNameFromId(result.getPlayer2()));
 		}
 		GridBagConstraints gbc_lblPlayerName_1 = new GridBagConstraints();
 		gbc_lblPlayerName_1.gridx = 0;

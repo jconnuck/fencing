@@ -41,7 +41,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gridBagLayout.columnWidths = new int[]{151, 80, 80, 150, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 24, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 2.0, 0.0, 0.0, 2.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
 		String refString = "";
@@ -99,7 +99,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 
 		upcomingBoutsPane = new JPanel();
 		GridBagConstraints gbc_upcomingBoutsPane = new GridBagConstraints();
-		gbc_upcomingBoutsPane.anchor = GridBagConstraints.NORTH;
+		gbc_upcomingBoutsPane.fill = GridBagConstraints.VERTICAL;
 		gbc_upcomingBoutsPane.gridwidth = 4;
 		gbc_upcomingBoutsPane.insets = new Insets(0, 0, 5, 0);
 		gbc_upcomingBoutsPane.gridx = 0;
@@ -141,7 +141,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 
 		completedBoutsPane = new JPanel();
 		GridBagConstraints gbc_completedBoutsPane = new GridBagConstraints();
-		gbc_completedBoutsPane.anchor = GridBagConstraints.NORTH;
+		gbc_completedBoutsPane.fill = GridBagConstraints.VERTICAL;
 		gbc_completedBoutsPane.gridwidth = 4;
 		gbc_completedBoutsPane.insets = new Insets(0, 0, 5, 0);
 		gbc_completedBoutsPane.gridx = 0;
@@ -243,7 +243,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		completeResults.add(newBout);
 		setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
+		completedBoutsPane.validate();
+		completedBoutsPane.repaint();
 		this.validate();
+		this.repaint();
 	}
 
 	public void changeMatchResult(CompleteResult completeResult) {
@@ -264,8 +267,12 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 				break;
 			}
 		}
+		completedBoutsPane.validate();
 		completedBoutsPane.repaint();
+		upcomingBoutsPane.validate();
+		upcomingBoutsPane.repaint();
 		this.validate();
+		this.repaint();
 	}
 
 	public void setCurrentBout() {
@@ -290,7 +297,8 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 				}
 			}
 		}
-		this.validate();
+		this.revalidate();
+		this.repaint();
 	}
 
 	public JButton getBtnMessageReferee() {

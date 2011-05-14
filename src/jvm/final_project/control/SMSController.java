@@ -28,7 +28,9 @@ public class SMSController implements Constants {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
+
             _sendingMessages = true;
+
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
