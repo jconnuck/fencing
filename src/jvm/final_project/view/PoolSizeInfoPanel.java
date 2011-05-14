@@ -132,7 +132,6 @@ public class PoolSizeInfoPanel extends JPanel implements Constants {
             int row = Integer.parseInt(e.getActionCommand());
             int poolSize = poolSizeInfoTable.getPoolSize(row);
             tournament.startPoolRound(0,poolSize);
-            System.out.println("MOVE TO POOL ROUND");
             //TODO: Make gui move to pool round
             tournament.getMainWindow().loadRightPanel(new PoolSetupPanel(tournament));
             tournament.getMainWindow().hideAllBalloons();

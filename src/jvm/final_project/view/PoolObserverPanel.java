@@ -30,9 +30,8 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	private BalloonTip messageRefTip;
 
 	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
+		setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.tournament = tournament;
-		System.out.println(this.tournament.getPools(0));
-		System.out.println(poolNumber);
 		this.pool = this.tournament.getPools(0).get(poolNumber-1);
 		this.pool.addObserver(this);
 		incompleteResults = new LinkedList<ScoreView>();
@@ -88,7 +87,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblStrip.gridy = 0;
 		add(lblStrip, gbc_lblStrip);
 
-		JLabel statusLabel = new JLabel("-status: fencing-");
+        statusLabel = new JLabel("-status: fencing-");
 		statusLabel.setForeground(Color.GREEN);
 		statusLabel.setFont(new Font("Score Board", Font.PLAIN, 16));
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
@@ -167,8 +166,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_btnMessageReferee.gridy = 6;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
-        System.out.println("from poolobserver: "+pool.getIncompleteResults());
-        System.out.println("numPlayers: "+pool.numPlayers());
         for (IncompleteResult res : pool.getIncompleteResults())
             addIncompleteResult(res);
         for (CompleteResult res : pool.getResults())
@@ -178,7 +175,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	}
 
 	public enum Status {
-		FENCING, TECHNICAL, MEDICAL;
+		FENCING, TECHNICAL, MEDICAL, DONE;
 	}
 
 	public void setStatus(Status status) {
@@ -195,6 +192,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			statusLabel.setText("-Status: Medical-");
 			statusLabel.setForeground(Color.RED);
 			break;
+        case DONE:
+            statusLabel.setText("-Status: Done-");
+            statusLabel.setForeground(Color.CYAN);
+            break;
 		default:
 			statusLabel.setText("-Status: Fencing-");
 			statusLabel.setForeground(Color.GREEN);

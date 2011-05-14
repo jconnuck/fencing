@@ -56,7 +56,6 @@ public class SMSParser {
 
 		// Message: "Follow first last" or "follow clubName"
 		else if(firstWord.equals("Follow") || firstWord.equals("follow")) {
-			System.out.println("Follow message received");
 			String firstName = "", lastName = "";
 			if(s.hasNext())
 				firstName = s.next();
@@ -88,7 +87,6 @@ public class SMSParser {
 
 		//Message "result id beat id this-that" or "id beat id this to that"
 		else if(firstWord.toLowerCase().equals("result") || firstWord.toLowerCase().equals("rescore")) {//TODO changed tolower case and then equals
-			System.out.println("Result else if entered");
 			int refID =0, winID = 0, loseID = 0, winScore = 0, loseScore = 0;
 
 			/* Looping through to find the ref ID of this number */
@@ -101,7 +99,6 @@ public class SMSParser {
 				}
 			}
 			if(!found) {
-				System.out.println("Ref not found");
 				_control.sendMessage("We're sorry, this number is not registered as a referee.", number);
 				return;
 			}
@@ -171,7 +168,6 @@ public class SMSParser {
 
 		int idSpectator = -1;
 		for (IPerson i: _store.getPeople()) {
-			System.out.println(i.getPhoneNumber());
 			if(i.getPhoneNumber().equals(number)) {
 				found = true;
 				idSpectator = i.getID();
@@ -210,7 +206,6 @@ public class SMSParser {
 
 		/* Handling error messages */
 		if (!found) {
-			System.out.println("Not found");
 			_control.sendMessage("We're sorry, no fencer or group was found with this name.", number);
 			return false;
 		}
@@ -218,19 +213,14 @@ public class SMSParser {
 			_control.sendMessage("Multiple entries found for this name. Please respond with \"follow\" followed by an ID number.", number);
 			return false;
 		}
-		System.out.println("Subscribing");
-		System.out.println("Phone number from text: " + number);
 
 		/* ACTUALLY SUBSCRIBING USER */
 		final int finalID = idSpectator;
 		final int finalIDToFollow = idToFollow;
 		_store.runTransaction(new Runnable(){
 			public void run(){
-				System.out.println("before watched size" + _store.getPerson(finalID).getWatched().size() + " \n final id: " + finalID);
 				IPerson spect = _store.getPerson(finalID).addWatched(finalIDToFollow);
 				_store.putData(spect);
-				System.out.println("spect " + spect);
-				System.out.println("Watched size" + _store.getPerson(finalID).getWatched().size());
 			}
 		});
 		_control.updateSubscriberGUI();

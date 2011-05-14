@@ -297,7 +297,7 @@
 
 (defn -getNextReferee [this]
   (dosync
-   (let [refs (filter (complement :isReffing)
+   (let [refs (filter (complement :reffing)
                       (.getReferees this))]
      (if (not (empty? refs))
        (let [ref (.setReffing (first refs)

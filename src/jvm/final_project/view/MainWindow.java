@@ -118,6 +118,13 @@ public class MainWindow {
 	public Component getRightPanel() {
 		return splitPane.getRightComponent();
 	}
+
+    public void enableDEButton() {
+        Component right = getRightPanel();
+        if (right instanceof PoolRoundObserverPanel) {
+            ((PoolRoundObserverPanel) right).enableDEButton();
+        }
+    }
 	
 	public void registerBalloon(BalloonTip balloon) {
 		balloons.add(balloon);
@@ -141,6 +148,7 @@ public class MainWindow {
 	public void setStatusLabel(Status medical, int id) {
 		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
 			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
+            p.enableDEButton();
 		}
 	}
 }

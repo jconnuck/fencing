@@ -16,6 +16,7 @@ import net.java.balloontip.BalloonTip;
 
 import java.awt.Insets;
 import java.awt.FlowLayout;
+import javax.swing.border.EmptyBorder;
 
 public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 	private JButton btnDeRound;
@@ -46,6 +47,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 		add(scrollPane, gbc_scrollPane);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.CENTER);
 		panel.setBackground(Color.BLACK);
@@ -56,6 +58,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 		gbc_btnDeRound.gridy = 9;
 		add(btnDeRound, gbc_btnDeRound);
 		btnDeRound.addActionListener(this);
+        btnDeRound.setEnabled(false);
 		
 		//Making anew PoolObserverPanel for each pool and add it
         int i=1;
@@ -65,7 +68,9 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
         }
 	}
 
-	
+	public void enableDEButton() {
+        btnDeRound.setEnabled(true);
+    }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -73,7 +78,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 //		BalloonTip selectCutTip = new BalloonTip(btnDeRound, "Select how many to cut", new DefaultBalloonStyle(), false);
 //		tournament.getMainWindow().registerBalloon(selectCutTip);
 		//TODO This should be moved to the actionListener on the button in the new panel
-		tournament.getMainWindow().loadRightPanel(new DEPanel(tournament));
+		tournament.startDERound(0,20);
 	}
 
 }

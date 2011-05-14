@@ -92,7 +92,6 @@ public class EventController {
 	 * @return
 	 */
 	public boolean startPoolRound(int poolSize) {
-		System.out.println("pool round started in eventController.");
 		if(_state != State.REGISTRATION)
 			return false;
 		_poolController = new PoolRoundController(_dataStore, new LinkedList<Integer>(_players), _stripController, _smsController, poolSize);
@@ -113,18 +112,14 @@ public class EventController {
 	public boolean startDERound(double cut){
 		if(_state != State.POOLS)
 			return false;
-		convertPlayersListToSortedSeeding();
-		System.out.println("Converted players: ");
-		for(Integer i: _players)
-			System.out.println(" -" + _dataStore.getPlayer(i).getFirstName());
-		_deController = new DERoundController(_dataStore, _stripController, _players, cut, _tournamentController);
+		List<Integer> seeds = _poolController.getResults();
+		_deController = new DERoundController(_dataStore, _stripController, seeds, cut, _tournamentController);
 		_state = State.DE;
 		return true;
 	}
 
 	public Collection<PoolSizeInfo> getValidPoolSizes() {
 		Collection<PoolSizeInfo> toReturn = new LinkedList<PoolSizeInfo>();
-        System.out.println("Players: "+_players.size());
         boolean refFound = false;
         for (IReferee ref : _dataStore.getReferees())
             if (!ref.getReffing())
@@ -136,25 +131,22 @@ public class EventController {
 		for(int i = 4; i < 9; i++){
 			try{
 				poolSizeCalc = new PoolSizeCalculator(_players.size(), i);
-				System.out.println("big pools: " + poolSizeCalc.getNumBigPools() + " small: " + poolSizeCalc.getNumSmallPools());
 				toReturn.add(new PoolSizeInfo(i, poolSizeCalc.getNumBigPools(), poolSizeCalc.getNumSmallPools()));
 
 			}catch(Exception e){
 			}
 		}
-        System.out.println("valid pool sizes: "+toReturn);
 		return toReturn;
 	}
 
 	public void convertPlayersListToSortedSeeding(){
 		Collections.sort(new LinkedList<Integer>(_players),
-				new Comparator<Integer>(){
-			@Override
-			public int compare(Integer arg0, Integer arg1) {
-				_dataStore.getData(3);
-				return 0;
-			}
-		});
+                         new Comparator<Integer>(){
+                             @Override public int compare(Integer arg0, Integer arg1) {
+                                 _dataStore.getData(3);
+                                 return 0;
+                             }
+                         });
 	}
 
 	public List<Pool> getPools() {

@@ -40,15 +40,12 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
 
     public void drawBracket() {
     	removeAll();
-    	repaint();
-        System.out.println("Drawing");
-        
 		Result[] matches = _tournament.getDEMatches(Constants.EVENT_ID);
 		int k = 0, startx = 0, starty = 20, width = 200, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {
 			startx = 200 * i;
-			for (int j = 0; j < Math.pow(2, log - (i+1)); ++j) {
+			for (int j = (int)(Math.pow(2, log - (i+1)) - 1); j >= 0; --j) {
 				if (i == 0) {
 					height = 150;
 					starty = 200 * j + 20;
@@ -65,21 +62,22 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
 				add(temp);
 			}
 		}
-        /*My failed attempt to add a label for the overall winner of the tournament
+        //My failed attempt to add a label for the overall winner of the tournament
 
-          int extraWidth = 0;
-        if (matches[0] != null &&
-            matches[0] instanceof CompleteResult) {
+        int extraWidth = 150;
+        if (matches[0] != null && matches[0] instanceof CompleteResult) {
             JLabel winnerLabel = new JLabel(_tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
-            winnerLabel.setLocation(startx+width, starty-(height/2));
+            starty = (int) (((Math.pow(2, log -1) - 1) * 100) + 75 + 20);
+            winnerLabel.setBounds(startx+width, starty - (height/2), 100, 100);
             add(winnerLabel);
             extraWidth = winnerLabel.getPreferredSize().width + 20;
         }
-		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));*/
-		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
-        System.out.println("components: "+getComponentCount());
+		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));
+		
+		//setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
         //the repaint call here makes everything disappear until the window is resized
-        repaint();
-        //_tournament.getMainWindow().getRightPanel().repaint();
+        
+       revalidate();
+       repaint();
 	}
 }

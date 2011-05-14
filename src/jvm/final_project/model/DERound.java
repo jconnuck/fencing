@@ -204,18 +204,7 @@ public class DERound implements IRound {
     }
 
     private void startFirstMatch() {
-    	if(_stripController.availableStrip()) {
-    		int strip = _stripController.checkOutStrip();
-    		int ref = _dataStore.getNextReferee();
-            IncompleteResult firstMatch = (IncompleteResult) _matches[computeRoundHead(_bracketSize /2)];
-    		_stripsInUse.put(firstMatch, strip);
-            _refsInUse.put(firstMatch, ref);
-            System.out.println("smscont null in startfirst match " + (_smsController == null));
-            _smsController.sendMatchNotifications(firstMatch, ref, strip);
-
-            System.out.println("YO:" + firstMatch.getPlayer1() + " and " + firstMatch.getPlayer2() + " are fencing on strip: " + strip + " with referee: " + ref);
-    	}
-    	// Not exactly sure what to do if there is no strip (or referee??) to use for the first match.
+        while (advanceRound());
     }
 
     /**
@@ -299,7 +288,7 @@ public class DERound implements IRound {
      * @throws NoSuchMatchException If there is no such bout in the DE bracket.
      */
     public void addCompleteResult(CompleteResult result) throws NoSuchMatchException {
-        Result tempResult;
+    	Result tempResult;
         for(int i = _matches.length -1; i >= 0; i--) {
             tempResult = _matches[i];
             if(tempResult != null) {
@@ -310,6 +299,14 @@ public class DERound implements IRound {
 	               tempResult.getPlayer2() == result.getPlayer1()) {
 	            	if(tempResult instanceof CompleteResult) {
 	                    throw new NoSuchMatchException("This bout has already been completed");
+	                }
+	            	// Checks to make sure that the number of points score in the match is within the valid range.
+	                if(result.getWinnerScore() > POINTS_TO_WIN ||  result.getWinnerScore() < 0  ||
+	                    result.getLoserScore() > POINTS_TO_WIN  ||  result.getLoserScore() < 0) {
+	                   	_smsController.sendMessage("The last result you entered did not have valid point values. " +
+	                   							   "Please retry.",
+	                   							   _dataStore.getReferee(_refsInUse.get(tempResult)).getPhoneNumber());
+	                  	return;
 	                }
                     //we need to make sure that newResult.getPlayer1()
                     //= tempResult.getPlayer1() to keep the display
@@ -338,11 +335,11 @@ public class DERound implements IRound {
 	                IncompleteResult nextResult = (IncompleteResult) _matches[nextIndex];
 	                if(nextResult == null) {
                         //advance the person to the right spot
-                        //(if i is odd, this is the lower side of the bracket)
+                        //(if i is even, this is the lower side of the bracket)
                         if (i % 2 == 0)
-                            nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
-                        else
                             nextResult = new IncompleteResult(-1, newResult.getWinner(), POINTS_TO_WIN);
+                        else
+                            nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
 	                }
 	                else if(nextResult.getPlayer2() == -1 ) {
 	                    nextResult.setPlayer2(newResult.getWinner());
@@ -358,7 +355,7 @@ public class DERound implements IRound {
                     _stripsInUse.remove(justFinished);
 		            boolean hasNextBout = true;
 		            while(hasNextBout){
-		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
+		            	hasNextBout = advanceRound(); // safe cast because of check above that throws exception
 		            }
 		            IncompleteResult onDeck = getOnDeck();
                     if (onDeck != null) {
@@ -369,7 +366,6 @@ public class DERound implements IRound {
                         _smsController.sendSubscriberMessage(name1 + " is now on deck for his/her DE match", onDeck.getPlayer1());
                         _smsController.sendSubscriberMessage(name2 + " is now on deck for his/her DE match", onDeck.getPlayer2());
                     }
-                    System.out.println(Arrays.deepToString(_matches));
                     return; 
 	            }
             }
@@ -386,7 +382,7 @@ public class DERound implements IRound {
             });
     }
 
-    private boolean advanceRound(IncompleteResult justFinished) {
+    private boolean advanceRound() {
         IncompleteResult nextMatch = getNextMatch();
         if(nextMatch == null) {
             return false;
@@ -399,6 +395,8 @@ public class DERound implements IRound {
             _stripsInUse.put(nextMatch, strip);
             _refsInUse.put(nextMatch, ref);
             _smsController.sendMatchNotifications(nextMatch, ref, strip);
+            System.out.println("----------Next Match: "+nextMatch);
+            System.out.println("----------Next Ref:   "+ref);
             return true;
         } else {
             if (ref!=-1)

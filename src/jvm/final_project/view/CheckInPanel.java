@@ -155,7 +155,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		//changed to table.convertColumIndexToView to prevent bug where user rearranges column ordering
 		int id = (Integer)table.getValueAt(table.getSelectedRow(), table.convertColumnIndexToView(4)); //Getting the ID DOES THIS WORK??
 		//Checking in the fencer as the checkAs boolean
-		System.out.println("ID and boolean: " + id + " " + checkAs);
 		Object[][] newData = tournament.checkInFencer(id, checkAs);
 		model.setData(newData);
 		searchField.setText("");
@@ -333,7 +332,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			Object data = model.getValueAt(row, column); //TODO TOTALLY broken
 
 			if(column == 3){ //If the column is the signedIn button col
-				System.out.println("Changed: " + data);
 				signInSelectedPlayer((Boolean)data);
 			}
 			//Fix for weird sorting
@@ -377,7 +375,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 
 			String group = (String)registerNewPlayerPane.getGroup().getSelectedItem();
 			String club = registerNewPlayerPane.getTeamField().getText();
-			System.out.println("Club: " + club);
 			//TODO: If a fencer and rank == 0, ALERT GUI
 			if (name.equals("") || number.equals("(***)-***-****") || (group.equals("Fencer") && rank == 0)) {
 				//Create tooltip warning user that required fields are blank
@@ -406,13 +403,11 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 				/* Registering player and resetting the data in the table */
 				Object[][] newData = null;
 				number = number.replaceAll("\\D", "");
-				System.out.println("Number added: " + number);
 				if(group.equals("Fencer"))
 					newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);	 	
 				else	 	
 					newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
 
-				System.out.println("new data: " + newData);
 				model.setData(newData);
 				this.getSearchField().setText("");
 				//Making sure the table is updated nicely

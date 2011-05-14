@@ -52,7 +52,6 @@ public class TournamentController implements Constants{
 
 	public int addEvent(String weapon, Collection<Integer> preregs){
 		int id = ++_currentEventID;
-		System.out.println("TournamentController smsController "+(_smsController==null));
 		_events.add(new EventController(id, _dataStore, weapon, preregs, _stripController, _smsController, this));
 		return id;
 	}
@@ -81,7 +80,6 @@ public class TournamentController implements Constants{
 	}
 
 	public void startPoolRound(int eventID, int poolSize) throws IllegalStateException{
-		System.out.println("pool round started in TournamentController.");
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
 			EventController e = iter.next();
@@ -105,7 +103,6 @@ public class TournamentController implements Constants{
 		throw new IllegalStateException("No event created.");
 	}
 
-	//in progress
 	public void startDERound(int eventID, double cut) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
@@ -151,9 +148,9 @@ public class TournamentController implements Constants{
 			if(event.hasRef(ref)){
 				try {
 					if (event.addCompletedResult(result) &&
-							event.getState().equals(EventController.State.POOLS))
-						startDERound(0,20);
-					//_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
+                        event.getState().equals(EventController.State.POOLS))
+                        _mainWindow.enableDEButton();
+                    //_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
 					return;
 				} catch (NoSuchMatchException e) {
 					_smsController.sendMessage("Error: result could not be processed", _dataStore.getReferee(ref).getPhoneNumber());
@@ -196,10 +193,8 @@ public class TournamentController implements Constants{
 
 	//Checks in all players as the boolean parameter
 	public Object[][] checkInAll(boolean checkAs) {
-		System.out.println("check in all called");
 		for (IPlayer i: _dataStore.getPlayers()){
 			final IPlayer temp = i.setCheckedIn(checkAs);
-			System.out.println("Player " + temp.getID() + " checked in? " + temp.getCheckedIn());
 			_dataStore.runTransaction(new Runnable(){
 				public void run(){
 					_dataStore.putData(temp);
