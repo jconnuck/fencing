@@ -375,4 +375,8 @@ public class TournamentController implements Constants{
 		
 	}
 
+    public void addDEObserver(DERoundObserver obs, int eventID) {
+        if (!_events.isEmpty())
+            _events.iterator().next().addDEObserver(obs);
+    }
 }

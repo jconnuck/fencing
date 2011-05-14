@@ -167,6 +167,8 @@ public class EventController {
         return _state;
     }
 
-
+    public void addDEObserver(DERoundObserver obs) {
+        _deController.addDEObserver(obs);
+    }
 }
 

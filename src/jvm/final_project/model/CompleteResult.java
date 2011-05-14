@@ -37,4 +37,9 @@ public class CompleteResult extends Result{
 	public int getLoserScore(){
 		return _loserResult.getPlayerScore();
 	}
+
+    @Override
+    public String toString() {
+        return "{"+getWinner()+"("+getWinnerScore()+"), "+getLoser()+"("+getLoserScore()+")}";
+    }
 }

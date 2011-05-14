@@ -18,15 +18,29 @@ import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.Box;
 
-public class DEBracketPanel extends JPanel {
+public class DEBracketPanel extends JPanel implements DERoundObserver {
 	/**
 	 * Create the panel.
 	 */
+
+    TournamentController _tournament;
 	
 	//TODO when a result is texted in, it should be added and a new DEBracketPanel should be created and displayed
 	public DEBracketPanel(TournamentController tournament) {	
 		setLayout(null);
+        _tournament = tournament;
+        tournament.addDEObserver(this,0);
 		
+        drawBracket();
+    }
+
+    public void bracketUpdated() {
+        drawBracket();
+    }
+
+    public void drawBracket() {
+        System.out.println("Drawing");
+        removeAll();
 		//TODO delete mock data
 		/*Result[] matches = new Result[15];
 		CompleteResult mockComplete = new CompleteResult(new PlayerResult(1, 5), new PlayerResult(2, 3));
@@ -36,7 +50,7 @@ public class DEBracketPanel extends JPanel {
 		for (int z = (matches.length)/2; z < matches.length; ++z)
         matches[z] = mockIncomplete;*/
 			
-		Result[] matches = tournament.getDEMatches(Constants.EVENT_ID);
+		Result[] matches = _tournament.getDEMatches(Constants.EVENT_ID);
 		int k = 0, startx = 0, starty = 20, width = 200, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {
@@ -52,12 +66,14 @@ public class DEBracketPanel extends JPanel {
 				}
 				++k;
 
-				DEBracketUnitPanel temp = new DEBracketUnitPanel(tournament, matches[matches.length - k]);
+				DEBracketUnitPanel temp = new DEBracketUnitPanel(_tournament, matches[matches.length - k]);
 				//height must be one greater than the calculated value in order to line up properly
 				temp.setBounds(startx, starty, width, height + 1);
 				add(temp);
 			}
 		}
 		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
+        System.out.println("components: "+getComponentCount());
+        //repaint();
 	}
 }
