@@ -142,6 +142,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		
 				completedBoutsPane = new JPanel();
 				GridBagConstraints gbc_completedBoutsPane = new GridBagConstraints();
+				gbc_completedBoutsPane.anchor = GridBagConstraints.NORTH;
 				gbc_completedBoutsPane.gridwidth = 4;
 				gbc_completedBoutsPane.insets = new Insets(0, 0, 5, 0);
 				gbc_completedBoutsPane.gridx = 0;
