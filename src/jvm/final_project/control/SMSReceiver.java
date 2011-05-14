@@ -120,7 +120,6 @@ public class SMSReceiver extends TimerTask implements Constants{
 						break;
 					}
 					String message = s.next();
-					System.out.println("Received message!!! " + number + " " + message);
 					//Calling control's parse output method
 					_control.parseOutput(message, number);
 				}

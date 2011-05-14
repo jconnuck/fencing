@@ -106,13 +106,14 @@ public abstract class PoolRound implements IRound{
 						refPhone = _dataStore.getPerson(ref).getPhoneNumber();
 						if(nextMatch != null) {
 							name1 = _dataStore.getPlayer(nextMatch.getPlayer1()).getFirstName() + " " +
-							_dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
-							nextMatch.getPlayer1() + ")";
+                                _dataStore.getPlayer(nextMatch.getPlayer1()).getLastName() + " (" +
+                                nextMatch.getPlayer1() + ")";
 							name2 = _dataStore.getPlayer(nextMatch.getPlayer2()).getFirstName() + " " +
-							_dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
-							nextMatch.getPlayer2() + ")";
+                                _dataStore.getPlayer(nextMatch.getPlayer2()).getLastName() + " (" +
+                                nextMatch.getPlayer2() + ")";
+                            System.out.println("----------Next match: "+name1+", "+name2+", by ref "+ref);
 							_smsController.sendMessage("Your next match is between: " + name1 + " and " + name2,
-									refPhone);
+                                                       refPhone);
 						}							
 					}
 					// Notify subscribers of the competitors that are on deck of that fact
@@ -154,7 +155,6 @@ public abstract class PoolRound implements IRound{
 	public void createAllIncompleteResult(){
 		for(Pool p : _pools){
 			((FencerPool) p).createIncompleteResults();
-			System.out.println("incomplete results size after creation " + ((FencerPool) p).getIncompleteResults().size());
 		}
 	}
 
@@ -166,7 +166,6 @@ public abstract class PoolRound implements IRound{
 	 * @return true if there are no potential conflicts of interest, false if there are.
 	 */
 	public boolean assignReferees(List<Integer> refs){
-		System.out.println("refs size in assignreferees " + refs.size());
 		boolean toReturn = true;
 		Map<Pool, Integer> poolToNumConflicts = new HashMap<Pool,Integer>();
 		for(Pool p : _pools){
@@ -240,7 +239,6 @@ public abstract class PoolRound implements IRound{
 		for(Pool p : _pools) {
 			if(p.getRefs() == null  ||  p.getStrips()  == null ||
 					p.getRefs().isEmpty()  ||   p.getStrips().isEmpty()){
-				System.out.println("ref size: " + p.getRefs().size() + " strip size: " + p.getStrips().size());
 				_smsController.sendCollectionMessage("Your pool has been flighted.", p.getPlayers());
 				//p.clearRefs(); //EDIT: taking this out
 				//p.clearStrips();
@@ -276,10 +274,8 @@ public abstract class PoolRound implements IRound{
 
 	private boolean haveConflict(Pool p, Integer ref){
 		Collection<Integer> col1 = new HashSet<Integer>();
-		System.out.println("data store ref? " + _dataStore.getReferee(ref));
 
 		Collection<Integer> col2 = _dataStore.getReferee(ref).getClubs();
-		System.out.println("clubs " + col2);
 
 		for(Integer player : p.getPlayers()){
 			col1.addAll(_dataStore.getPlayer(player).getClubs());
@@ -344,9 +340,7 @@ public abstract class PoolRound implements IRound{
 	}
 
 	public void populatePools() {
-		System.out.println("populatePools");
 		for (int i = 0; i < _initialSeeding.size(); ++i){
-			System.out.println("adding  " + i + " to pool");
 			_pools.get(i % _pools.size()).addPlayer(_initialSeeding.get(i));
 		}
 

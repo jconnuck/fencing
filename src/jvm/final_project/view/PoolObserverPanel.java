@@ -31,8 +31,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 
 	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
 		this.tournament = tournament;
-		System.out.println(this.tournament.getPools(0));
-		System.out.println(poolNumber);
 		this.pool = this.tournament.getPools(0).get(poolNumber-1);
 		this.pool.addObserver(this);
 		incompleteResults = new LinkedList<ScoreView>();
@@ -167,8 +165,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_btnMessageReferee.gridy = 6;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
-        System.out.println("from poolobserver: "+pool.getIncompleteResults());
-        System.out.println("numPlayers: "+pool.numPlayers());
         for (IncompleteResult res : pool.getIncompleteResults())
             addIncompleteResult(res);
         for (CompleteResult res : pool.getResults())

@@ -58,7 +58,6 @@ public abstract class Pool {
 	}
 
 	public void addStrip(Integer toAdd) {
-		System.out.println("Add strips called in pool");
 		_strips.add(toAdd);
 	}
 
@@ -75,11 +74,9 @@ public abstract class Pool {
 	}
 
 	public void addRef(int id){
-		System.out.println("add ref called in pool");
 		_refs.add(id);
 	}
 	public void clearRefs(){
-		System.out.println("clear refs called");
 		_refs.clear();
 	}
 
@@ -133,8 +130,6 @@ public abstract class Pool {
 	 * @return a boolean true if all of this pool's matches have been completed.
 	 */
 	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
-		System.out.println("Player 1: " + _incompleteResults.get(0).getPlayer1() + " 2: " + _incompleteResults.get(0).getPlayer2());
-        System.out.println("Before adding, incompleteResults: "+_incompleteResults);
 		if (isPrematureResult(completeResult))
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		else {
@@ -142,7 +137,6 @@ public abstract class Pool {
 			_incompleteResults.remove(0);
             for (PoolObserver obs : _observers)
                 obs.addCompleteResult(completeResult);
-            System.out.println("After adding, incompleteResults: "+_incompleteResults);
             if (_incompleteResults.isEmpty()) {
                 for (PoolObserver obs : _observers)
                     obs.setStatus(Status.DONE);

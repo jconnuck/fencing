@@ -52,7 +52,6 @@ public class FencerPool extends Pool{
 	 * @throws IllegalStateException
 	 */
 	public void createIncompleteResults() throws IllegalStateException{
-		System.out.println("beginning hell method." + " players size " + _players.size());
 		if(_players.size() > 8  || _players.size() < 4) {
 			throw new IllegalStateException("Illegal pool size (>8 or <4");
 		}
@@ -231,9 +230,6 @@ public class FencerPool extends Pool{
 			temp = new IncompleteResult(_players.get(0), _players.get(2), 5);
 			_incompleteResults.add(20, temp);
 		}
-		System.out.println("incomplete results size " + _incompleteResults.size()) ;
-		for(IncompleteResult ir : _incompleteResults)
-			System.out.println(ir.getPlayer1() + " fights " + ir.getPlayer2());
 	}
 
 }

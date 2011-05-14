@@ -40,7 +40,6 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
     }
 
     public void drawBracket() {
-        System.out.println("Drawing");
         removeAll();
 		//TODO delete mock data
 		/*Result[] matches = new Result[15];
@@ -85,7 +84,6 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
         }
 		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));*/
 		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
-        System.out.println("components: "+getComponentCount());
         //the repaint call here makes everything disappear until the window is resized
         
         repaint();
