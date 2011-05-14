@@ -1,5 +1,6 @@
 package final_project.view;
 
+import final_project.model.store.*;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
@@ -105,7 +106,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
     public void resetRefs() {
         panel_1.removeAll();
 		// Generating PoolRefLists from pool information
-		PoolRefList lastPool = new PoolRefList(tournament, new FencerPool());
+		PoolRefList lastPool = new PoolRefList(tournament, new FencerPool(new DataStore()));
         for(Pool p: tournament.getPools(EVENT_ID)) {
             lastPool = new PoolRefList(tournament, p);
             panel_1.add(lastPool);

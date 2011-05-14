@@ -2,6 +2,7 @@ package final_project.tests;
 
 import java.util.Collection;
 import java.util.List;
+import final_project.model.store.*;
 
 import junit.framework.TestCase;
 
@@ -15,7 +16,7 @@ public class FencerPoolTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		p = new FencerPool();
+		p = new FencerPool(new DataStore());
 		for(int i = 0; i < 6; i++)
 			p.addPlayer(i);
 		p.createIncompleteResults();
