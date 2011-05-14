@@ -29,17 +29,19 @@ public class SMSParser {
 
 		//First, getting the first word
 		String firstWord = s.next();
-
+		System.out.println("First word: " + firstWord);
 		//Message: "help string"
 		if (firstWord.equals("Help") || firstWord.equals("help")) {
 			int id = -1;
 			for(IPerson p: _store.getPeople()) {
-				if(p.getPhoneNumber().equals(number))
+				if(p.getPhoneNumber().equals(number)) {
+					System.out.println("Number match found!");
 					id = p.getID();
+				}
 			}
 			if(id == -1)
 				return;
-			_control.alertGUI("Help message received! Message: " + received, _cal.getTime());
+			_control.alertGUI(received, _cal.getTime());
 			/* Alerting the proper group for help (either technical or medical) */
 			if(s.hasNext()) {
 				String groupToAlert = s.next();

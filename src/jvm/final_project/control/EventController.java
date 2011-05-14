@@ -64,6 +64,7 @@ public class EventController {
 
 	public boolean addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
+			System.out.println("calling add completed result on pool controller");
 			return _poolController.addCompleteResult(result);
 		} else if(_state.equals(State.DE)){
 			 _deController.addCompleteResult(result);
@@ -162,5 +163,13 @@ public class EventController {
     public void addDEObserver(DERoundObserver obs) {
         _deController.addDEObserver(obs);
     }
+
+	public void changeRefs(Collection<Integer> refs) {
+		if(_state.equals(State.POOLS)){
+			_poolController.changeRefs(refs);
+		} else if(_state.equals(State.DE)){
+			 _deController.changeRefs(refs);
+		}
+	}
 }
 

@@ -24,6 +24,7 @@ public abstract class PoolRound implements IRound{
 	 * @return a boolean, true if all matches in the PoolRound have been completed, false otherwise
 	 */
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
+		System.out.println("Calling add complete result in poool round");
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
 				// Check to ensure that the scores in the result are within the valid range.
@@ -319,7 +320,7 @@ public abstract class PoolRound implements IRound{
 			if(p.getRefs().contains(referee)) {
 				if (p.rescoreLastMatch(newScore)) {
 					_smsController.sendMessage("The score of your last match was successfully changed." +
-							"  The most recent next bout message you recieved s still accurate.",
+							"  The most recent next bout message you recieved is still accurate.",
 							_dataStore.getReferee(referee).getPhoneNumber());
 					return true;
 				}

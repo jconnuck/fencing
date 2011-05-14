@@ -87,34 +87,34 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblStrip.gridy = 0;
 		add(lblStrip, gbc_lblStrip);
 
-        statusLabel = new JLabel("-status: fencing-");
-		statusLabel.setForeground(Color.GREEN);
+		statusLabel = new JLabel("");
 		statusLabel.setFont(new Font("Score Board", Font.PLAIN, 16));
+		this.setStatus(pool.getStatus());
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
 		gbc_statusLabel.gridwidth = 4;
 		gbc_statusLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_statusLabel.gridx = 0;
 		gbc_statusLabel.gridy = 1;
 		add(statusLabel, gbc_statusLabel);
-		
-				upcomingBoutsPane = new JPanel();
-				GridBagConstraints gbc_upcomingBoutsPane = new GridBagConstraints();
-				gbc_upcomingBoutsPane.anchor = GridBagConstraints.NORTH;
-				gbc_upcomingBoutsPane.gridwidth = 4;
-				gbc_upcomingBoutsPane.insets = new Insets(0, 0, 5, 0);
-				gbc_upcomingBoutsPane.gridx = 0;
-				gbc_upcomingBoutsPane.gridy = 2;
-				add(upcomingBoutsPane, gbc_upcomingBoutsPane);
-				upcomingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-				upcomingBoutsPane.setBackground(Color.BLACK);
-				upcomingBoutsPane.setLayout(new BoxLayout(upcomingBoutsPane, BoxLayout.Y_AXIS));
-				
-						JLabel lblUpcomingBouts = new JLabel("upcoming bouts");
-						lblUpcomingBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
-						upcomingBoutsPane.add(lblUpcomingBouts);
-						lblUpcomingBouts.setHorizontalAlignment(SwingConstants.CENTER);
-						lblUpcomingBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
-						lblUpcomingBouts.setForeground(Color.WHITE);
+
+		upcomingBoutsPane = new JPanel();
+		GridBagConstraints gbc_upcomingBoutsPane = new GridBagConstraints();
+		gbc_upcomingBoutsPane.anchor = GridBagConstraints.NORTH;
+		gbc_upcomingBoutsPane.gridwidth = 4;
+		gbc_upcomingBoutsPane.insets = new Insets(0, 0, 5, 0);
+		gbc_upcomingBoutsPane.gridx = 0;
+		gbc_upcomingBoutsPane.gridy = 2;
+		add(upcomingBoutsPane, gbc_upcomingBoutsPane);
+		upcomingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		upcomingBoutsPane.setBackground(Color.BLACK);
+		upcomingBoutsPane.setLayout(new BoxLayout(upcomingBoutsPane, BoxLayout.Y_AXIS));
+
+		JLabel lblUpcomingBouts = new JLabel("upcoming bouts");
+		lblUpcomingBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
+		upcomingBoutsPane.add(lblUpcomingBouts);
+		lblUpcomingBouts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUpcomingBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
+		lblUpcomingBouts.setForeground(Color.WHITE);
 
 		JLabel lblCurrentBout = new JLabel("current bout");
 		lblCurrentBout.setHorizontalAlignment(SwingConstants.CENTER);
@@ -138,25 +138,25 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblLebronJamesVs.gridx = 0;
 		gbc_lblLebronJamesVs.gridy = 4;
 		add(lblLebronJamesVs, gbc_lblLebronJamesVs);
-		
-				completedBoutsPane = new JPanel();
-				GridBagConstraints gbc_completedBoutsPane = new GridBagConstraints();
-				gbc_completedBoutsPane.anchor = GridBagConstraints.NORTH;
-				gbc_completedBoutsPane.gridwidth = 4;
-				gbc_completedBoutsPane.insets = new Insets(0, 0, 5, 0);
-				gbc_completedBoutsPane.gridx = 0;
-				gbc_completedBoutsPane.gridy = 5;
-				add(completedBoutsPane, gbc_completedBoutsPane);
-				completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-				completedBoutsPane.setBackground(Color.BLACK);
-				completedBoutsPane.setLayout(new BoxLayout(completedBoutsPane, BoxLayout.Y_AXIS));
-				
-						JLabel lblCompletedBouts = new JLabel("completed bouts");
-						lblCompletedBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
-						completedBoutsPane.add(lblCompletedBouts);
-						lblCompletedBouts.setHorizontalAlignment(SwingConstants.CENTER);
-						lblCompletedBouts.setForeground(Color.WHITE);
-						lblCompletedBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
+
+		completedBoutsPane = new JPanel();
+		GridBagConstraints gbc_completedBoutsPane = new GridBagConstraints();
+		gbc_completedBoutsPane.anchor = GridBagConstraints.NORTH;
+		gbc_completedBoutsPane.gridwidth = 4;
+		gbc_completedBoutsPane.insets = new Insets(0, 0, 5, 0);
+		gbc_completedBoutsPane.gridx = 0;
+		gbc_completedBoutsPane.gridy = 5;
+		add(completedBoutsPane, gbc_completedBoutsPane);
+		completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		completedBoutsPane.setBackground(Color.BLACK);
+		completedBoutsPane.setLayout(new BoxLayout(completedBoutsPane, BoxLayout.Y_AXIS));
+
+		JLabel lblCompletedBouts = new JLabel("completed bouts");
+		lblCompletedBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
+		completedBoutsPane.add(lblCompletedBouts);
+		lblCompletedBouts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCompletedBouts.setForeground(Color.WHITE);
+		lblCompletedBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
 
 		btnMessageReferee = new JButton("Message Referee");
 		btnMessageReferee.addActionListener(this);
@@ -166,16 +166,16 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_btnMessageReferee.gridy = 6;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
-        for (IncompleteResult res : pool.getIncompleteResults())
-            addIncompleteResult(res);
-        for (CompleteResult res : pool.getResults())
-            addCompleteResult(res);
+		for (IncompleteResult res : pool.getIncompleteResults())
+			addIncompleteResult(res);
+		for (CompleteResult res : pool.getResults())
+			addCompleteResult(res);
 
-        setCurrentBout();
+		setCurrentBout();
 	}
 
 	public enum Status {
-		FENCING, TECHNICAL, MEDICAL, DONE;
+		FENCING, TECHNICAL, MEDICAL, DONE, WAITING;
 	}
 
 	public void setStatus(Status status) {
@@ -192,10 +192,14 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			statusLabel.setText("-Status: Medical-");
 			statusLabel.setForeground(Color.RED);
 			break;
-        case DONE:
-            statusLabel.setText("-Status: Done-");
-            statusLabel.setForeground(Color.CYAN);
-            break;
+		case DONE:
+			statusLabel.setText("-Status: Done-");
+			statusLabel.setForeground(Color.CYAN);
+			break;
+		case WAITING:
+			statusLabel.setText("-Status: Waiting-");
+			statusLabel.setForeground(Color.ORANGE);
+			break;
 		default:
 			statusLabel.setText("-Status: Fencing-");
 			statusLabel.setForeground(Color.GREEN);
@@ -239,25 +243,29 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		completeResults.add(newBout);
 		setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
+		this.validate();
 	}
-	
+
 	public void changeMatchResult(CompleteResult completeResult) {
-        String player1Name = tournament.getNameFromId(completeResult.getPlayer1());
-        String player2Name = tournament.getNameFromId(completeResult.getPlayer2());
+		String player1Name = tournament.getNameFromId(completeResult.getPlayer1());
+		String player2Name = tournament.getNameFromId(completeResult.getPlayer2());
 		for (ListIterator<ScoreView> itr = completeResults.listIterator(); itr.hasNext();) {
-            ScoreView v = itr.next();
-            if ((v.player1Name.equals(player1Name) &&
-                 v.player2Name.equals(player2Name)) ||
-                (v.player1Name.equals(player2Name) &&
-                 v.player2Name.equals(player1Name))) {
-                ScoreView n = new ScoreView(tournament,completeResult);
-                itr.remove();
-                itr.add(n);
-                completedBoutsPane.remove(v);
-                completedBoutsPane.add(n);
-                break;
-            }
-        }
+			ScoreView v = itr.next();
+			if ((v.player1Name.equals(player1Name) &&
+					v.player2Name.equals(player2Name)) ||
+					(v.player1Name.equals(player2Name) &&
+							v.player2Name.equals(player1Name))) {
+				ScoreView n = new ScoreView(tournament,completeResult);
+				itr.remove();
+				itr.add(n);
+				completedBoutsPane.remove(v);
+				completedBoutsPane.add(n);
+				System.out.println("Match successfully updated");
+				break;
+			}
+		}
+		completedBoutsPane.repaint();
+		this.validate();
 	}
 
 	public void setCurrentBout() {
@@ -273,15 +281,16 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			for (Iterator<ScoreView> itr = incompleteResults.iterator(); itr.hasNext();) {
 				ScoreView v = itr.next();
 				if ((v.player1Name.equals(player1Name) &&
-                     v.player2Name.equals(player2Name)) ||
-                    (v.player1Name.equals(player2Name) &&
-                     v.player2Name.equals(player1Name))) {
+						v.player2Name.equals(player2Name)) ||
+						(v.player1Name.equals(player2Name) &&
+								v.player2Name.equals(player1Name))) {
 					upcomingBoutsPane.remove(v);
 					itr.remove();
 					break;
 				}
 			}
 		}
+		this.validate();
 	}
 
 	public JButton getBtnMessageReferee() {

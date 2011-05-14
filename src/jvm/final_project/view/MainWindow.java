@@ -145,10 +145,12 @@ public class MainWindow {
 		subscriberAdminPanel.updateSubscriberTable();
 	}
 
-	public void setStatusLabel(Status medical, int id) {
+	public void setStatusLabel(Status status, int id) {
 		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
 			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
-            p.enableDEButton();
+			System.out.println("setting the status label inside main window");
+			p.setStatus(status, id);
 		}
+		splitPane.getRightComponent().validate();
 	}
 }

@@ -24,6 +24,7 @@ public class PoolRoundController {
 	}
 
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
+		System.out.println("Calling complete result on pool round");
         return _poolRound.addCompleteResult(result);
 	}
 	
@@ -74,4 +75,8 @@ public class PoolRoundController {
     public List<Integer> getResults() {
         return _poolRound.getResults();
     }
+
+	public void changeRefs(Collection<Integer> refs) {
+		_poolRound.changeRefs(refs);
+	}
 }

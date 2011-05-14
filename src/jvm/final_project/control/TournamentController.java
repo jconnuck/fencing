@@ -147,6 +147,7 @@ public class TournamentController implements Constants{
 		for(EventController event : _events){
 			if(event.hasRef(ref)){
 				try {
+					System.out.println("returning result in tournament controller");
 					if (event.addCompletedResult(result) &&
                         event.getState().equals(EventController.State.POOLS))
                         _mainWindow.enableDEButton();
