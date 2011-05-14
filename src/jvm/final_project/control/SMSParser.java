@@ -41,12 +41,11 @@ public class SMSParser {
 			}
 			if(id == -1)
 				return;
-			_control.alertGUI("Help message received! Message: " + received, _cal.getTime());
+			_control.alertGUI(received, _cal.getTime());
 			/* Alerting the proper group for help (either technical or medical) */
 			if(s.hasNext()) {
 				String groupToAlert = s.next();
 				if(groupToAlert.equals("medical") || groupToAlert.equals("Medical")) {
-					System.out.println("inside medical!");
 					_control.sendGroupMessage("Medical", received);
 					_control.setGUIStatusLabel(PoolObserverPanel.Status.MEDICAL, id);
 				}
