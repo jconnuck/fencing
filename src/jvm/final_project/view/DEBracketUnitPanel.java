@@ -69,9 +69,9 @@ public class DEBracketUnitPanel extends JPanel {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
 			if (result.getPlayer1() == cr.getWinner())
-				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + "(" + cr.getWinnerScore() + ")");
+				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
 			else
-				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + "(" + cr.getLoserScore() + ")");
+				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
 		} 	
 		else {
 			lblPlayer1Name = new JLabel(tournament.getNameFromId(result.getPlayer1()));
@@ -88,9 +88,9 @@ public class DEBracketUnitPanel extends JPanel {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
 			if (result.getPlayer2() == cr.getWinner())
-				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + "(" + cr.getWinnerScore() + ")");
+				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
 			else
-				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + "(" + cr.getLoserScore() + ")");
+				lblPlayer2Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
 		} 	
 		else {
 			lblPlayer2Name = new JLabel(tournament.getNameFromId(result.getPlayer2()));

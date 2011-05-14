@@ -1,5 +1,6 @@
 package final_project.view;
 
+import java.util.*;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -77,8 +78,9 @@ public class PoolRefList extends JPanel {
 		gbc_lblClubMiamiHeat.gridx = 2;
 		gbc_lblClubMiamiHeat.gridy = 0;
 		add(lblClubMiamiHeat, gbc_lblClubMiamiHeat);
-		
-        chckbxConflict = new JCheckBox("Conflict");
+
+        JCheckBox chckbxConflict = new JCheckBox("Conflict");
+        checkBox = chckbxConflict;
 		GridBagConstraints gbc_chckbxConflict = new GridBagConstraints();
 		gbc_chckbxConflict.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxConflict.gridx = 4;
@@ -162,7 +164,7 @@ public class PoolRefList extends JPanel {
 	}
 
     public boolean needsNewRef() {
-        checkBox.isSelected();
+        return checkBox.isSelected();
     }
     
     public Collection<Integer> getRefs() {

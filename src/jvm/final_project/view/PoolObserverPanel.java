@@ -30,6 +30,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	private BalloonTip messageRefTip;
 
 	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
+		setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.tournament = tournament;
 		this.pool = this.tournament.getPools(0).get(poolNumber-1);
 		this.pool.addObserver(this);

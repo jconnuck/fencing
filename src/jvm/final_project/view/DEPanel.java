@@ -29,7 +29,6 @@ public class DEPanel extends JPanel {
 		
 		DEBracketPanel bracketPanel = new DEBracketPanel(tournament);
 		scrollPane.setViewportView(bracketPanel);
-
 	}
 
 }
