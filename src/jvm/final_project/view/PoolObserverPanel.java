@@ -97,29 +97,25 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_statusLabel.gridx = 0;
 		gbc_statusLabel.gridy = 1;
 		add(statusLabel, gbc_statusLabel);
-
-		JScrollPane upcomingBoutsScrollPane = new JScrollPane();
-		upcomingBoutsScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		GridBagConstraints gbc_upcomingBoutsScrollPane = new GridBagConstraints();
-		gbc_upcomingBoutsScrollPane.fill = GridBagConstraints.BOTH;
-		gbc_upcomingBoutsScrollPane.gridwidth = 4;
-		gbc_upcomingBoutsScrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_upcomingBoutsScrollPane.gridx = 0;
-		gbc_upcomingBoutsScrollPane.gridy = 2;
-		add(upcomingBoutsScrollPane, gbc_upcomingBoutsScrollPane);
-
-		upcomingBoutsPane = new JPanel();
-		upcomingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		upcomingBoutsPane.setBackground(Color.BLACK);
-		upcomingBoutsScrollPane.setViewportView(upcomingBoutsPane);
-		upcomingBoutsPane.setLayout(new BoxLayout(upcomingBoutsPane, BoxLayout.Y_AXIS));
-
-		JLabel lblUpcomingBouts = new JLabel("upcoming bouts");
-		lblUpcomingBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
-		upcomingBoutsPane.add(lblUpcomingBouts);
-		lblUpcomingBouts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUpcomingBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
-		lblUpcomingBouts.setForeground(Color.WHITE);
+		
+				upcomingBoutsPane = new JPanel();
+				GridBagConstraints gbc_upcomingBoutsPane = new GridBagConstraints();
+				gbc_upcomingBoutsPane.anchor = GridBagConstraints.NORTH;
+				gbc_upcomingBoutsPane.gridwidth = 4;
+				gbc_upcomingBoutsPane.insets = new Insets(0, 0, 5, 0);
+				gbc_upcomingBoutsPane.gridx = 0;
+				gbc_upcomingBoutsPane.gridy = 2;
+				add(upcomingBoutsPane, gbc_upcomingBoutsPane);
+				upcomingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+				upcomingBoutsPane.setBackground(Color.BLACK);
+				upcomingBoutsPane.setLayout(new BoxLayout(upcomingBoutsPane, BoxLayout.Y_AXIS));
+				
+						JLabel lblUpcomingBouts = new JLabel("upcoming bouts");
+						lblUpcomingBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
+						upcomingBoutsPane.add(lblUpcomingBouts);
+						lblUpcomingBouts.setHorizontalAlignment(SwingConstants.CENTER);
+						lblUpcomingBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
+						lblUpcomingBouts.setForeground(Color.WHITE);
 
 		JLabel lblCurrentBout = new JLabel("current bout");
 		lblCurrentBout.setHorizontalAlignment(SwingConstants.CENTER);
@@ -143,27 +139,24 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblLebronJamesVs.gridx = 0;
 		gbc_lblLebronJamesVs.gridy = 4;
 		add(lblLebronJamesVs, gbc_lblLebronJamesVs);
-
-
-
-		completedBoutsPane = new JPanel();
-		GridBagConstraints gbc_panels = new GridBagConstraints();
-		gbc_panels.gridwidth = 4;
-		gbc_panels.insets = new Insets(0, 0, 5, 5);
-		gbc_panels.fill = GridBagConstraints.BOTH;
-		gbc_panels.gridx = 0;
-		gbc_panels.gridy = 5;
-		add(completedBoutsPane, gbc_panels);
-		completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		completedBoutsPane.setBackground(Color.BLACK);
-		completedBoutsPane.setLayout(new BoxLayout(completedBoutsPane, BoxLayout.Y_AXIS));
-
-		JLabel lblCompletedBouts = new JLabel("completed bouts");
-		lblCompletedBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
-		completedBoutsPane.add(lblCompletedBouts);
-		lblCompletedBouts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCompletedBouts.setForeground(Color.WHITE);
-		lblCompletedBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
+		
+				completedBoutsPane = new JPanel();
+				GridBagConstraints gbc_completedBoutsPane = new GridBagConstraints();
+				gbc_completedBoutsPane.gridwidth = 4;
+				gbc_completedBoutsPane.insets = new Insets(0, 0, 5, 0);
+				gbc_completedBoutsPane.gridx = 0;
+				gbc_completedBoutsPane.gridy = 5;
+				add(completedBoutsPane, gbc_completedBoutsPane);
+				completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+				completedBoutsPane.setBackground(Color.BLACK);
+				completedBoutsPane.setLayout(new BoxLayout(completedBoutsPane, BoxLayout.Y_AXIS));
+				
+						JLabel lblCompletedBouts = new JLabel("completed bouts");
+						lblCompletedBouts.setAlignmentX(Component.CENTER_ALIGNMENT);
+						completedBoutsPane.add(lblCompletedBouts);
+						lblCompletedBouts.setHorizontalAlignment(SwingConstants.CENTER);
+						lblCompletedBouts.setForeground(Color.WHITE);
+						lblCompletedBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
 
 		btnMessageReferee = new JButton("Message Referee");
 		btnMessageReferee.addActionListener(this);
