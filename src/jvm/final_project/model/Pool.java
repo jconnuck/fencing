@@ -3,6 +3,7 @@ package final_project.model;
 import java.util.*;
 import final_project.control.*;
 import final_project.view.PoolObserverPanel.Status;
+import final_project.model.store.*;
 
 public abstract class Pool {
 	protected List<Integer> _players;
@@ -12,6 +13,7 @@ public abstract class Pool {
 	protected Collection<Integer> _strips;
 	protected Collection<PoolObserver> _observers;
 	protected Status _status;
+    protected IDataStore _dataStore;
 
 	public Pool(){
 		_players = new ArrayList<Integer>();
@@ -91,13 +93,27 @@ public abstract class Pool {
 		_players.add(id);
 	}
 
-	public void addRef(int id){
+	public void addRef(int i){
+        final int id = i;
 		_refs.add(id);
+        _dataStore.runTransaction(new Runnable() {
+                public void run() {
+                    _dataStore.putData(_dataStore.getReferee(id).setReffing(true));
+                }
+            });
 		if(_status == Status.WAITING)
 			_status = Status.FENCING;
 	}
 	
 	public void clearRefs(){
+        for (int ref : _refs) {
+            final int id = ref;
+            _dataStore.runTransaction(new Runnable() {
+                    public void run() {
+                        _dataStore.putData(_dataStore.getReferee(id).setReffing(false));
+                    }
+                });
+        }
 		_refs.clear();
 	}
 

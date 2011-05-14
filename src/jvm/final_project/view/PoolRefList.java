@@ -115,7 +115,7 @@ public class PoolRefList extends JPanel {
 			)); */
 		
 		private String[] columnNames = {"Name", "Club", "Position"};
-		private Object[][] data = tournament.getPoolRefListTable(new FencerPool());
+		private Object[][] data = tournament.getPoolRefListTable(new FencerPool(tournament.getDataStore()));
 
 		public PoolRefTable(Pool pool) {
 			data = tournament.getPoolRefListTable(pool);

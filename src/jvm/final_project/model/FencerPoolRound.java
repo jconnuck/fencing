@@ -15,7 +15,7 @@ public class FencerPoolRound extends PoolRound{
         _pools = new LinkedList<Pool>();
 		Pool newPool;
 		for (int i = 0; i < numPools; i++) {
-			newPool = new FencerPool();
+			newPool = new FencerPool(_dataStore);
 			_pools.add(newPool);
 		}
 		_smsController = smsController;

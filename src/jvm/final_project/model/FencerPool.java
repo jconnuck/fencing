@@ -2,12 +2,14 @@
 package final_project.model;
 
 import java.util.*;
+import final_project.model.store.*;
 
 public class FencerPool extends Pool{
 	HashMap<Integer, FencerRoundResults> _idToFencerResults;
 
-	public FencerPool() {
+	public FencerPool(IDataStore store) {
 		super();
+        _dataStore = store;
 		_idToFencerResults = new HashMap<Integer, FencerRoundResults>();
 	}
 
