@@ -18,6 +18,7 @@ import final_project.model.FencerPool;
 import final_project.model.Pool;
 import final_project.model.store.IClub;
 import final_project.model.store.IDataStore;
+import java.awt.Dimension;
 
 public class PoolRefList extends JPanel {
 	private JTable table;
@@ -88,6 +89,7 @@ public class PoolRefList extends JPanel {
 		add(chckbxConflict, gbc_chckbxConflict);
 
 		table = new JTable();
+		table.setPreferredScrollableViewportSize(new Dimension(350, 400));
 		table.setModel(new PoolRefTable(pool));
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);

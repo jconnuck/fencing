@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
+import java.awt.Color;
 
 public class DEPanel extends JPanel {
 
@@ -28,6 +29,7 @@ public class DEPanel extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		DEBracketPanel bracketPanel = new DEBracketPanel(tournament);
+		bracketPanel.setBackground(Color.BLACK);
 		scrollPane.setViewportView(bracketPanel);
 	}
 

@@ -75,7 +75,7 @@ public class SMSParser {
 		
 		// Message: "Ready on strip 3"
 		else if(firstWord.equalsIgnoreCase("ready")) {
-			_control.alertGUI(PoolObserverPanel.Status.MEDICAL, received, _cal.getTime());
+			_control.alertGUI(PoolObserverPanel.Status.TECHNICAL, received, _cal.getTime());
 			_control.setGUIStatusLabel(PoolObserverPanel.Status.FENCING, id);
 		}
 

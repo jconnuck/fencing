@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import final_project.control.*;
 import final_project.model.*;
 
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -17,6 +18,7 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.Box;
+import java.awt.Color;
 
 public class DEBracketPanel extends JPanel implements DERoundObserver {
 	/**
@@ -26,7 +28,8 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
     TournamentController _tournament;
 	
 	//TODO when a result is texted in, it should be added and a new DEBracketPanel should be created and displayed
-	public DEBracketPanel(TournamentController tournament) {	
+	public DEBracketPanel(TournamentController tournament) {
+		setBackground(Color.BLACK);	
 		setLayout(null);
         _tournament = tournament;
         tournament.addDEObserver(this,0);
@@ -67,6 +70,8 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
         int extraWidth = 0;
         if (matches[0] != null && matches[0] instanceof CompleteResult) {
             JLabel winnerLabel = new JLabel("Winner: " + _tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
+            winnerLabel.setForeground(Color.CYAN);
+            winnerLabel.setFont(new Font("Score Board", Font.PLAIN, 17));
             starty = (int) (((Math.pow(2, log -1) - 1) * 100) + 75 + 20);
             winnerLabel.setBounds(startx+width, starty - (height/4), winnerLabel.getPreferredSize().width, 100);
             add(winnerLabel);

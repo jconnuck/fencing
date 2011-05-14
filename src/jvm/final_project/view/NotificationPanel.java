@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Component;
 import java.awt.Dimension;
+import javax.swing.SwingConstants;
 
 
 public class NotificationPanel extends JPanel {
@@ -23,6 +24,14 @@ public class NotificationPanel extends JPanel {
 	public NotificationPanel() {
 		setBackground(Color.WHITE);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		JLabel lblNotifications = new JLabel("Notifications");
+		lblNotifications.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNotifications.setMaximumSize(new Dimension(300, 16));
+		lblNotifications.setPreferredSize(new Dimension(300, 16));
+		lblNotifications.setMinimumSize(new Dimension(300, 16));
+		lblNotifications.setHorizontalAlignment(SwingConstants.CENTER);
+		add(lblNotifications);
 	}
 
 	public void sendNotification(Status status, String message, long time) {
