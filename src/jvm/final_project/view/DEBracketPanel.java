@@ -72,6 +72,17 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
 				add(temp);
 			}
 		}
+        /*My failed attempt to add a label for the overall winner of the tournament
+
+          int extraWidth = 0;
+        if (matches[0] != null &&
+            matches[0] instanceof CompleteResult) {
+            JLabel winnerLabel = new JLabel(_tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
+            winnerLabel.setLocation(startx+width, starty-(height/2));
+            add(winnerLabel);
+            extraWidth = winnerLabel.getPreferredSize().width + 20;
+        }
+		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));*/
 		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
         System.out.println("components: "+getComponentCount());
         //repaint();
