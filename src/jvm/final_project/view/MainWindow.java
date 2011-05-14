@@ -128,4 +128,10 @@ public class MainWindow {
 	public void updateSubscriberGUI() {
 		subscriberAdminPanel.updateSubscriberTable();
 	}
+
+	public void setStatusLabel(Status medical, int id) {
+		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
+			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
+		}
+	}
 }
