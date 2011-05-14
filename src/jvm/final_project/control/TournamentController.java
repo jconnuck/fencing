@@ -105,7 +105,6 @@ public class TournamentController implements Constants{
 		throw new IllegalStateException("No event created.");
 	}
 
-	//in progress
 	public void startDERound(int eventID, double cut) throws IllegalStateException{
 		Iterator<EventController> iter = _events.iterator();
 		if(iter.hasNext()){
@@ -151,9 +150,9 @@ public class TournamentController implements Constants{
 			if(event.hasRef(ref)){
 				try {
 					if (event.addCompletedResult(result) &&
-							event.getState().equals(EventController.State.POOLS))
-						startDERound(0,20);
-					//_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
+                        event.getState().equals(EventController.State.POOLS))
+                        _mainWindow.enableDEButton();
+                    //_smsController.sendMessage("Result successfully submitted!", _dataStore.getReferee(ref).getPhoneNumber());
 					return;
 				} catch (NoSuchMatchException e) {
 					_smsController.sendMessage("Error: result could not be processed", _dataStore.getReferee(ref).getPhoneNumber());

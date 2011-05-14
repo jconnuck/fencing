@@ -2,6 +2,7 @@ package final_project.model;
 
 import java.util.*;
 import final_project.control.*;
+import final_project.view.PoolObserverPanel.Status;
 
 public abstract class Pool {
 	protected List<Integer> _players;
@@ -142,7 +143,12 @@ public abstract class Pool {
             for (PoolObserver obs : _observers)
                 obs.addCompleteResult(completeResult);
             System.out.println("After adding, incompleteResults: "+_incompleteResults);
-			return _incompleteResults.isEmpty();
+            if (_incompleteResults.isEmpty()) {
+                for (PoolObserver obs : _observers)
+                    obs.setStatus(Status.DONE);
+                return true;
+            }
+            return false;
 		}
 	}
 

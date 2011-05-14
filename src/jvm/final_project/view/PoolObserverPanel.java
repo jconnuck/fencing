@@ -88,7 +88,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblStrip.gridy = 0;
 		add(lblStrip, gbc_lblStrip);
 
-		JLabel statusLabel = new JLabel("-status: fencing-");
+        statusLabel = new JLabel("-status: fencing-");
 		statusLabel.setForeground(Color.GREEN);
 		statusLabel.setFont(new Font("Score Board", Font.PLAIN, 16));
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
@@ -178,7 +178,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	}
 
 	public enum Status {
-		FENCING, TECHNICAL, MEDICAL;
+		FENCING, TECHNICAL, MEDICAL, DONE;
 	}
 
 	public void setStatus(Status status) {
@@ -195,6 +195,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			statusLabel.setText("-Status: Medical-");
 			statusLabel.setForeground(Color.RED);
 			break;
+        case DONE:
+            statusLabel.setText("-Status: Done-");
+            statusLabel.setForeground(Color.CYAN);
+            break;
 		default:
 			statusLabel.setText("-Status: Fencing-");
 			statusLabel.setForeground(Color.GREEN);

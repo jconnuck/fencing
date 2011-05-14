@@ -346,11 +346,11 @@ public class DERound implements IRound {
 	                IncompleteResult nextResult = (IncompleteResult) _matches[nextIndex];
 	                if(nextResult == null) {
                         //advance the person to the right spot
-                        //(if i is odd, this is the lower side of the bracket)
+                        //(if i is even, this is the lower side of the bracket)
                         if (i % 2 == 0)
-                            nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
-                        else
                             nextResult = new IncompleteResult(-1, newResult.getWinner(), POINTS_TO_WIN);
+                        else
+                            nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
 	                }
 	                else if(nextResult.getPlayer2() == -1 ) {
 	                    nextResult.setPlayer2(newResult.getWinner());

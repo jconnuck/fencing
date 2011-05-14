@@ -56,7 +56,7 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {
 			startx = 200 * i;
-			for (int j = 0; j < Math.pow(2, log - (i+1)); ++j) {
+			for (int j = (int)(Math.pow(2, log - (i+1)) - 1); j >= 0; --j) {
 				if (i == 0) {
 					height = 150;
 					starty = 200 * j + 20;
