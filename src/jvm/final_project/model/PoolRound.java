@@ -369,11 +369,13 @@ public abstract class PoolRound implements IRound{
 	 * @param refs The refs that the method attempts to swap out for other excess referees.
 	 */
 	public void changeRefs(Collection<Integer> refs) {
+        System.out.println("FUUUUUUCK YOU JAAAAAVAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!");
 		for(Integer r : refs) {
 			for(Pool p : _pools){
 				if(p.getRefs().contains(r)) {
 					Integer newRef = _dataStore.getNextReferee();
 					if(newRef != -1) {
+                        System.out.println(r+" "+newRef);
 						p.clearRefs();
 						p.addRef(newRef);
 					}

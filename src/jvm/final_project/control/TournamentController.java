@@ -376,6 +376,7 @@ public class TournamentController implements Constants{
     }
 
     public void changeRefs(int eventID, Collection<Integer> refs) {
-        //TODO: fill in method
+        if (!_events.isEmpty())
+            _events.iterator().next().changeRefs(refs);
     }
 }

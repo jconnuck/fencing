@@ -167,8 +167,6 @@ public class EventController {
 	public void changeRefs(Collection<Integer> refs) {
 		if(_state.equals(State.POOLS)){
 			_poolController.changeRefs(refs);
-		} else if(_state.equals(State.DE)){
-			 _deController.changeRefs(refs);
 		}
 	}
 }

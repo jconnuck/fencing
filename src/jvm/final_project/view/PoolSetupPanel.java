@@ -68,7 +68,7 @@ public class PoolSetupPanel extends JPanel implements Constants {
         btnReassignReferees.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Collection<Integer> changes = new LinkedList<Integer>();
-                    Component[] components = getComponents();
+                    Component[] components = panel_1.getComponents();
                     for (int i = 0; i < components.length; i++) {
                         PoolRefList c = (PoolRefList) components[i];
                         if (c.needsNewRef())
