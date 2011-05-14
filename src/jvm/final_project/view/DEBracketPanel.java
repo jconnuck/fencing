@@ -87,6 +87,6 @@ public class DEBracketPanel extends JPanel implements DERoundObserver {
         System.out.println("components: "+getComponentCount());
         //the repaint call here makes everything disappear until the window is resized
         
-        //repaint();
+        repaint();
 	}
 }

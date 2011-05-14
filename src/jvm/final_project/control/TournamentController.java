@@ -372,7 +372,6 @@ public class TournamentController implements Constants{
 
 	public void setStatusLabel(Status status, int id) {
 		this.getMainWindow().setStatusLabel(status, id);
-		
 	}
 
     public void addDEObserver(DERoundObserver obs, int eventID) {
