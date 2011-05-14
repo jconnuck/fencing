@@ -26,11 +26,9 @@ public class ScoreView extends JPanel {
 
 		try {
             URL u = ScoreView.class.getResource("/resources/scoreboard.ttf");
-            System.out.println("BOOOOOOOOO " + u);
             File f = new java.io.File(u.toURI());
             scoreBoardFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, f);
 		} catch (Exception e){
-			System.out.println("Problem loading font");
 			scoreBoardFont = new Font("Scoreboard", Font.PLAIN, 17);
 		}
 

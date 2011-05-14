@@ -54,15 +54,15 @@ public class SetupWindow {
 			e.printStackTrace();
 		}
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SetupWindow window = new SetupWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+                public void run() {
+                    try {
+                        SetupWindow window = new SetupWindow();
+                        window.frame.setVisible(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 	}
 
 	/**
@@ -197,16 +197,16 @@ public class SetupWindow {
 
 		final JButton btnImportXml = new JButton("Import XML");
 		btnImportXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				fileChooser = new JFileChooser();
-				int returnValue = fileChooser.showOpenDialog(btnImportXml);
+                public void actionPerformed(ActionEvent arg0) {
+                    fileChooser = new JFileChooser();
+                    int returnValue = fileChooser.showOpenDialog(btnImportXml);
 
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					xmlFile = fileChooser.getSelectedFile();
-					fileLabel.setText(xmlFile.getPath());
-				}
-			}
-		});
+                    if (returnValue == JFileChooser.APPROVE_OPTION) {
+                        xmlFile = fileChooser.getSelectedFile();
+                        fileLabel.setText(xmlFile.getPath());
+                    }
+                }
+            });
 		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
 		gbc_btnImportXml.insets = new Insets(0, 0, 5, 0);
 		gbc_btnImportXml.gridwidth = 2;
@@ -223,62 +223,62 @@ public class SetupWindow {
 
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-                String message = "";
-                if (xmlFile == null && textField_2.getText().equals(""))
-                    message += "Please provide either a weapon or a .frd file\n";
-                if (textField.getText().isEmpty()||passwordField.getText().isEmpty())
-                    message += "Please provide SMS login information\n";
-                if (!message.isEmpty()){
-                    System.out.println(message);
-                    //TODO: Pop up error message
-                    return;
-                }
-                ITournamentInfo i;
-                if (xmlFile != null) {
-                    IDataInput in = new XmlReader();
-                    i=in.getTournamentInfo(xmlFile);
-                } else {
-                    String weapon = textField_2.getText();
-                    IEventInfo e = new EventInfo(weapon,new ArrayList<Integer>());
-                    Collection<IEventInfo> events = new ArrayList<IEventInfo>();
-                    events.add(e);
-                    final IDataStore store = new DataStore();
-                    store.runTransaction(new Runnable() {
-                            public void run() {
-/*                            	store.putData(store.createPlayer("3155690308", "Jon", "Leavitt", "", "Fencer", 1));
-                            	store.putData(store.createPlayer("8132987766", "Naked", "Donuts", "", "Fencer", 2));
+                public void actionPerformed(ActionEvent arg0) {
+                    String message = "";
+                    if (xmlFile == null && textField_2.getText().equals(""))
+                        message += "Please provide either a weapon or a .frd file\n";
+                    if (textField.getText().isEmpty()||passwordField.getText().isEmpty())
+                        message += "Please provide SMS login information\n";
+                    if (!message.isEmpty()){
+                        System.out.println(message);
+                        //TODO: Pop up error message
+                        return;
+                    }
+                    ITournamentInfo i;
+                    if (xmlFile != null) {
+                        IDataInput in = new XmlReader();
+                        i=in.getTournamentInfo(xmlFile);
+                    } else {
+                        String weapon = textField_2.getText();
+                        IEventInfo e = new EventInfo(weapon,new ArrayList<Integer>());
+                        Collection<IEventInfo> events = new ArrayList<IEventInfo>();
+                        events.add(e);
+                        final IDataStore store = new DataStore();
+                        store.runTransaction(new Runnable() {
+                                public void run() {
+                                    /*                            	store.putData(store.createPlayer("3155690308", "Jon", "Leavitt", "", "Fencer", 1));
+                                                                    store.putData(store.createPlayer("8132987766", "Naked", "Donuts", "", "Fencer", 2));
 
-                            	store.putData(store.createPlayer("8132987766", "Nom", "Nom", "", "Fencer", 3));
+                                                                    store.putData(store.createPlayer("8132987766", "Nom", "Nom", "", "Fencer", 3));
 
-                            	store.putData(store.createPlayer("8132987766", "Wow", "cs32", "", "Fencer", 4));
-*/
-                            	store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
-                                                                 "","Fencer",1));
-                                store.putData(store.createPlayer("3155690308", "Josh", "Grill",
-                                                                 "","Fencer",1));
-                                store.putData(store.createPlayer("2123007360", "John", "Connuck",
-                                                                 "","Fencer",1));
-                                //store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
-                                  //                                  "","Spectator"));
-                                store.putData(store.createPlayer("2123007360", "Miranda", "Steele",
-                                        						"","Fencer", 1));
-                              //  store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
-                                //for(int x = 0; x < 10; x++)
+                                                                    store.putData(store.createPlayer("8132987766", "Wow", "cs32", "", "Fencer", 4));
+                                    */
+                                    store.putData(store.createPlayer("3155690308", "Jon", "Leavitt",
+                                                                     "","Fencer",1));
+                                    store.putData(store.createPlayer("3155690308", "Josh", "Grill",
+                                                                     "","Fencer",1));
+                                    store.putData(store.createPlayer("2123007360", "John", "Connuck",
+                                                                     "","Fencer",1));
+                                    //store.putData(store.createSpectator("8132987766", "Miranda", "Steele",
+                                    //                                  "","Spectator"));
+                                    store.putData(store.createPlayer("2123007360", "Miranda", "Steele",
+                                                                     "","Fencer", 1));
+                                    store.putData(store.createReferee("4103708093", "William", "Zimrin",
+                                                                      "", "Referee"));
+                                    //  store.putData(store.createPlayer("1231234123", "biggy", "smalls", "", "Fencer", 1));
+                                    //for(int x = 0; x < 10; x++)
                                 	//store.putData(store.createPlayer("1231234123", "random", "player" + x , "", "Fencer", 1));
+                                }
+                            });
+                        i = new TournamentInfo(store,events);
+                    }
 
+                    MainWindow mainWindow = new MainWindow(i,textField.getText(),passwordField.getText());
 
-                            }
-                        });
-                    i = new TournamentInfo(store,events);
+                    frame.setVisible(false);
+                    //mainWindow.setVisible(true);
                 }
-
-				MainWindow mainWindow = new MainWindow(i,textField.getText(),passwordField.getText());
-
-				frame.setVisible(false);
-				//mainWindow.setVisible(true);
-			}
-		});
+            });
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
 		gbc_btnStart.insets = new Insets(0, 0, 0, 5);
 		gbc_btnStart.anchor = GridBagConstraints.EAST;

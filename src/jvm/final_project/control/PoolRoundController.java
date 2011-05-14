@@ -20,7 +20,6 @@ public class PoolRoundController {
 		//_poolRound = new FencerPoolRound();
 		_dataStore = ds;
         _initialSeeding = initialSeeding;
-        System.out.println("smsController null in PoolRoundController constructor "+(smsController==null));
         _smsController = smsController;
 	}
 
@@ -34,7 +33,7 @@ public class PoolRoundController {
 	}
 
 	public boolean createPools(int poolSize) {
-		System.out.println("createPools method : " + poolSize);
+
 		//Try to calculate the pool size. If unable to do so, return false
 		try {
 			calcPoolSize(poolSize);
@@ -48,19 +47,12 @@ public class PoolRoundController {
         List<Integer> availableRefs = new  LinkedList<Integer>();
 
         for(IReferee ref: allRefs){
-        	System.out.println("ref getReffing()" + ref.getReffing());
         	if(!ref.getReffing())
         		availableRefs.add(ref.getID());
         }
-        System.out.println("allRefs size: " + allRefs.size() + "\n availableRefs size: " + availableRefs.size());
         _poolRound.assignReferees(availableRefs);
         _poolRound.assignStrips();
         _poolRound.createAllIncompleteResult();
-        System.out.println("made it to end of createPools. num pools: " + _poolRound.getPools().size());
-        for (Pool p : getPools()) {
-            System.out.println( " num incomplete results" + p.getIncompleteResults().size());
-            System.out.println( " num strips inside pool" + p.getStrips().size());
-        }
 
         return true;
 	}
@@ -80,5 +72,7 @@ public class PoolRoundController {
 		return _poolRound.getPools();
 	}
 
-
+    public List<Integer> getResults() {
+        return _poolRound.getResults();
+    }
 }

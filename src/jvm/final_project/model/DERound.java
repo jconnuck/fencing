@@ -3,6 +3,7 @@ package final_project.model;
 import java.util.*;
 
 import final_project.model.store.*;
+import final_project.model.*;
 
 import final_project.control.SMSController;
 import final_project.control.StripController;
@@ -203,18 +204,7 @@ public class DERound implements IRound {
     }
 
     private void startFirstMatch() {
-    	if(_stripController.availableStrip()) {
-    		int strip = _stripController.checkOutStrip();
-    		int ref = _dataStore.getNextReferee();
-            IncompleteResult firstMatch = (IncompleteResult) _matches[computeRoundHead(_bracketSize /2)];
-    		_stripsInUse.put(firstMatch, strip);
-            _refsInUse.put(firstMatch, ref);
-            System.out.println("smscont null in startfirst match " + (_smsController == null));
-            _smsController.sendMatchNotifications(firstMatch, ref, strip);
-
-            System.out.println("YO:" + firstMatch.getPlayer1() + " and " + firstMatch.getPlayer2() + " are fencing on strip: " + strip + " with referee: " + ref);
-    	}
-    	// Not exactly sure what to do if there is no strip (or referee??) to use for the first match.
+        while (advanceRound());
     }
 
     /**
@@ -226,28 +216,26 @@ public class DERound implements IRound {
     	int currentRoundHead = computeRoundHead(currentRoundSize);
     	int i = currentRoundHead;
     	while(true){
-    		System.out.println("matches length " + _matches.length);
     		if(_matches[i] == null){
     			return null;
-    		}
-    		else if(_matches[i] instanceof IncompleteResult  &&  // If the current match is an IncompleteResult and
-    				_stripsInUse.get(_matches[i]) == null) {     // the match is not currently being fenced.
-    			if(_matches[i].getPlayer1() == -1 ||      // If either of the players is not yet known.
-    			   _matches[i].getPlayer2() == -1) {
-    				return null;
-    			}
-    			else
-    				return (IncompleteResult) _matches[i];
+    		} else {
+                if(_matches[i] instanceof IncompleteResult  &&  // If the current match is an IncompleteResult and
+                   _stripsInUse.get(_matches[i]) == null) {     // the match is not currently being fenced.
+                    if(_matches[i].getPlayer1() == -1 ||      // If either of the players is not yet known.
+                       _matches[i].getPlayer2() == -1) {
+                        return null;
+                    } else
+                        return (IncompleteResult) _matches[i];
+                }
     		}
     		if(currentRoundSize == 1)  // If method got to final.  This should only happen if all matches in the round have been completed.
     			return null;
-    		if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
+            i++;
+            if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
     			currentRoundSize /= 2;
     			currentRoundHead = computeRoundHead(currentRoundSize);
     			i = currentRoundHead;
     		}
-    		else
-    			i++;
     	}
     }
 
@@ -273,6 +261,7 @@ public class DERound implements IRound {
     					foundFirst = true;
     			}
     		}
+            i++;
     		if(currentRoundSize == 1)  // If method got to final.  This should only happen if all matches in the round have been completed.
     			return null;
     		if(i >= (currentRoundHead + currentRoundSize)) {  // If i is at the end of the round
@@ -280,8 +269,6 @@ public class DERound implements IRound {
     			currentRoundHead = computeRoundHead(currentRoundSize);
     			i = currentRoundHead;
     		}
-    		else
-    			i++;
     	}
     }
 
@@ -292,13 +279,7 @@ public class DERound implements IRound {
      * @return int the index of the head of the round that has roundSize Results in it in _matches.
      */
     private int computeRoundHead(int roundSize) {
-    	int curRoundSize = 1;
-    	int toReturn =0;
-    	while(curRoundSize < roundSize) {
-    		toReturn += curRoundSize;
-    		curRoundSize *= 2;
-    	}
-    	return toReturn;
+        return roundSize - 1;
     }
 
     /**
@@ -306,19 +287,37 @@ public class DERound implements IRound {
      * @param newResult The completed result to be added.
      * @throws NoSuchMatchException If there is no such bout in the DE bracket.
      */
-    public void addCompleteResult(CompleteResult newResult) throws NoSuchMatchException {
-        Result tempResult;
+    public void addCompleteResult(CompleteResult result) throws NoSuchMatchException {
+    	Result tempResult;
         for(int i = _matches.length -1; i >= 0; i--) {
             tempResult = _matches[i];
             if(tempResult != null) {
-	            if(tempResult.getPlayer1() == newResult.getPlayer1() &&
-	               tempResult.getPlayer2() == newResult.getPlayer2()
+	            if(tempResult.getPlayer1() == result.getPlayer1() &&
+	               tempResult.getPlayer2() == result.getPlayer2()
 	               ||
-	               tempResult.getPlayer1() == newResult.getPlayer2() &&
-	               tempResult.getPlayer2() == newResult.getPlayer1()) {
+	               tempResult.getPlayer1() == result.getPlayer2() &&
+	               tempResult.getPlayer2() == result.getPlayer1()) {
 	            	if(tempResult instanceof CompleteResult) {
 	                    throw new NoSuchMatchException("This bout has already been completed");
 	                }
+	            	// Checks to make sure that the number of points score in the match is within the valid range.
+	                if(result.getWinnerScore() > POINTS_TO_WIN ||  result.getWinnerScore() < 0  ||
+	                    result.getLoserScore() > POINTS_TO_WIN  ||  result.getLoserScore() < 0) {
+	                   	_smsController.sendMessage("The last result you entered did not have valid point values. " +
+	                   							   "Please retry.",
+	                   							   _dataStore.getReferee(_refsInUse.get(tempResult)).getPhoneNumber());
+	                  	return;
+	                }
+                    //we need to make sure that newResult.getPlayer1()
+                    //= tempResult.getPlayer1() to keep the display
+                    //order consistent
+                    CompleteResult newResult;
+                    if (tempResult.getPlayer1() == result.getPlayer1())
+                        newResult = result;
+                    else
+                        newResult = new CompleteResult(result.getWinnerResult(),
+                                                       result.getLoserResult(),
+                                                       false);
 	                _matches[i] = newResult;
 		            String name1, name2, score;
 		            name1 = _dataStore.getPlayer(newResult.getLoser()).getFirstName() + " " +
@@ -332,17 +331,23 @@ public class DERound implements IRound {
 	                	// maybe announce winner of the event to all spectators and fencers
 	                	return;
 	                }
-	                IncompleteResult nextResult = (IncompleteResult) _matches[getNextMatchIndex(i)];
+                    int nextIndex = getNextMatchIndex(i);
+	                IncompleteResult nextResult = (IncompleteResult) _matches[nextIndex];
 	                if(nextResult == null) {
-	                    nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
+                        //advance the person to the right spot
+                        //(if i is even, this is the lower side of the bracket)
+                        if (i % 2 == 0)
+                            nextResult = new IncompleteResult(-1, newResult.getWinner(), POINTS_TO_WIN);
+                        else
+                            nextResult = new IncompleteResult(newResult.getWinner(), -1, POINTS_TO_WIN);
 	                }
 	                else if(nextResult.getPlayer2() == -1 ) {
 	                    nextResult.setPlayer2(newResult.getWinner());
 	                }
 	                else if(nextResult.getPlayer1() == -1) {
-	                    // Should never actually happen because only player2 should be set to -1
 	                    nextResult.setPlayer1(newResult.getWinner());
 	                }
+                    _matches[nextIndex] = nextResult;
                     IncompleteResult justFinished = (IncompleteResult) tempResult;
                     _stripController.returnStrip(_stripsInUse.get(justFinished));
                     returnRef(_refsInUse.get(justFinished));
@@ -350,15 +355,18 @@ public class DERound implements IRound {
                     _stripsInUse.remove(justFinished);
 		            boolean hasNextBout = true;
 		            while(hasNextBout){
-		            	hasNextBout = advanceRound((IncompleteResult) tempResult); // safe cast because of check above that throws exception
+		            	hasNextBout = advanceRound(); // safe cast because of check above that throws exception
 		            }
 		            IncompleteResult onDeck = getOnDeck();
-		            name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " "
+                    if (onDeck != null) {
+                        name1 = _dataStore.getPlayer(onDeck.getPlayer1()).getFirstName() + " "
 		            		+ _dataStore.getPlayer(onDeck.getPlayer1()).getLastName();
-		            name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " "
+                        name2 = _dataStore.getPlayer(onDeck.getPlayer2()).getFirstName() + " "
 		            		+ _dataStore.getPlayer(onDeck.getPlayer2()).getLastName();
-		            _smsController.sendSubscriberMessage(name1 + " is now on deck for his/her DE match", onDeck.getPlayer1());
-		            _smsController.sendSubscriberMessage(name2 + " is now on deck for his/her DE match", onDeck.getPlayer2());
+                        _smsController.sendSubscriberMessage(name1 + " is now on deck for his/her DE match", onDeck.getPlayer1());
+                        _smsController.sendSubscriberMessage(name2 + " is now on deck for his/her DE match", onDeck.getPlayer2());
+                    }
+                    return; 
 	            }
             }
         }
@@ -374,7 +382,7 @@ public class DERound implements IRound {
             });
     }
 
-    private boolean advanceRound(IncompleteResult justFinished) {
+    private boolean advanceRound() {
         IncompleteResult nextMatch = getNextMatch();
         if(nextMatch == null) {
             return false;
@@ -387,6 +395,8 @@ public class DERound implements IRound {
             _stripsInUse.put(nextMatch, strip);
             _refsInUse.put(nextMatch, ref);
             _smsController.sendMatchNotifications(nextMatch, ref, strip);
+            System.out.println("----------Next Match: "+nextMatch);
+            System.out.println("----------Next Ref:   "+ref);
             return true;
         } else {
             if (ref!=-1)

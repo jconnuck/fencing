@@ -31,8 +31,6 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 
 	public PoolObserverPanel(TournamentController tournament, int poolNumber) {
 		this.tournament = tournament;
-		System.out.println(this.tournament.getPools(0));
-		System.out.println(poolNumber);
 		this.pool = this.tournament.getPools(0).get(poolNumber-1);
 		this.pool.addObserver(this);
 		incompleteResults = new LinkedList<ScoreView>();
@@ -88,7 +86,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblStrip.gridy = 0;
 		add(lblStrip, gbc_lblStrip);
 
-		JLabel statusLabel = new JLabel("-status: fencing-");
+		statusLabel = new JLabel("-status: fencing-");
 		statusLabel.setForeground(Color.GREEN);
 		statusLabel.setFont(new Font("Score Board", Font.PLAIN, 16));
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
@@ -98,20 +96,16 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_statusLabel.gridy = 1;
 		add(statusLabel, gbc_statusLabel);
 
-		JScrollPane upcomingBoutsScrollPane = new JScrollPane();
-		upcomingBoutsScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		GridBagConstraints gbc_upcomingBoutsScrollPane = new GridBagConstraints();
-		gbc_upcomingBoutsScrollPane.fill = GridBagConstraints.BOTH;
-		gbc_upcomingBoutsScrollPane.gridwidth = 4;
-		gbc_upcomingBoutsScrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_upcomingBoutsScrollPane.gridx = 0;
-		gbc_upcomingBoutsScrollPane.gridy = 2;
-		add(upcomingBoutsScrollPane, gbc_upcomingBoutsScrollPane);
-
 		upcomingBoutsPane = new JPanel();
+		GridBagConstraints gbc_upcomingBoutsPane = new GridBagConstraints();
+		gbc_upcomingBoutsPane.anchor = GridBagConstraints.NORTH;
+		gbc_upcomingBoutsPane.gridwidth = 4;
+		gbc_upcomingBoutsPane.insets = new Insets(0, 0, 5, 0);
+		gbc_upcomingBoutsPane.gridx = 0;
+		gbc_upcomingBoutsPane.gridy = 2;
+		add(upcomingBoutsPane, gbc_upcomingBoutsPane);
 		upcomingBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		upcomingBoutsPane.setBackground(Color.BLACK);
-		upcomingBoutsScrollPane.setViewportView(upcomingBoutsPane);
 		upcomingBoutsPane.setLayout(new BoxLayout(upcomingBoutsPane, BoxLayout.Y_AXIS));
 
 		JLabel lblUpcomingBouts = new JLabel("upcoming bouts");
@@ -144,20 +138,16 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblLebronJamesVs.gridy = 4;
 		add(lblLebronJamesVs, gbc_lblLebronJamesVs);
 
-		JScrollPane completedBoutsScrollPane = new JScrollPane();
-		completedBoutsScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		GridBagConstraints gbc_completedBoutsScrollPane = new GridBagConstraints();
-		gbc_completedBoutsScrollPane.gridwidth = 4;
-		gbc_completedBoutsScrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_completedBoutsScrollPane.fill = GridBagConstraints.BOTH;
-		gbc_completedBoutsScrollPane.gridx = 0;
-		gbc_completedBoutsScrollPane.gridy = 5;
-		add(completedBoutsScrollPane, gbc_completedBoutsScrollPane);
-
 		completedBoutsPane = new JPanel();
+		GridBagConstraints gbc_completedBoutsPane = new GridBagConstraints();
+		gbc_completedBoutsPane.anchor = GridBagConstraints.NORTH;
+		gbc_completedBoutsPane.gridwidth = 4;
+		gbc_completedBoutsPane.insets = new Insets(0, 0, 5, 0);
+		gbc_completedBoutsPane.gridx = 0;
+		gbc_completedBoutsPane.gridy = 5;
+		add(completedBoutsPane, gbc_completedBoutsPane);
 		completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		completedBoutsPane.setBackground(Color.BLACK);
-		completedBoutsScrollPane.setViewportView(completedBoutsPane);
 		completedBoutsPane.setLayout(new BoxLayout(completedBoutsPane, BoxLayout.Y_AXIS));
 
 		JLabel lblCompletedBouts = new JLabel("completed bouts");
@@ -175,18 +165,16 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_btnMessageReferee.gridy = 6;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
-        System.out.println("from poolobserver: "+pool.getIncompleteResults());
-        System.out.println("numPlayers: "+pool.numPlayers());
-        for (IncompleteResult res : pool.getIncompleteResults())
-            addIncompleteResult(res);
-        for (CompleteResult res : pool.getResults())
-            addCompleteResult(res);
+		for (IncompleteResult res : pool.getIncompleteResults())
+			addIncompleteResult(res);
+		for (CompleteResult res : pool.getResults())
+			addCompleteResult(res);
 
-        setCurrentBout();
+		setCurrentBout();
 	}
 
 	public enum Status {
-		FENCING, TECHNICAL, MEDICAL;
+		FENCING, TECHNICAL, MEDICAL, DONE;
 	}
 
 	public void setStatus(Status status) {
@@ -202,6 +190,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		case MEDICAL:
 			statusLabel.setText("-Status: Medical-");
 			statusLabel.setForeground(Color.RED);
+			break;
+		case DONE:
+			statusLabel.setText("-Status: Done-");
+			statusLabel.setForeground(Color.CYAN);
 			break;
 		default:
 			statusLabel.setText("-Status: Fencing-");
@@ -248,25 +240,25 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		completedBoutsPane.add(newBout, 1);
 		this.repaint();
 	}
-	
+
 	public void changeMatchResult(CompleteResult completeResult) {
-        String player1Name = tournament.getNameFromId(completeResult.getPlayer1());
-        String player2Name = tournament.getNameFromId(completeResult.getPlayer2());
+		String player1Name = tournament.getNameFromId(completeResult.getPlayer1());
+		String player2Name = tournament.getNameFromId(completeResult.getPlayer2());
 		for (ListIterator<ScoreView> itr = completeResults.listIterator(); itr.hasNext();) {
-            ScoreView v = itr.next();
-            if ((v.player1Name.equals(player1Name) &&
-                 v.player2Name.equals(player2Name)) ||
-                (v.player1Name.equals(player2Name) &&
-                 v.player2Name.equals(player1Name))) {
-                ScoreView n = new ScoreView(tournament,completeResult);
-                itr.remove();
-                itr.add(n);
-                completedBoutsPane.remove(v);
-                completedBoutsPane.add(n);
-                System.out.println("Match successfully updated");
-                break;
-            }
-        }
+			ScoreView v = itr.next();
+			if ((v.player1Name.equals(player1Name) &&
+					v.player2Name.equals(player2Name)) ||
+					(v.player1Name.equals(player2Name) &&
+							v.player2Name.equals(player1Name))) {
+				ScoreView n = new ScoreView(tournament,completeResult);
+				itr.remove();
+				itr.add(n);
+				completedBoutsPane.remove(v);
+				completedBoutsPane.add(n);
+				System.out.println("Match successfully updated");
+				break;
+			}
+		}
 		completedBoutsPane.repaint();
 		this.repaint();
 	}
@@ -284,9 +276,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			for (Iterator<ScoreView> itr = incompleteResults.iterator(); itr.hasNext();) {
 				ScoreView v = itr.next();
 				if ((v.player1Name.equals(player1Name) &&
-                     v.player2Name.equals(player2Name)) ||
-                    (v.player1Name.equals(player2Name) &&
-                     v.player2Name.equals(player1Name))) {
+						v.player2Name.equals(player2Name)) ||
+						(v.player1Name.equals(player2Name) &&
+								v.player2Name.equals(player1Name))) {
 					upcomingBoutsPane.remove(v);
 					itr.remove();
 					break;

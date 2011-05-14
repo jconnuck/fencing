@@ -21,9 +21,6 @@ public class TournamentRunner implements Runnable {
 			line = in.readLine();
 			while (line!=null) {
 				String[] parts = line.split("\\s+");
-				for (int i = 0; i < parts.length; i++) {
-					System.out.println("PARTS: "+parts[i]);
-				}
 				try {
 					_smsController.returnResults(Integer.parseInt(parts[0]),
 							Integer.parseInt(parts[1]),

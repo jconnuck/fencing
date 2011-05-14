@@ -56,6 +56,7 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
 		gbc_btnDeRound.gridy = 9;
 		add(btnDeRound, gbc_btnDeRound);
 		btnDeRound.addActionListener(this);
+        btnDeRound.setEnabled(false);
 		
 		//Making anew PoolObserverPanel for each pool and add it
         int i=1;
@@ -64,14 +65,18 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
             panel.add(poolObserverPanel);
         }
 	}
+
+	public void enableDEButton() {
+        btnDeRound.setEnabled(true);
+    }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO Replace string with new JPanel that has option to enter text
-		BalloonTip selectCutTip = new BalloonTip(btnDeRound, "Select how many to cut", new DefaultBalloonStyle(), false);
-		tournament.getMainWindow().registerBalloon(selectCutTip);
+//		BalloonTip selectCutTip = new BalloonTip(btnDeRound, "Select how many to cut", new DefaultBalloonStyle(), false);
+//		tournament.getMainWindow().registerBalloon(selectCutTip);
 		//TODO This should be moved to the actionListener on the button in the new panel
-		tournament.getMainWindow().loadRightPanel(new DEPanel(tournament));
+		tournament.startDERound(0,20);
 	}
 
 }

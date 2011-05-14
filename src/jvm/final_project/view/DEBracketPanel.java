@@ -18,30 +18,44 @@ import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.Box;
 
-public class DEBracketPanel extends JPanel {
+public class DEBracketPanel extends JPanel implements DERoundObserver {
 	/**
 	 * Create the panel.
 	 */
+
+    TournamentController _tournament;
 	
 	//TODO when a result is texted in, it should be added and a new DEBracketPanel should be created and displayed
 	public DEBracketPanel(TournamentController tournament) {	
 		setLayout(null);
+        _tournament = tournament;
+        tournament.addDEObserver(this,0);
 		
+        drawBracket();
+        repaint();
+    }
+
+    public void bracketUpdated() {
+        drawBracket();
+    }
+
+    public void drawBracket() {
+        removeAll();
 		//TODO delete mock data
-		/**Result[] matches = new Result[15];
+		/*Result[] matches = new Result[15];
 		CompleteResult mockComplete = new CompleteResult(new PlayerResult(1, 5), new PlayerResult(2, 3));
 		for (int z = 0; z < (matches.length)/2; ++z)
 			matches[z] = mockComplete;
 		IncompleteResult mockIncomplete = new IncompleteResult(0, 1, 5);
 		for (int z = (matches.length)/2; z < matches.length; ++z)
-			matches[z] = mockIncomplete; */
+        matches[z] = mockIncomplete;*/
 			
-		Result[] matches = tournament.getDEMatches(Constants.EVENT_ID);
+		Result[] matches = _tournament.getDEMatches(Constants.EVENT_ID);
 		int k = 0, startx = 0, starty = 20, width = 200, height = 0;
 		int log = (int) (Math.log10(matches.length + 1)/Math.log10(2));
 		for (int i = 0; i < log; ++i) {
 			startx = 200 * i;
-			for (int j = 0; j < Math.pow(2, log - (i+1)); ++j) {
+			for (int j = (int)(Math.pow(2, log - (i+1)) - 1); j >= 0; --j) {
 				if (i == 0) {
 					height = 150;
 					starty = 200 * j + 20;
@@ -52,12 +66,26 @@ public class DEBracketPanel extends JPanel {
 				}
 				++k;
 
-				DEBracketUnitPanel temp = new DEBracketUnitPanel(tournament, matches[matches.length - k]);
+				DEBracketUnitPanel temp = new DEBracketUnitPanel(_tournament, matches[matches.length - k]);
 				//height must be one greater than the calculated value in order to line up properly
 				temp.setBounds(startx, starty, width, height + 1);
 				add(temp);
 			}
 		}
+        /*My failed attempt to add a label for the overall winner of the tournament
+
+          int extraWidth = 0;
+        if (matches[0] != null &&
+            matches[0] instanceof CompleteResult) {
+            JLabel winnerLabel = new JLabel(_tournament.getNameFromId(((CompleteResult) matches[0]).getWinner()));
+            winnerLabel.setLocation(startx+width, starty-(height/2));
+            add(winnerLabel);
+            extraWidth = winnerLabel.getPreferredSize().width + 20;
+        }
+		setPreferredSize(new Dimension((200 * log) + extraWidth, (int)(200 * (Math.pow(2, log - 1)))));*/
 		setPreferredSize(new Dimension(200 * log, (int)(200 * (Math.pow(2, log - 1)))));
+        //the repaint call here makes everything disappear until the window is resized
+        
+        repaint();
 	}
 }

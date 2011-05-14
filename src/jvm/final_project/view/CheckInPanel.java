@@ -28,7 +28,7 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 	private TableRowSorter<SignInTableModel> sorter;
 	private JScrollPane scrollPane;
 	private JSearchTextField searchField;
-	private JButton signInAll, unsignInAll, importXml, registerPersonButton, startPoolRound;
+	private JButton signInAll, unsignInAll, registerPersonButton, startPoolRound;
 	private BalloonTip signInPlayerTip, registerNewPlayerTip, signInAllTip, unsignInAllTip, stripSetupTip, poolSizeTip, blankFieldTip;
 	private CheckInPlayerPanel signInPlayerPane;
 	private RegisterNewPlayerPanel registerNewPlayerPane;
@@ -98,14 +98,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 
 		scrollPane.setViewportView(table);
 
-		importXml = new JButton("Import XML");
-		GridBagConstraints gbc_btnImportXml = new GridBagConstraints();
-		gbc_btnImportXml.insets = new Insets(0, 0, 5, 5);
-		gbc_btnImportXml.gridx = 1;
-		gbc_btnImportXml.gridy = 3;
-		add(importXml, gbc_btnImportXml);
-		importXml.addActionListener(this);
-
 		fileLabel = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.anchor = GridBagConstraints.WEST;
@@ -163,7 +155,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 		//changed to table.convertColumIndexToView to prevent bug where user rearranges column ordering
 		int id = (Integer)table.getValueAt(table.getSelectedRow(), table.convertColumnIndexToView(4)); //Getting the ID DOES THIS WORK??
 		//Checking in the fencer as the checkAs boolean
-		System.out.println("ID and boolean: " + id + " " + checkAs);
 		Object[][] newData = tournament.checkInFencer(id, checkAs);
 		model.setData(newData);
 		searchField.setText("");
@@ -341,7 +332,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 			Object data = model.getValueAt(row, column); //TODO TOTALLY broken
 
 			if(column == 3){ //If the column is the signedIn button col
-				System.out.println("Changed: " + data);
 				signInSelectedPlayer((Boolean)data);
 			}
 			//Fix for weird sorting
@@ -385,7 +375,6 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 
 			String group = (String)registerNewPlayerPane.getGroup().getSelectedItem();
 			String club = registerNewPlayerPane.getTeamField().getText();
-			System.out.println("Club: " + club);
 			//TODO: If a fencer and rank == 0, ALERT GUI
 			if (name.equals("") || number.equals("(***)-***-****") || (group.equals("Fencer") && rank == 0)) {
 				//Create tooltip warning user that required fields are blank
@@ -414,13 +403,11 @@ public class CheckInPanel extends JPanel implements ActionListener, Constants {
 				/* Registering player and resetting the data in the table */
 				Object[][] newData = null;
 				number = number.replaceAll("\\D", "");
-				System.out.println("Number added: " + number);
 				if(group.equals("Fencer"))
 					newData = tournament.registerAndCheckInFencer(number, firstName, lastName, rank, club);	 	
 				else	 	
 					newData = tournament.registerNonFencer(number, firstName, lastName, club, group);
 
-				System.out.println("new data: " + newData);
 				model.setData(newData);
 				this.getSearchField().setText("");
 				//Making sure the table is updated nicely
