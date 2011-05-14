@@ -92,6 +92,7 @@ public class SMSController implements Constants {
 	public void returnResults(int refID, int winnerID, int winnerScore, int loserID, int loserScore) {
 		/* Making the CompleteResult */
 		CompleteResult cr = new CompleteResult(new PlayerResult(winnerID, winnerScore), new PlayerResult(loserID, loserScore));
+		System.out.println("Return results called: complete result " + cr);
 		_tournament.addCompletedResult(cr, refID);
 	}
 	

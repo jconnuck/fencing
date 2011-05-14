@@ -40,9 +40,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		setBackground(Color.BLACK);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{151, 80, 80, 150, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 24, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 24, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
 		String refString = "";
@@ -167,21 +167,12 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		lblCompletedBouts.setForeground(Color.WHITE);
 		lblCompletedBouts.setFont(new Font("Score Board", Font.PLAIN, 16));
 
-		JProgressBar progressBar = new JProgressBar();
-		GridBagConstraints gbc_progressBar = new GridBagConstraints();
-		gbc_progressBar.gridwidth = 4;
-		gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
-		gbc_progressBar.insets = new Insets(0, 0, 5, 0);
-		gbc_progressBar.gridx = 0;
-		gbc_progressBar.gridy = 6;
-		add(progressBar, gbc_progressBar);
-
 		btnMessageReferee = new JButton("Message Referee");
 		btnMessageReferee.addActionListener(this);
 
 		GridBagConstraints gbc_btnMessageReferee = new GridBagConstraints();
 		gbc_btnMessageReferee.gridx = 3;
-		gbc_btnMessageReferee.gridy = 7;
+		gbc_btnMessageReferee.gridy = 6;
 		add(btnMessageReferee, gbc_btnMessageReferee);
 
         System.out.println("from poolobserver: "+pool.getIncompleteResults());
@@ -255,6 +246,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		completeResults.add(newBout);
 		setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
+		this.repaint();
 	}
 	
 	public void changeMatchResult(CompleteResult completeResult) {
@@ -271,9 +263,12 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
                 itr.add(n);
                 completedBoutsPane.remove(v);
                 completedBoutsPane.add(n);
+                System.out.println("Match successfully updated");
                 break;
             }
         }
+		completedBoutsPane.repaint();
+		this.repaint();
 	}
 
 	public void setCurrentBout() {
@@ -298,6 +293,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 				}
 			}
 		}
+		this.repaint();
 	}
 
 	public JButton getBtnMessageReferee() {

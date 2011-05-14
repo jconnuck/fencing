@@ -64,6 +64,7 @@ public class EventController {
 
 	public boolean addCompletedResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		if(_state.equals(State.POOLS)){
+			System.out.println("calling add completed result on pool controller");
 			return _poolController.addCompleteResult(result);
 		} else if(_state.equals(State.DE)){
 			 _deController.addCompleteResult(result);

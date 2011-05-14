@@ -134,9 +134,10 @@ public abstract class Pool {
 	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
 		System.out.println("Player 1: " + _incompleteResults.get(0).getPlayer1() + " 2: " + _incompleteResults.get(0).getPlayer2());
         System.out.println("Before adding, incompleteResults: "+_incompleteResults);
-		if (isPrematureResult(completeResult))
+		if (isPrematureResult(completeResult)) {
+			System.out.println("Illegal argument exception!");
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
-		else {
+		}else {
 			_results.add(completeResult);
 			_incompleteResults.remove(0);
             for (PoolObserver obs : _observers)
@@ -154,6 +155,9 @@ public abstract class Pool {
 	}
 
 	public boolean rescoreLastMatch(CompleteResult newScore) {
+		if(_results.size() ==0)
+			return false;
+		
 		CompleteResult oldScore = _results.get(_results.size() - 1);
 		if((oldScore.getPlayer1() == newScore.getPlayer1()  &&  oldScore.getPlayer2() == newScore.getPlayer2())  ||
                    ( oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1())) {
