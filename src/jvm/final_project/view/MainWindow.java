@@ -13,7 +13,6 @@ import net.java.balloontip.BalloonTip;
 import final_project.control.*;
 import final_project.input.*;
 import final_project.model.store.IDataStore;
-import final_project.view.PoolObserverPanel.Status;
 
 public class MainWindow {
 
@@ -22,9 +21,11 @@ public class MainWindow {
 	private TournamentController tournamentController;
 	private IDataStore dataStore;
 	private JSplitPane splitPane;
-	private SubscriberAdminPanel subscriberAdminPanel;
 	private Collection<BalloonTip> balloons;
-	private JPanel panel_1;
+	private JPanel leftDrawer;
+	private JSplitPane drawerSplitPane;
+	private SubscriberAdminPanel subscriberAdminPanel;
+	private NotificationPanel notificationPanel;
 
 	/**
 	 * Create the application.
@@ -71,27 +72,38 @@ public class MainWindow {
 		gbc_splitPane.gridy = 0;
 		frmFencingManager.getContentPane().add(splitPane, gbc_splitPane);
 
-		subscriberAdminPanel = new SubscriberAdminPanel(tournamentController);
-		subscriberAdminPanel.setOpaque(true);
-		subscriberAdminPanel.setSize(new Dimension(273, 58));
-		subscriberAdminPanel.setMinimumSize(new Dimension(0, 58));
-		splitPane.setLeftComponent(subscriberAdminPanel);
-
 		checkInPanel = new CheckInPanel(tournamentController);
 		splitPane.setRightComponent(checkInPanel);
+		
+		leftDrawer = new JPanel();
+		splitPane.setLeftComponent(leftDrawer);
+		GridBagLayout gbl_leftDrawer = new GridBagLayout();
+		gbl_leftDrawer.columnWidths = new int[]{0, 0};
+		gbl_leftDrawer.rowHeights = new int[]{0, 0};
+		gbl_leftDrawer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_leftDrawer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		leftDrawer.setLayout(gbl_leftDrawer);
+		
+		drawerSplitPane = new JSplitPane();
+		drawerSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		GridBagConstraints gbc_splitPane_1 = new GridBagConstraints();
+		gbc_splitPane_1.fill = GridBagConstraints.BOTH;
+		gbc_splitPane_1.gridx = 0;
+		gbc_splitPane_1.gridy = 0;
+		leftDrawer.add(drawerSplitPane, gbc_splitPane_1);
+		
+		subscriberAdminPanel = new SubscriberAdminPanel(tournamentController);
+		drawerSplitPane.setLeftComponent(subscriberAdminPanel);
+		
+		notificationPanel = new NotificationPanel();
+		drawerSplitPane.setRightComponent(notificationPanel);
+		
+		
 
 		//PoolSizeInfoPanel poolSizeInfoPanel = new PoolSizeInfoPanel();
 		//tabbedPane.addTab("New tab", null, poolSizeInfoPanel, null);
 		splitPane.setDividerLocation(300);
-		
-		panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.gridwidth = 2;
-		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 1;
-		frmFencingManager.getContentPane().add(panel_1, gbc_panel_1);
+		drawerSplitPane.setDividerLocation(300);
 	}
 	
 	public void loadRightPanel(JPanel panel) {
@@ -115,11 +127,5 @@ public class MainWindow {
 	
 	public void updateSubscriberGUI() {
 		subscriberAdminPanel.updateSubscriberTable();
-	}
-
-	public void setStatusLabel(Status medical, int id) {
-		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
-			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
-		}
 	}
 }

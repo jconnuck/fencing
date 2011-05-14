@@ -42,7 +42,7 @@ public class SMSParseTest {
                 }
             });
 		
-		_parser = new SMSParser(store, _control);
+		//_parser = new SMSParser(store, _control);
 	}
 
 	@Test
