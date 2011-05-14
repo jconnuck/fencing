@@ -86,9 +86,9 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblStrip.gridy = 0;
 		add(lblStrip, gbc_lblStrip);
 
-		statusLabel = new JLabel("-status: fencing-");
-		statusLabel.setForeground(Color.GREEN);
+		statusLabel = new JLabel("");
 		statusLabel.setFont(new Font("Score Board", Font.PLAIN, 16));
+		this.setStatus(pool.getStatus());
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
 		gbc_statusLabel.gridwidth = 4;
 		gbc_statusLabel.insets = new Insets(0, 0, 5, 0);
@@ -174,7 +174,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 	}
 
 	public enum Status {
-		FENCING, TECHNICAL, MEDICAL, DONE;
+		FENCING, TECHNICAL, MEDICAL, DONE, WAITING;
 	}
 
 	public void setStatus(Status status) {
@@ -194,6 +194,10 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		case DONE:
 			statusLabel.setText("-Status: Done-");
 			statusLabel.setForeground(Color.CYAN);
+			break;
+		case WAITING:
+			statusLabel.setText("-Status: Waiting-");
+			statusLabel.setForeground(Color.ORANGE);
 			break;
 		default:
 			statusLabel.setText("-Status: Fencing-");
@@ -238,7 +242,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		completeResults.add(newBout);
 		setCurrentBout();
 		completedBoutsPane.add(newBout, 1);
-		this.repaint();
+		this.validate();
 	}
 
 	public void changeMatchResult(CompleteResult completeResult) {
@@ -260,7 +264,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 			}
 		}
 		completedBoutsPane.repaint();
-		this.repaint();
+		this.validate();
 	}
 
 	public void setCurrentBout() {
@@ -285,7 +289,7 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 				}
 			}
 		}
-		this.repaint();
+		this.validate();
 	}
 
 	public JButton getBtnMessageReferee() {

@@ -11,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JScrollPane;
-
 import net.java.balloontip.BalloonTip;
-
 import java.awt.Insets;
 import java.awt.FlowLayout;
 

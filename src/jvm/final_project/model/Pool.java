@@ -10,24 +10,29 @@ public abstract class Pool {
 	protected List<CompleteResult> _results;
 	protected List<IncompleteResult> _incompleteResults;
 	protected Collection<Integer> _strips;
-    protected Collection<PoolObserver> _observers;
+	protected Collection<PoolObserver> _observers;
+	protected Status _status;
 
 	public Pool(){
 		_players = new ArrayList<Integer>();
 		_refs = new HashSet<Integer>();
 		_incompleteResults = new LinkedList<IncompleteResult>();
 		_results = new ArrayList<CompleteResult>();
-        _observers = new LinkedList<PoolObserver>();
-        _strips = new LinkedList<Integer>();
+		_observers = new LinkedList<PoolObserver>();
+		_strips = new LinkedList<Integer>();
+		if(_refs.isEmpty())
+			_status = Status.WAITING;
+		else
+			_status = Status.FENCING;
 	}
 
-    public void addObserver(PoolObserver observer) {
-        _observers.add(observer);
-    }
+	public void addObserver(PoolObserver observer) {
+		_observers.add(observer);
+	}
 
-    public void removeObserver(PoolObserver observer) {
-        _observers.remove(observer);
-    }
+	public void removeObserver(PoolObserver observer) {
+		_observers.remove(observer);
+	}
 
 	//currently for testing only
 	public int numPlayers(){
@@ -65,6 +70,14 @@ public abstract class Pool {
 		_strips.clear();
 	}
 
+	public Status getStatus() {
+		return _status;
+	}
+
+	public void setStatus(Status newStatus) {
+		_status = newStatus;
+	}
+
 	public Collection<Integer> getRefs() {
 		return _refs;
 	}
@@ -85,11 +98,11 @@ public abstract class Pool {
 	 * @return IncompleteResult The next match to be fenced.
 	 */
 	public IncompleteResult getNextResult() {
-        if(_incompleteResults.isEmpty())
-            return null;
+		if(_incompleteResults.isEmpty())
+			return null;
 		return _incompleteResults.get(0);
 	}
-	
+
 	/**
 	 * @return IncompleteResult The on deck match (the second element of _incompleteResult
 	 * because the first one should already be in progress).
@@ -98,9 +111,9 @@ public abstract class Pool {
 		if(_incompleteResults.size() <= 1)
 			return null;
 		return
-			_incompleteResults.get(1);
+		_incompleteResults.get(1);
 	}
-	
+
 	/**
 	 * @return IncompleteResult The match that is in the hole (the third element of _incompleteResults
 	 * because the first one should already be in progress.
@@ -109,7 +122,7 @@ public abstract class Pool {
 		if(_incompleteResults.size() > 2)
 			return null;
 		return
-			_incompleteResults.get(2);
+		_incompleteResults.get(2);
 	}
 
 	//currently for testing only
@@ -117,9 +130,9 @@ public abstract class Pool {
 		return _incompleteResults;
 	}
 
-    public boolean isDone() {
-        return _incompleteResults.isEmpty();
-    }
+	public boolean isDone() {
+		return _incompleteResults.isEmpty();
+	}
 
 	public abstract List<? extends PlayerSeed> getSeeds();
 
@@ -130,48 +143,41 @@ public abstract class Pool {
 	 * @return a boolean true if all of this pool's matches have been completed.
 	 */
 	public boolean addCompletedResult(CompleteResult completeResult) throws IllegalArgumentException{
-<<<<<<< HEAD
-		System.out.println("Player 1: " + _incompleteResults.get(0).getPlayer1() + " 2: " + _incompleteResults.get(0).getPlayer2());
-        System.out.println("Before adding, incompleteResults: "+_incompleteResults);
 		if (isPrematureResult(completeResult)) {
-			System.out.println("Illegal argument exception!");
-=======
-		if (isPrematureResult(completeResult))
->>>>>>> 5636141a807e8ce4d7556fe4e9f7c77f7b1e8a7c
 			throw new IllegalArgumentException("Attempted to add result for bout that should not have been fenced now.");
 		}else {
 			_results.add(completeResult);
 			_incompleteResults.remove(0);
-            for (PoolObserver obs : _observers)
-                obs.addCompleteResult(completeResult);
-            if (_incompleteResults.isEmpty()) {
-                for (PoolObserver obs : _observers)
-                    obs.setStatus(Status.DONE);
-                return true;
-            }
-            return false;
+			for (PoolObserver obs : _observers)
+				obs.addCompleteResult(completeResult);
+			if (_incompleteResults.isEmpty()) {
+				for (PoolObserver obs : _observers)
+					obs.setStatus(Status.DONE);
+				return true;
+			}
+			return false;
 		}
 	}
 
 	private boolean isPrematureResult(CompleteResult completeResult) {
 		return !((completeResult.getWinner() == _incompleteResults.get(0).getPlayer1() &&
-                  completeResult.getLoser() == _incompleteResults.get(0).getPlayer2()) ||
-                 (completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
-                  completeResult.getLoser() == _incompleteResults.get(0).getPlayer1()));
+				completeResult.getLoser() == _incompleteResults.get(0).getPlayer2()) ||
+				(completeResult.getWinner() == _incompleteResults.get(0).getPlayer2() &&
+						completeResult.getLoser() == _incompleteResults.get(0).getPlayer1()));
 	}
 
 	public boolean rescoreLastMatch(CompleteResult newScore) {
 		if(_results.size() ==0)
 			return false;
-		
+
 		CompleteResult oldScore = _results.get(_results.size() - 1);
 		if((oldScore.getPlayer1() == newScore.getPlayer1()  &&  oldScore.getPlayer2() == newScore.getPlayer2())  ||
-                   ( oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1())) {
+				( oldScore.getPlayer1() == newScore.getPlayer2()  &&  oldScore.getPlayer2() == newScore.getPlayer1())) {
 			_results.remove(_results.size() - 1);
 			_results.add(newScore);
-            for (PoolObserver obs : _observers)
-                obs.changeMatchResult(newScore);
-			
+			for (PoolObserver obs : _observers)
+				obs.changeMatchResult(newScore);
+
 			return true;
 		}
 		else

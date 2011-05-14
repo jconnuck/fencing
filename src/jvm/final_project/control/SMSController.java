@@ -27,7 +27,7 @@ public class SMSController implements Constants {
 	 * @param password
 	 */
 	public SMSController(IDataStore s, TournamentController t, String username, String password) {
-        _sendingMessages = false;
+        _sendingMessages = true;
 		_tournament = t;
 		_cal = Calendar.getInstance();
 
@@ -47,6 +47,7 @@ public class SMSController implements Constants {
 
 	/* TODO: How to handle the booleans that the sender methods return? */
 	public void sendMessage(String message, String number) {
+		System.out.println(number + ": " + message);
 		if(_sendingMessages)
 			_sender.sendMessage(message, number);
 	}
