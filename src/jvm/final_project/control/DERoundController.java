@@ -2,6 +2,8 @@ package final_project.control;
 
 import java.util.*;
 
+import javax.swing.JPanel;
+
 import final_project.model.CompleteResult;
 import final_project.model.DERound;
 import final_project.model.store.IDataStore;
@@ -14,8 +16,9 @@ public class DERoundController {
 
 	public void addCompleteResult(CompleteResult result) throws DERound.NoSuchMatchException{
 		_deRound.addCompleteResult(result);
-        for (DERoundObserver obs : observers)
+        for (DERoundObserver obs : observers) {
             obs.bracketUpdated();
+        }
 	}
 
 	public Result[] getMatches(){

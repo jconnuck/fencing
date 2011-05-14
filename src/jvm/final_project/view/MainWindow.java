@@ -86,6 +86,7 @@ public class MainWindow {
 		leftDrawer.setLayout(gbl_leftDrawer);
 		
 		drawerSplitPane = new JSplitPane();
+		drawerSplitPane.setMinimumSize(new Dimension(0, 0));
 		drawerSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		GridBagConstraints gbc_splitPane_1 = new GridBagConstraints();
 		gbc_splitPane_1.fill = GridBagConstraints.BOTH;
@@ -97,6 +98,7 @@ public class MainWindow {
 		drawerSplitPane.setLeftComponent(subscriberAdminPanel);
 		
 		notificationPanel = new NotificationPanel();
+		notificationPanel.setMinimumSize(new Dimension(0, 0));
 		drawerSplitPane.setRightComponent(notificationPanel);
 		
 		
@@ -108,12 +110,14 @@ public class MainWindow {
 	}
 	
 	public void loadRightPanel(JPanel panel) {
+		int dividerPos = splitPane.getDividerLocation();
 		splitPane.setRightComponent(panel);
+		splitPane.setDividerLocation(dividerPos);
 	}
-
-    public Component getRightPanel() {
-        return splitPane.getRightComponent();
-    }
+	
+	public Component getRightPanel() {
+		return splitPane.getRightComponent();
+	}
 
     public void enableDEButton() {
         Component right = getRightPanel();

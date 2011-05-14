@@ -69,9 +69,9 @@ public class DEBracketUnitPanel extends JPanel {
 			CompleteResult cr = (CompleteResult) result;
 			//if this was the winner get its score
 			if (result.getPlayer1() == cr.getWinner())
-				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + "(" + cr.getWinnerScore() + ")");
+				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getWinner()) + " (" + cr.getWinnerScore() + ")");
 			else
-				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + "(" + cr.getLoserScore() + ")");
+				lblPlayer1Name = new JLabel(tournament.getNameFromId(cr.getLoser()) + " (" + cr.getLoserScore() + ")");
 		} 	
 		else {
 			lblPlayer1Name = new JLabel(tournament.getNameFromId(result.getPlayer1()));
