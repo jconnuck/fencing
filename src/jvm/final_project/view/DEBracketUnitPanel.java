@@ -28,6 +28,7 @@ public class DEBracketUnitPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public DEBracketUnitPanel(TournamentController tournament, Result result) {
+		setBackground(Color.BLACK);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{100, 0};
@@ -54,7 +55,7 @@ public class DEBracketUnitPanel extends JPanel {
 			}
 		};
 		
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(Color.BLACK);
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panel.repaint();
 		
