@@ -86,7 +86,7 @@ public class SMSReceiver extends TimerTask implements Constants{
 						break;
 					}
 					else {
-						_control.alertGUI(null, "Send SMS Failure", _control.getTime());
+						//_control.alertGUI(null, "Send SMS Failure", _control.getTime());
 						toReturn = false;
 						break;
 					}
