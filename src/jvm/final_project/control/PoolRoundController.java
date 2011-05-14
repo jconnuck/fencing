@@ -79,5 +79,7 @@ public class PoolRoundController {
 		return _poolRound.getPools();
 	}
 
-
+    public List<Integer> getResults() {
+        return _poolRound.getResults();
+    }
 }

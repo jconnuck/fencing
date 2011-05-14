@@ -13,6 +13,7 @@ import net.java.balloontip.BalloonTip;
 import final_project.control.*;
 import final_project.input.*;
 import final_project.model.store.IDataStore;
+import final_project.view.PoolObserverPanel.Status;
 
 public class MainWindow {
 
@@ -109,6 +110,17 @@ public class MainWindow {
 	public void loadRightPanel(JPanel panel) {
 		splitPane.setRightComponent(panel);
 	}
+
+    public Component getRightPanel() {
+        return splitPane.getRightComponent();
+    }
+
+    public void enableDEButton() {
+        Component right = getRightPanel();
+        if (right instanceof PoolRoundObserverPanel) {
+            ((PoolRoundObserverPanel) right).enableDEButton();
+        }
+    }
 	
 	public void registerBalloon(BalloonTip balloon) {
 		balloons.add(balloon);
@@ -132,6 +144,7 @@ public class MainWindow {
 	public void setStatusLabel(Status medical, int id) {
 		if(splitPane.getRightComponent() instanceof PoolRoundObserverPanel) {
 			PoolRoundObserverPanel p = (PoolRoundObserverPanel) splitPane.getRightComponent();
+            p.enableDEButton();
 		}
 	}
 }

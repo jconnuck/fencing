@@ -113,11 +113,14 @@ public class EventController {
 	public boolean startDERound(double cut){
 		if(_state != State.POOLS)
 			return false;
-		convertPlayersListToSortedSeeding();
-		System.out.println("Converted players: ");
+		System.out.println("Original players: ");
 		for(Integer i: _players)
 			System.out.println(" -" + _dataStore.getPlayer(i).getFirstName());
-		_deController = new DERoundController(_dataStore, _stripController, _players, cut, _tournamentController);
+		List<Integer> seeds = _poolController.getResults();
+		System.out.println("Converted players: ");
+		for(Integer i: seeds)
+			System.out.println(" -" + _dataStore.getPlayer(i).getFirstName());
+		_deController = new DERoundController(_dataStore, _stripController, seeds, cut, _tournamentController);
 		_state = State.DE;
 		return true;
 	}
@@ -148,13 +151,12 @@ public class EventController {
 
 	public void convertPlayersListToSortedSeeding(){
 		Collections.sort(new LinkedList<Integer>(_players),
-				new Comparator<Integer>(){
-			@Override
-			public int compare(Integer arg0, Integer arg1) {
-				_dataStore.getData(3);
-				return 0;
-			}
-		});
+                         new Comparator<Integer>(){
+                             @Override public int compare(Integer arg0, Integer arg1) {
+                                 _dataStore.getData(3);
+                                 return 0;
+                             }
+                         });
 	}
 
 	public List<Pool> getPools() {
