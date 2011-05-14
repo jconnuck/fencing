@@ -273,6 +273,7 @@ public abstract class PoolRound implements IRound{
 					name2 = _dataStore.getPlayer(firstMatch.getPlayer2()).getFirstName() + " " +
 					_dataStore.getPlayer(firstMatch.getPlayer2()).getLastName() + " (" +
 					firstMatch.getPlayer2() + ")";
+                    System.out.println("----------Next match: "+name1+", "+name2+", by ref "+ref);
 					_smsController.sendMessage("Your first match is between: " + name1 + " and " + name2,
 							refPhone);
 				}
