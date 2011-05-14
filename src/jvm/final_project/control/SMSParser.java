@@ -30,15 +30,18 @@ public class SMSParser {
 		//First, getting the first word
 		String firstWord = s.next();
 		System.out.println("First word: " + firstWord);
+		
+		//Find sender id
+		int id = -1;
+		for(IPerson p: _store.getPeople()) {
+			if(p.getPhoneNumber().equals(number)) {
+				System.out.println("Number match found!");
+				id = p.getID();
+			}
+		}
+		
 		//Message: "help string"
 		if (firstWord.equalsIgnoreCase("help")) {
-			int id = -1;
-			for(IPerson p: _store.getPeople()) {
-				if(p.getPhoneNumber().equals(number)) {
-					System.out.println("Number match found!");
-					id = p.getID();
-				}
-			}
 			if(id == -1)
 				return;
 			/* Alerting the proper group for help (either technical or medical) */
@@ -54,7 +57,26 @@ public class SMSParser {
 					_control.sendGroupMessage("Technical", received);
 					_control.setGUIStatusLabel(PoolObserverPanel.Status.TECHNICAL, id);
 				}
+				else if (groupToAlert.equalsIgnoreCase("fixed")) {
+					_control.alertGUI(PoolObserverPanel.Status.TECHNICAL, received, _cal.getTime());
+					_control.setGUIStatusLabel(PoolObserverPanel.Status.FENCING, id);
+				}
+				else {
+					_control.alertGUI(null, received, _cal.getTime());
+				}
 			}
+		}
+		
+		// Message: "Fixed strip 5"
+		else if(firstWord.equalsIgnoreCase("fixed")) {
+			_control.alertGUI(PoolObserverPanel.Status.TECHNICAL, received, _cal.getTime());
+			_control.setGUIStatusLabel(PoolObserverPanel.Status.FENCING, id);
+		}
+		
+		// Message: "Ready on strip 3"
+		else if(firstWord.equalsIgnoreCase("ready")) {
+			_control.alertGUI(PoolObserverPanel.Status.MEDICAL, received, _cal.getTime());
+			_control.setGUIStatusLabel(PoolObserverPanel.Status.FENCING, id);
 		}
 
 		// Message: "Follow first last" or "follow clubName"

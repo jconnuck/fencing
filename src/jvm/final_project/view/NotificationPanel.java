@@ -35,5 +35,7 @@ public class NotificationPanel extends JPanel {
 			marqueeMessage.setBackground(new Color(0, 191, 255));
 		marqueeMessage.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(marqueeMessage);
+		validate();
+		repaint();
 	}
 }
