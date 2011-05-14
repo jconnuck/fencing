@@ -3,6 +3,7 @@ package final_project.model;
 import java.util.*;
 
 import final_project.model.store.*;
+import final_project.model.*;
 
 import final_project.control.SMSController;
 import final_project.control.StripController;
@@ -297,19 +298,29 @@ public class DERound implements IRound {
      * @param newResult The completed result to be added.
      * @throws NoSuchMatchException If there is no such bout in the DE bracket.
      */
-    public void addCompleteResult(CompleteResult newResult) throws NoSuchMatchException {
+    public void addCompleteResult(CompleteResult result) throws NoSuchMatchException {
         Result tempResult;
         for(int i = _matches.length -1; i >= 0; i--) {
             tempResult = _matches[i];
             if(tempResult != null) {
-	            if(tempResult.getPlayer1() == newResult.getPlayer1() &&
-	               tempResult.getPlayer2() == newResult.getPlayer2()
+	            if(tempResult.getPlayer1() == result.getPlayer1() &&
+	               tempResult.getPlayer2() == result.getPlayer2()
 	               ||
-	               tempResult.getPlayer1() == newResult.getPlayer2() &&
-	               tempResult.getPlayer2() == newResult.getPlayer1()) {
+	               tempResult.getPlayer1() == result.getPlayer2() &&
+	               tempResult.getPlayer2() == result.getPlayer1()) {
 	            	if(tempResult instanceof CompleteResult) {
 	                    throw new NoSuchMatchException("This bout has already been completed");
 	                }
+                    //we need to make sure that newResult.getPlayer1()
+                    //= tempResult.getPlayer1() to keep the display
+                    //order consistent
+                    CompleteResult newResult;
+                    if (tempResult.getPlayer1() == result.getPlayer1())
+                        newResult = result;
+                    else
+                        newResult = new CompleteResult(result.getWinnerResult(),
+                                                       result.getLoserResult(),
+                                                       false);
 	                _matches[i] = newResult;
 		            String name1, name2, score;
 		            name1 = _dataStore.getPlayer(newResult.getLoser()).getFirstName() + " " +
