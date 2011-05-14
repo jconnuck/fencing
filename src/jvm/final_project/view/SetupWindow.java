@@ -168,6 +168,7 @@ public class SetupWindow {
 		gbc_textField_1.gridy = 0;
 		panel.add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
+		textField_1.setText("U.S. Championships");
 
 		JLabel lblWeapon = new JLabel("Weapon:");
 		GridBagConstraints gbc_lblWeapon = new GridBagConstraints();
@@ -185,7 +186,7 @@ public class SetupWindow {
 		gbc_textField_2.gridy = 1;
 		panel.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
-        textField_2.setText("Saber");
+        textField_2.setText("Sabre");
 
 		JLabel lblor = new JLabel("-OR-");
 		GridBagConstraints gbc_lblor = new GridBagConstraints();
