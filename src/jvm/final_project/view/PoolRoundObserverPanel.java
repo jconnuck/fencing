@@ -1,7 +1,7 @@
 package final_project.view;
 
 import javax.swing.JPanel;
-import final_project.control.TournamentController;
+import final_project.control.*;
 import final_project.model.store.IDataStore;
 import final_project.model.*;
 import java.awt.Color;
@@ -14,15 +14,18 @@ import javax.swing.JScrollPane;
 import net.java.balloontip.BalloonTip;
 import java.awt.Insets;
 import java.awt.FlowLayout;
+import java.util.LinkedList;
 
-public class PoolRoundObserverPanel extends JPanel implements ActionListener{
+public class PoolRoundObserverPanel extends JPanel implements ActionListener, Constants{
 	private JButton btnDeRound;
 	private TournamentController tournament;
+	private LinkedList<PoolObserverPanel> observerPanels;
 	/**
 	 * Create the panel.
 	 */
 	public PoolRoundObserverPanel(final TournamentController tournament) {
 		this.tournament = tournament;
+		observerPanels = new LinkedList<PoolObserverPanel>();
 		setBackground(Color.BLACK);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -61,12 +64,27 @@ public class PoolRoundObserverPanel extends JPanel implements ActionListener{
         for (Pool p : tournament.getPools(0)) {
             PoolObserverPanel poolObserverPanel = new PoolObserverPanel(tournament, i++);
             panel.add(poolObserverPanel);
+            observerPanels.add(poolObserverPanel);
         }
 	}
 
 	public void enableDEButton() {
         btnDeRound.setEnabled(true);
     }
+	
+	public void setStatus(PoolObserverPanel.Status status, int id) {
+		//going through all of the pools to see if this id is contained within the pool
+		for(PoolObserverPanel p: observerPanels){
+			for(Integer i: p.pool.getPeople()) {
+				if (i == id) {
+					System.out.println("Pool found status set!!!!");
+					p.setStatus(status);
+					this.validate();
+					return;
+				}
+			}
+		}
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -3,6 +3,7 @@ package final_project.control;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Scanner;
 import java.util.Timer;
 import java.io.Serializable;
 import final_project.model.store.*;
@@ -36,13 +37,13 @@ public class SMSController implements Constants {
 		_parser = new SMSParser(s, this);
 		_receiver = new SMSReceiver(this, username, password);
 
-        if (_sendingMessages) {
+        //if (_sendingMessages) {
             /* Starting the timer to continuously check the inbox */
             _timer = new Timer(true);
             _timer.scheduleAtFixedRate(_receiver, RECIEVE_START_DELAY, RECEIVE_TIMER_STEP);
 
             _receiver.flushInbox(); //Flushing the inbox to make sure that it's empty
-        }
+       // }
 	}
 
 	/* TODO: How to handle the booleans that the sender methods return? */

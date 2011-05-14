@@ -20,10 +20,8 @@ public abstract class Pool {
 		_results = new ArrayList<CompleteResult>();
 		_observers = new LinkedList<PoolObserver>();
 		_strips = new LinkedList<Integer>();
-		if(_refs.isEmpty())
-			_status = Status.WAITING;
-		else
-			_status = Status.FENCING;
+		_status = Status.WAITING; //reset when a referee is added (in addRef)
+
 	}
 
 	public void addObserver(PoolObserver observer) {
@@ -32,6 +30,13 @@ public abstract class Pool {
 
 	public void removeObserver(PoolObserver observer) {
 		_observers.remove(observer);
+	}
+	
+	public Collection<Integer> getPeople() {
+		Collection<Integer> toReturn = new LinkedList<Integer>();
+		toReturn.addAll(_refs);
+		toReturn.addAll(_players);
+		return toReturn;
 	}
 
 	//currently for testing only
@@ -88,7 +93,10 @@ public abstract class Pool {
 
 	public void addRef(int id){
 		_refs.add(id);
+		if(_status == Status.WAITING)
+			_status = Status.FENCING;
 	}
+	
 	public void clearRefs(){
 		_refs.clear();
 	}
