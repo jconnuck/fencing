@@ -13,6 +13,7 @@ import net.java.balloontip.BalloonTip;
 import final_project.control.*;
 import final_project.input.*;
 import final_project.model.store.IDataStore;
+import final_project.view.PoolObserverPanel.Status;
 
 public class MainWindow {
 
