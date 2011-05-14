@@ -26,6 +26,14 @@ public abstract class PoolRound implements IRound{
 	public boolean addCompleteResult(CompleteResult result) throws IllegalArgumentException{
 		for(Pool p : _pools){
 			if(poolHasResult(p, result)){
+				// Check to ensure that the scores in the result are within the valid range.
+				if(result.getWinnerScore() > 5 ||  result.getWinnerScore() < 0  ||
+	               result.getLoserScore() > 5  ||  result.getLoserScore() < 0) {
+	            	   _smsController.sendMessage("The last result you entered did not have valid point values. " +
+   							   "Please retry.",
+   							   _dataStore.getReferee(p.getRefs().iterator().next()).getPhoneNumber());
+	            	   return false;
+	               }
 				if(p.addCompletedResult(result)){  // If pool is now over
 					// Notify the referee(s) that their pool is now completed
 					String refPhone;

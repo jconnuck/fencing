@@ -288,7 +288,7 @@ public class DERound implements IRound {
      * @throws NoSuchMatchException If there is no such bout in the DE bracket.
      */
     public void addCompleteResult(CompleteResult result) throws NoSuchMatchException {
-        Result tempResult;
+    	Result tempResult;
         for(int i = _matches.length -1; i >= 0; i--) {
             tempResult = _matches[i];
             if(tempResult != null) {
@@ -299,6 +299,14 @@ public class DERound implements IRound {
 	               tempResult.getPlayer2() == result.getPlayer1()) {
 	            	if(tempResult instanceof CompleteResult) {
 	                    throw new NoSuchMatchException("This bout has already been completed");
+	                }
+	            	// Checks to make sure that the number of points score in the match is within the valid range.
+	                if(result.getWinnerScore() > POINTS_TO_WIN ||  result.getWinnerScore() < 0  ||
+	                    result.getLoserScore() > POINTS_TO_WIN  ||  result.getLoserScore() < 0) {
+	                   	_smsController.sendMessage("The last result you entered did not have valid point values. " +
+	                   							   "Please retry.",
+	                   							   _dataStore.getReferee(_refsInUse.get(tempResult)).getPhoneNumber());
+	                  	return;
 	                }
                     //we need to make sure that newResult.getPlayer1()
                     //= tempResult.getPlayer1() to keep the display
