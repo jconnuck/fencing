@@ -144,7 +144,16 @@ public class PoolObserverPanel extends JPanel implements PoolObserver, ActionLis
 		gbc_lblLebronJamesVs.gridy = 4;
 		add(lblLebronJamesVs, gbc_lblLebronJamesVs);
 
+
+
 		completedBoutsPane = new JPanel();
+		GridBagConstraints gbc_panels = new GridBagConstraints();
+		gbc_panels.gridwidth = 4;
+		gbc_panels.insets = new Insets(0, 0, 5, 5);
+		gbc_panels.fill = GridBagConstraints.BOTH;
+		gbc_panels.gridx = 0;
+		gbc_panels.gridy = 5;
+		add(completedBoutsPane, gbc_panels);
 		completedBoutsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		completedBoutsPane.setBackground(Color.BLACK);
 		completedBoutsPane.setLayout(new BoxLayout(completedBoutsPane, BoxLayout.Y_AXIS));
